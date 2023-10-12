@@ -177,8 +177,8 @@ class AccountLedgerController extends Controller
             '_name' => 'required|unique:account_ledgers,_name',
             '_status' => 'required'
         ]);
-// DB::beginTransaction();
-//        try {
+DB::beginTransaction();
+       try {
         $data = new AccountLedger();
         $data->_account_head_id = $request->_account_head_id;
         $data->_account_group_id = $request->_account_group_id;
@@ -219,7 +219,7 @@ class AccountLedgerController extends Controller
             $_total_dr_amount = $opening_cr_amount;
         }
         
-        if($_opening_ledger !=0 && $_total_dr_amount > 0 ){
+        if($_opening_ledger !=0 && intval($_total_dr_amount) > 0  ){
 
             $users = Auth::user();
             // Voucher Master Data Insert
@@ -369,12 +369,12 @@ class AccountLedgerController extends Controller
         }
 
 
-          //  DB::commit();
+           DB::commit();
         return redirect()->back()->with('success','Information save successfully');
-       // } catch (\Exception $e) {
-       //     DB::rollback();
-       //     return redirect()->back()->with('danger','Information not Save');
-       //  }
+       } catch (\Exception $e) {
+           DB::rollback();
+           return redirect()->back()->with('danger','Information not Save');
+        }
 
 
 
@@ -440,7 +440,7 @@ class AccountLedgerController extends Controller
             $_total_dr_amount = $opening_cr_amount;
         }
         
-        if($_opening_ledger !=0 ){
+        if($_opening_ledger !=0  && $_total_dr_amount > 0){
 
             $users = Auth::user();
             // Voucher Master Data Insert
