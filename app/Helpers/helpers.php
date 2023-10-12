@@ -120,6 +120,15 @@ if (!function_exists('pay_head_types')) {
     }
 }
 
+if (!function_exists('_gender_list')) {
+    function _gender_list() 
+    {
+        return ['Male','Female','Others'];
+    }
+}
+
+
+
 
 if (!function_exists('item_code_generate')) {
 
@@ -269,6 +278,14 @@ if (! function_exists('findItemBaseCat')) {
     }
 }
 
+if (! function_exists('_find_group_to_head')) {
+    function _find_group_to_head($id)
+    {
+        $data = \App\Models\AccountGroup::find($id);
+        return $data->_account_head_id ?? 1;                            
+    }
+}
+
 
 
 if (! function_exists('invoice_barcode')) {
@@ -322,6 +339,8 @@ if (! function_exists('unitConversation_save')) {
         $UnitConversion->save();                            
     }
 }
+
+
 
 
 if (!function_exists('sms_send')) {

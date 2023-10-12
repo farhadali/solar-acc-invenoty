@@ -52,7 +52,7 @@ $__user= Auth::user();
 
                    @endphp
                     <div class="col-md-4">
-                      
+                      @include('hrm.hrm-employee.search')
                     </div>
                     <div class="col-md-8">
                       <div class="d-flex flex-row justify-content-end">
@@ -82,11 +82,28 @@ $__user= Auth::user();
                      <thead>
                         <tr>
                          <th class=""><b>##</b></th>
+                         <th class=""><b>{{__('label.sl')}}</b></th>
                          <th class=""><b>{{__('label.id')}}</b></th>
                          <th class=""><b>{{__('label._name')}}</b></th>
+                         <th class=""><b>{{__('label._code')}}</b></th>
+                         <th class=""><b>{{__('label._mobile1')}}</b></th>
+                         <th class=""><b>{{__('label._email')}}</b></th>
+                         <th class=""><b>{{__('label.employee_category_id')}}</b></th>
+                         <th class=""><b>{{__('label._department_id')}}</b></th>
+                         <th class=""><b>{{__('label._jobtitle_id')}}</b></th>
+                         <th class=""><b>{{__('label._grade_id')}}</b></th>
+                         <th class=""><b>{{__('label.organization')}}</b></th>
+                         <th class=""><b>{{__('label.Branch')}}</b></th>
+                         <th class=""><b>{{__('label.Cost center')}}</b></th>
+                         <th class=""><b>{{__('label._location')}}</b></th>
                          <th class=""><b>{{__('label._status')}}</b></th>
                          <th class=""><b>{{__('label.user')}}</b></th>
                       </tr>
+
+                      
+
+
+
                      </thead>
                      <tbody>
                       
@@ -110,16 +127,30 @@ $__user= Auth::user();
                               @endcan  
                                
                             </td>
+                            <td>{{ ($key+1) }}</td>
                             <td>{{ $data->id }}</td>
                             <td>{{ $data->_name ?? '' }}</td>
+                            <td>{{ $data->_code ?? '' }}</td>
+                            <td>{{ $data->_mobile1 ?? '' }}</td>
+                            <td>{{ $data->_email ?? '' }}</td>
+                            <td>{{ $data->_employee_cat->_name ?? '' }}</td>
+                            <td>{{ $data->_emp_department->_name ?? '' }}</td>
+                            <td>{{ $data->_emp_designation->_name ?? '' }}</td>
+                            <td>{{ $data->_emp_grade->_name ?? '' }}</td>
+                            <td>{{ $data->_organization->_name ?? '' }}</td>
+                            <td>{{ $data->_branch->_name ?? '' }}</td>
+                            <td>{{ $data->_cost_center->_name ?? '' }}</td>
                             <td>{{ selected_status($data->_status) }}</td>
                             <td>{{ $data->_entry_by->name ?? '' }}</td>
+
+
+
                         </tr>
                         @endforeach
                         </tbody>
                         <tfoot>
                           <tr>
-                            <td colspan="5">
+                            <td colspan="16">
                               <div class="d-flex flex-row justify-content-end">
                                  {!! $datas->render() !!}
                                 </div>

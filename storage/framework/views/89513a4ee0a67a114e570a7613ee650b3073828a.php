@@ -51,7 +51,7 @@
                     </div>
                  
                     <div class="row">
-                    
+                    <?php echo $__env->make('basic.org_report', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
                       <div class="col-md-6">
                         <label>Branch:</label>
