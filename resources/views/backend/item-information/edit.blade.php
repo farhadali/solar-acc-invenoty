@@ -95,7 +95,8 @@
                         <div class="col-xs-12 col-sm-12 col-md-3">
                             <div class="form-group">
                                 <label for="_manufacture_company">Manufacture Company:</label>
-                                <input type="text" id="_manufacture_company" name="_manufacture_company" class="form-control" value="{{old('_manufacture_company',$data->_manufacture_company)}}" placeholder="Manufacture Company" >
+                                <input type="text" id="_manufacture_company" name="_manufacture_company" class="form-control _manufacture_company" value="{{old('_manufacture_company',$data->_manufacture_company)}}" placeholder="Manufacture Company" >
+                                <div class="search_boxManufacCompany"></div>
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-3">
@@ -186,14 +187,9 @@
                             <div class="form-group">
                                 <label>Image:</label>
                                <input type="file" accept="image/*" onchange="loadFile(event,1 )"  name="_image" class="form-control">
-                               @php
-                               $image_path = asset('/')."/".$data->_image;
-                               @endphp
-                               @if(file_exists($image_path))
-                               <img id="output_1" class="banner_image_create" src="{{asset('/')}}{{$data->_image ?? ''}}"  style="max-height:100px;max-width: 100px; " />
-                               @else
-                                <img id="output_1" class="banner_image_create" src="{{asset('/')}}{{$settings->logo ?? ''}}"  style="max-height:100px;max-width: 100px; " />
-                               @endif
+                               
+                               <img id="output_1" class="banner_image_create" src="{{asset($data->_image)}}"  style="max-height:100px;max-width: 100px; " />
+                               
                             </div>
                         </div>
                         

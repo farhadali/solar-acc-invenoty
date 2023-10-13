@@ -114,7 +114,7 @@ class SalesOrderController extends Controller
            $form_settings = SalesFormSetting::first();
            $permited_branch = permited_branch(explode(',',$users->branch_ids));
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
-         $store_houses = StoreHouse::whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+       $store_houses = permited_stores(explode(',',$users->store_ids));
         //return $datas;
          if($request->has('print')){
             if($request->print =="single"){
@@ -182,7 +182,7 @@ class SalesOrderController extends Controller
         $permited_branch = permited_branch(explode(',',$users->branch_ids));
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
         
-        $store_houses = StoreHouse::whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+        $store_houses = permited_stores(explode(',',$users->store_ids));
         $form_settings = SalesFormSetting::first();
         $inv_accounts = AccountLedger::where('_account_head_id',2)->get();
         $p_accounts = AccountLedger::where('_account_head_id',10)->get();
@@ -314,7 +314,7 @@ class SalesOrderController extends Controller
         $form_settings = SalesFormSetting::first();
         $permited_branch = permited_branch(explode(',',$users->branch_ids));
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
-         $store_houses = StoreHouse::whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+         $store_houses = permited_stores(explode(',',$users->store_ids));
        return view('backend.sales-order.print',compact('page_name','permited_branch','permited_costcenters','data','form_settings','permited_branch','permited_costcenters','store_houses'));
     }
 
@@ -347,7 +347,7 @@ class SalesOrderController extends Controller
         $permited_branch = permited_branch(explode(',',$users->branch_ids));
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
         
-        $store_houses = StoreHouse::whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+        $store_houses = permited_stores(explode(',',$users->store_ids));
         $form_settings = SalesFormSetting::first();
         $inv_accounts = AccountLedger::where('_account_head_id',2)->get();
         $p_accounts = AccountLedger::where('_account_head_id',10)->get();

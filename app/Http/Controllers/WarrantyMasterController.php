@@ -141,7 +141,7 @@ WHERE t1._barcode='".$barcode."' ");
            $form_settings = WarrantyFormSetting::first();
            $permited_branch = permited_branch(explode(',',$users->branch_ids));
          $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
-         $store_houses = StoreHouse::whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+         $store_houses = permited_stores(explode(',',$users->store_ids));
         //return $datas;
          if($request->has('print')){
             if($request->print =="single"){
@@ -254,7 +254,7 @@ WHERE sb._status=1  AND sb._barcode='".$_text_val."' AND sd._barcode LIKE '%$_te
          $users = Auth::user();
         $permited_branch = permited_branch(explode(',',$users->branch_ids));
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
-        $store_houses = StoreHouse::whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+        $store_houses = permited_stores(explode(',',$users->store_ids));
         $_warranties = Warranty::select('id','_name')->orderBy('_name','asc')->get();
 
         return view("backend.warranty-manage.create",compact('page_name','permited_branch','permited_costcenters','store_houses','_warranties'));
@@ -514,7 +514,7 @@ WHERE sb._status=1  AND sb._barcode='".$_text_val."' AND sd._barcode LIKE '%$_te
          $users = Auth::user();
         $permited_branch = permited_branch(explode(',',$users->branch_ids));
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
-        $store_houses = StoreHouse::whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+        $store_houses = permited_stores(explode(',',$users->store_ids));
         $_warranties = Warranty::select('id','_name')->orderBy('_name','asc')->get();
           $data = WarrantyMaster::with(['_master_branch','_ledger','_master_details','s_account'])->find($id);
         $WarrantyFormSetting =  WarrantyFormSetting::first();

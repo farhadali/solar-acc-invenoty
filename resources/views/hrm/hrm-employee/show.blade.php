@@ -94,7 +94,7 @@
         <td style="width: 10%;">{{__('label.organization_id')}}:</td>
         <td style="width: 23%;">{{ $data->organization->_name ?? ''  }}</td>
         <td style="width: 10%;">{{__('label.Branch')}}:</td>
-        <td style="width: 23%;">{{ $data->_brach->_name ?? ''  }}</td>
+        <td style="width: 23%;">{{ $data->_branch->_name ?? ''  }}</td>
         <td style="width: 10%;">{{__('label._cost_center_id')}}:</td>
         <td style="width: 23%;">{{ $data->_cost_center->_name ?? ''  }}</td>
       </tr>

@@ -94,7 +94,7 @@
         <td style="width: 10%;"><?php echo e(__('label.organization_id')); ?>:</td>
         <td style="width: 23%;"><?php echo e($data->organization->_name ?? ''); ?></td>
         <td style="width: 10%;"><?php echo e(__('label.Branch')); ?>:</td>
-        <td style="width: 23%;"><?php echo e($data->_brach->_name ?? ''); ?></td>
+        <td style="width: 23%;"><?php echo e($data->_branch->_name ?? ''); ?></td>
         <td style="width: 10%;"><?php echo e(__('label._cost_center_id')); ?>:</td>
         <td style="width: 23%;"><?php echo e($data->_cost_center->_name ?? ''); ?></td>
       </tr>

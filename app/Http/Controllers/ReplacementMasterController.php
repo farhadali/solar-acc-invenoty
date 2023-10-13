@@ -162,7 +162,7 @@ class ReplacementMasterController extends Controller
            $form_settings = ReplacementFormSetting::first();
            $permited_branch = permited_branch(explode(',',$users->branch_ids));
          $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
-         $store_houses = StoreHouse::whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+         $store_houses = permited_stores(explode(',',$users->store_ids));
         //return $datas;
          if($request->has('print')){
             if($request->print =="single"){
@@ -188,7 +188,7 @@ class ReplacementMasterController extends Controller
         $form_settings = ReplacementFormSetting::first();
            $permited_branch = permited_branch(explode(',',$users->branch_ids));
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
-         $store_houses = StoreHouse::whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+         $store_houses = permited_stores(explode(',',$users->store_ids));
         
             return view('backend.item-replace.challan',compact('page_name','permited_branch','permited_costcenters','data','form_settings','permited_branch','permited_costcenters','store_houses'));
         
@@ -205,7 +205,7 @@ class ReplacementMasterController extends Controller
         $form_settings = ReplacementFormSetting::first();
            $permited_branch = permited_branch(explode(',',$users->branch_ids));
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
-         $store_houses = StoreHouse::whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+         $store_houses = permited_stores(explode(',',$users->store_ids));
 
 
  
@@ -953,7 +953,7 @@ class ReplacementMasterController extends Controller
         $data = ReplacementMaster::with(['_master_details','s_account','_master_in_details'])->where('id',$invoice_id)->first();
         $permited_branch = permited_branch(explode(',',$users->branch_ids));
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
-         $store_houses = StoreHouse::whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+         $store_houses = permited_stores(explode(',',$users->store_ids));
           $form_settings = ReplacementFormSetting::first();
 
         return view('backend.item-replace.sales_details',compact('data','permited_branch','permited_costcenters','store_houses','key','form_settings'));

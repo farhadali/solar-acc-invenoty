@@ -21,7 +21,7 @@ $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids
       <div class="modal-body">
         <form class="_item_modal_form">
           <div class="row">
-                       <div class="col-xs-12 col-sm-12 col-md-12">
+                       <div class="col-xs-12 col-sm-12 col-md-6">
                             <div class="form-group">
                                 <label>Category: <span class="_required">*</span></label>
                                <select  class="form-control _category_id " name="_category_id" required>
@@ -38,7 +38,7 @@ $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids
                         </div>
                       
                        
-                        <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="col-xs-12 col-sm-12 col-md-6">
                             <div class="form-group">
                                 <label for="_item">Item:<span class="_required">*</span></label>
                                 <input type="text" id="_item" name="_item" class="form-control _item_item" value="{{old('_item')}}" placeholder="Item" required>
@@ -69,6 +69,13 @@ $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids
                             <div class="form-group">
                                 <label for="_barcode">Model:</label>
                                 <input type="text" id="_barcode" name="_barcode" class="form-control _item_barcode" value="{{old('_barcode')}}" placeholder="Model" >
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6">
+                            <div class="form-group">
+                                <label for="_manufacture_company">Manufacture Company:</label>
+                                <input type="text" id="_manufacture_company" name="_manufacture_company" class="form-control _manufacture_company" value="{{old('_manufacture_company')}}" placeholder="Manufacture Company" >
+                                <div class="search_boxManufacCompany"></div>
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-6">
@@ -136,12 +143,7 @@ $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids
                                     </select>
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-6">
-                            <div class="form-group">
-                                <label for="_manufacture_company">Manufacture Company:</label>
-                                <input type="text" id="_manufacture_company" name="_manufacture_company" class="form-control _item_manufacture_company" value="{{old('_manufacture_company')}}" placeholder="Manufacture Company" >
-                            </div>
-                        </div>
+                        
                         @can('restaurant-module') 
                          <div class="col-xs-12 col-sm-12 col-md-6">
                             <div class="form-group">

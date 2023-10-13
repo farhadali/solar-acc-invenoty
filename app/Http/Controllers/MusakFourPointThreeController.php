@@ -113,7 +113,7 @@ class MusakFourPointThreeController extends Controller
           $account_types = AccountHead::select('id','_name')->orderBy('_name','asc')->get();
           $permited_branch = permited_branch(explode(',',$users->branch_ids));
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
-         $store_houses = StoreHouse::whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+         $store_houses = permited_stores(explode(',',$users->store_ids));
         return view('backend.musak-four-point-three.create',compact('page_name','units','account_groups','categories','account_types','permited_branch','permited_costcenters','store_houses'));
     }
 
@@ -231,7 +231,7 @@ class MusakFourPointThreeController extends Controller
           $account_types = AccountHead::select('id','_name')->orderBy('_name','asc')->get();
           $permited_branch = permited_branch(explode(',',$users->branch_ids));
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
-         $store_houses = StoreHouse::whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+         $store_houses = permited_stores(explode(',',$users->store_ids));
          $data = MusakFourPointThree::with(['input_detail','addition_detail','_items','_responsiable_per'])->find($id);
         return view('backend.musak-four-point-three.show',compact('page_name','units','account_groups','categories','account_types','permited_branch','permited_costcenters','store_houses','data'));
     }
@@ -252,7 +252,7 @@ class MusakFourPointThreeController extends Controller
           $account_types = AccountHead::select('id','_name')->orderBy('_name','asc')->get();
           $permited_branch = permited_branch(explode(',',$users->branch_ids));
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
-         $store_houses = StoreHouse::whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+         $store_houses = permited_stores(explode(',',$users->store_ids));
           $data = MusakFourPointThree::with(['input_detail','addition_detail','_items','_responsiable_per'])->find($id);
         return view('backend.musak-four-point-three.edit',compact('page_name','units','account_groups','categories','account_types','permited_branch','permited_costcenters','store_houses','data'));
     }

@@ -57,7 +57,7 @@ class SalesController extends Controller
         $users = Auth::user();
         $page_name = $this->page_name;
         $permited_branch = permited_branch(explode(',',$users->branch_ids));
-        $store_houses = StoreHouse::select('id','_name')->whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+        $store_houses = permited_stores(explode(',',$users->store_ids));
          $account_types = AccountHead::select('id','_name')->orderBy('_name','asc')->get();
         $form_settings = SalesFormSetting::first();
         $categories = ItemCategory::with(['_parents'])->select('id','_name','_parent_id')->orderBy('_name','asc')->get();
@@ -89,7 +89,7 @@ class SalesController extends Controller
         $form_settings = SalesFormSetting::first();
            $permited_branch = permited_branch(explode(',',$users->branch_ids));
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
-         //$store_houses = StoreHouse::whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+         
 $store_houses = permited_stores(explode(',',$users->store_ids));
      $after_sales_return=     DB::select(" SELECT p1._date,p1._ledger_id,p1._item_id,p2._item as _item_name,p3._name as _unit_name,SUM(p1._qty) AS _qty,p1._sales_rate,SUM(p1._vat_amount) AS _vat_amount,SUM(p1._discount_amount) AS _discount_amount,SUM(p1._value) AS _value 
 FROM(
@@ -659,7 +659,7 @@ return view('backend.sales.net_sales_after_return',compact('page_name','permited
         $permited_branch = permited_branch(explode(',',$users->branch_ids));
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
         $store_houses = permited_stores(explode(',',$users->store_ids));
-         //$store_houses = StoreHouse::whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+         
          
       // return   $invoice_print =   view('backend.pos.pos_template',compact('page_name','permited_branch','permited_costcenters','data','form_settings','permited_branch','permited_costcenters','store_houses'));
          
@@ -843,7 +843,7 @@ return json_encode( $data);
            $permited_branch = permited_branch(explode(',',$users->branch_ids));
          $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
          $store_houses = permited_stores(explode(',',$users->store_ids));
-         //$store_houses = StoreHouse::whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+         
         //return $datas;
          if($request->has('print')){
             if($request->print =="single"){
@@ -872,7 +872,7 @@ return json_encode( $data);
         $permited_branch = permited_branch(explode(',',$users->branch_ids));
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
         $store_houses = permited_stores(explode(',',$users->store_ids));
-        // $store_houses = StoreHouse::whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+        
           $form_settings = SalesFormSetting::first();
 
         return view('backend.sales.sales_details',compact('data','permited_branch','permited_costcenters','store_houses','key','form_settings'));
@@ -1125,7 +1125,7 @@ SELECT s1.id as _p_p_l_id,s1._item_id,s1._qty
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
         $voucher_types = VoucherType::select('id','_name','_code')->orderBy('_code','asc')->get();
         $store_houses = permited_stores(explode(',',$users->store_ids));
-        //$store_houses = StoreHouse::select('id','_name')->whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+        
         $form_settings = SalesFormSetting::first();
         $inv_accounts = [];
         $p_accounts = [];
@@ -1868,7 +1868,7 @@ where  t1._status = 1 and  (t1._barcode like '%$text_val%' OR t2._item like '%$t
         $form_settings = SalesFormSetting::first();
            $permited_branch = permited_branch(explode(',',$users->branch_ids));
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
-         //$store_houses = StoreHouse::whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+         
 $store_houses = permited_stores(explode(',',$users->store_ids));
          $_master_details_lot_wise = $data->_master_details ?? [];
          $_master_detail_reassign = [];
@@ -1974,7 +1974,7 @@ $store_houses = permited_stores(explode(',',$users->store_ids));
         $form_settings = SalesFormSetting::first();
            $permited_branch = permited_branch(explode(',',$users->branch_ids));
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
-        // $store_houses = StoreHouse::whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+        
         $store_houses = permited_stores(explode(',',$users->store_ids));
             return view('backend.sales.challan',compact('page_name','permited_branch','permited_costcenters','data','form_settings','permited_branch','permited_costcenters','store_houses'));
         
@@ -2010,7 +2010,7 @@ $store_houses = permited_stores(explode(',',$users->store_ids));
          $permited_branch = permited_branch(explode(',',$users->branch_ids));
          $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
        $store_houses = permited_stores(explode(',',$users->store_ids));
-       // $store_houses = StoreHouse::whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+       
         $form_settings = SalesFormSetting::first();
         $inv_accounts = [];
         $p_accounts = [];

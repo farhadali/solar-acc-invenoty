@@ -218,6 +218,7 @@ Route::get('book_table_list_ajax', 'App\Http\Controllers\ResturantSalesControlle
     Route::post('file-upload', 'App\Http\Controllers\InventoryController@fileUpload');
 
     Route::get('item-wise-unit-conversion', 'App\Http\Controllers\InventoryController@itemWiseUnitConversion');
+    Route::get('manufacture-comapany-search', 'App\Http\Controllers\InventoryController@showManufactureCompanys');
     Route::get('item-wise-unit-conversion-save', 'App\Http\Controllers\InventoryController@itemWiseUnitConversionSave');
     Route::get('item-wise-units', 'App\Http\Controllers\InventoryController@itemWiseUnits');
     Route::post('ajax-item-save', 'App\Http\Controllers\InventoryController@ajaxItemSave');

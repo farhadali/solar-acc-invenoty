@@ -47,7 +47,7 @@ class StewardAllocationController extends Controller
         $account_groups = [];
         $account_types = AccountHead::select('id','_name')->where('_account_id',2)->orderBy('_name','asc')->get();
          $permited_branch = permited_branch(explode(',',$users->branch_ids));
-        $store_houses = StoreHouse::select('id','_name')->whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+        $store_houses = permited_stores(explode(',',$users->store_ids));
         return view('backend.steward-waiter.index',compact('datas','request','page_name','branchs','categories','units','account_types','account_groups','permited_branch','store_houses'));
 
     }

@@ -192,7 +192,7 @@ class HrmEmployeesController extends Controller
             $data->_bank =$request->_bank ?? 1;
             $data->_bankac =$request->_bankac ?? 1;
             $data->_cost_center_id =$request->_cost_center_id ?? 1;
-            $data->_brach_id =$request->_brach_id ?? 1;
+            $data->_branch_id =$request->_branch_id ?? 1;
             $data->organization_id =$request->organization_id ?? 1;
             $data->_active =$request->_active ?? 1;
             $data->_doj =$request->_doj ?? '';
@@ -278,7 +278,7 @@ class HrmEmployeesController extends Controller
             $_account_groups = GeneralSettings::select('_employee_group')->first();
             $_employee_group = $_account_groups->_employee_group;
              $_account_head_id = _find_group_to_head($_employee_group);
-//return $request->_ledger_id;
+
              $data = AccountLedger::find($request->_ledger_id);
             $data->_account_head_id = $_account_head_id;
             $data->_account_group_id = $_employee_group;
@@ -326,7 +326,7 @@ class HrmEmployeesController extends Controller
             $data->_bank =$request->_bank ?? 1;
             $data->_bankac =$request->_bankac ?? 1;
             $data->_cost_center_id =$request->_cost_center_id ?? 1;
-            $data->_brach_id =$request->_brach_id ?? 1;
+            $data->_branch_id =$request->_branch_id ?? 1;
             $data->organization_id =$request->organization_id ?? 1;
             $data->_active =$request->_active ?? 1;
             $data->_doj =$request->_doj ?? '';

@@ -132,7 +132,7 @@ class PurchaseReturnController extends Controller
            $form_settings = PurchaseReturnFormSetting::first();
            $permited_branch = permited_branch(explode(',',$users->branch_ids));
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
-         $store_houses = StoreHouse::whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+         $store_houses = permited_stores(explode(',',$users->store_ids));
         //return $datas;
          if($request->has('print')){
             if($request->print =="single"){
@@ -211,7 +211,7 @@ class PurchaseReturnController extends Controller
         $permited_branch = permited_branch(explode(',',$users->branch_ids));
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
         $voucher_types = VoucherType::select('id','_name','_code')->orderBy('_code','asc')->get();
-       // $store_houses = StoreHouse::whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+       // $store_houses = permited_stores(explode(',',$users->store_ids));
         $store_houses = permited_stores(explode(',',$users->store_ids));
         $form_settings = PurchaseReturnFormSetting::first();
         $inv_accounts = AccountLedger::get();
@@ -717,7 +717,7 @@ $_pfix = _purchase_return_pfix().$purchase_id;
         $form_settings = PurchaseReturnFormSetting::first();
            $permited_branch = permited_branch(explode(',',$users->branch_ids));
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
-         $store_houses = StoreHouse::whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+         $store_houses = permited_stores(explode(',',$users->store_ids));
 
          if($form_settings->_invoice_template==1){
             return view('backend.purchase-return.print',compact('page_name','permited_branch','permited_costcenters','data','form_settings','permited_branch','permited_costcenters','store_houses'));
@@ -764,7 +764,7 @@ $_pfix = _purchase_return_pfix().$purchase_id;
         $permited_branch = permited_branch(explode(',',$users->branch_ids));
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
         $voucher_types = VoucherType::select('id','_name','_code')->orderBy('_code','asc')->get();
-        //$store_houses = StoreHouse::whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+        
          $store_houses = permited_stores(explode(',',$users->store_ids));
 
         $form_settings = PurchaseReturnFormSetting::first();

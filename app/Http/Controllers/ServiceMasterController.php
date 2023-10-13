@@ -163,7 +163,7 @@ class ServiceMasterController extends Controller
         $data = ServiceMaster::with(['_master_details','_s_account'])->where('id',$invoice_id)->first();
         $permited_branch = permited_branch(explode(',',$users->branch_ids));
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
-         $store_houses = StoreHouse::whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+         $store_houses = permited_stores(explode(',',$users->store_ids));
 
         return view('backend.third-party-service.detail',compact('data','permited_branch','permited_costcenters','store_houses','key'));
     }
@@ -183,7 +183,7 @@ class ServiceMasterController extends Controller
         $permited_branch = permited_branch(explode(',',$users->branch_ids));
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
         
-        $store_houses = StoreHouse::whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+        $store_houses = permited_stores(explode(',',$users->store_ids));
         $form_settings = ServiceFromSetting::first();
         $inv_accounts = [];
       //  $p_accounts = AccountLedger::where('_account_head_id',8)->get();
@@ -565,7 +565,7 @@ class ServiceMasterController extends Controller
         $form_settings = ServiceFromSetting::first();
            $permited_branch = permited_branch(explode(',',$users->branch_ids));
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
-         $store_houses = StoreHouse::whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+         $store_houses = permited_stores(explode(',',$users->store_ids));
 
 
          if($form_settings->_invoice_template==1){
@@ -611,7 +611,7 @@ class ServiceMasterController extends Controller
         $permited_branch = permited_branch(explode(',',$users->branch_ids));
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
         
-        $store_houses = StoreHouse::whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+        $store_houses = permited_stores(explode(',',$users->store_ids));
           $form_settings = ServiceFromSetting::first();
             $inv_accounts = [];
         $dis_accounts = [];

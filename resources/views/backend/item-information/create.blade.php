@@ -82,7 +82,8 @@
                          <div class="col-xs-12 col-sm-12 col-md-3">
                             <div class="form-group">
                                 <label for="_manufacture_company">Manufacture Company:</label>
-                                <input type="text" id="_manufacture_company" name="_manufacture_company" class="form-control" value="{{old('_manufacture_company')}}" placeholder="Manufacture Company" >
+                                <input type="text" id="_manufacture_company" name="_manufacture_company" class="form-control _manufacture_company" value="{{old('_manufacture_company')}}" placeholder="Manufacture Company" >
+                                <div class="search_boxManufacCompany"></div>
                             </div>
                         </div>
                          <div class="col-xs-12 col-sm-12 col-md-3">

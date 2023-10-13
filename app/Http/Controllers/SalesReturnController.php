@@ -159,7 +159,7 @@ class SalesReturnController extends Controller
            $permited_branch = permited_branch(explode(',',$users->branch_ids));
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
          $store_houses = permited_stores(explode(',',$users->store_ids));
-         //$store_houses = StoreHouse::whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+        
         //return $datas;
          if($request->has('print')){
             if($request->print =="single"){
@@ -189,7 +189,7 @@ class SalesReturnController extends Controller
         $permited_branch = permited_branch(explode(',',$users->branch_ids));
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
          $store_houses = permited_stores(explode(',',$users->store_ids));
-        // $store_houses = StoreHouse::whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+        
           $form_settings = SalesFormSetting::first();
 
         return view('backend.sales-return.details',compact('data','permited_branch','permited_costcenters','store_houses','key','form_settings'));
@@ -288,7 +288,7 @@ WHERE s1._no=".$request->_sales_id." GROUP BY s1._p_p_l_id ");
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
         $voucher_types = VoucherType::select('id','_name','_code')->orderBy('_code','asc')->get();
          $store_houses = permited_stores(explode(',',$users->store_ids));
-        //$store_houses = StoreHouse::whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+       
         $form_settings = SalesReturnFormSetting::first();
         $inv_accounts = [];
         $p_accounts = [];
@@ -398,7 +398,7 @@ WHERE s1._no=".$request->_sales_id." GROUP BY s1._p_p_l_id ");
            $permited_branch = permited_branch(explode(',',$users->branch_ids));
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
         $store_houses = permited_stores(explode(',',$users->store_ids));
-         //$store_houses = StoreHouse::whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+         
        
          
 
@@ -1097,7 +1097,7 @@ WHERE s1._no=".$request->_sales_id." GROUP BY s1._p_p_l_id ");
         $permited_branch = permited_branch(explode(',',$users->branch_ids));
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
         $store_houses = permited_stores(explode(',',$users->store_ids));
-       // $store_houses = StoreHouse::whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+       
         $form_settings = SalesReturnFormSetting::first();
         $inv_accounts = [];
         $p_accounts = [];

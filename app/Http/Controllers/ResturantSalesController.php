@@ -99,7 +99,7 @@ class ResturantSalesController extends Controller
         $page_name = $this->page_name;
 
         $permited_branch = permited_branch(explode(',',$users->branch_ids));
-        $store_houses = StoreHouse::select('id','_name')->whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+        $store_houses = permited_stores(explode(',',$users->store_ids));
          $account_types = AccountHead::select('id','_name')->orderBy('_name','asc')->get();
         $form_settings = ResturantFormSetting::first();
       //  $categories = ItemCategory::with(['_parents'])->select('id','_name','_parent_id')->orderBy('_name','asc')->get();
@@ -894,7 +894,7 @@ class ResturantSalesController extends Controller
        // $form_settings = ResturantFormSetting::first();
        // $permited_branch = permited_branch(explode(',',$users->branch_ids));
        // $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
-       //  $store_houses = StoreHouse::whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+       //  $store_houses = permited_stores(explode(',',$users->store_ids));
          
       // return   $invoice_print =   view('backend.pos.pos_template',compact('page_name','permited_branch','permited_costcenters','data','form_settings','permited_branch','permited_costcenters','store_houses'));
          
@@ -1020,7 +1020,7 @@ return json_encode( $data);
         $form_settings = ResturantFormSetting::first();
         $permited_branch = permited_branch(explode(',',$users->branch_ids));
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
-         $store_houses = StoreHouse::whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+         $store_houses = permited_stores(explode(',',$users->store_ids));
 
         $_table_id = $data->_table_id ?? 0;
        
@@ -1148,7 +1148,7 @@ return json_encode( $data);
            $form_settings = ResturantFormSetting::first();
            $permited_branch = permited_branch(explode(',',$users->branch_ids));
          $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
-         $store_houses = StoreHouse::whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+         $store_houses = permited_stores(explode(',',$users->store_ids));
         //return $datas;
          if($request->has('print')){
             if($request->print =="single"){
@@ -1176,7 +1176,7 @@ return json_encode( $data);
         $data = ResturantSales::with(['_master_details','s_account'])->where('id',$invoice_id)->first();
         $permited_branch = permited_branch(explode(',',$users->branch_ids));
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
-         $store_houses = StoreHouse::whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+         $store_houses = permited_stores(explode(',',$users->store_ids));
           $form_settings = ResturantFormSetting::first();
 
         return view('backend.restaurant-sales.sales_details',compact('data','permited_branch','permited_costcenters','store_houses','key','form_settings'));
@@ -1423,7 +1423,7 @@ SELECT s1.id as _p_p_l_id,s1._item_id,s1._qty
         $permited_branch = permited_branch(explode(',',$users->branch_ids));
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
         $voucher_types = VoucherType::select('id','_name','_code')->orderBy('_code','asc')->get();
-        $store_houses = StoreHouse::select('id','_name')->whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+        $store_houses = permited_stores(explode(',',$users->store_ids));
         $form_settings = ResturantFormSetting::first();
         $inv_accounts = [];
         $p_accounts = [];
@@ -2280,7 +2280,7 @@ where  t1._status = 1 and  (t1._barcode like '%$text_val%' OR t2._item like '%$t
         $form_settings = ResturantFormSetting::first();
         $permited_branch = permited_branch(explode(',',$users->branch_ids));
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
-         $store_houses = StoreHouse::whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+         $store_houses = permited_stores(explode(',',$users->store_ids));
          if($form_settings->_invoice_template==1){
             return view('backend.restaurant-sales.print',compact('page_name','permited_branch','permited_costcenters','data','form_settings','permited_branch','permited_costcenters','store_houses'));
          }elseif($form_settings->_invoice_template==2){
@@ -2307,7 +2307,7 @@ where  t1._status = 1 and  (t1._barcode like '%$text_val%' OR t2._item like '%$t
         $form_settings = ResturantFormSetting::first();
            $permited_branch = permited_branch(explode(',',$users->branch_ids));
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
-         $store_houses = StoreHouse::whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+         $store_houses = permited_stores(explode(',',$users->store_ids));
         
             return view('backend.restaurant-sales.challan',compact('page_name','permited_branch','permited_costcenters','data','form_settings','permited_branch','permited_costcenters','store_houses'));
         
@@ -2343,7 +2343,7 @@ where  t1._status = 1 and  (t1._barcode like '%$text_val%' OR t2._item like '%$t
         $permited_branch = permited_branch(explode(',',$users->branch_ids));
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
        
-        $store_houses = StoreHouse::whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+        $store_houses = permited_stores(explode(',',$users->store_ids));
         $form_settings = ResturantFormSetting::first();
         $inv_accounts = [];
         $p_accounts = [];

@@ -199,7 +199,7 @@ WHERE t1.id=$id ");
         $permited_branch = permited_branch(explode(',',$users->branch_ids));
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
         
-        $store_houses = StoreHouse::whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+        $store_houses = permited_stores(explode(',',$users->store_ids));
         $form_settings = IndividualReplaceFormSetting::first();
         $inv_accounts = [];
       //  $p_accounts = AccountLedger::where('_account_head_id',8)->get();
@@ -723,7 +723,7 @@ WHERE t1._account_group_id=(SELECT _cash_group FROM general_settings ) " );
         $permited_branch = permited_branch(explode(',',$users->branch_ids));
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
         
-        $store_houses = StoreHouse::whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+        $store_houses = permited_stores(explode(',',$users->store_ids));
         $form_settings = IndividualReplaceFormSetting::first();
         $inv_accounts = [];
       //  $p_accounts = AccountLedger::where('_account_head_id',8)->get();

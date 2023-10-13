@@ -159,7 +159,8 @@ if($currentURL === $current){
                               >Unit Conversions</button>
                             </td>
                             <td>
-                              <img src="{{asset('/')}}{{$data->_image ?? $default_image }}"  style="max-height:50px;max-width: 50px; " /></td>
+                              <img class="myImage" src="{{asset('/')}}{{$data->_image ?? $default_image }}" alt="Click me to open modal" title="Click display Image" data-toggle="modal" data-target="#imageModal" style="max-height:50px;max-width: 50px;c " >
+                              </td>
                             </td>
                             <td>{{ $data->_units->_name ?? '' }}</td>
                             <td>{{ $data->_code ?? '' }}</td>
@@ -199,6 +200,21 @@ if($currentURL === $current){
         </div>
         <!-- /.row -->
       </div>
+
+       <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <img class="img-fluid" id="modalImage" src="">
+                </div>
+            </div>
+        </div>
+    </div>
       <!-- /.container-fluid -->
     </div>
 </div>
@@ -209,6 +225,13 @@ if($currentURL === $current){
 @section("script")
 
 <script type="text/javascript">
+
+  $('.myImage').on('click', function() {
+        var imgSrc = $(this).attr('src');
+        $('#modalImage').attr('src', imgSrc);
+    });
+
+
   var base_unit_name="";
   var item_id="";
   var item_name="";

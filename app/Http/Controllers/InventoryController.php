@@ -393,6 +393,8 @@ class InventoryController extends Controller
             ->where('_status',1);
          if($request->has('_text_val') && $request->_text_val !=''){
             $datas = $datas->where('_item','like',"%$request->_text_val%")
+            ->orWhere('_code','like',"%$request->_text_val%")
+            ->orWhere('_barcode','like',"%$request->_text_val%")
             ->orWhere('id','like',"%$request->_text_val%");
         }
         
@@ -455,9 +457,27 @@ class InventoryController extends Controller
         $_warranties = Warranty::select('id','_name')->orderBy('_name','asc')->get();
         $permited_branch = permited_branch(explode(',',$users->branch_ids));
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
-        $store_houses = StoreHouse::whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
+        $store_houses = permited_stores(explode(',',$users->store_ids));
+
+        
 
        return view('backend.item-information.create',compact('page_name','categories','units','_warranties','permited_branch','permited_costcenters','store_houses'));
+    }
+
+    public function showManufactureCompanys(Request $request){
+         $limit = $request->limit ?? default_pagination();
+        $_asc_desc = $request->_asc_desc ?? 'ASC';
+        $asc_cloumn =  $request->asc_cloumn ?? '_manufacture_company';
+        $text_val = $request->_text_val;
+
+         $datas = Inventory::select('_manufacture_company');
+         if($request->has('_text_val') && $request->_text_val !=''){
+            $datas = $datas->where('_manufacture_company','like',"%$request->_text_val%");
+        }
+        
+        $datas = $datas->distinct()->orderBy($asc_cloumn,$_asc_desc)->paginate($limit);
+
+        return response($datas);
     }
 
     /**
@@ -514,7 +534,7 @@ class InventoryController extends Controller
         $data->_unit_id = $request->_unit_id;
         $data->_code = $request->_code ?? $full_product_code;
         $data->_serial = $_serial;
-        $data->_barcode = $request->_barcode;
+        $data->_barcode = $request->_barcode ?? $full_product_code;;
         $data->_category_id = $request->_category_id;
         $data->_discount = $request->_discount ?? 0;
         $data->_vat = $request->_vat ?? 0;
