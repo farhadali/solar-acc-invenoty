@@ -1080,13 +1080,52 @@ if (! function_exists('_report_amount')) {
 }
 
 
+function find_bud_amount($ledger_id,$array_data=[]){
+    if(sizeof($array_data) > 0){
+        foreach($array_data as $key=>$val){
+            if($ledger_id==$val->_ledger_id){
+                return $val->_total_amount ?? 0;
+            }
+        }
+    }else{
+        return 0;
+    }
+    
+}
+
+function find_bud_column($ledger_id,$column_name,$array_data=[]){
+    if(sizeof($array_data) > 0){
+        foreach($array_data as $key=>$val){
+            if($ledger_id==$val->_ledger_id){
+                return $val->$column_name ?? '';
+            }
+        }
+    }else{
+        return '';
+    }
+    
+}
+function find_bud_item_column($item_id,$column_name,$array_data=[]){
+    if(sizeof($array_data) > 0){
+        foreach($array_data as $key=>$val){
+            if($item_id==$val->_item_id){
+                return $val->$column_name ?? '';
+            }
+        }
+    }else{
+        return '';
+    }
+    
+}
+
+
 
 
 
 if (! function_exists('default_des')) {
     function default_des()
     {
-      return   2;
+      return 3;
     }
 }
 if (! function_exists('_date_diff')) {

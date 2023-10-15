@@ -32,7 +32,46 @@
           <div class="col-lg-12">
             <div class="card">
               <div class="card-header border-0">
-                 <?php echo $__env->make('backend.budgets.search', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                 <?php
+
+ $currentURL = URL::full();
+ $current = URL::current();
+if($currentURL === $current){
+   $print_url = $current."?print=single";
+   $print_url_detal = $current."?print=detail";
+}else{
+     $print_url = $currentURL."&print=single";
+     $print_url_detal = $currentURL."&print=detail";
+}
+    
+
+                   ?>
+                 <div class="row">
+                     <div class="col-md-4">
+                      <?php echo $__env->make('backend.budgets.search', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                    </div>
+                    <div class="col-md-8">
+                      <div class="d-flex flex-row justify-content-end">
+                         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('voucher-print')): ?>
+                        <li class="nav-item dropdown remove_from_header">
+                              <a class="nav-link" data-toggle="dropdown" href="#">
+                                
+                                <i class="fa fa-print " aria-hidden="true"></i> <i class="right fas fa-angle-down "></i>
+                              </a>
+                              <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                               
+                                <div class="dropdown-divider"></div>
+                                
+                                <a target="__blank" href="<?php echo e($print_url); ?>" class="dropdown-item">
+                                  <i class="fa fa-print mr-2" aria-hidden="true"></i> Print
+                                </a>  
+                            </li>
+                             <?php endif; ?>   
+                         <?php echo $datas->render(); ?>
+
+                          </div>
+                    </div>
+                 </div>
               </div>
               <div class="card-body">
                 <div >
@@ -59,7 +98,7 @@
                         <?php $__currentLoopData = $datas; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <tr>
                             <td><?php echo e($key+1); ?></td>
-                 <td style="display: flex;">
+                          <td style="display: flex;">
                                            
                                 <a  type="button"
                                 target="__blank" 
@@ -68,6 +107,10 @@
                                   <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('budgets-edit')): ?>
                                   <a href="<?php echo e(route('budgets.edit',$data->id)); ?>"
                                   class="btn btn-sm btn-default  mr-1"><i class="fa fa-pen "></i></a>
+                              <?php endif; ?>
+                                  <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('budget-compare')): ?>
+                                  <a title="<?php echo e(__('label.budget-compare-report')); ?>" href="<?php echo e(url('budget-compare')); ?>?_cost_center_id=<?php echo e($data->_cost_center_id); ?>&_branch_id=<?php echo e($data->_branch_id); ?>&organization_id=<?php echo e($data->organization_id); ?>&_budget_id=<?php echo e($data->id); ?>"
+                                  class="btn btn-sm btn-default  mr-1"><i class="fa fa-percent "></i></a>
                               <?php endif; ?>
                                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('budgets-delete')): ?>
                                  <?php echo Form::open(['method' => 'DELETE','route' => ['budgets.destroy', $data->id],'style'=>'display:inline']); ?>

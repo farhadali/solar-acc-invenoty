@@ -85,8 +85,9 @@ Route::group(['middleware' => ['auth']], function() {
 //#########################
 // Budgets Section Start
 //#########################
-    Route::resource('budgets',BudgetsController::class);
-
+Route::resource('budgets',BudgetsController::class);
+//Budget Compare Cost Center Wise
+Route::get('budget-compare', 'App\Http\Controllers\BudgetsController@budgetCompare');
 
 
 

@@ -1142,11 +1142,11 @@ SELECT s1.id as _p_p_l_id,s1._item_id,s1._qty
 
     public function formSettingAjax(){
         $form_settings = SalesFormSetting::first();
-        $inv_accounts = AccountLedger::where('_account_head_id',2)->get();
-        $p_accounts = AccountLedger::where('_account_head_id',8)->get();
-        $dis_accounts = AccountLedger::whereIn('_account_head_id',[10,5])->get();
-        $cost_of_solds = AccountLedger::where('_account_head_id',9)->get();
-        $_cash_customers = AccountLedger::whereIn('_account_head_id',[12,13])->get();
+        $inv_accounts = AccountLedger::orderBy('_name','asc')->get();
+        $p_accounts = $inv_accounts;
+        $dis_accounts = $inv_accounts;
+        $cost_of_solds = $inv_accounts;
+        $_cash_customers = $inv_accounts;
         return view('backend.sales.form_setting_modal',compact('form_settings','inv_accounts','p_accounts','dis_accounts','cost_of_solds','_cash_customers'));
     }
 

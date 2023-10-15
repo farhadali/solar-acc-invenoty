@@ -32,7 +32,45 @@
           <div class="col-lg-12">
             <div class="card">
               <div class="card-header border-0">
-                 @include('backend.budgets.search')
+                 @php
+
+ $currentURL = URL::full();
+ $current = URL::current();
+if($currentURL === $current){
+   $print_url = $current."?print=single";
+   $print_url_detal = $current."?print=detail";
+}else{
+     $print_url = $currentURL."&print=single";
+     $print_url_detal = $currentURL."&print=detail";
+}
+    
+
+                   @endphp
+                 <div class="row">
+                     <div class="col-md-4">
+                      @include('backend.budgets.search')
+                    </div>
+                    <div class="col-md-8">
+                      <div class="d-flex flex-row justify-content-end">
+                         @can('voucher-print')
+                        <li class="nav-item dropdown remove_from_header">
+                              <a class="nav-link" data-toggle="dropdown" href="#">
+                                
+                                <i class="fa fa-print " aria-hidden="true"></i> <i class="right fas fa-angle-down "></i>
+                              </a>
+                              <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                               
+                                <div class="dropdown-divider"></div>
+                                
+                                <a target="__blank" href="{{$print_url}}" class="dropdown-item">
+                                  <i class="fa fa-print mr-2" aria-hidden="true"></i> Print
+                                </a>  
+                            </li>
+                             @endcan   
+                         {!! $datas->render() !!}
+                          </div>
+                    </div>
+                 </div>
               </div>
               <div class="card-body">
                 <div >
@@ -59,7 +97,7 @@
                         @foreach ($datas as $key => $data)
                         <tr>
                             <td>{{ $key+1 }}</td>
-                 <td style="display: flex;">
+                          <td style="display: flex;">
                                            
                                 <a  type="button"
                                 target="__blank" 
@@ -68,6 +106,10 @@
                                   @can('budgets-edit')
                                   <a href="{{ route('budgets.edit',$data->id) }}"
                                   class="btn btn-sm btn-default  mr-1"><i class="fa fa-pen "></i></a>
+                              @endcan
+                                  @can('budget-compare')
+                                  <a title="{{__('label.budget-compare-report')}}" href="{{ url('budget-compare') }}?_cost_center_id={{$data->_cost_center_id}}&_branch_id={{$data->_branch_id}}&organization_id={{$data->organization_id}}&_budget_id={{$data->id}}"
+                                  class="btn btn-sm btn-default  mr-1"><i class="fa fa-percent "></i></a>
                               @endcan
                                 @can('budgets-delete')
                                  {!! Form::open(['method' => 'DELETE','route' => ['budgets.destroy', $data->id],'style'=>'display:inline']) !!}

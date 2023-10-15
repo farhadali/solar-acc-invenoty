@@ -16,6 +16,7 @@ return [
 
 
 
+    'budget-compare-report' => 'Budget Compare Report',
     'organization_id' => 'Organization',
     'search' => 'Search',
     'Limit' => 'Limit',
