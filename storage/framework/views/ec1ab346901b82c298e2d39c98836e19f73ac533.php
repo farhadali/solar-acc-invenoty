@@ -33,8 +33,18 @@
 		        <b>Invoice/Bill</b>
             		</td>
             	</tr>
+                <tr>
+               
+                <td colspan="6" style="border: 1px dotted grey;">
+                  <table style="text-align: left;">
+                    <tr> <td style="border:none;" > <?php echo e(invoice_barcode($data->_order_number ?? '')); ?></td></tr>
+                    <tr> <td style="border:none;" > Invoice No: <?php echo e($data->_order_number ?? ''); ?></td></tr>
+                  <tr> <td style="border:none;" > Date: <?php echo e(_view_date_formate($data->_date ?? '')); ?></td></tr>
+                  </table>
+                </td>
+              </tr>
             	<tr>
-            		<td colspan="2" style="text-align: left;border: 1px dotted grey;">
+            		<td colspan="6" style="text-align: left;border: 1px dotted grey;">
             			<table style="">
             				 <tr> <td style="border:none;" > <b>Customer:</b> <?php if($form_settings->_defaut_customer ==$data->_ledger_id): ?>
                       <?php echo e($data->_referance ?? $data->_ledger->_name); ?>
@@ -48,13 +58,7 @@
 			                <tr> <td style="border:none;" >Address:<?php echo e($data->_address ?? ''); ?> </td></tr>
             			</table>
             		</td>
-            		<td colspan="4" style="border: 1px dotted grey;">
-            			<table style="text-align: left;">
-            				<tr> <td style="border:none;" > <?php echo e(invoice_barcode($data->_order_number ?? '')); ?></td></tr>
-                    <tr> <td style="border:none;" > Invoice No: <?php echo e($data->_order_number ?? ''); ?></td></tr>
-                  <tr> <td style="border:none;" > Date: <?php echo e(_view_date_formate($data->_date ?? '')); ?></td></tr>
-            			</table>
-            		</td>
+            	
             	</tr>
                
                

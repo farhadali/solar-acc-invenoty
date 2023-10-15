@@ -35,7 +35,7 @@
                  @include('backend.budgets.search')
               </div>
               <div class="card-body">
-                <div class="d-flex">
+                <div >
                   <table class="table table-bordered _list_table">
                       <thead>
                         <tr>

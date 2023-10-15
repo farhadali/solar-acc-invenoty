@@ -35,7 +35,7 @@
                  <?php echo $__env->make('backend.budgets.search', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
               </div>
               <div class="card-body">
-                <div class="d-flex">
+                <div >
                   <table class="table table-bordered _list_table">
                       <thead>
                         <tr>

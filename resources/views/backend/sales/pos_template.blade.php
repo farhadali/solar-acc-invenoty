@@ -33,8 +33,18 @@
 		        <b>Invoice/Bill</b>
             		</td>
             	</tr>
+                <tr>
+               
+                <td colspan="6" style="border: 1px dotted grey;">
+                  <table style="text-align: left;">
+                    <tr> <td style="border:none;" > {{ invoice_barcode($data->_order_number ?? '') }}</td></tr>
+                    <tr> <td style="border:none;" > Invoice No: {{ $data->_order_number ?? '' }}</td></tr>
+                  <tr> <td style="border:none;" > Date: {{ _view_date_formate($data->_date ?? '') }}</td></tr>
+                  </table>
+                </td>
+              </tr>
             	<tr>
-            		<td colspan="2" style="text-align: left;border: 1px dotted grey;">
+            		<td colspan="6" style="text-align: left;border: 1px dotted grey;">
             			<table style="">
             				 <tr> <td style="border:none;" > <b>Customer:</b> @if($form_settings->_defaut_customer ==$data->_ledger_id)
                       {{ $data->_referance ?? $data->_ledger->_name }}
@@ -46,13 +56,7 @@
 			                <tr> <td style="border:none;" >Address:{{$data->_address ?? '' }} </td></tr>
             			</table>
             		</td>
-            		<td colspan="4" style="border: 1px dotted grey;">
-            			<table style="text-align: left;">
-            				<tr> <td style="border:none;" > {{ invoice_barcode($data->_order_number ?? '') }}</td></tr>
-                    <tr> <td style="border:none;" > Invoice No: {{ $data->_order_number ?? '' }}</td></tr>
-                  <tr> <td style="border:none;" > Date: {{ _view_date_formate($data->_date ?? '') }}</td></tr>
-            			</table>
-            		</td>
+            	
             	</tr>
                
                

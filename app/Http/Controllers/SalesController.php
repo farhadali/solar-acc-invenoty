@@ -1812,11 +1812,11 @@ where  t1._status = 1 and  (t1._barcode like '%$text_val%' OR t2._item like '%$t
             }
 
           $_l_balance = _l_balance_update($request->_main_ledger_id);
-          $_pfix = _sales_pfix().$_master_id;
+            //$_pfix = _sales_pfix().$_master_id;
 
             $_main_branch_id = $request->_branch_id;
             $__table="sales";
-            $_pfix = make_order_number($__table,$organization_id,$_main_branch_id);
+            $_pfix = _sales_pfix().make_order_number($__table,$organization_id,$_main_branch_id);
 
              \DB::table('sales')
              ->where('id',$_master_id)
@@ -1957,7 +1957,7 @@ $store_houses = permited_stores(explode(',',$users->store_ids));
          }elseif($form_settings->_invoice_template==6){
             return view('backend.sales.print_4',compact('page_name','permited_branch','permited_costcenters','data','form_settings','permited_branch','permited_costcenters','store_houses','history_sales_invoices','_master_detail_reassign'));
          }elseif($form_settings->_invoice_template==5){
-            return view('backend.sales.pos_template',compact('page_name','permited_branch','permited_costcenters','data','form_settings','permited_branch','permited_costcenters','store_houses','history_sales_invoices','_master_detail_reassign'));
+            return view('backend.sales.pos_template2',compact('page_name','permited_branch','permited_costcenters','data','form_settings','permited_branch','permited_costcenters','store_houses','history_sales_invoices','_master_detail_reassign'));
          }else{
             return view('backend.sales.print',compact('page_name','permited_branch','permited_costcenters','data','form_settings','permited_branch','permited_costcenters','store_houses','history_sales_invoices','_master_detail_reassign'));
          }

@@ -1013,6 +1013,15 @@ if (! function_exists('_damage_pfix')) {
         return $data->_prefix ?? '';
     }
 }
+if (! function_exists('_damage_pfix')) {
+    function _damage_pfix()
+    {
+       $data= InvoicePrefix::where('_table_name','damage_adjustments')->select('_prefix')->first();
+        return $data->_prefix ?? '';
+    }
+}
+
+
 
 if (! function_exists('report_date_formate')) {
     function report_date_formate()

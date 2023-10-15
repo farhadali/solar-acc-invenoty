@@ -1,180 +1,65 @@
 
-<?php $__env->startSection('title',$page_name); ?>
-
-<?php $__env->startSection('content'); ?>
-<style type="text/css">
- 
-  @media  print {
-   .table th {
-    vertical-align: top;
-    color: silver;
-    background-color: #fff; 
-}
-
-}
-  </style>
-  <style>
-  
-    thead {
-      display: table-header-group;
-    }
-    tfoot {
-      display: table-footer-group;
-    }
-    @media  print {
-      thead {
-        display: table-header-group;
-      }
-      tfoot {
-        display: table-footer-group;
-      }
-      td,th{
-            font-size:22px !important;
-        }
-    }
-     td,th{
-            font-size:22px;
-        }
-  </style>
-<div class="_report_button_header">
- <a class="nav-link"  href="<?php echo e(url('sales')); ?>" role="button"><i class="fa fa-arrow-left"></i></a>
- <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('sales-edit')): ?>
-    <a class="nav-link"  title="Edit" href="<?php echo e(route('sales.edit',$data->id)); ?>">
-                                      <i class="nav-icon fas fa-edit"></i>
-     </a>
-  <?php endif; ?>
-    
-    <a style="cursor: pointer;" class="nav-link"  title="Print" onclick="javascript:printDiv('printablediv')"><i class="fas fa-print"></i></a>
-      <a style="cursor: pointer;" onclick="fnExcelReport();" class="nav-link"  title="Excel Download" ><i class="fa fa-file-excel" aria-hidden="true"></i></a>
-       <?php echo $__env->make('backend.message.message', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-  </div>
-
-<section class="invoice" id="printablediv">
- <div class="container-fluid">
-  <?php
-    $_is_header = $form_settings->_is_header ?? 0;
-    $_is_footer = $form_settings->_is_footer ?? 0;
-    $_margin_top = $form_settings->_margin_top ?? '0px';
-    $_margin_bottom = $form_settings->_margin_bottom ?? '0px';
-    $_margin_left = $form_settings->_margin_left ?? '0px';
-    $_margin_right = $form_settings->_margin_right ?? '0px';
-  ?>
-   <div  > 
-
-     
-
-       <table style="width: 100%;margin-bottom: <?php echo e($_margin_bottom); ?>;margin-top: <?php echo e($_margin_top); ?>;margin-left: <?php echo e($_margin_left); ?>;margin-right: <?php echo e($_margin_right); ?>">
-        <thead style="border:0px;">
-             <?php if($_is_header ==1 ): ?>
-            <tr style="border: 0px solid silver !important;">
-                <th colspan="8" style="width: 100%;border: 0px solid silver !important;white-space: inherit;">
-                   
-     <div class="row">
-      <div class="col-3">
-            <h3>  </h3>
-        
-        
-      </div>
-      <div class="col-6 " style="text-align: center;white-space: inherit;">
-            <h2 style="text-align: center;"><?php echo e($settings->name ?? ''); ?></h2>
-            <h5 style="text-align: center;"><?php echo e($settings->keywords ?? ''); ?></h5>
-           <div><?php echo e($settings->_address ?? ''); ?><br>
-            Phone: <?php echo e($settings->_phone ?? ''); ?><br>
-            Email: <?php echo e($settings->_email ?? ''); ?></div>
-      </div>
-      <div class="col-3 "></div>
-      <div class="col-md-12" >
-        <div style="text-align: center;">
-          <span style="font-size: 30px;
-    font-weight: bold;
-    padding: 5px;
-    background: #34ce19;
-    border-radius: 5px;">Sales Invoice</span> 
-        </div>
-        
-      </div>
-     </div>
-
-                </th>
-            </tr>
-    <?php endif; ?>
-    <tr>
-        <th colspan="8" style="border: 0px solid silver;">
-            <table style="width: 100%;"  > 
 
 
-  
-          <tr>
-            <td rowspan="6" style="width: 50%;;border: 1px solid silver;">
-                <table style="width: 100%;">
-                  <tr>
-                    <td style="width: 20%;text-align: left;vertical-align:top;"><b>Customer ID</b></td>
-                    
-                    <td style="width: 80%;text-align: left;white-space: break-spaces;font-weight:900;font-size:24px;vertical-align:top;">:<?php echo e($data->_ledger->id ?? ''); ?></td>
-                  </tr>
-                  <tr>
-                    <td style="width: 20%;text-align: left;vertical-align:top;"><strong>Customer Name</strong></td>
-                    <td style="width: 80%;text-align: left;font-weight:900;font-size:24px;vertical-align:top;">:<?php if($data->_referance !=""): ?>
-                    <?php echo e($data->_referance ?? ''); ?>
+
+<section class="invoice" id="printablediv" style="">
+		
+            <table class="table" style="border-collapse: collapse;width:388px;margin:0px auto;">
+            	<tr>
+            		<td colspan="6" style="text-align: center;">
+            			  <?php echo e($settings->_top_title ?? ''); ?><br>
+                   <img src="<?php echo e(url('/')); ?>/<?php echo e($settings->logo); ?>" alt="<?php echo e($settings->name ?? ''); ?>" style="height: 60px;width: 60px"  ><br>
+            			<strong><?php echo e($settings->name ?? ''); ?></strong><br>
+		         <?php echo e($settings->_address ?? ''); ?><br>
+		        <?php echo e($settings->_phone ?? ''); ?><br>
+		        <?php echo e($settings->_email ?? ''); ?><br>
+            <?php
+        $bin = $settings->_bin ?? '';
+      ?>
+      <?php if($bin !=''): ?>
+      VAT REGISTRATION NO: <?php echo e($settings->_bin ?? ''); ?><br>
+      <?php endif; ?>
+		        <b>Invoice/Bill</b>
+            		</td>
+            	</tr>
+                <tr>
+               
+                <td colspan="6" style="border: 1px dotted grey;">
+                  <table style="text-align: left;">
+                    <tr> <td style="border:none;" > <?php echo e(invoice_barcode($data->_order_number ?? '')); ?></td></tr>
+                    <tr> <td style="border:none;" > Invoice No: <?php echo e($data->_order_number ?? ''); ?></td></tr>
+                  <tr> <td style="border:none;" > Date: <?php echo e(_view_date_formate($data->_date ?? '')); ?></td></tr>
+                  </table>
+                </td>
+              </tr>
+            	<tr>
+            		<td colspan="6" style="text-align: left;border: 1px dotted grey;">
+            			<table style="">
+            				 <tr> <td style="border:none;" > <b>Customer:</b> <?php if($form_settings->_defaut_customer ==$data->_ledger_id): ?>
+                      <?php echo e($data->_referance ?? $data->_ledger->_name); ?>
 
                   <?php else: ?>
-                    <?php echo e($data->_ledger->_name ?? ''); ?>
+                  <?php echo e($data->_ledger->_name ?? ''); ?>
 
-                  <?php endif; ?></td>
-                  </tr>
-                  <?php
-                  $_alious = $data->_ledger->_alious ?? '';
-                  ?>
-                  <?php if($_alious !=''): ?>
+                  <?php endif; ?></td></tr>
+            				
+			                <tr> <td style="border:none;" >Phone:<?php echo e($data->_phone ?? ''); ?> </td></tr>
+			                <tr> <td style="border:none;" >Address:<?php echo e($data->_address ?? ''); ?> </td></tr>
+            			</table>
+            		</td>
+            	
+            	</tr>
+               
+               
+                <tbody>
                   <tr>
-                    <td style="width: 20%;text-align: left;vertical-align:top;">Proprietor</td>
-                    <td  style="width: 80%;text-align: left;white-space: break-spaces;font-weight:400;vertical-align:top;">:<?php echo e($data->_ledger->_alious ?? ''); ?></td>
-                  </tr>
-                  <?php endif; ?>
-                  <tr>
-                    <td style="width: 20%;text-align: left;vertical-align:top;">Cell NO</td>
-                    <td  style="width: 80%;text-align: left;white-space: break-spaces;font-weight:400;vertical-align:top;">:<?php echo e($data->_phone ?? ''); ?></td>
-                  </tr>
-                  <tr>
-                    <td  style="width: 20%;text-align: left;vertical-align:top;" >Address</td>
-                    <td  style="width: 80%;text-align: left;white-space: break-spaces;font-weight:400;vertical-align:top;">:<?php echo e($data->_address ?? ''); ?></td>
-                  </tr>
-                  <tr>
-                    <td><b></b></td>
-                    <td><b></b></td>
-                  </tr>
-                </table>
-            </td>
-            <td style="width: 25%;border: 1px solid silver;">Invoice No: </td>
-            <td style="width: 25%;border: 1px solid silver;">
-              <?php echo e(invoice_barcode($data->_order_number ?? '')); ?>
-
-              <?php echo e($data->_order_number ?? ''); ?> </td>
-          </tr>
-         <tr>
-            <td style="width: 25%;border: 1px solid silver;">Invoice Date</td>
-            <td style="width: 25%;border: 1px solid silver;"><?php echo _view_date_formate($data->_date ?? ''); ?></td>
-          </tr><tr>
-            <td style="width: 25%;border: 1px solid silver;">Sales By</td>
-            <td style="width: 15%;border: 1px solid silver;"><?php echo $data->_user_name ?? ''; ?></td>
-          </tr>
-          <?php if($data->_order_ref_id !=''): ?>
-          <tr>
-            <td style="width: 25%;border: 1px solid silver;">Sales Order NO</td>
-            <td style="width: 15%;border: 1px solid silver;"><?php echo $data->_order_ref_id ?? ''; ?></td>
-          </tr>
-          <?php endif; ?>
-        </table>
-        </th>
-    </tr>
-         <tr>
            <th class="text-center" style="width: 5%;border: 1px solid silver;">SL</th>
           <th class="text-left" style="width: 53%;border: 1px solid silver;">Item</th>
           <th class="text-center" style="width: 7%;border: 1px solid silver;">Unit</th>
           <th class="text-center" style="width: 7%;border: 1px solid silver;">Qty</th>
           <th class="text-center" style="width: 8%;border: 1px solid silver;">Rate</th>
-          <th class="text-center" style="width: 5%;border: 1px solid silver;">Discount</th>
-          <th class="text-center display_none" style="width: 5%;border: 1px solid silver;">VAT</th>
+          <th class="text-center" style="width: 5%;border: 1px solid silver;display: none;">Discount</th>
+          <th class="text-center " style="width: 5%;border: 1px solid silver;display: none;">VAT</th>
           <th class="text-center" style="width: 10%;border: 1px solid silver;">Amount</th>
          </tr>
         </thead>
@@ -282,7 +167,7 @@
                               <?php endif; ?>
                                               
                                             </td>
-                                            <td class="text-right  " style="vertical-align: text-top;border: 1px solid silver;vertical-align:top;">
+                                            <td class="text-right  " style="vertical-align: text-top;border: 1px solid silver;vertical-align:top;display: none;">
                             <?php
                            $row_discount_amount =0;
                           ?>
@@ -297,7 +182,7 @@
 
 
                                             </td>
-                                            <td class="text-right display_none " style="vertical-align: text-top;border: 1px solid silver;">
+                                            <td class="text-right display_none " style="vertical-align: text-top;border: 1px solid silver;display: none;">
                             <?php
                            $row_vat_amount =0;
                           ?>
@@ -343,14 +228,14 @@
                               <td colspan="3" class="text-right " style="border: 1px solid silver;"><b>Total</b></td>
                               <td class="text-right " style="border: 1px solid silver;"> <b><?php echo e(_report_amount($_qty_total ?? 0)); ?></b> </td>
                               <td style="border: 1px solid silver;"></td>
-                              <td class="text-right " style="border: 1px solid silver;"> <b><?php echo e(_report_amount($_total_discount_amount ?? 0)); ?></b> </td>
-                              <td class="text-right display_none" style="border: 1px solid silver;"> <b><?php echo e(_report_amount($_vat_total ?? 0)); ?></b> </td>
+                              <td class="text-right " style="border: 1px solid silver;display: none;"> <b><?php echo e(_report_amount($_total_discount_amount ?? 0)); ?></b> </td>
+                              <td class="text-right display_none" style="border: 1px solid silver;display: none;"> <b><?php echo e(_report_amount($_vat_total ?? 0)); ?></b> </td>
                               <td class=" text-right" style="border: 1px solid silver;"><b> <?php echo e(_report_amount($_value_total ?? 0)); ?></b>
                               </td>
                             </tr>
                             <tr>
                               <td colspan="3" class="text-left " style="width: 50%;border:1px solid silver;">
-                              <table style="width: 100%">
+                              <table style="width: 100%;border-collapse: collapse;">
                                 <tr>
                                   <td>
 
@@ -370,7 +255,7 @@
                               </td>
                               
                               <td colspan="5" class=" text-right"  style="width: 50%;">
-                                  <table style="width: 100%;">
+                                  <table style="width: 100%;border-collapse: collapse;">
                                      <tr >
                                       <th style="border:1px solid silver;" class="text-right" ><b>Sub Total</b></th>
                                       <th style="border:1px solid silver;" class="text-right"><?php echo _report_amount($data->_sub_total ?? 0); ?></th>
@@ -442,41 +327,15 @@
                               </td>
                             </tr>
          <?php endif; ?>
-        </tbody>
-        <tfoot>
-<?php if($_is_footer ==1): ?>
-               <tr>
-                 <td colspan="8">
-                    <div class="col-12 mt-5">
-                  <div class="row">
-                    <div class="col-4 text-left " >
-                        <div style="height:120px;width:100%;"></div>
-                      <span style="border-bottom: 1px solid #f5f9f9;border-top: 1px solid #000;">Customer Signature</span>
-                    </div>
-                    <div class="col-4"></div>
-                    
-                    <div class="col-4 text-center " >
-                     <div style="height: 120px;width:auto; ">
-                        <img id="output_1" class="banner_image_create" src="<?php echo e(asset('/')); ?><?php echo e($form_settings->_seal_image ?? ''); ?>"   />
-                     </div> 
-                      <span style="border-bottom: 1px solid #f5f9f9;border-top: 1px solid #000;"> Authorised Signature</span>
-                    </div>
-                  </div>
-                </div>
-                 </td>
-               </tr> 
-<?php endif; ?>
-        </tfoot>
-       </table>
-   
-</div>
-  </div>
-  </section>
-   
 
-   <?php $__env->stopSection(); ?>
+                   
+                
+				</tbody>
+            </table>
+            
+        </section>
+	
 
-<?php $__env->startSection('script'); ?>
-
-<?php $__env->stopSection(); ?>
-<?php echo $__env->make('backend.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\xampp\htdocs\own\inv-acc-hrm\resources\views/backend/sales/print_4.blade.php ENDPATH**/ ?>
+<script type="text/javascript">
+  window.print();
+</script><?php /**PATH D:\xampp\htdocs\own\inv-acc-hrm\resources\views/backend/sales/pos_template2.blade.php ENDPATH**/ ?>

@@ -702,7 +702,7 @@ public function moneyReceipt($id){
 
             $_main_branch_id = $request->_branch_id;
             $__table="purchases";
-            $_pfix = make_order_number($__table,$organization_id,$_main_branch_id);
+            $_pfix = _purchase_pfix().make_order_number($__table,$organization_id,$_main_branch_id);
 
 
              \DB::table('purchases')
@@ -1005,10 +1005,12 @@ if($sales_number == 0 ){
                         $ProductPriceList->_barcode =$barcode_string ?? '';
                         }else{
                             if($barcode_string !=''){
-                                $ProductPriceList->_barcode = $barcode_string.$purchase_id;
-                                $PurchaseD = PurchaseDetail::find($_purchase_detail_id);
-                                $PurchaseD->_barcode = $barcode_string.$purchase_id;
-                                $PurchaseD->save();
+                                if($purchase_detail_ids[$i] ==0){
+                                    $ProductPriceList->_barcode = $barcode_string.$purchase_id;
+                                    $PurchaseD = PurchaseDetail::find($_purchase_detail_id);
+                                    $PurchaseD->_barcode = $barcode_string.$purchase_id;
+                                    $PurchaseD->save();
+                                }
                             }
                         }
                 }else{
