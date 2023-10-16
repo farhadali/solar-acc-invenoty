@@ -54,6 +54,7 @@ use App\Http\Controllers\WItemReceiveFromSupplierController;
 
 
 use App\Http\Controllers\BudgetsController;
+use App\Http\Controllers\MaterialIssueController;
 
 
 
@@ -80,12 +81,14 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::group(['middleware' => ['auth']], function() {
 
+Route::resource('material-issue',MaterialIssueController::class);
 
 
 //#########################
 // Budgets Section Start
 //#########################
 Route::resource('budgets',BudgetsController::class);
+
 //Budget Compare Cost Center Wise
 Route::get('budget-compare', 'App\Http\Controllers\BudgetsController@budgetCompare');
 

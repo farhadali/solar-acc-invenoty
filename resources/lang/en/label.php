@@ -16,6 +16,7 @@ return [
 
 
 
+    'material_issued' => 'Material Issue',
     'budget-compare-report' => 'Budget Compare Report',
     'organization_id' => 'Organization',
     'search' => 'Search',
