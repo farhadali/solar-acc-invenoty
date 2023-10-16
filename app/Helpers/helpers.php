@@ -67,20 +67,22 @@ function convert_number($number)
 
 //RLP Database Connection
 
-if (! function_exists('rlp_conn')) {
-    function rlp_conn()
+if (! function_exists('access_chain_types')) {
+    function access_chain_types()
     {
-       // $servername = "103.54.36.11";
-        $servername = "172.16.2.112";
-        $username = "remote_user";
-        $password = 'spl_BOD@2023#';
-        $dbname = "rlp";
-        $rlp_conn = new mysqli($servername, $username, $password, $dbname);
-        if ($rlp_conn->connect_error) {
-          die("Connection failed: " . $rlp_conn->connect_error);
-        }else{
-            return $rlp_conn;
-        }
+      return ['1'=>'RLP','2'=>'NOTESHEET','3'=>'WORKORDER'];
+    }
+}
+
+if (! function_exists('selected_access_chain_types')) {
+    function selected_access_chain_types($id)
+    {
+      foreach(access_chain_types() as $key=>$val){
+        if($id == $key){
+            return $val;
+        } 
+      } 
+      return 'Empty';
     }
 }
 
@@ -1144,6 +1146,14 @@ if (! function_exists('ledger_to_group_type')) {
     function ledger_to_group_type($ledger)
     {
       return AccountLedger::where('id',$ledger)->select('_account_group_id','_account_head_id')->first();
+    }
+}
+if (! function_exists('_find_employee_name')) {
+    function _find_employee_name($_office_id)
+    {
+      $data = \DB::table("hrm_employees")->where("_code",$_office_id)->first();
+
+      return $data->_name ?? '';
     }
 }
 
