@@ -1209,6 +1209,20 @@
         </div>
           
          <?php endif; ?>
+        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('store-house-list')): ?>
+         <div class="dropdown-divider"></div>
+        <div style="display: flex;">
+          <a href="<?php echo e(url('store-house')); ?>" class="dropdown-item">
+           <i class="fa fa-adjust mr-2" aria-hidden="true"></i> <?php echo e(__('label.Store House')); ?> 
+          </a>
+            <a   href="#None" 
+          class="dropdown-item text-right attr_base_create_url"
+            data-toggle="modal" data-target="#commonEntryModal_item" 
+            attr_base_create_url="<?php echo e(route('store-house.create')); ?>"> 
+            <i class="nav-icon fas fa-plus"></i> </a>
+        </div>
+          
+         <?php endif; ?>
        
         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('budgets-list')): ?>
          <div class="dropdown-divider"></div>
