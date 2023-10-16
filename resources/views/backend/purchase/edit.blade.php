@@ -314,7 +314,7 @@ $__user= Auth::user();
                                                 <input type="number" name="_discount[]" class="form-control  _discount _common_keyup" value="{{$detail->_discount}}">
                                               </td>
                                               <td class="@if($form_settings->_inline_discount == 0) display_none @endif">
-                                                <input type="number" name="_discount_amount[]" class="form-control  _discount_amount _discount " value="{{$detail->_discount_amount}}">
+                                                <input type="number" name="_discount_amount[]" class="form-control  _discount_amount  " value="{{$detail->_discount_amount}}">
                                               </td>
                                               @if(isset($form_settings->_show_vat)) @if($form_settings->_show_vat==1)
                                               <td>

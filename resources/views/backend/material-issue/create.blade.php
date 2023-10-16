@@ -118,7 +118,63 @@ $__user= Auth::user();
                             </div>
                         </div>
 
-                        @include('basic.org_create')
+                        @php
+$users = \Auth::user();
+$permited_organizations = permited_organization(explode(',',$users->organization_ids));
+$permited_branch = permited_branch(explode(',',$users->branch_ids));
+$permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
+@endphp 
+
+
+<div class="col-xs-12 col-sm-12 col-md-2 ">
+ <div class="form-group ">
+     <label>{!! __('label.organization') !!}:<span class="_required">*</span></label>
+    <select class="form-control _master_organization_id" name="organization_id" required >
+
+       <option value="">{{__('label.select_organization')}}</option>
+       @forelse($permited_organizations as $val )
+       <option value="{{$val->id}}" @if(isset($request->organization_id)) @if($request->organization_id == $val->id) selected @endif   @endif>{{ $val->id ?? '' }} - {{ $val->_name ?? '' }}</option>
+       @empty
+       @endforelse
+     </select>
+ </div>
+</div>
+<div class="col-xs-12 col-sm-12 col-md-2 ">
+ <div class="form-group ">
+     <label>Branch:<span class="_required">*</span></label>
+    <select class="form-control _master_branch_id" name="_branch_id" required >
+       <option value="">{{__('label.select_branch')}}</option>
+       @forelse($permited_branch as $branch )
+       <option value="{{$branch->id}}" @if(isset($request->_branch_id)) @if($request->_branch_id == $branch->id) selected @endif   @endif>{{ $branch->id ?? '' }} - {{ $branch->_name ?? '' }}</option>
+       @empty
+       @endforelse
+     </select>
+ </div>
+</div>
+<div class="col-xs-12 col-sm-12 col-md-2 ">
+ <div class="form-group ">
+     <label>{{__('label.Cost center')}}:<span class="_required">*</span></label>
+    <select class="form-control _cost_center_id" name="_cost_center_id" required >
+       <option value="">{{__('label.select_cost_center')}}</option>
+       @forelse($permited_costcenters as $cost_center )
+       <option value="{{$cost_center->id}}" @if(isset($request->_cost_center_id)) @if($request->_cost_center_id == $cost_center->id) selected @endif   @endif>{{ $cost_center->id ?? '' }} - {{ $cost_center->_name ?? '' }}</option>
+       @empty
+       @endforelse
+     </select>
+ </div>
+</div>
+<div class="col-xs-12 col-sm-12 col-md-2 ">
+ <div class="form-group ">
+     <label>{{__('label.store_house')}}:<span class="_required">*</span></label>
+    <select class="form-control _master_store_id" name="_store_id" required >
+       <option value="">{{__('label.select_store')}}</option>
+       @forelse($store_houses as $store )
+       <option value="{{$store->id}}" >{{ $store->id ?? '' }} - {{ $store->_name ?? '' }}</option>
+       @empty
+       @endforelse
+     </select>
+ </div>
+</div>
                         
                         <div class="col-xs-12 col-sm-12 col-md-2 ">
                             <div class="form-group">
@@ -275,7 +331,7 @@ $__user= Auth::user();
                                                 <input type="number" name="conversion_qty[]" min="0" step="any" class="form-control conversion_qty " value="1" readonly>
                                                 <input type="number" name="_base_rate[]" min="0" step="any" class="form-control _base_rate "  readonly>
                                               </td>
-                                              <td class="@if($form_settings->_show_unit==0) display_none @endif">
+                                              <td class="">
                                                 <select class="form-control _transection_unit" name="_transection_unit[]">
                                                 </select>
                                               </td>
@@ -376,7 +432,7 @@ $__user= Auth::user();
                                               <td  class="text-right"><b>Total</b></td>
                                               <td class="display_none"></td>
                                               <td class="display_none"></td>
-                                              <td class="@if($form_settings->_show_unit==0) display_none @endif"></td>
+                                              <td class=""></td>
                                               
                                                 <td  class="text-right @if($_show_barcode==0) display_none @endif"></td>
                                                 <td  class="text-right @if($_show_warranty==0) display_none @endif"></td>
@@ -1110,7 +1166,7 @@ function _add_new_row_for_barcode(_warranty,row_id,_name,_p_item_item_id,_unit_i
                                                 <input type="number" name="conversion_qty[]" min="0" step="any" class="form-control conversion_qty conversion_qty__${row_id} " value="1" readonly>
                                                 <input type="number" name="_base_rate[]" min="0" step="any" class="form-control _base_rate _base_rate__${row_id} "  readonly value="${_sales_rate}">
                                               </td>
-                                              <td class="@if($form_settings->_show_unit==0) display_none @endif">
+                                              <td class="">
                                                 <select class="form-control _transection_unit _transection_unit__${row_id}" name="_transection_unit[]">
                                                 </select>
                                               </td>
@@ -1671,9 +1727,38 @@ $(document).on("change","#_discount_input",function(){
 
 function purchase_row_add(event){
    event.preventDefault();
+
+var _master_organization_id = $(document).find("._master_organization_id").val();
+var _master_branch_id = $(document).find("._master_branch_id").val();
+var _cost_center_id = $(document).find("._cost_center_id").val();
+var _master_store_id = $(document).find("._master_store_id").val();
+
+if(_master_organization_id ==""){
+  
+  alert('Please Select Organization/Company');
+  return false;
+}
+if(_master_branch_id ==""){
+  alert('Please Select Branch/Division');
+  return false;
+}
+
+if(_cost_center_id ==""){
+  alert('Please Select Cost Center/Project');
+  return false;
+}
+if(_master_store_id ==""){
+  alert('Please Select Store');
+  return false;
+}
+
+
+
    var _item_row_count = parseFloat($(document).find('._item_row_count').val());
    var _item_row_count = (parseFloat(_item_row_count)+1);
   $("._item_row_count").val(_item_row_count)
+
+  
 
       $("#area__purchase_details").append(`<tr class="_purchase_row">
                                               <td>
@@ -1698,7 +1783,7 @@ function purchase_row_add(event){
                                                 <input type="number" name="conversion_qty[]" min="0" step="any" class="form-control conversion_qty " value="1" readonly>
                                                 <input type="number" name="_base_rate[]" min="0" step="any" class="form-control _base_rate "  readonly>
                                               </td>
-                                              <td class="@if($form_settings->_show_unit==0) display_none @endif">
+                                              <td class="">
                                                 <select class="form-control _transection_unit" name="_transection_unit[]">
                                                 </select>
                                               </td>
@@ -1788,6 +1873,12 @@ function purchase_row_add(event){
                                               
                                               
                                             </tr>`);
+
+
+
+change_all_branch(_master_branch_id);
+change_all_cost_center(_cost_center_id)
+change_all_store(_master_store_id)
 
 }
  $(document).on('click','._purchase_row_remove',function(event){

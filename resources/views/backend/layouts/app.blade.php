@@ -136,6 +136,37 @@ $currentURL = URL::full();
 
 <script type="text/javascript">
 
+
+  $(document).on('change','._master_branch_id',function(){
+     var _master_branch_id = $(this).val();
+     change_all_branch(_master_branch_id);
+  })
+
+  function change_all_branch(_master_branch_id){
+    $(document).find("._main_branch_id_detail").val(_master_branch_id).change();
+  }
+
+
+  $(document).on('change','._cost_center_id',function(){
+     var _cost_center_id = $(this).val();
+     change_all_cost_center(_cost_center_id);
+  })
+
+  function change_all_cost_center(_cost_center_id){
+    $(document).find("._main_cost_center").val(_cost_center_id).change();
+  }
+
+  $(document).on('change','._master_store_id',function(){
+     var _master_store_id = $(this).val();
+     change_all_store(_master_store_id);
+  })
+
+  function change_all_store(_master_store_id){
+    $(document).find("._main_store_id").val(_master_store_id).change();
+  }
+
+
+
 $(document).ready(function(){
   $(document).find("#spinner_div").hide();
 })

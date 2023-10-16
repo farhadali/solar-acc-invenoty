@@ -17,6 +17,11 @@ return [
 
 
 
+    'select_organization' => 'Select Organization',
+    'select_branch' => 'Select Branch/Division',
+    'select_cost_center' => 'Select Cost Center/Project',
+    'store_house' => 'Store',
+    'select_store' => 'Select Store',
     'material_issued' => 'Material Issue',
     'chain_name' => 'Chain Name',
     'chain_type' => 'Chain Type',
