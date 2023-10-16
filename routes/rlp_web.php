@@ -2,7 +2,7 @@
 
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\RLP\RlpController;
 
 //##########################
 //  RLP Section Start
@@ -10,6 +10,4 @@ use Illuminate\Support\Facades\Route;
 //#########
 
 
-Route::get('rlp',function(){
-	return "ok done";
-});
+Route::resource('rlp',RlpController::class);

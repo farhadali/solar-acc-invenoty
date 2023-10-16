@@ -4,6 +4,7 @@ namespace App\Http\Controllers\RLP;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Auth;
 
 class RlpController extends Controller
 {
@@ -14,7 +15,10 @@ class RlpController extends Controller
      */
     public function index()
     {
-        //
+        $page_name="RLP Information";
+        $datas =[];
+
+        return view('rlp-module.rlp.index',compact('page_name','datas'));
     }
 
     /**
@@ -24,7 +28,13 @@ class RlpController extends Controller
      */
     public function create()
     {
-        //
+        $page_name="RLP Information";
+        $users = \Auth::user();
+        $permited_branch = permited_branch(explode(',',$users->branch_ids));
+        $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
+        $permited_organizations = permited_organization(explode(',',$users->organization_ids));
+
+        return view('rlp-module.rlp.create',compact('page_name','permited_branch','permited_costcenters','permited_organizations'));
     }
 
     /**
@@ -35,7 +45,7 @@ class RlpController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return $request->all();
     }
 
     /**
