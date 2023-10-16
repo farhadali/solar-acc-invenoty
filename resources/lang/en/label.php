@@ -16,6 +16,8 @@ return [
 
 
 
+    'chain_name' => 'Chain Name',
+    'chain_type' => 'Chain Type',
     'budget-compare-report' => 'Budget Compare Report',
     'organization_id' => 'Organization',
     'search' => 'Search',
