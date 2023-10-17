@@ -588,6 +588,12 @@ Route::get('item-history-update','App\Http\Controllers\InventoryReportController
     Route::post('report-stock-ledger','App\Http\Controllers\InventoryReportController@reportStockLedger');
     Route::get('stock-ledger','App\Http\Controllers\InventoryReportController@filterStockLedger');
     Route::get('reset-stock-ledger','App\Http\Controllers\InventoryReportController@resetStockLedger');
+
+    Route::post('report-stock-ledger-history','App\Http\Controllers\InventoryReportController@reportStockLedgerHistory');
+    Route::get('stock-ledger-history','App\Http\Controllers\InventoryReportController@filterStockLedgerHistory');
+    Route::get('reset-stock-ledger-history','App\Http\Controllers\InventoryReportController@resetStockLedgerHistory');
+
+
     Route::get('stock-ledger-cat-item','App\Http\Controllers\InventoryReportController@stockLedgerCatItem');
 
     Route::post('report-single-stock-ledger','App\Http\Controllers\InventoryReportController@reportSingleStockLedger');

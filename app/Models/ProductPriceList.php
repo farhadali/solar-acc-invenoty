@@ -41,4 +41,22 @@ class ProductPriceList extends Model
     public function unit_conversion(){
        return $this->hasMany(UnitConversion::class,'_item_id','_item_id')->where('_status',1);
     }
+
+    public function _lot_wise_sales_details(){
+        return $this->hasMany(SalesDetail::class,'_p_p_l_id','id')->with(['_sales_barcodes','_sales_master']);
+    }
+    public function _lot_wise_sales_return_details(){
+        return $this->hasMany(SalesReturnDetail::class,'_p_p_l_id','id')->with(['_sales_return_barcodes','_sales_return_master']);
+    }
+    
+    //Material Issue
+
+    //Material Issue Return 
+
+
+    //Damage Adjustment
+
+
+    
+
 }

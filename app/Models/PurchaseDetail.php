@@ -33,5 +33,24 @@ class PurchaseDetail extends Model
       return $this->hasOne(ProductPriceList::class,'_purchase_detail_id','id')->where('_input_type','purchase')
       ->select('id','_item_id','_purchase_detail_id');
     }
+
+    public function _lot_product_history(){
+      return $this->hasOne(ProductPriceList::class,'_purchase_detail_id','id')->with(['_lot_wise_sales_details','_lot_wise_sales_return_details']);
+    }
+
+    public function _purchase_barcode(){
+        return $this->hasMany(PurchaseBarcode::class,'_no_detail_id','id');
+    }
+
+    public function _purchase_master(){
+        return $this->hasOne(Purchase::class,'id','_no')->with(['_ledger']);
+    }
+
+    public function _purchase_return_details(){
+        return $this->hasMany(PurchaseReturnDetail::class,'_purchase_detal_ref','id')->with(['_purchase_return_barcodes','_purchase_return_master']);
+    }
+
+
+    
     
 }

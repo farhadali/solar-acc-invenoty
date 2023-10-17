@@ -43,4 +43,12 @@ class SalesDetail extends Model
     // public function _p_p_l(){
     // 	return $this->hasOne(ProductPriceList::class,'id','_p_p_l_id')->select('_qty');
     // }
+
+    public function _sales_barcodes(){
+     return $this->hasMany(SalesBarcode::class,'_no_detail_id','id');
+    }
+
+    public function _sales_master(){
+     return $this->hasOne(Sales::class,'id','_no')->with(['_ledger']);
+    }
 }

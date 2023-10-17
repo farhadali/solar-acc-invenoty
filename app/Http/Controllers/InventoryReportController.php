@@ -1157,6 +1157,8 @@ public function resetStockPossition(){
   return redirect()->back();
 }
 
+
+
 public function filterStockLedger(Request $request){
       $previous_filter= Session::get('filter_stock_ledger');
       $page_name = "Stock Ledger";
@@ -1289,6 +1291,100 @@ public function resetStockLedger(){
   Session::flash('filter_stock_ledger');
   return redirect()->back();
 }
+
+
+public function filterStockLedgerHistory(Request $request){
+      $previous_filter= Session::get('filter_stock_ledger_history');
+      $page_name = "Stock Ledger History";
+      $users = Auth::user();
+      $permited_branch = permited_branch(explode(',',$users->branch_ids));
+      $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
+      $datas=[];
+      $_datex =  change_date_format($request->_datex);
+      $_datey=  change_date_format($request->_datey);
+      $stores = StoreHouse::get();
+       $categories = DB::select( " SELECT DISTINCT t1._category_id FROM item_inventories AS t1" );
+      $_categories_ids = [];
+      foreach ($categories as $value) {
+        array_push($_categories_ids, intval($value->_category_id));
+      }
+     $_item_categories = ItemCategory::with(['_parents'])->whereIn('id',$_categories_ids)->get();
+      
+        return view('backend.inventory-report.filter_stock_ledger_history',compact('page_name','previous_filter','permited_branch','permited_costcenters','_datex','_datey','request','stores','_item_categories'));
+}
+
+
+
+
+public function reportStockLedgerHistory(Request $request){
+
+    
+
+      $this->validate($request, [
+            '_item_id' => 'required',
+        ]);
+
+        session()->put('filter_stock_ledger_history', $request->all());
+        $previous_filter= Session::get('filter_stock_ledger_history');
+        $page_name = "Stock Ledger History";
+        
+        $users = Auth::user();
+        $permited_branch = permited_branch(explode(',',$users->branch_ids));
+        $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
+        $permited_organizations = permited_organization(explode(',',$users->cost_center_ids));
+
+       
+       
+
+   
+     $_items = $request->_item_id;
+    $request_branchs = $request->_branch_id ?? [];
+    $request_cost_centers = $request->_cost_center ?? [];
+    $request_organization_ids = $request->organization_id ?? [];
+
+      $_stores = $request->_store ?? [];
+      if(sizeof($_stores) ==0){
+        $stores_all = permited_stores(explode(',',$users->store_ids));
+        foreach ($stores_all as $value) {
+          array_push($_stores, (int) $value->id);
+        }
+      }
+
+
+      $_branch_ids = filterableBranch($request_branchs,$permited_branch);
+      $_cost_center_ids = filterableCostCenter($request_cost_centers,$permited_costcenters);
+      
+
+      
+      $_branch_ids_rows = implode(',', $_branch_ids);
+      $_cost_center_id_rows = implode(',', $_cost_center_ids);
+      $_stores_id_rows = implode(',', $_stores);
+
+
+      $request_organizations = $request->organization_id ?? [];
+      $permited_organizations = permited_organization(explode(',',$users->organization_ids));
+      $_organization_ids = filterableOrganization($request_organizations,$permited_organizations);
+      $_organization_id_rows = implode(',', $_organization_ids);
+
+       $datas = PurchaseDetail::with(['_purchase_master','_purchase_barcode','_purchase_master','_lot_product_history','_purchase_return_details'])->where('_item_id',$request->_item_id)->get();
+      
+      
+return $datas;
+die();
+
+     
+        return view('backend.inventory-report.report_stock_ledger_history',compact('request','page_name','previous_filter','datas'));
+    }
+
+
+
+public function resetStockLedgerHistory(){
+  Session::flash('filter_stock_ledger_history');
+  return redirect()->back();
+}
+
+
+
 
 public function filterSingleStockLedger(Request $request){
       $previous_filter= Session::get('filter_single_stock_ledger');

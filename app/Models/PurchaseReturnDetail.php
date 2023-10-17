@@ -43,4 +43,12 @@ class PurchaseReturnDetail extends Model
     public function _product_price_item(){
         return $this->hasOne(ProductPriceList::class,'_purchase_detail_id','_purchase_detal_ref')->where('_input_type','purchase');
     }
+
+
+    public function _purchase_return_barcodes(){
+        return $this->hasMany(PurchaseReturnBarcode::class,'_no_detail_id','id');
+    }
+    public function _purchase_return_master(){
+        return $this->hasOne(PurchaseReturn::class,'id','_no')->with(['_ledger']);
+    }
 }
