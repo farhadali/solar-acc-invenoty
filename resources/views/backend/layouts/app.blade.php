@@ -136,34 +136,52 @@ $currentURL = URL::full();
 
 <script type="text/javascript">
 
+ function check_select_org_branch_cost_center(){
+    var _master_organization_id = $(document).find("._master_organization_id").val();
+    var _master_branch_id = $(document).find("._master_branch_id").val();
+    var _cost_center_id = $(document).find("._cost_center_id").val();
+    if(_master_organization_id ==""){
+      alert('Please Select Organization/Company');
+        return false;
+      }
+      if(_master_branch_id ==""){
+        alert('Please Select Branch/Division');
+        return false;
+      }
 
-  $(document).on('change','._master_branch_id',function(){
-     var _master_branch_id = $(this).val();
-     change_all_branch(_master_branch_id);
-  })
-
-  function change_all_branch(_master_branch_id){
-    $(document).find("._main_branch_id_detail").val(_master_branch_id).change();
+      if(_cost_center_id ==""){
+        alert('Please Select Cost Center/Project');
+        return false;
+      }
   }
+  
+  // $(document).on('change','._master_branch_id',function(){
+  //    var _master_branch_id = $(this).val();
+  //    change_all_branch(_master_branch_id);
+  // })
+
+  // function change_all_branch(_master_branch_id){
+  //   $(document).find("._main_branch_id_detail").val(_master_branch_id).change();
+  // }
 
 
-  $(document).on('change','._cost_center_id',function(){
-     var _cost_center_id = $(this).val();
-     change_all_cost_center(_cost_center_id);
-  })
+  // $(document).on('change','._cost_center_id',function(){
+  //    var _cost_center_id = $(this).val();
+  //    change_all_cost_center(_cost_center_id);
+  // })
 
-  function change_all_cost_center(_cost_center_id){
-    $(document).find("._main_cost_center").val(_cost_center_id).change();
-  }
+  // function change_all_cost_center(_cost_center_id){
+  //   $(document).find("._main_cost_center").val(_cost_center_id).change();
+  // }
 
-  $(document).on('change','._master_store_id',function(){
-     var _master_store_id = $(this).val();
-     change_all_store(_master_store_id);
-  })
+  // $(document).on('change','._master_store_id',function(){
+  //    var _master_store_id = $(this).val();
+  //    change_all_store(_master_store_id);
+  // })
 
-  function change_all_store(_master_store_id){
-    $(document).find("._main_store_id").val(_master_store_id).change();
-  }
+  // function change_all_store(_master_store_id){
+  //   $(document).find("._main_store_id").val(_master_store_id).change();
+  // }
 
 
 

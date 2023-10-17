@@ -1159,10 +1159,11 @@ SELECT s1.id as _p_p_l_id,s1._item_id,s1._qty
        $text_val = trim($request->_text_val);
         if($text_val =='%'){ $text_val=''; }
         
-        $datas = DB::select(" SELECT p.id, p._item as _name, p._item_id, p._unit_id, p._barcode,p._warranty, p._manufacture_date,p._unique_barcode, p._expire_date, p._qty, p._sales_rate, p._pur_rate, p._sales_discount, p._sales_vat, p._purchase_detail_id, p._master_id, p._branch_id, p._cost_center_id, p._store_id, p._store_salves_id,un._name as _unit_name
+        $datas = DB::select(" SELECT s._name as _store_name, p.id, p._item as _name, p._item_id, p._unit_id, p._barcode,p._warranty, p._manufacture_date,p._unique_barcode, p._expire_date, p._qty, p._sales_rate, p._pur_rate, p._sales_discount, p._sales_vat, p._purchase_detail_id, p._master_id, p._branch_id, p._cost_center_id, p._store_id, p._store_salves_id,un._name as _unit_name
          FROM  product_price_lists as p
          INNER JOIN units as un ON un.id=p._unit_id
-           WHERE  p._status = 1 and  (p._barcode like '%$text_val%' OR p._item like '%$text_val%'  ) and p._branch_id in ($users->branch_ids) and p._cost_center_id in ($users->cost_center_ids) AND p._unique_barcode !=1 AND  p._qty> 0 order by $asc_cloumn $_asc_desc LIMIT $limit ");
+         LEFT JOIN store_houses as s ON s.id=p._store_id
+           WHERE  p._status = 1 and  (p._barcode like '%$text_val%' OR p._item like '%$text_val%'  ) and p._branch_id in ($users->branch_ids) AND p._cost_center_id in ($users->cost_center_ids) AND p._store_id in ($users->store_ids) AND p._unique_barcode !=1 AND  p._qty > 0 order by $asc_cloumn $_asc_desc LIMIT $limit ");
         $datas["data"]=$datas;
         return json_encode( $datas);
     }

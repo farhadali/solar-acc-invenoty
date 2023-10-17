@@ -110,6 +110,20 @@
         </select>
       </div>
       <div class="form-group row">
+        <label for="_show_branch" class="col-sm-5 col-form-label">Show Branch</label>
+        <select class="form-control col-sm-7" name="_show_branch">
+          <option value="0" @if(isset($form_settings->_show_branch))@if($form_settings->_show_branch==0) selected @endif @endif>NO</option>
+          <option value="1" @if(isset($form_settings->_show_branch))@if($form_settings->_show_branch==1) selected @endif @endif>YES</option>
+        </select>
+      </div>
+      <div class="form-group row">
+        <label for="_show_cost_center" class="col-sm-5 col-form-label">Show Cost Centere</label>
+        <select class="form-control col-sm-7" name="_show_cost_center">
+          <option value="0" @if(isset($form_settings->_show_cost_center))@if($form_settings->_show_cost_center==0) selected @endif @endif>NO</option>
+          <option value="1" @if(isset($form_settings->_show_cost_center))@if($form_settings->_show_cost_center==1) selected @endif @endif>YES</option>
+        </select>
+      </div>
+      <div class="form-group row">
         <label for="_show_self" class="col-sm-5 col-form-label">Show Shelf</label>
         <select class="form-control col-sm-7" name="_show_self">
           <option value="0" @if(isset($form_settings->_show_self))@if($form_settings->_show_self==0) selected @endif @endif>NO</option>
@@ -138,20 +152,8 @@
         </select>
       </div>
       
-      <div class="form-group row">
-        <label for="_show_p_balance" class="col-sm-5 col-form-label">Invoice Show Previous Balance</label>
-        <select class="form-control col-sm-7" name="_show_p_balance">
-          <option value="0" @if(isset($form_settings->_show_p_balance))@if($form_settings->_show_p_balance==0) selected @endif @endif>NO</option>
-          <option value="1" @if(isset($form_settings->_show_p_balance))@if($form_settings->_show_p_balance==1) selected @endif @endif>YES</option>
-        </select>
-      </div>
-      <div class="form-group row">
-        <label for="_show_due_history" class="col-sm-5 col-form-label">Show Due Invoice</label>
-        <select class="form-control col-sm-7" name="_show_due_history">
-          <option value="0" @if(isset($form_settings->_show_due_history))@if($form_settings->_show_due_history==0) selected @endif @endif>NO</option>
-          <option value="1" @if(isset($form_settings->_show_due_history))@if($form_settings->_show_due_history==1) selected @endif @endif>YES</option>
-        </select>
-      </div>
+      
+      
       
       <div class="form-group row">
         <label for="_invoice_template" class="col-sm-5 col-form-label">Invoice Template</label>
@@ -165,76 +167,7 @@
         </select>
       </div>
 
-      @php
-      $_string_ids = $form_settings->_cash_customer ?? 0;
-      if($_string_ids !=0){
-        $_cash_customer = explode(",",$_string_ids);
-      }else{
-        $_cash_customer =[];
-      }
-      @endphp
-      <div class="form-group row">
-        <label for="_cash_customer" class="col-sm-4 col-form-label">Cash Customer</label>
-        <select class="form-control col-sm-8 select2" name="_cash_customer[]" multiple size="8">
-          @forelse($_cash_customers as $value)
-          <option value="{{$value->id}}" @if(in_array($value->id,$_cash_customer)) selected @endif >{{ $value->_name ?? '' }}</option>
-          @empty
-          @endforelse
-         
-        </select>
-      </div>
-      <br><br><br>
-      <div class="form-group row">
-        <label for="_defaut_customer" class="col-sm-4 col-form-label">Default Customer</label>
-        <select class="form-control col-sm-8 " name="_defaut_customer"  >
-            <option value="">Select Customer</option>
-          @forelse($_cash_customers as $value)
-          <option value="{{$value->id}}" @if($value->id==$form_settings->_defaut_customer) selected @endif >{{ $value->_name ?? '' }}</option>
-          @empty
-          @endforelse
-         
-        </select>
-      </div>
-      <div class="form-group row">
-        <label for="_is_header" class="col-sm-5 col-form-label">Invoice Header Show</label>
-        <select class="form-control col-sm-7" name="_is_header">
-          <option value="0" @if(isset($form_settings->_is_header))@if($form_settings->_is_header==0) selected @endif @endif>NO</option>
-          <option value="1" @if(isset($form_settings->_is_header))@if($form_settings->_is_header==1) selected @endif @endif>YES</option>
-        </select>
-      </div>
-      <div class="form-group row">
-        <label for="_is_footer" class="col-sm-5 col-form-label">Invoice Footer Show</label>
-        <select class="form-control col-sm-7" name="_is_footer">
-          <option value="0" @if(isset($form_settings->_is_footer))@if($form_settings->_is_footer==0) selected @endif @endif>NO</option>
-          <option value="1" @if(isset($form_settings->_is_footer))@if($form_settings->_is_footer==1) selected @endif @endif>YES</option>
-        </select>
-      </div>
-      <div class="form-group row">
-        <label for="_margin_top" class="col-sm-5 col-form-label">Invoice Margin top</label>
-         <input id="_margin_top" class="form-control col-sm-7" type="text" name="_margin_top" value="@if(isset($form_settings->_margin_top)){{$form_settings->_margin_top}} @endif">
-      </div>
-      <div class="form-group row">
-        <label for="_margin_bottom" class="col-sm-5 col-form-label">Invoice Margin Bottom</label>
-         <input id="_margin_bottom" class="form-control col-sm-7" type="text" name="_margin_bottom" value="@if(isset($form_settings->_margin_bottom)){{$form_settings->_margin_bottom}} @endif">
-      </div>
-      <div class="form-group row">
-        <label for="_margin_left" class="col-sm-5 col-form-label">Invoice Margin Left</label>
-         <input id="_margin_left" class="form-control col-sm-7" type="text" name="_margin_left" value="@if(isset($form_settings->_margin_left)){{$form_settings->_margin_left}} @endif">
-      </div>
-      <div class="form-group row">
-        <label for="_margin_right" class="col-sm-5 col-form-label">Invoice Margin Right</label>
-         <input id="_margin_right" class="form-control col-sm-7" type="text" name="_margin_right" value="@if(isset($form_settings->_margin_right)){{$form_settings->_margin_right}} @endif">
-      </div>
-      <div class="form-group row">
-        <label for="_seal_image" class="col-sm-5 col-form-label">Authorised Signature</label>
-        <div class="col-sm-7">
-          <input id="_seal_image" class="form-control " type="file" name="_seal_image" value="@if(isset($form_settings->_seal_image)){{$form_settings->_seal_image}} @endif" onchange="loadFile(event,1 )">
-         
-         <img id="output_1" class="banner_image_create" src="{{asset('/')}}{{$form_settings->_seal_image ?? ''}}"  style="max-height:100px;max-width: 100px; " />
-        </div>
-         
-         
-         
+     
       </div>
       <br><br><br>
 

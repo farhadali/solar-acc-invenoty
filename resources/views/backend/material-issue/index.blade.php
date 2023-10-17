@@ -83,26 +83,22 @@ $__user= Auth::user();
                   <table class="table table-bordered _list_table">
                       <thead>
                         <tr>
-                         <th class=""><b>Action</b></th>
-                         <th class=""><b>ID</b></th>
-                         <th class=""><b>Date</b></th>
-                         
+                         <th class=""><b>{{__('label.action')}}</b></th>
+                         <th class=""><b>{{__('label.id')}}</b></th>
+                         <th class=""><b>{{__('label._date')}}</b></th>
                          <th class=""><b>{{__('label.organization')}}</b></th>
+                         <th class=""><b>{{__('label._branch_id')}}</b></th>
+                         <th class=""><b>{{__('label._cost_center_id')}}</b></th>
+                         <th class=""><b>{{__('label.issue_number')}}</b></th>
+                         <th class=""><b>{{__('label._referance')}}</b></th>
+                         <th class=""><b>{{__('label._ledger_id')}}</b></th>
+                         <th class=""><b>{{__('label._sub_total')}}</b></th>
+                         <th class=""><b>{{__('label._total')}}</b></th>
+                         <th class=""><b>{{__('label._user_name')}}</b></th>
+                         <th class=""><b>{{__('label.created_at')}}</b></th>
+                         <th class=""><b>{{__('label.updated_at')}}</b></th>
+                         <th class=""><b>{{__('label._lock')}}</b></th>
                          
-                         @if(sizeof($permited_branch) !=1)
-                         <th class=""><b>Branch</b></th>
-                         @endif
-                         <th class=""><b>Order Number</b></th>
-                         <th class=""><b>Order Ref</b></th>
-                         <th class=""><b>Referance</b></th>
-                         <th class=""><b>Ledger</b></th>
-                         <th class=""><b>Sub Total</b></th>
-                         <th class=""><b>VAT</b></th>
-                         <th class=""><b>Total</b></th>
-                         <th class=""><b>User</b></th>
-                         <th class=""><b>Created At</b></th>
-                         <th class=""><b>Updated At</b></th>
-                         <th class="">Lock</th>
                       </tr>
                       </thead>
                       <tbody>
@@ -115,11 +111,7 @@ $__user= Auth::user();
                            $sum_of_amount += $data->_total ?? 0;
                            $sum_of_sub_total += $data->_sub_total ?? 0;
                         @endphp
-
-                       
-
                         <tr>
-                            
                             
                           <td style="display: flex;">
                               <div class="dropdown mr-1">
@@ -127,13 +119,8 @@ $__user= Auth::user();
                                     Action
                                   </button>
                                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                     <a class="dropdown-item " href="{{url('material-issue/print')}}/{{$data->id}}" >
-                                         View & Print
-                                      </a>
+                                     <a class="dropdown-item " href="{{url('material-issue/print')}}/{{$data->id}}" >View & Print</a>
                                      
-                                     <a class="dropdown-item " href="{{url('net-sales-after-return')}}/{{$data->id}}" >
-                                         Net Sales After Return
-                                      </a>
                                      <a class="dropdown-item " href="{{url('material-issue/challan')}}/{{$data->id}}" >
                                          Challan
                                       </a>
@@ -153,24 +140,18 @@ $__user= Auth::user();
                                    
                                   </div>
                                 </div>
-                                <a class="btn btn-sm btn-default _action_button _single_data_click" attr_invoice_id="{{$data->id}}" _attr_key="{{$key}}" data-toggle="collapse" href="#collapseExample__{{$key}}" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                <a class="btn btn-sm btn-default  " attr_invoice_id="{{$data->id}}" _attr_key="{{$key}}" data-toggle="collapse" href="#collapseExample__{{$key}}" role="button" aria-expanded="false" aria-controls="collapseExample">
                                       <i class=" fas fa-angle-down"></i></a>
                             </td>
                             <td>{{ $data->id }}</td>
                             <td>{{ _view_date_formate($data->_date ?? '') }}</td>
-                            
                             <td>{{ $data->_organization->_name ?? '' }}</td>
-                           
-                            @if(sizeof($permited_branch) !=1)
                             <td>{{ $data->_master_branch->_name ?? '' }}</td>
-                            @endif
-
+                            <td>{{ $data->_master_cost_center->_name ?? '' }}</td>
                             <td>{{ $data->_order_number ?? '' }}</td>
-                            <td>{{ $data->_order_ref_id ?? '' }}</td>
                             <td>{{ $data->_referance ?? '' }}</td>
                             <td>{{ $data->_ledger->_name ?? '' }}</td>
                             <td>{{ _report_amount( $data->_sub_total ?? 0) }} </td>
-                            <td>{{ _report_amount( $data->_total_vat ?? 0) }} </td>
                             <td>{{ _report_amount( $data->_total ?? 0) }} </td>
                             <td>{{ $data->_user_name ?? ''  }}</td>
                             <td>{{ $data->created_at ?? ''  }}</td>
@@ -196,7 +177,57 @@ $__user= Auth::user();
                         <tr>
                           <td colspan="14" class="collapse " id="collapseExample__{{$key}}">
                             <div class="_single_data_display__{{$data->id}}">
-                              <h2 style="color: green">Loading..............</h2>
+                              @php
+                              $_master_details = $data->_master_details ?? [];
+                              @endphp
+                              @if(sizeof($_master_details) > 0)
+                              <table class="table table-bordered">
+                                <thead>
+                                  <tr>
+                                    <th>{{__('label.sl')}}</th>
+                                    <th>{{__('label._item')}}</th>
+                                    <th>{{__('label._unit')}}</th>
+                                    <th>{{__('label._qty')}}</th>
+                                    <th>{{__('label._cost_rate')}}</th>
+                                    <th>{{__('label._issue_rate')}}</th>
+                                    <th>{{__('label._value')}}</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+
+                                  @php
+                                   $invoice_total_qty=0;
+                                   $invoice_total_amount=0;
+                                  @endphp
+                                  @forelse($_master_details as $m_key=>$m_detail)
+                                  @php
+                                   $invoice_total_qty +=$m_detail->_qty ?? 0;
+                                   $invoice_total_amount +=$m_detail->_value ?? 0;
+                                  @endphp
+                                  <tr>
+                                    <td>{!! ($m_key+1) !!}</td>
+                                    <td>{!! $m_detail->_items->_name ?? '' !!}</td>
+                                    <td>{!! $m_detail->_items->_units->_name ?? '' !!}</td>
+                                    <td>{!! _report_amount($m_detail->_qty ?? 0) !!}</td>
+                                    <td>{!! _report_amount($m_detail->_rate ?? 0) !!}</td>
+                                    <td>{!! _report_amount($m_detail->_sales_rate ?? 0) !!}</td>
+                                    <td>{!! _report_amount($m_detail->_value ?? 0) !!}</td>
+                                  </tr>
+                                  @empty
+                                  @endforelse
+                                </tbody>
+                                <tfoot>
+                                  <tr>
+                                    <th colspan="3">Total</th>
+                                    <th>{!! _report_amount($invoice_total_qty) !!}</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th>{!! _report_amount($invoice_total_amount) !!}</th>
+                                  </tr>
+                                </tfoot>
+                              </table>
+
+                              @endif
                             </div>
                             
                           </td>
@@ -204,16 +235,9 @@ $__user= Auth::user();
                           
                         @endforeach
                         <tr>
-                          @php
-                          if(sizeof($permited_branch) !=1){
-                          $conspan=7;
-                        }else{
-                           $conspan=8;
-                      }
-                          @endphp
-                          <td colspan="{{$conspan}}" class="text-center"><b>Total</b></td>
+                        
+                          <td colspan="8" class="text-center"><b>Total</b></td>
                           <td><b>{{ _report_amount($sum_of_sub_total) }} </b></td>
-                          <td></td>
                           <td><b>{{ _report_amount($sum_of_amount) }} </b></td>
                           <td></td>
                           <td></td>

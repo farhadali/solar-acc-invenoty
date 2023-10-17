@@ -82,7 +82,8 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::group(['middleware' => ['auth']], function() {
 
 Route::resource('material-issue',MaterialIssueController::class);
-
+Route::post('material-issue-setting', 'App\Http\Controllers\MaterialIssueController@Settings');
+Route::get('material-issue-setting-modal', 'App\Http\Controllers\MaterialIssueController@formSettingAjax');
 
 //#########################
 // Budgets Section Start
@@ -283,6 +284,9 @@ Route::get('book_table_list_ajax', 'App\Http\Controllers\ResturantSalesControlle
 
     Route::post('sales-settings', 'App\Http\Controllers\SalesController@Settings');
     Route::get('sales-setting-modal', 'App\Http\Controllers\SalesController@formSettingAjax');
+
+
+    
     
     Route::get('item-sales-search', 'App\Http\Controllers\SalesController@itemSalesSearch');
     Route::get('item-damage-search', 'App\Http\Controllers\SalesController@itemDamageSearch');

@@ -948,10 +948,18 @@ if (! function_exists('warranty_prefix')) {
         return $data->_prefix ?? '';
     }
 }
+
 if (! function_exists('_sales_pfix')) {
     function _sales_pfix()
     {
         $data= InvoicePrefix::where('_table_name','sales')->select('_prefix')->first();
+        return $data->_prefix ?? '';
+    }
+}
+if (! function_exists('_issue_pfix')) {
+    function _issue_pfix()
+    {
+        $data= InvoicePrefix::where('_table_name','material_issues')->select('_prefix')->first();
         return $data->_prefix ?? '';
     }
 }

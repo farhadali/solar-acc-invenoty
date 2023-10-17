@@ -315,7 +315,7 @@ $__user= Auth::user();
                                                 <input type="number" name="_discount[]" class="form-control  _discount _common_keyup" value="<?php echo e($detail->_discount); ?>">
                                               </td>
                                               <td class="<?php if($form_settings->_inline_discount == 0): ?> display_none <?php endif; ?>">
-                                                <input type="number" name="_discount_amount[]" class="form-control  _discount_amount _discount " value="<?php echo e($detail->_discount_amount); ?>">
+                                                <input type="number" name="_discount_amount[]" class="form-control  _discount_amount  " value="<?php echo e($detail->_discount_amount); ?>">
                                               </td>
                                               <?php if(isset($form_settings->_show_vat)): ?> <?php if($form_settings->_show_vat==1): ?>
                                               <td>
