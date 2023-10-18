@@ -327,6 +327,19 @@
             <i class="nav-icon fas fa-plus"></i>
           </a>
         </div>
+         <?php endif; ?>
+         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('material-issue-return-list')): ?>
+         <div class="dropdown-divider"></div>  
+          
+        <div style="display: flex;">
+           <a href="<?php echo e(url('material-issue-return')); ?>" class="dropdown-item">
+            <i class="fa fa-arrow-circle-down mr-2" aria-hidden="true"></i> <?php echo e(__('label.material_issue_return')); ?>
+
+          </a>
+           <a  href="<?php echo e(route('material-issue-return.create')); ?>" class="dropdown-item text-right">
+            <i class="nav-icon fas fa-plus"></i>
+          </a>
+        </div>
          <?php endif; ?>  
           
        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('sales-order-list')): ?>
@@ -1214,10 +1227,10 @@
           <a href="<?php echo e(url('cost-center')); ?>" class="dropdown-item">
            <i class="fa fa-adjust mr-2" aria-hidden="true"></i> <?php echo e(__('label.Cost center')); ?> 
           </a>
-            <a   href="#None" 
-          class="dropdown-item text-right attr_base_create_url"
-            data-toggle="modal" data-target="#commonEntryModal_item" 
-            attr_base_create_url="<?php echo e(route('cost-center.create')); ?>"> 
+            <a   
+          class="dropdown-item text-right "
+            
+            href="<?php echo e(route('cost-center.create')); ?>"> 
             <i class="nav-icon fas fa-plus"></i> </a>
         </div>
           

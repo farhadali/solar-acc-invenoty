@@ -1,4 +1,3 @@
-
 <div class="form-group row">
         <label for="_default_inventory" class="col-sm-5 col-form-label">Default Inventory</label>
         <select class="form-control col-sm-7" name="_default_inventory">
@@ -7,7 +6,7 @@
           <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </select>
       </div>
-      <div class="form-group row display_none">
+      <div class="form-group row">
         <label for="_default_sales" class="col-sm-5 col-form-label">Default Sales Account</label>
         <select class="form-control col-sm-7" name="_default_sales">
           <?php $__currentLoopData = $p_accounts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $account): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -15,7 +14,7 @@
           <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </select>
       </div>
-      <div class="form-group row display_none">
+      <div class="form-group row">
         <label for="_default_cost_of_solds" class="col-sm-5 col-form-label">Cost of Goods Sold</label>
         <select class="form-control col-sm-7" name="_default_cost_of_solds">
           <?php $__currentLoopData = $cost_of_solds; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $account): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -40,19 +39,19 @@
         </select>
       </div>
       <div class="form-group row">
-        <label for="_show_unit" class="col-sm-5 col-form-label">Show Unit</label>
-        <select class="form-control col-sm-7" name="_show_unit">
-         
-          <option value="0" <?php if(isset($form_settings->_show_unit)): ?><?php if($form_settings->_show_unit==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
-          <option value="1" <?php if(isset($form_settings->_show_unit)): ?><?php if($form_settings->_show_unit==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
-        </select>
-      </div>
-      <div class="form-group row">
         <label for="_show_cost_rate" class="col-sm-5 col-form-label">Show Cost Rate</label>
         <select class="form-control col-sm-7" name="_show_cost_rate">
          
           <option value="0" <?php if(isset($form_settings->_show_cost_rate)): ?><?php if($form_settings->_show_cost_rate==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
           <option value="1" <?php if(isset($form_settings->_show_cost_rate)): ?><?php if($form_settings->_show_cost_rate==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
+        </select>
+      </div>
+      <div class="form-group row">
+        <label for="_show_unit" class="col-sm-5 col-form-label">Show Unit</label>
+        <select class="form-control col-sm-7" name="_show_unit">
+         
+          <option value="0" <?php if(isset($form_settings->_show_unit)): ?><?php if($form_settings->_show_unit==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
+          <option value="1" <?php if(isset($form_settings->_show_unit)): ?><?php if($form_settings->_show_unit==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
         </select>
       </div>
       <div class="form-group row">
@@ -69,14 +68,6 @@
          
           <option value="0" <?php if(isset($form_settings->_show_delivery_man)): ?><?php if($form_settings->_show_delivery_man==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
           <option value="1" <?php if(isset($form_settings->_show_delivery_man)): ?><?php if($form_settings->_show_delivery_man==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
-        </select>
-      </div>
-      <div class="form-group row">
-        <label for="_show_payment_terms" class="col-sm-5 col-form-label">Show Payment Terms</label>
-        <select class="form-control col-sm-7" name="_show_payment_terms">
-         
-          <option value="0" <?php if(isset($form_settings->_show_payment_terms)): ?><?php if($form_settings->_show_payment_terms==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
-          <option value="1" <?php if(isset($form_settings->_show_payment_terms)): ?><?php if($form_settings->_show_payment_terms==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
         </select>
       </div>
       <div class="form-group row">
@@ -110,27 +101,21 @@
         </select>
       </div>
       <div class="form-group row">
-        <label for="_show_branch" class="col-sm-5 col-form-label">Show Branch</label>
-        <select class="form-control col-sm-7" name="_show_branch">
-          <option value="0" <?php if(isset($form_settings->_show_branch)): ?><?php if($form_settings->_show_branch==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
-          <option value="1" <?php if(isset($form_settings->_show_branch)): ?><?php if($form_settings->_show_branch==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
-        </select>
-      </div>
-      <div class="form-group row">
-        <label for="_show_cost_center" class="col-sm-5 col-form-label">Show Cost Centere</label>
-        <select class="form-control col-sm-7" name="_show_cost_center">
-          <option value="0" <?php if(isset($form_settings->_show_cost_center)): ?><?php if($form_settings->_show_cost_center==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
-          <option value="1" <?php if(isset($form_settings->_show_cost_center)): ?><?php if($form_settings->_show_cost_center==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
-        </select>
-      </div>
-      <div class="form-group row">
         <label for="_show_self" class="col-sm-5 col-form-label">Show Shelf</label>
         <select class="form-control col-sm-7" name="_show_self">
           <option value="0" <?php if(isset($form_settings->_show_self)): ?><?php if($form_settings->_show_self==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
           <option value="1" <?php if(isset($form_settings->_show_self)): ?><?php if($form_settings->_show_self==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
         </select>
       </div>
-     <div class="form-group row">
+      <div class="form-group row">
+        <label for="_show_warranty" class="col-sm-5 col-form-label">Show Warranty</label>
+        <select class="form-control col-sm-7" name="_show_warranty">
+          <option value="0" <?php if(isset($form_settings->_show_warranty)): ?><?php if($form_settings->_show_warranty==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
+          <option value="1" <?php if(isset($form_settings->_show_warranty)): ?><?php if($form_settings->_show_warranty==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
+        </select>
+      </div>
+
+      <div class="form-group row">
         <label for="_show_expire_date" class="col-sm-5 col-form-label">Show Expire Date</label>
         <select class="form-control col-sm-7" name="_show_expire_date">
           <option value="0" <?php if(isset($form_settings->_show_expire_date)): ?><?php if($form_settings->_show_expire_date==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
@@ -145,32 +130,18 @@
         </select>
       </div>
       <div class="form-group row">
-        <label for="_show_warranty" class="col-sm-5 col-form-label"> Show Warranty</label>
-        <select class="form-control col-sm-7" name="_show_warranty">
-          <option value="0" <?php if(isset($form_settings->_show_warranty)): ?><?php if($form_settings->_show_warranty==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
-          <option value="1" <?php if(isset($form_settings->_show_warranty)): ?><?php if($form_settings->_show_warranty==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
+        <label for="_show_p_balance" class="col-sm-5 col-form-label">Invoice Show Previous Balance</label>
+        <select class="form-control col-sm-7" name="_show_p_balance">
+          <option value="0" <?php if(isset($form_settings->_show_p_balance)): ?><?php if($form_settings->_show_p_balance==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
+          <option value="1" <?php if(isset($form_settings->_show_p_balance)): ?><?php if($form_settings->_show_p_balance==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
         </select>
       </div>
-      
-      
-      
-      
-      <div class="form-group row">
+       <div class="form-group row">
         <label for="_invoice_template" class="col-sm-5 col-form-label">Invoice Template</label>
         <select class="form-control col-sm-7" name="_invoice_template">
           <option value="1" <?php if(isset($form_settings->_invoice_template)): ?><?php if($form_settings->_invoice_template==1): ?> selected <?php endif; ?> <?php endif; ?>>Template A</option>
           <option value="2" <?php if(isset($form_settings->_invoice_template)): ?><?php if($form_settings->_invoice_template==2): ?> selected <?php endif; ?> <?php endif; ?>>Template B</option>
           <option value="3" <?php if(isset($form_settings->_invoice_template)): ?><?php if($form_settings->_invoice_template==3): ?> selected <?php endif; ?> <?php endif; ?>>Template C</option>
           <option value="4" <?php if(isset($form_settings->_invoice_template)): ?><?php if($form_settings->_invoice_template==4): ?> selected <?php endif; ?> <?php endif; ?>>Template D</option>
-          <option value="6" <?php if(isset($form_settings->_invoice_template)): ?><?php if($form_settings->_invoice_template==6): ?> selected <?php endif; ?> <?php endif; ?>>Template E</option>
-          <option value="5" <?php if(isset($form_settings->_invoice_template)): ?><?php if($form_settings->_invoice_template==5): ?> selected <?php endif; ?> <?php endif; ?>>Pos Template</option>
         </select>
-      </div>
-
-     
-      </div>
-      <br><br><br>
-
-      <script type="text/javascript">
-         $('.select2').select2()
-      </script><?php /**PATH D:\xampp\htdocs\own\inv-acc-hrm\resources\views/backend/material-issue/form_setting_modal.blade.php ENDPATH**/ ?>
+      </div><?php /**PATH D:\xampp\htdocs\own\inv-acc-hrm\resources\views/backend/sales-return/form_setting_modal.blade.php ENDPATH**/ ?>

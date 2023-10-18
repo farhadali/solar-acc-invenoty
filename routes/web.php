@@ -55,6 +55,7 @@ use App\Http\Controllers\WItemReceiveFromSupplierController;
 
 use App\Http\Controllers\BudgetsController;
 use App\Http\Controllers\MaterialIssueController;
+use App\Http\Controllers\MaterialIssueReturnController;
 
 
 use App\Http\Controllers\PM\ProjectManagementController;
@@ -89,11 +90,27 @@ Route::post('material-issue-setting', 'App\Http\Controllers\MaterialIssueControl
 Route::get('material-issue-setting-modal', 'App\Http\Controllers\MaterialIssueController@formSettingAjax');
 Route::get('available-qty-check-for-materail-issue-update', 'App\Http\Controllers\MaterialIssueController@checkQtyUpdateFoMaterialIssue');
 Route::get('item-issue-edit-barcode-search', 'App\Http\Controllers\MaterialIssueController@itemIssueEditBarcodeSearch');
-
-
 Route::get('material-issue/print/{id}', 'App\Http\Controllers\MaterialIssueController@Print');
 Route::get('material-issue/challan/{id}', 'App\Http\Controllers\MaterialIssueController@challanPrint');
 Route::get('net-material-issue-after-return/{id}', 'App\Http\Controllers\MaterialIssueController@issueAfterReturn');
+
+
+
+
+ Route::resource('material-issue-return', MaterialIssueReturnController::class);
+    Route::post('material-issue-return/update', 'App\Http\Controllers\MaterialIssueReturnController@update');
+    Route::get('material-issue-return-reset', 'App\Http\Controllers\MaterialIssueReturnController@reset');
+    Route::get('material-issue-return/print/{id}', 'App\Http\Controllers\MaterialIssueReturnController@Print');
+    Route::post('material-issue-return-settings', 'App\Http\Controllers\MaterialIssueReturnController@Settings');
+    Route::get('material-issue-return-setting-modal', 'App\Http\Controllers\MaterialIssueReturnController@formSettingAjax');
+    Route::get('material-issue-search', 'App\Http\Controllers\MaterialIssueReturnController@orderSearch');
+    Route::get('material-issue-details', 'App\Http\Controllers\MaterialIssueReturnController@issueDetail');
+    Route::get('check-material-issue-return-available-qty', 'App\Http\Controllers\MaterialIssueReturnController@checkAvailableSalesQty');
+    Route::get('material-issue-return-money-receipt/{id}', 'App\Http\Controllers\MaterialIssueReturnController@moneyReceipt');
+    Route::post('material-issue-return-detail', 'App\Http\Controllers\MaterialIssueReturnController@salesReturnDetail');
+    
+    
+
 
 //#########################
 // Budgets Section Start

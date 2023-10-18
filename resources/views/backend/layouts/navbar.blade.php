@@ -305,6 +305,18 @@
             <i class="nav-icon fas fa-plus"></i>
           </a>
         </div>
+         @endcan
+         @can('material-issue-return-list')
+         <div class="dropdown-divider"></div>  
+          
+        <div style="display: flex;">
+           <a href="{{url('material-issue-return')}}" class="dropdown-item">
+            <i class="fa fa-arrow-circle-down mr-2" aria-hidden="true"></i> {{ __('label.material_issue_return') }}
+          </a>
+           <a  href="{{route('material-issue-return.create')}}" class="dropdown-item text-right">
+            <i class="nav-icon fas fa-plus"></i>
+          </a>
+        </div>
          @endcan  
           
        @can('sales-order-list')

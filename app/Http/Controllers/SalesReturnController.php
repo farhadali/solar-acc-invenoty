@@ -49,7 +49,7 @@ class SalesReturnController extends Controller
          $this->middleware('permission:sales-return-delete', ['only' => ['destroy']]);
          $this->middleware('permission:sales-return-print', ['only' => ['Print']]);
          $this->middleware('permission:sales-return-settings', ['only' => ['Settings']]);
-         $this->page_name = "Issued Material Return";
+         $this->page_name = "Sales Return";
     }
     /**
      * Display a listing of the resource.

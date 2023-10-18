@@ -50,7 +50,7 @@ $__user= Auth::user();
       </div><!-- /.container-fluid -->
     </div>
 
-    @php
+     @php
     $_show_delivery_man = $form_settings->_show_delivery_man ?? 0;
     $_show_sales_man = $form_settings->_show_sales_man ?? 0;
     $_show_barcode = $form_settings->_show_barcode ?? 0;
@@ -61,6 +61,9 @@ $__user= Auth::user();
     $_show_self = $form_settings->_show_self ?? 0;
     $_show_warranty = $form_settings->_show_warranty ?? 0;
     $_defaut_customer = $form_settings->_defaut_customer ?? 0;
+    $_show_unit = $form_settings->_show_unit ?? 0;
+    $_show_manufacture_date = $form_settings->_show_manufacture_date ?? 0;
+    $_show_expire_date = $form_settings->_show_expire_date ?? 0;
 
     $_show_branch = $form_settings->_show_branch ?? 0;
     $_show_cost_center = $form_settings->_show_cost_center ?? 0;
@@ -270,43 +273,31 @@ $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids
                                       <table class="table table-bordered" >
                                           <thead >
                                             <th class="text-left" >&nbsp;</th>
-                                            <th class="text-left" >Item</th>
-                                            <th class="text-left display_none" >Base Unit</th>
-                                            <th class="text-left display_none" >Con. Qty</th>
-                                            <th class="text-left " >Tran. Unit</th>
-                                          
-                                            <th class="text-left @if($_show_barcode  ==0) display_none @endif" >Barcode</th>
-                                            <th class="text-left @if($_show_warranty  ==0) display_none @endif" >Warranty</th>
+                                            <th class="text-left" >{{__('label.id')}}</th>
+                                            <th class="text-left" >{{__('label._item')}}</th>
+                                            <th class="text-left display_none" >{{__('label._base_unit')}}</th>
+                                            <th class="text-left display_none" >{{__('lable.conversion_qty')}}</th>
+                                            <th class="text-left @if($_show_unit==0) display_none @endif " >{{__('label.transection_unit')}}</th>
+                                           
+                                            <th class="text-left @if($_show_barcode == 0) display_none @endif" >{{__('label._barcode')}}</th>
+                                            <th class="text-left @if($_show_warranty==0) display_none @endif" >{{__('label._warrantry')}}</th>
+                                            <th class="text-left  " >{{__('label._qty')}}</th>
                                             
-                                            <th class="text-left" >Qty</th>
-                                            <th class="text-left @if($_show_cost_rate  ==0) display_none @endif" >Cost</th>
+                                            <th class="text-left @if($_show_cost_rate == 0) display_none @endif" >{{__('label._cost_rate')}}</th>
                                             <th class="text-left" >{{__('label.issue_rate')}}</th>
                                             
-                                            <th class="text-left  @if($_show_vat  ==0) display_none @endif" >VAT%</th>
-                                            <th class="text-left  @if($_show_vat  ==0) display_none @endif" >VAT Amount</th>
-                                           
-                                             
-                                            <th class="text-left @if($_inline_discount  ==0) display_none @endif" >Dis%</th>
-                                            <th class="text-left @if($_inline_discount  ==0) display_none @endif" >Discount</th>
-                                            <th class="text-left" >Value</th>
-
-                                            <th class="text-middle @if(isset($form_settings->_show_manufacture_date)) @if($form_settings->_show_manufacture_date==0) display_none @endif
-                                            @endif" >Manu. Date</th>
-                                             <th class="text-middle @if(isset($form_settings->_show_expire_date)) @if($form_settings->_show_expire_date==0) display_none @endif
-                                            @endif"> Expired Date </th>
-                                           
-                                            <th class="text-left  @if($_show_branch  ==0) display_none @endif " >Branch</th>
+                                            <th class="text-left @if($_show_vat == 0) display_none @endif " >{{__('label._vat')}}%</th>
+                                            <th class="text-left @if($_show_vat == 0) display_none @endif" >{{__('label._vat_amount')}}</th>
                                             
-
-
-                                            
-                                             <th class="text-left  @if($_show_cost_center ==0) display_none @endif " >Cost Center</th>
-                                            
-                                             
-                                             <th class="text-left @if($_show_store==0) display_none @endif" >Store</th>
-                                           
-                                            
-                                             <th class="text-left  @if($_show_self  ==0) display_none @endif " >Shelf</th>
+                                            <th class="text-left @if($_inline_discount == 0) display_none @endif " >{{__('label._dis')}}%</th>
+                                            <th class="text-left @if($_inline_discount == 0) display_none @endif " >{{__('label._discount_amount')}}</th>
+                                            <th class="text-left" >{{__('label._value')}}</th>
+                                             <th class="text-middle @if($_show_manufacture_date==0) display_none @endif " >{{__('label._manufacture_date')}}</th>
+                                             <th class="text-middle @if($_show_expire_date==0) display_none @endif "> {{__('label._expire_date')}} </th>
+                                            <th class="text-left   @if($_show_branch == 0) display_none @endif" >{{__('label._branch_id')}}</th>
+                                             <th class="text-left @if($_show_cost_center==0) display_none @endif" >{{__('label._cost_center_id')}}</th>
+                                             <th class="text-left @if($_show_store== 0) display_none @endif" >{{__('label.store_house')}}</th>
+                                             <th class="text-left @if($_show_self==0) display_none @endif" >{{__('label.shelf')}}</th>
                                            
                                            
                                           </thead>

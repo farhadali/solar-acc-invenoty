@@ -10,13 +10,12 @@
             <ol class="breadcrumb float-sm-right ml-2">
                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('cost-center-create')): ?>
               
-               <button type="button" 
-               class="btn btn-sm btn-info active attr_base_create_url" 
-               data-toggle="modal" 
-               data-target="#commonEntryModal_item" 
-               attr_base_create_url="<?php echo e(route('cost-center.create')); ?>">
+               <a 
+               class="btn btn-sm btn-info active " 
+                
+               href="<?php echo e(route('cost-center.create')); ?>">
                    <i class="nav-icon fas fa-plus"></i> Create New
-                </button>
+                </a>
               <?php endif; ?>
             </ol>
           </div>
@@ -68,11 +67,10 @@
 
 
                                   <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('cost-center-edit')): ?>
-                                  <button  type="button" 
-                                  attr_base_edit_url="<?php echo e(route('cost-center.edit',$data->id)); ?>"
-                                  data-toggle="modal" 
-                                  data-target="#commonEntryModal_item" 
-                                  class="btn btn-sm btn-default attr_base_edit_url mr-1"><i class="fa fa-pen "></i></button>
+                                  <a  
+                                  href="<?php echo e(route('cost-center.edit',$data->id)); ?>"
+                                   
+                                  class="btn btn-sm btn-default  mr-1"><i class="fa fa-pen "></i></a>
                                   <?php endif; ?>
                                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('cost-center-delete')): ?>
                                  <?php echo Form::open(['method' => 'DELETE','route' => ['cost-center.destroy', $data->id],'style'=>'display:inline']); ?>

@@ -17,6 +17,8 @@ return [
 
 
 
+    'issue_return_no' => 'Issue Return No',
+    'material_issue_return' => 'Material Issue Return',
     '_vat' => 'Vat',
     '_vat_amount' => 'Vat Amount',
     '_dis' => 'Dis',
