@@ -508,13 +508,13 @@ $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids
                                 <input type="number" name="_sub_total" class="form-control width_200_px" id="_sub_total" readonly value="0">
                               </td>
                             </tr>
-                            <tr class="display_none">
+                            <tr class="<?php if($_inline_discount==0): ?> display_none <?php endif; ?>">
                               <td style="border:0px;width: 20%;"><label for="_discount_input">Invoice Discount</label></td>
                               <td style="border:0px;width: 80%;">
                                 <input type="text" name="_discount_input" class="form-control width_200_px" id="_discount_input" value="0" >
                               </td>
                             </tr>
-                            <tr class="display_none">
+                            <tr class="<?php if($_inline_discount==0): ?> display_none <?php endif; ?>">
                               <td style="border:0px;width: 20%;"><label for="_total_discount">Total Discount</label></td>
                               <td style="border:0px;width: 80%;">
                                 <input type="number" name="_total_discount" class="form-control width_200_px" id="_total_discount" readonly value="0">
@@ -1416,8 +1416,8 @@ console.log(result)
 
                                    
                                    <td>${data[i]._qty} ${data[i]?._unit_name}</td>
-                                    <td>${data[i]._pur_rate}</td>
-                                    <td>${data[i]._sales_rate}</td>
+                                    <td>${data[i]?._pur_rate}</td>
+                                    <td>${data[i]?._sales_rate}</td>
                                     <td>${data[i]?._store_name}</td>
                                    </tr>`;
 
@@ -1719,67 +1719,9 @@ $(document).on("change","#_discount_input",function(){
   }
 
 
- var single_row =  `<tr class="_voucher_row">
-                      <td><a  href="" class="btn btn-sm btn-default _voucher_row_remove" ><i class="fa fa-trash"></i></a></td>
-                      <td><input type="text" name="_search_ledger_id[]" <?php if($__user->_ac_type==1): ?> attr_account_head_no="1" <?php endif; ?>  class="form-control _search_ledger_id width_280_px" placeholder="Ledger"   >
-                      <input type="hidden" name="_ledger_id[]" class="form-control _ledger_id" >
-                      <div class="search_box">
-                      </div>
-                      </td>
-                      
-                      <td class="<?php if(sizeof($permited_branch) == 1): ?> display_none <?php endif; ?> ">
-                      <select class="form-control width_150_px _branch_id_detail" name="_branch_id_detail[]"  required >
-                        <?php $__empty_1 = true; $__currentLoopData = $permited_branch; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $branch): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                            <option value="<?php echo e($branch->id); ?>" <?php if(isset($request->_branch_id)): ?> <?php if($request->_branch_id == $branch->id): ?> selected <?php endif; ?>   <?php endif; ?>><?php echo e($branch->_name ?? ''); ?></option>
-                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-                        <?php endif; ?>
-                        </select>
-                        </td>
-                       
-
-                         
-                        <td class="<?php if(sizeof($permited_costcenters) == 1): ?> display_none <?php endif; ?> ">
-                          <select class="form-control width_150_px _cost_center" name="_cost_center[]" required >
-                            <?php $__empty_1 = true; $__currentLoopData = $permited_costcenters; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $costcenter): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                              <option value="<?php echo e($costcenter->id); ?>" <?php if(isset($request->_cost_center)): ?> <?php if($request->_cost_center == $costcenter->id): ?> selected <?php endif; ?>   <?php endif; ?>> <?php echo e($costcenter->_name ?? ''); ?></option>
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-                            <?php endif; ?>
-                            </select>
-                            </td>
-                        
-                            <td><input type="text" name="_short_narr[]" class="form-control width_250_px" placeholder="Short Narr"></td>
-                            <td>
-                              <input type="number" name="_dr_amount[]" class="form-control  _dr_amount" placeholder="Dr. Amount" value="<?php echo e(old('_dr_amount',0)); ?>">
-                            </td>
-                            <td class=" <?php if($__user->_ac_type==1): ?> display_none <?php endif; ?> ">
-                              <input type="number" name="_cr_amount[]" class="form-control  _cr_amount" placeholder="Cr. Amount" value="<?php echo e(old('_cr_amount',0)); ?>">
-                              </td>
-                            </tr>`;
-
-  function voucher_row_add(event) {
-      event.preventDefault();
-      $("#area__voucher_details").append(single_row);
-  }
 
 
-  function check_select_org_branch_cost_center(){
-    var _master_organization_id = $(document).find("._master_organization_id").val();
-    var _master_branch_id = $(document).find("._master_branch_id").val();
-    var _cost_center_id = $(document).find("._cost_center_id").val();
-    if(_master_organization_id ==""){
-      alert('Please Select Organization/Company');
-        return false;
-      }
-      if(_master_branch_id ==""){
-        alert('Please Select Branch/Division');
-        return false;
-      }
-
-      if(_cost_center_id ==""){
-        alert('Please Select Cost Center/Project');
-        return false;
-      }
-  }
+ 
 
 
 function purchase_row_add(event){

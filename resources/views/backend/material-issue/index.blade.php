@@ -129,13 +129,7 @@ $__user= Auth::user();
                                           Edit
                                         </a>
                                     @endcan
-                                     @can('money-receipt-print')
                                      
-                                        <a class="dropdown-item " href="{{ url('material-issue-money-receipt') }}/{{$data->id}}">
-                                         Money Receipt
-                                        </a>
-                                    
-                                    @endcan
 
                                    
                                   </div>

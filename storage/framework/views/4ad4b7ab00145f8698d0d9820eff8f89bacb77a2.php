@@ -130,13 +130,7 @@ $__user= Auth::user();
                                           Edit
                                         </a>
                                     <?php endif; ?>
-                                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('money-receipt-print')): ?>
                                      
-                                        <a class="dropdown-item " href="<?php echo e(url('material-issue-money-receipt')); ?>/<?php echo e($data->id); ?>">
-                                         Money Receipt
-                                        </a>
-                                    
-                                    <?php endif; ?>
 
                                    
                                   </div>

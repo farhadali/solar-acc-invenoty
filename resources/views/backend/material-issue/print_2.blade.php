@@ -13,9 +13,9 @@
 }
   </style>
 <div class="_report_button_header">
- <a class="nav-link"  href="{{url('sales')}}" role="button"><i class="fa fa-arrow-left"></i></a>
- @can('sales-edit')
-    <a class="nav-link"  title="Edit" href="{{ route('sales.edit',$data->id) }}">
+ <a class="nav-link"  href="{{url('material-issue')}}" role="button"><i class="fa fa-arrow-left"></i></a>
+ @can('material-issue-edit')
+    <a class="nav-link"  title="Edit" href="{{ route('material-issue.edit',$data->id) }}">
                                       <i class="nav-icon fas fa-edit"></i>
      </a>
   @endcan
@@ -78,7 +78,7 @@
       </div>
 
       <div class="col-sm-4 invoice-col">
-       Customer:
+       Ledger:
        <address>
         <strong>@if($form_settings->_defaut_customer ==$data->_ledger_id)
                      {{ $data->_referance ?? $data->_ledger->_name }}

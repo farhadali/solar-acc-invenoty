@@ -17,6 +17,14 @@ return [
 
 
 
+    '_vat' => 'Vat',
+    '_vat_amount' => 'Vat Amount',
+    '_dis' => 'Dis',
+    '_discount_amount' => 'Discount Amount',
+    '_manufacture_date' => 'Manufacture Date',
+    '_expire_date' => 'Expire Date',
+    'shelf' => 'shelf',
+    '_warrantry' => 'Warrantry',
     '_details' => 'Details',
     'transection_unit' => 'Tran. Unit',
     '_address' => 'Address',

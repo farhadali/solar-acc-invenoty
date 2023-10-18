@@ -64,10 +64,36 @@
                       value="<?php if(isset($request->_order_number)): ?><?php echo e($request->_order_number ?? ''); ?><?php endif; ?>">
                     </div>
                   </div>
+                  
                   <div class="form-group row">
-                    <label for="_branch_id " class="col-sm-2 col-form-label">Branch:</label>
+                    <label for="_ledger_id " class="col-sm-2 col-form-label"><?php echo e(__('label._ledger_id')); ?>:</label>
                     <div class="col-sm-10">
-                        <select class="form-control" name="_branch_id" required >
+                      <input type="text" id="_search_main_ledger_id" name="_search_main_ledger_id" class="form-control _search_main_ledger_id" value="<?php if(isset($request->_search_main_ledger_id)): ?> <?php echo e($request->_search_main_ledger_id ?? ''); ?>  <?php endif; ?>" placeholder="Customer" >
+                            <input type="hidden" id="_ledger_id" name="_ledger_id" class="form-control _ledger_id" value="<?php if(isset($request->_ledger_id)): ?><?php echo e($request->_ledger_id ?? ''); ?><?php endif; ?>" placeholder="Customer" required>
+                            <div class="search_box_main_ledger"> </div>
+                    </div>
+                  </div>
+                 
+ <div class="form-group row">
+  <div class="col-xs-2 col-sm-2 col-md-2 ">
+     <label><?php echo __('label.organization'); ?>:</label>
+   </div>
+      <div class="col-xs-10 col-sm-10 col-md-10 ">
+    <select class="form-control _master_organization_id" name="organization_id"  >
+
+       <option value=""><?php echo e(__('label.select_organization')); ?></option>
+       <?php $__empty_1 = true; $__currentLoopData = $permited_organizations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+       <option value="<?php echo e($val->id); ?>" <?php if(isset($request->organization_id)): ?> <?php if($request->organization_id == $val->id): ?> selected <?php endif; ?>   <?php endif; ?>><?php echo e($val->id ?? ''); ?> - <?php echo e($val->_name ?? ''); ?></option>
+       <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+       <?php endif; ?>
+     </select>
+   </div>
+ </div>
+
+                  <div class="form-group row">
+                    <label for="_branch_id " class="col-sm-2 col-form-label"><?php echo e(__('label._branch_id')); ?>:</label>
+                    <div class="col-sm-10">
+                        <select class="form-control" name="_branch_id"  >
                                   <option value=""><?php echo __('label.select'); ?></option>
                                   <?php $__empty_1 = true; $__currentLoopData = $permited_branch; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $branch): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                                   <option value="<?php echo e($branch->id); ?>" <?php if(isset($request->_branch_id)): ?> <?php if($request->_branch_id == $branch->id): ?> selected <?php endif; ?>   <?php endif; ?>><?php echo e($branch->id ?? ''); ?> - <?php echo e($branch->_name ?? ''); ?></option>
@@ -77,18 +103,10 @@
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label for="_ledger_id " class="col-sm-2 col-form-label">Customer:</label>
-                    <div class="col-sm-10">
-                      <input type="text" id="_search_main_ledger_id" name="_search_main_ledger_id" class="form-control _search_main_ledger_id" value="<?php if(isset($request->_search_main_ledger_id)): ?> <?php echo e($request->_search_main_ledger_id ?? ''); ?>  <?php endif; ?>" placeholder="Customer" >
-                            <input type="hidden" id="_ledger_id" name="_ledger_id" class="form-control _ledger_id" value="<?php if(isset($request->_ledger_id)): ?><?php echo e($request->_ledger_id ?? ''); ?><?php endif; ?>" placeholder="Customer" required>
-                            <div class="search_box_main_ledger"> </div>
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <label for="_cost_center_id" class="col-sm-2 col-form-label">Cost Center:</label>
+                    <label for="_cost_center_id" class="col-sm-2 col-form-label"><?php echo e(__('label._cost_center_id')); ?>:</label>
                     <div class="col-sm-10">
                       <select class="form-control" name="_cost_center_id">
-                        <option value="">Select Cost Center</option>
+                        <option value=""><?php echo e(__('label.select_cost_center')); ?></option>
                       <?php $__empty_1 = true; $__currentLoopData = $permited_costcenters; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cost): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                          <option value="<?php echo e($cost->id); ?>" <?php if(isset($request->_cost_center_id)): ?> <?php if($cost["id"]==$request->_cost_center_id): ?> selected <?php endif; ?> <?php endif; ?>><?php echo e($cost->_name); ?></option>
                       <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
@@ -96,37 +114,7 @@
                       </select>
                     </div>
                   </div>
-                  <div class="form-group row">
-                    <label for="_delivery_man_id" class="col-sm-2 col-form-label">Delivery Man:</label>
-                    <div class="col-sm-10">
-                      <input type="text" id="_search_main_delivery_man_id" name="_search_main_delivery_man_id" class="form-control _search_main_delivery_man_id" value="<?php if(isset($request->_search_main_delivery_man_id)): ?> <?php echo e($request->_search_main_delivery_man_id ?? ''); ?>  <?php endif; ?>" placeholder="Delivery Man" >
-                            <input type="hidden" id="_delivery_man_id" name="_delivery_man_id" class="form-control _delivery_man_id" value="<?php if(isset($request->_delivery_man_id)): ?><?php echo e($request->_delivery_man_id ?? ''); ?><?php endif; ?>" placeholder="Supplier" required>
-                            <div class="search_box_delivery_man"> </div>
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <label for="_sales_man_id" class="col-sm-2 col-form-label">Sales Man:</label>
-                    <div class="col-sm-10">
-                      <input type="text" id="_search_main_sales_man_id" name="_search_main_sales_man_id" class="form-control _search_main_sales_man_id" value="<?php if(isset($request->_search_main_sales_man_id)): ?> <?php echo e($request->_search_main_sales_man_id ?? ''); ?>  <?php endif; ?>" placeholder="Sales Man" >
-                      <input type="hidden" id="_sales_man_id" name="_sales_man_id" class="form-control _sales_man_id" value="<?php if(isset($request->_sales_man_id)): ?><?php echo e($request->_sales_man_id ?? ''); ?><?php endif; ?>" placeholder="Sales Man" required>
-                            <div class="search_box_sales_man"> </div>
-                    </div>
-                  </div>
                   
-                  
-                  <div class="form-group row">
-                    <label for="_order_ref_id" class="col-sm-2 col-form-label">Purchase Number:</label>
-                    <div class="col-sm-10">
-                      <input type="text" id="_order_ref_id" name="_order_ref_id" class="form-control" placeholder="Search By Purchase Number" value="<?php if(isset($request->_order_ref_id)): ?><?php echo e($request->_order_ref_id ?? ''); ?><?php endif; ?>">
-                    </div>
-                  </div>
-                  
-                  <div class="form-group row">
-                    <label for="_store_salves_id" class="col-sm-2 col-form-label">Store Self:</label>
-                    <div class="col-sm-10">
-                      <input type="text" id="_store_salves_id" name="_store_salves_id" class="form-control" placeholder="Search By Store Self" value="<?php if(isset($request->_store_salves_id)): ?><?php echo e($request->_store_salves_id ?? ''); ?><?php endif; ?>">
-                    </div>
-                  </div>
                   
                   <div class="form-group row">
                     <label for="_referance" class="col-sm-2 col-form-label">Referance:</label>
@@ -135,12 +123,7 @@
                     </div>
                   </div>
                   
-                  <div class="form-group row">
-                    <label for="_note" class="col-sm-2 col-form-label">Note:</label>
-                    <div class="col-sm-10">
-                      <input type="text" id="_note" name="_note" class="form-control" placeholder="Search By Note" value="<?php if(isset($request->_note)): ?><?php echo e($request->_note ?? ''); ?><?php endif; ?>">
-                    </div>
-                  </div>
+                  
                   
                   
                   <div class="form-group row">
@@ -170,8 +153,7 @@
                     <label for="inputEmail3" class="col-sm-2 col-form-label">Order By:</label>
                     <div class="col-sm-10">
                       <?php
-             $cloumns = [ 'id'=>'ID','_date'=>'Date','_user_name'=>'User name','_order_number'=>'Order Number','_order_ref_id'=>'Order Refarance','_referance'=>'Referance','_note'=>'Note', '_branch_id '=>'Branch','_ledger_id'=>'Ledger','_sub_total'=>'Sub Total','_total_discount'=>'Total Discount','_total_vat'=>'Total VAT','_total'=>'Total','_store_id'=>'Store','_cost_center_id'=>'Cost Center',
-             '_store_salves_id'=>'Store Self','_delivery_man_id'=>'Delivery Man','_sales_man_id'=>'Sales Man','_sales_type'=>'Sales Type'];
+             $cloumns = [ 'id'=>'ID','_date'=>'Date','_user_name'=>'User name','_order_number'=>'Order Number','_branch_id '=>'Branch','_ledger_id'=>'Ledger','_cost_center_id'=>'Cost Center'];
 
                       ?>
                        <select class="form-control" name="asc_cloumn" >

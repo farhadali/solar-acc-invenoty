@@ -12,14 +12,14 @@ $__user= Auth::user();
       <div class="container-fluid">
         <div class="row mb-2">
           <div class=" col-sm-6 ">
-            <a class="m-0 _page_name" href="<?php echo e(route('sales.index')); ?>"><?php echo $page_name ?? ''; ?> </a>
+            <a class="m-0 _page_name" href="<?php echo e(route('material-issue.index')); ?>"><?php echo $page_name ?? ''; ?> </a>
           </div><!-- /.col -->
           <div class=" col-sm-6 ">
             <ol class="breadcrumb float-sm-right">
 
                
              <li class="breadcrumb-item ">
-                 <a target="__blank" href="<?php echo e(url('sales/print')); ?>/<?php echo e($data->id); ?>" class="btn btn-sm btn-warning"> <i class="nav-icon fas fa-print"></i> </a>
+                 <a target="__blank" href="<?php echo e(url('material-issue/print')); ?>/<?php echo e($data->id); ?>" class="btn btn-sm btn-warning"> <i class="nav-icon fas fa-print"></i> </a>
                   
                 
                </li>
@@ -39,20 +39,20 @@ $__user= Auth::user();
                 </button>
                </li>
                <?php endif; ?>
-                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('sales-form-settings')): ?>
+                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('material-issue-form-settings')): ?>
              <li class="breadcrumb-item ">
                  <button type="button" id="form_settings" class="btn btn-sm btn-default" data-toggle="modal" data-target="#exampleModal">
                    <i class="nav-icon fas fa-cog"></i> 
                 </button>
                </li>
               <?php endif; ?>
-               <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('sales-create')): ?>
+               <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('material-issue-create')): ?>
               <li class="breadcrumb-item ">
-                        <a title="Add New" class="btn btn-success btn-sm" href="<?php echo e(route('sales.create')); ?>"> <i class="nav-icon fas fa-plus"></i> </a>
+                        <a title="Add New" class="btn btn-success btn-sm" href="<?php echo e(route('material-issue.create')); ?>"> <i class="nav-icon fas fa-plus"></i> </a>
                </li>
               <?php endif; ?>
               <li class="breadcrumb-item ">
-                 <a class="btn btn-sm btn-success" title="List" href="<?php echo e(route('sales.index')); ?>"> <i class="nav-icon fas fa-list"></i> </a>
+                 <a class="btn btn-sm btn-success" title="List" href="<?php echo e(route('material-issue.index')); ?>"> <i class="nav-icon fas fa-list"></i> </a>
                </li>
             </ol>
           </div><!-- /.col -->
@@ -106,12 +106,14 @@ $__user= Auth::user();
               </div>
              
               <div class="card-body">
-               <form action="<?php echo e(url('sales/update')); ?>" method="POST" class="purchase_form" >
+                 <?php echo Form::model($data, ['method' => 'PATCH','class'=>'purchase_form','route' => ['material-issue.update', $data->id]]); ?>
+
+               
                 <?php echo csrf_field(); ?>
                       <div class="row">
 
                        <div class="col-xs-12 col-sm-12 col-md-2">
-                        <input type="hidden" name="_form_name" class="_form_name"  value="sales">
+                        <input type="hidden" name="_form_name" class="_form_name"  value="material_issue">
                             <div class="form-group">
                                 <label><?php echo e(__('label._date')); ?>:</label>
                                   <div class="input-group date" id="reservationdate" data-target-input="nearest">
@@ -560,7 +562,7 @@ $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids
                                     <input type="hidden" name="_after_print" value="0" class="_after_print" >
                                     <?php endif; ?>
                                     <?php if($_master_id = Session::get('_master_id')): ?>
-                                     <input type="hidden" name="_master_id" value="<?php echo e(url('sales/print')); ?>/<?php echo e($_master_id); ?>" class="_master_id">
+                                     <input type="hidden" name="_master_id" value="<?php echo e(url('material-issue/print')); ?>/<?php echo e($_master_id); ?>" class="_master_id">
                                     
                                     <?php endif; ?>
                                    
@@ -575,13 +577,13 @@ $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids
                                 <input type="text" name="_sub_total" class="form-control width_200_px" id="_sub_total" readonly value="<?php echo e(_php_round($data->_sub_total ?? 0)); ?>">
                               </td>
                             </tr>
-                            <tr>
+                            <tr class="<?php if($_inline_discount==0): ?> display_none <?php endif; ?>">
                               <td style="width: 10%;border:0px;"><label for="_discount_input">Invoice Discount</label></td>
                               <td style="width: 70%;border:0px;">
                                 <input type="text" name="_discount_input" class="form-control width_200_px" id="_discount_input" value="<?php echo e($data->_discount_input ?? 0); ?>" >
                               </td>
                             </tr>
-                            <tr>
+                            <tr class="<?php if($_inline_discount==0): ?> display_none <?php endif; ?>">
                               <td style="width: 10%;border:0px;"><label for="_total_discount">Total Discount</label></td>
                               <td style="width: 70%;border:0px;">
                                 <input type="text" name="_total_discount" class="form-control width_200_px" id="_total_discount" readonly value="<?php echo e($data->_total_discount ?? 0); ?>">
@@ -753,7 +755,7 @@ $(document).on('click','._action_button',function(){
 
 function _main_item_search(_text_val){
   var request = $.ajax({
-      url: "<?php echo e(url('item-sales-edit-barcode-search')); ?>",
+      url: "<?php echo e(url('item-issue-edit-barcode-search')); ?>",
       method: "GET",
       data: { _text_val : _text_val },
       dataType: "JSON"
@@ -1330,6 +1332,11 @@ function _add_new_row_for_barcode(_warranty,row_id,_name,_p_item_item_id,_unit_i
                                             </tr>`);
 $("."+_item_row_count+"___warranty").val(_warranty);
 
+$("._main_store_id__"+row_id).val(_store_id).change();
+$("._main_cost_center__"+row_id).val(_cost_center_id).change();
+$("._main_branch_id_detail__"+row_id).val(_branch_id).change();
+
+
 var _main_unit_id = _unit_id;
 var _main_unit_val = '';
 //var self = $(this);
@@ -1843,7 +1850,7 @@ function purchase_row_add(event){
                                               <td class="<?php if($_show_branch==0): ?> display_none <?php endif; ?>">
                                                 <select class="form-control  _main_branch_id_detail" name="_main_branch_id_detail[]"  required>
                                                   <?php $__empty_1 = true; $__currentLoopData = $permited_branch; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $branch): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                                                  <option value="<?php echo e($branch->id); ?>" <?php if(isset($request->_branch_id)): ?> <?php if($request->_branch_id == $branch->id): ?> selected <?php endif; ?>   <?php endif; ?>><?php echo e($branch->_name ?? ''); ?></option>
+                                                  <option value="<?php echo e($branch->id); ?>"><?php echo e($branch->_name ?? ''); ?></option>
                                                   <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                                                   <?php endif; ?>
                                                 </select>
@@ -1853,7 +1860,7 @@ function purchase_row_add(event){
                                                  <select class="form-control  _main_cost_center" name="_main_cost_center[]" required >
                                             
                                                   <?php $__empty_1 = true; $__currentLoopData = $permited_costcenters; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $costcenter): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                                                  <option value="<?php echo e($costcenter->id); ?>" <?php if(isset($request->_main_cost_center)): ?> <?php if($request->_main_cost_center == $costcenter->id): ?> selected <?php endif; ?>   <?php endif; ?>> <?php echo e($costcenter->_name ?? ''); ?></option>
+                                                  <option value="<?php echo e($costcenter->id); ?>" > <?php echo e($costcenter->_name ?? ''); ?></option>
                                                   <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                                                   <?php endif; ?>
                                                 </select>
@@ -1927,7 +1934,7 @@ function purchase_row_add(event){
      var _stop_sales =0;
     if(_p_p_l_ids_qtys.length > 0){
         var request = $.ajax({
-                url: "<?php echo e(url('check-available-qty-update')); ?>",
+                url: "<?php echo e(url('available-qty-check-for-materail-issue-update')); ?>",
                 method: "GET",
                 async:false,
                 data: { _p_p_l_ids_qtys,unique_p_ids,_sales_id },
@@ -1950,8 +1957,8 @@ function purchase_row_add(event){
     }
 
     if(_stop_sales ==1){
-      alert(" You Can not Sales More then Available Qty  ");
-       var _message =" You Can not Sales More then Available Qty";
+      alert(" You Can not Issue More then Available Qty  ");
+       var _message =" You Can not Issue More then Available Qty";
        $(document).find(".alert").addClass('_required')
       $(document).find(".alert").text(_message);
        

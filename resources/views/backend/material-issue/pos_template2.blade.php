@@ -4,11 +4,11 @@
 
 <section class="invoice" id="printablediv" style="">
 		
-            <table class="table" style="border-collapse: collapse;width:388px;margin:0px auto;">
+            <table class="table" style="border-collapse: collapse;width:100%;margin:0px auto;">
             	<tr>
             		<td colspan="6" style="text-align: center;">
             			  {{ $settings->_top_title ?? '' }}<br>
-                   <img src="{{url('/')}}/{{$settings->logo}}" alt="{{$settings->name ?? '' }}" style="height: 60px;width: 60px"  ><br>
+                   <img src="{{url('/')}}/{{$settings->logo}}" alt="{{$settings->name ?? '' }}" style="height: 60px;width: 150px"  ><br>
             			<strong>{{ $settings->name ?? '' }}</strong><br>
 		         {{$settings->_address ?? '' }}<br>
 		        {{$settings->_phone ?? '' }}<br>
@@ -35,7 +35,7 @@
             	<tr>
             		<td colspan="6" style="text-align: left;border: 1px dotted grey;">
             			<table style="">
-            				 <tr> <td style="border:none;" > <b>Customer:</b> @if($form_settings->_defaut_customer ==$data->_ledger_id)
+            				 <tr> <td style="border:none;" > <b>Ledger Name:</b> @if($form_settings->_defaut_customer ==$data->_ledger_id)
                       {{ $data->_referance ?? $data->_ledger->_name }}
                   @else
                   {{$data->_ledger->_name ?? '' }}

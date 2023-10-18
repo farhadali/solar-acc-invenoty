@@ -1014,6 +1014,11 @@ SELECT s1.id as _p_p_l_id,s1._item_id,s1._qty
         return json_encode($_over_qty); 
     }
 
+
+   
+
+    
+
     public function checkAvailableQtyUpdateDamage(Request $request){
       
 
@@ -1859,7 +1864,7 @@ where  t1._status = 1 and  (t1._barcode like '%$text_val%' OR t2._item like '%$t
   
 
 
-    public function Print($id){
+public function Print($id){
         $users = Auth::user();
         $page_name = $this->page_name;
         $permited_branch = permited_branch(explode(',',$users->branch_ids));

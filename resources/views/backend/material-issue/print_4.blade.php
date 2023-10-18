@@ -37,9 +37,9 @@
         }
   </style>
 <div class="_report_button_header">
- <a class="nav-link"  href="{{url('sales')}}" role="button"><i class="fa fa-arrow-left"></i></a>
- @can('sales-edit')
-    <a class="nav-link"  title="Edit" href="{{ route('sales.edit',$data->id) }}">
+ <a class="nav-link"  href="{{url('material-issue')}}" role="button"><i class="fa fa-arrow-left"></i></a>
+ @can('material-issue-edit')
+    <a class="nav-link"  title="Edit" href="{{ route('material-issue.edit',$data->id) }}">
                                       <i class="nav-icon fas fa-edit"></i>
      </a>
   @endcan
@@ -65,7 +65,7 @@
 
        <table style="width: 100%;margin-bottom: {{$_margin_bottom}};margin-top: {{$_margin_top}};margin-left: {{$_margin_left}};margin-right: {{$_margin_right}}">
         <thead style="border:0px;">
-             @if($_is_header ==1 )
+             
             <tr style="border: 0px solid silver !important;">
                 <th colspan="8" style="width: 100%;border: 0px solid silver !important;white-space: inherit;">
                    
@@ -89,7 +89,7 @@
     font-weight: bold;
     padding: 5px;
     background: #34ce19;
-    border-radius: 5px;">Sales Invoice</span> 
+    border-radius: 5px;">Material Issue</span> 
         </div>
         
       </div>
@@ -97,7 +97,7 @@
 
                 </th>
             </tr>
-    @endif
+    
     <tr>
         <th colspan="8" style="border: 0px solid silver;">
             <table style="width: 100%;"  > 
@@ -108,12 +108,12 @@
             <td rowspan="6" style="width: 50%;;border: 1px solid silver;">
                 <table style="width: 100%;">
                   <tr>
-                    <td style="width: 20%;text-align: left;vertical-align:top;"><b>Customer ID</b></td>
+                    <td style="width: 20%;text-align: left;vertical-align:top;"><b>Ledger ID</b></td>
                     
                     <td style="width: 80%;text-align: left;white-space: break-spaces;font-weight:900;font-size:24px;vertical-align:top;">:{{$data->_ledger->id ?? '' }}</td>
                   </tr>
                   <tr>
-                    <td style="width: 20%;text-align: left;vertical-align:top;"><strong>Customer Name</strong></td>
+                    <td style="width: 20%;text-align: left;vertical-align:top;"><strong>Ledger Name</strong></td>
                     <td style="width: 80%;text-align: left;font-weight:900;font-size:24px;vertical-align:top;">:@if($data->_referance !="")
                     {{$data->_referance ?? '' }}
                   @else
@@ -152,15 +152,10 @@
             <td style="width: 25%;border: 1px solid silver;">Invoice Date</td>
             <td style="width: 25%;border: 1px solid silver;">{!! _view_date_formate($data->_date ?? '') !!}</td>
           </tr><tr>
-            <td style="width: 25%;border: 1px solid silver;">Sales By</td>
+            <td style="width: 25%;border: 1px solid silver;">Entry By</td>
             <td style="width: 15%;border: 1px solid silver;">{!! $data->_user_name ?? '' !!}</td>
           </tr>
-          @if($data->_order_ref_id !='')
-          <tr>
-            <td style="width: 25%;border: 1px solid silver;">Sales Order NO</td>
-            <td style="width: 15%;border: 1px solid silver;">{!! $data->_order_ref_id ?? '' !!}</td>
-          </tr>
-          @endif
+         
         </table>
         </th>
     </tr>
@@ -170,7 +165,7 @@
           <th class="text-center" style="width: 7%;border: 1px solid silver;">Unit</th>
           <th class="text-center" style="width: 7%;border: 1px solid silver;">Qty</th>
           <th class="text-center" style="width: 8%;border: 1px solid silver;">Rate</th>
-          <th class="text-center" style="width: 5%;border: 1px solid silver;">Discount</th>
+          <th class="text-center display_none" style="width: 5%;border: 1px solid silver;">Discount</th>
           <th class="text-center display_none" style="width: 5%;border: 1px solid silver;">VAT</th>
           <th class="text-center" style="width: 10%;border: 1px solid silver;">Amount</th>
          </tr>
@@ -275,7 +270,7 @@
                               @endforelse
                                               
                                             </td>
-                                            <td class="text-right  " style="vertical-align: text-top;border: 1px solid silver;vertical-align:top;">
+                                            <td class="text-right  display_none" style="vertical-align: text-top;border: 1px solid silver;vertical-align:top;">
                             @php
                            $row_discount_amount =0;
                           @endphp
@@ -334,7 +329,7 @@
                               <td colspan="3" class="text-right " style="border: 1px solid silver;"><b>Total</b></td>
                               <td class="text-right " style="border: 1px solid silver;"> <b>{{ _report_amount($_qty_total ?? 0)}}</b> </td>
                               <td style="border: 1px solid silver;"></td>
-                              <td class="text-right " style="border: 1px solid silver;"> <b>{{ _report_amount($_total_discount_amount ?? 0)}}</b> </td>
+                              <td class="text-right display_none" style="border: 1px solid silver;"> <b>{{ _report_amount($_total_discount_amount ?? 0)}}</b> </td>
                               <td class="text-right display_none" style="border: 1px solid silver;"> <b>{{ _report_amount($_vat_total ?? 0)}}</b> </td>
                               <td class=" text-right" style="border: 1px solid silver;"><b> {{ _report_amount($_value_total ?? 0) }}</b>
                               </td>

@@ -508,13 +508,13 @@ $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids
                                 <input type="number" name="_sub_total" class="form-control width_200_px" id="_sub_total" readonly value="0">
                               </td>
                             </tr>
-                            <tr class="display_none">
+                            <tr class="@if($_inline_discount==0) display_none @endif">
                               <td style="border:0px;width: 20%;"><label for="_discount_input">Invoice Discount</label></td>
                               <td style="border:0px;width: 80%;">
                                 <input type="text" name="_discount_input" class="form-control width_200_px" id="_discount_input" value="0" >
                               </td>
                             </tr>
-                            <tr class="display_none">
+                            <tr class="@if($_inline_discount==0) display_none @endif">
                               <td style="border:0px;width: 20%;"><label for="_total_discount">Total Discount</label></td>
                               <td style="border:0px;width: 80%;">
                                 <input type="number" name="_total_discount" class="form-control width_200_px" id="_total_discount" readonly value="0">

@@ -84,6 +84,13 @@ Route::group(['middleware' => ['auth']], function() {
 Route::resource('material-issue',MaterialIssueController::class);
 Route::post('material-issue-setting', 'App\Http\Controllers\MaterialIssueController@Settings');
 Route::get('material-issue-setting-modal', 'App\Http\Controllers\MaterialIssueController@formSettingAjax');
+Route::get('available-qty-check-for-materail-issue-update', 'App\Http\Controllers\MaterialIssueController@checkQtyUpdateFoMaterialIssue');
+Route::get('item-issue-edit-barcode-search', 'App\Http\Controllers\MaterialIssueController@itemIssueEditBarcodeSearch');
+
+
+Route::get('material-issue/print/{id}', 'App\Http\Controllers\MaterialIssueController@Print');
+Route::get('material-issue/challan/{id}', 'App\Http\Controllers\MaterialIssueController@challanPrint');
+Route::get('net-material-issue-after-return/{id}', 'App\Http\Controllers\MaterialIssueController@issueAfterReturn');
 
 //#########################
 // Budgets Section Start

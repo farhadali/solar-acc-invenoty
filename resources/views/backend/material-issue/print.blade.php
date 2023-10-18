@@ -15,9 +15,9 @@
 }
   </style>
 <div class="_report_button_header">
-    <a class="nav-link"  href="{{url('sales')}}" role="button"><i class="fa fa-arrow-left"></i></a>
- @can('sales-edit')
-    <a class="nav-link"  title="Edit" href="{{ route('sales.edit',$data->id) }}">
+    <a class="nav-link"  href="{{url('material-issue')}}" role="button"><i class="fa fa-arrow-left"></i></a>
+ @can('material-issue-edit')
+    <a class="nav-link"  title="Edit" href="{{ route('material-issue.edit',$data->id) }}">
                                       <i class="nav-icon fas fa-edit"></i>
      </a>
   @endcan
@@ -48,7 +48,7 @@
                   <tr> <td style="border:none;font-size: 20px;" >  {{ invoice_barcode($data->_order_number ?? '') }}</td></tr>
                   <tr> <td style="border:none;font-size: 20px;" > <b>INVOICE NO: {{ $data->_order_number ?? '' }}</b></td></tr>
                   <tr> <td style="border:none;font-size: 20px;" > <b>Date: </b>{{ _view_date_formate($data->_date ?? '') }}</td></tr>
-                <tr> <td style="border:none;font-size: 20px;" > <b> Customer:</b>@if($form_settings->_defaut_customer ==$data->_ledger_id)
+                <tr> <td style="border:none;font-size: 20px;" > <b> Ledger:</b>@if($form_settings->_defaut_customer ==$data->_ledger_id)
                       {{ $data->_referance ?? $data->_ledger->_name }}
                   @else
                   {{$data->_ledger->_name ?? '' }}
@@ -259,56 +259,7 @@
       <!-- /.col -->
     </div>
      <!-- Table row -->
-    @if(sizeof($data->s_account) > 0)
-    <div class="row">
-      <div class="col-12 table-responsive">
-        <span><b>Account Details</b></span>
-        <table class="table">
-          <thead>
-          <tr>
-            <th>ID</th>
-            <th>Ledger</th>
-            
-            <th class="text-right" >Dr. Amount</th>
-            <th class="text-right" >Cr. Amount</th>
-          </tr>
-          </thead>
-          <tbody>
-            @php
-            $_total_dr_amount =0;
-            $_total_cr_amount =0;
-            @endphp
-            @forelse($data->s_account as $detail_key=>$detail)
-            
-          <tr>
-            <td>{!! $detail->id ?? '' !!}</td>
-            <td>{!! $detail->_ledger->_name ?? '' !!}</td>
-            
-            <td class="text-right" >{!! _report_amount( $detail->_dr_amount ?? 0 ) !!}</td>
-            <td class="text-right" >{!! _report_amount($detail->_cr_amount ?? 0 )!!}</td>
-              @php
-            $_total_dr_amount +=$detail->_dr_amount ?? 0;
-            $_total_cr_amount +=$detail->_cr_amount ?? 0;
-            @endphp
-          </tr>
-         
-          @empty
-          @endforelse
-          
-          </tbody>
-          <tfoot>
-            <tr>
-              <th  colspan="2" class="text-right">Total:</th>
-              <th  class="text-right" >{!! _report_amount($_total_dr_amount ?? 0) !!}</th>
-              <th  class="text-right" >{!! _report_amount($_total_cr_amount ?? 0) !!}</th>
-            </tr>
-          </tfoot>
-        </table>
-      </div>
-      <!-- /.col -->
-    </div>
-    <!-- /.row -->
-    @endif
+    
 
     
 

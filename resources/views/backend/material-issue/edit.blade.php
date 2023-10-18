@@ -12,14 +12,14 @@ $__user= Auth::user();
       <div class="container-fluid">
         <div class="row mb-2">
           <div class=" col-sm-6 ">
-            <a class="m-0 _page_name" href="{{ route('sales.index') }}">{!! $page_name ?? '' !!} </a>
+            <a class="m-0 _page_name" href="{{ route('material-issue.index') }}">{!! $page_name ?? '' !!} </a>
           </div><!-- /.col -->
           <div class=" col-sm-6 ">
             <ol class="breadcrumb float-sm-right">
 
                
              <li class="breadcrumb-item ">
-                 <a target="__blank" href="{{url('sales/print')}}/{{$data->id}}" class="btn btn-sm btn-warning"> <i class="nav-icon fas fa-print"></i> </a>
+                 <a target="__blank" href="{{url('material-issue/print')}}/{{$data->id}}" class="btn btn-sm btn-warning"> <i class="nav-icon fas fa-print"></i> </a>
                   
                 
                </li>
@@ -39,20 +39,20 @@ $__user= Auth::user();
                 </button>
                </li>
                @endcan
-                @can('sales-form-settings')
+                @can('material-issue-form-settings')
              <li class="breadcrumb-item ">
                  <button type="button" id="form_settings" class="btn btn-sm btn-default" data-toggle="modal" data-target="#exampleModal">
                    <i class="nav-icon fas fa-cog"></i> 
                 </button>
                </li>
               @endcan
-               @can('sales-create')
+               @can('material-issue-create')
               <li class="breadcrumb-item ">
-                        <a title="Add New" class="btn btn-success btn-sm" href="{{ route('sales.create') }}"> <i class="nav-icon fas fa-plus"></i> </a>
+                        <a title="Add New" class="btn btn-success btn-sm" href="{{ route('material-issue.create') }}"> <i class="nav-icon fas fa-plus"></i> </a>
                </li>
               @endcan
               <li class="breadcrumb-item ">
-                 <a class="btn btn-sm btn-success" title="List" href="{{ route('sales.index') }}"> <i class="nav-icon fas fa-list"></i> </a>
+                 <a class="btn btn-sm btn-success" title="List" href="{{ route('material-issue.index') }}"> <i class="nav-icon fas fa-list"></i> </a>
                </li>
             </ol>
           </div><!-- /.col -->
@@ -106,12 +106,13 @@ $__user= Auth::user();
               </div>
              
               <div class="card-body">
-               <form action="{{url('sales/update')}}" method="POST" class="purchase_form" >
+                 {!! Form::model($data, ['method' => 'PATCH','class'=>'purchase_form','route' => ['material-issue.update', $data->id]]) !!}
+               
                 @csrf
                       <div class="row">
 
                        <div class="col-xs-12 col-sm-12 col-md-2">
-                        <input type="hidden" name="_form_name" class="_form_name"  value="sales">
+                        <input type="hidden" name="_form_name" class="_form_name"  value="material_issue">
                             <div class="form-group">
                                 <label>{{__('label._date')}}:</label>
                                   <div class="input-group date" id="reservationdate" data-target-input="nearest">
@@ -558,7 +559,7 @@ $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids
                                     <input type="hidden" name="_after_print" value="0" class="_after_print" >
                                     @endif
                                     @if ($_master_id = Session::get('_master_id'))
-                                     <input type="hidden" name="_master_id" value="{{url('sales/print')}}/{{$_master_id}}" class="_master_id">
+                                     <input type="hidden" name="_master_id" value="{{url('material-issue/print')}}/{{$_master_id}}" class="_master_id">
                                     
                                     @endif
                                    
@@ -573,13 +574,13 @@ $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids
                                 <input type="text" name="_sub_total" class="form-control width_200_px" id="_sub_total" readonly value="{{ _php_round($data->_sub_total ?? 0) }}">
                               </td>
                             </tr>
-                            <tr>
+                            <tr class="@if($_inline_discount==0) display_none @endif">
                               <td style="width: 10%;border:0px;"><label for="_discount_input">Invoice Discount</label></td>
                               <td style="width: 70%;border:0px;">
                                 <input type="text" name="_discount_input" class="form-control width_200_px" id="_discount_input" value="{{$data->_discount_input ?? 0}}" >
                               </td>
                             </tr>
-                            <tr>
+                            <tr class="@if($_inline_discount==0) display_none @endif">
                               <td style="width: 10%;border:0px;"><label for="_total_discount">Total Discount</label></td>
                               <td style="width: 70%;border:0px;">
                                 <input type="text" name="_total_discount" class="form-control width_200_px" id="_total_discount" readonly value="{{$data->_total_discount ?? 0}}">
@@ -750,7 +751,7 @@ $(document).on('click','._action_button',function(){
 
 function _main_item_search(_text_val){
   var request = $.ajax({
-      url: "{{url('item-sales-edit-barcode-search')}}",
+      url: "{{url('item-issue-edit-barcode-search')}}",
       method: "GET",
       data: { _text_val : _text_val },
       dataType: "JSON"
@@ -1327,6 +1328,11 @@ function _add_new_row_for_barcode(_warranty,row_id,_name,_p_item_item_id,_unit_i
                                             </tr>`);
 $("."+_item_row_count+"___warranty").val(_warranty);
 
+$("._main_store_id__"+row_id).val(_store_id).change();
+$("._main_cost_center__"+row_id).val(_cost_center_id).change();
+$("._main_branch_id_detail__"+row_id).val(_branch_id).change();
+
+
 var _main_unit_id = _unit_id;
 var _main_unit_val = '';
 //var self = $(this);
@@ -1840,7 +1846,7 @@ function purchase_row_add(event){
                                               <td class="@if($_show_branch==0) display_none @endif">
                                                 <select class="form-control  _main_branch_id_detail" name="_main_branch_id_detail[]"  required>
                                                   @forelse($permited_branch as $branch )
-                                                  <option value="{{$branch->id}}" @if(isset($request->_branch_id)) @if($request->_branch_id == $branch->id) selected @endif   @endif>{{ $branch->_name ?? '' }}</option>
+                                                  <option value="{{$branch->id}}">{{ $branch->_name ?? '' }}</option>
                                                   @empty
                                                   @endforelse
                                                 </select>
@@ -1850,7 +1856,7 @@ function purchase_row_add(event){
                                                  <select class="form-control  _main_cost_center" name="_main_cost_center[]" required >
                                             
                                                   @forelse($permited_costcenters as $costcenter )
-                                                  <option value="{{$costcenter->id}}" @if(isset($request->_main_cost_center)) @if($request->_main_cost_center == $costcenter->id) selected @endif   @endif> {{ $costcenter->_name ?? '' }}</option>
+                                                  <option value="{{$costcenter->id}}" > {{ $costcenter->_name ?? '' }}</option>
                                                   @empty
                                                   @endforelse
                                                 </select>
@@ -1924,7 +1930,7 @@ function purchase_row_add(event){
      var _stop_sales =0;
     if(_p_p_l_ids_qtys.length > 0){
         var request = $.ajax({
-                url: "{{url('check-available-qty-update')}}",
+                url: "{{url('available-qty-check-for-materail-issue-update')}}",
                 method: "GET",
                 async:false,
                 data: { _p_p_l_ids_qtys,unique_p_ids,_sales_id },
@@ -1947,8 +1953,8 @@ function purchase_row_add(event){
     }
 
     if(_stop_sales ==1){
-      alert(" You Can not Sales More then Available Qty  ");
-       var _message =" You Can not Sales More then Available Qty";
+      alert(" You Can not Issue More then Available Qty  ");
+       var _message =" You Can not Issue More then Available Qty";
        $(document).find(".alert").addClass('_required')
       $(document).find(".alert").text(_message);
        
