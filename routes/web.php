@@ -57,6 +57,9 @@ use App\Http\Controllers\BudgetsController;
 use App\Http\Controllers\MaterialIssueController;
 
 
+use App\Http\Controllers\PM\ProjectManagementController;
+
+
 
 
 
@@ -103,9 +106,15 @@ Route::get('budget-compare', 'App\Http\Controllers\BudgetsController@budgetCompa
 
 
 
+
+//PM SECTION
+Route::resource('project_management',ProjectManagementController::class);
+
 /* HRM SECTION END*/
 
-
+Route::resource('cost-center', CostCenterController::class);
+Route::get('cost-center-chain/{id}', 'App\Http\Controllers\CostCenterController@csAuthorizationChain');
+Route::post('cost-center-authorization-chain', 'App\Http\Controllers\CostCenterController@csAuthorizationChainUpdate');
 
 
 
@@ -214,10 +223,7 @@ Route::get('book_table_list_ajax', 'App\Http\Controllers\ResturantSalesControlle
     Route::post('account-group/update', 'App\Http\Controllers\AccountGroupController@update');
     Route::get('account-group-reset', 'App\Http\Controllers\AccountGroupController@reset');
 
-    Route::resource('cost-center', CostCenterController::class);
-    
-    Route::get('cost-center-chain/{id}', 'App\Http\Controllers\CostCenterController@csAuthorizationChain');
-    Route::post('cost-center-authorization-chain', 'App\Http\Controllers\CostCenterController@csAuthorizationChainUpdate');
+   
 
     Route::resource('item-category', ItemCategoryController::class);
     Route::post('item-category/update', 'App\Http\Controllers\ItemCategoryController@update');
