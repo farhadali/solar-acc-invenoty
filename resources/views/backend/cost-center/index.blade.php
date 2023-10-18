@@ -10,13 +10,12 @@
             <ol class="breadcrumb float-sm-right ml-2">
                @can('cost-center-create')
               
-               <button type="button" 
-               class="btn btn-sm btn-info active attr_base_create_url" 
-               data-toggle="modal" 
-               data-target="#commonEntryModal_item" 
-               attr_base_create_url="{{ route('cost-center.create') }}">
+               <a 
+               class="btn btn-sm btn-info active " 
+                
+               href="{{ route('cost-center.create') }}">
                    <i class="nav-icon fas fa-plus"></i> Create New
-                </button>
+                </a>
               @endcan
             </ol>
           </div>
@@ -68,11 +67,10 @@
 
 
                                   @can('cost-center-edit')
-                                  <button  type="button" 
-                                  attr_base_edit_url="{{ route('cost-center.edit',$data->id) }}"
-                                  data-toggle="modal" 
-                                  data-target="#commonEntryModal_item" 
-                                  class="btn btn-sm btn-default attr_base_edit_url mr-1"><i class="fa fa-pen "></i></button>
+                                  <a  
+                                  href="{{ route('cost-center.edit',$data->id) }}"
+                                   
+                                  class="btn btn-sm btn-default  mr-1"><i class="fa fa-pen "></i></a>
                                   @endcan
                                 @can('cost-center-delete')
                                  {!! Form::open(['method' => 'DELETE','route' => ['cost-center.destroy', $data->id],'style'=>'display:inline']) !!}

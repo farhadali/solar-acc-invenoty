@@ -1128,10 +1128,10 @@
           <a href="{{url('cost-center')}}" class="dropdown-item">
            <i class="fa fa-adjust mr-2" aria-hidden="true"></i> {{ __('label.Cost center') }} 
           </a>
-            <a   href="#None" 
-          class="dropdown-item text-right attr_base_create_url"
-            data-toggle="modal" data-target="#commonEntryModal_item" 
-            attr_base_create_url="{{route('cost-center.create')}}"> 
+            <a   
+          class="dropdown-item text-right "
+            
+            href="{{route('cost-center.create')}}"> 
             <i class="nav-icon fas fa-plus"></i> </a>
         </div>
           

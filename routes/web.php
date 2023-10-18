@@ -215,7 +215,7 @@ Route::get('book_table_list_ajax', 'App\Http\Controllers\ResturantSalesControlle
     Route::get('account-group-reset', 'App\Http\Controllers\AccountGroupController@reset');
 
     Route::resource('cost-center', CostCenterController::class);
-    Route::post('cost-center/update', 'App\Http\Controllers\CostCenterController@update');
+    
     Route::get('cost-center-chain/{id}', 'App\Http\Controllers\CostCenterController@csAuthorizationChain');
     Route::post('cost-center-authorization-chain', 'App\Http\Controllers\CostCenterController@csAuthorizationChainUpdate');
 
