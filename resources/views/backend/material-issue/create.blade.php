@@ -273,7 +273,7 @@ $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids
                                       <table class="table table-bordered" >
                                           <thead >
                                             <th class="text-left" >&nbsp;</th>
-                                            <th class="text-left" >{{__('label.id')}}</th>
+                                            
                                             <th class="text-left" >{{__('label._item')}}</th>
                                             <th class="text-left display_none" >{{__('label._base_unit')}}</th>
                                             <th class="text-left display_none" >{{__('lable.conversion_qty')}}</th>

@@ -1491,7 +1491,11 @@ where  t1._status = 1 and  (t1._barcode like '%$text_val%' OR t2._item like '%$t
             for ($i = 0; $i <sizeof($_item_ids) ; $i++) {
                 $_total_cost_value += (($_rates[$i]*$conversion_qtys[$i] ?? 1)*$_qtys[$i]);
 
-                $_base_rate = ($_values[$i]/($_qtys[$i]*$conversion_qtys[$i] ?? 1));
+               // $_base_rate = ($_values[$i]/($_qtys[$i]*$conversion_qtys[$i] ?? 1));
+                 $converted_l=($_qtys[$i]*$conversion_qtys[$i] ?? 1);
+                if($converted_l ==0){$converted_l=1;};
+                $_base_rate = ($_values[$i]/$converted_l);
+
 
                 $SalesDetail = new SalesDetail();
                 $SalesDetail->_item_id = $_item_ids[$i];
@@ -2291,7 +2295,13 @@ $over_qtys = array();
                 }
 
 
-                $_base_rate = ($_values[$i]/($_qtys[$i]*$conversion_qtys[$i] ?? 1));
+                //$_base_rate = ($_values[$i]/($_qtys[$i]*$conversion_qtys[$i] ?? 1));
+
+                 $converted_l=($_qtys[$i]*$conversion_qtys[$i] ?? 1);
+                if($converted_l ==0){$converted_l=1;};
+                $_base_rate = ($_values[$i]/$converted_l);
+
+
                 $SalesDetail->_transection_unit = $_transection_units[$i] ?? 1;
                 $SalesDetail->_unit_conversion = $conversion_qtys[$i] ?? 1;
                 $SalesDetail->_base_unit = $_base_unit_ids[$i] ?? 1;

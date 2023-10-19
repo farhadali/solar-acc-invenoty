@@ -29,7 +29,7 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="<?php echo e(asset('dist/css/adminlte.min.css')); ?>">
 <link rel="stylesheet" href="<?php echo e(asset('backend/amsify.suggestags.css')); ?>">
-<link rel="stylesheet" href="<?php echo e(asset('backend/style.css?v=4')); ?>">
+<link rel="stylesheet" href="<?php echo e(asset('backend/style.css?v=5')); ?>">
 
 
 

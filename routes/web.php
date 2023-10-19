@@ -104,11 +104,11 @@ Route::get('net-material-issue-after-return/{id}', 'App\Http\Controllers\Materia
     Route::post('material-issue-return-settings', 'App\Http\Controllers\MaterialIssueReturnController@Settings');
     Route::get('material-issue-return-setting-modal', 'App\Http\Controllers\MaterialIssueReturnController@formSettingAjax');
     Route::get('material-issue-search', 'App\Http\Controllers\MaterialIssueReturnController@orderSearch');
-    Route::get('material-issue-details', 'App\Http\Controllers\MaterialIssueReturnController@issueDetail');
+    Route::post('material-issue-details', 'App\Http\Controllers\MaterialIssueReturnController@issueDetail');
     Route::get('check-material-issue-return-available-qty', 'App\Http\Controllers\MaterialIssueReturnController@checkAvailableSalesQty');
     Route::get('material-issue-return-money-receipt/{id}', 'App\Http\Controllers\MaterialIssueReturnController@moneyReceipt');
     Route::post('material-issue-return-detail', 'App\Http\Controllers\MaterialIssueReturnController@salesReturnDetail');
-    
+    Route::get('material-issue-return/challan/{id}', 'App\Http\Controllers\MaterialIssueReturnController@challanPrint');
     
 
 

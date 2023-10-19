@@ -29,7 +29,7 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="{{asset('dist/css/adminlte.min.css')}}">
 <link rel="stylesheet" href="{{asset('backend/amsify.suggestags.css')}}">
-<link rel="stylesheet" href="{{asset('backend/style.css?v=4')}}">
+<link rel="stylesheet" href="{{asset('backend/style.css?v=5')}}">
 
 
 

@@ -42,5 +42,11 @@ class MaterialIssueReturn extends Model
         return $this->hasOne(StoreHouse::class,'id','_store_id');
     }
 
+    public function _issue_master(){
+        return $this->hasOne(MaterialIssue::class,'id','_order_ref_id')->select('id','_order_number')->where('_status',1);
+    }
+public function _terms_con(){
+        return $this->hasOne(TransectionTerms::class,'id','_payment_terms')->select('id','_name','_detail','_days');
+    }
     
 }

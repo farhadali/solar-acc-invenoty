@@ -964,6 +964,14 @@ if (! function_exists('_issue_pfix')) {
     }
 }
 
+if (! function_exists('_issue_return_pfix')) {
+    function _issue_return_pfix()
+    {
+        $data= InvoicePrefix::where('_table_name','material_issue_returns')->select('_prefix')->first();
+        return $data->_prefix ?? '';
+    }
+}
+
 
 if (! function_exists('_replace_prefix')) {
     function _replace_prefix()

@@ -988,9 +988,15 @@ input[type='text']{
 }
 
 .table-responsive >table > thead {
-    background: #242540de;
-    border-color: #72a9bd;
-    color: #f5f5f5;
+    background: #89d9eb;
+    border-color: #89d9eb;
+    color: #222020;
+    font-family: math !important;
+}
+._list_table > thead {
+    background: #89d9eb !important;
+    border-color: #89d9eb !important;
+    color: #222020 !important;
     font-family: math !important;
 }
 .cewReportTable thead {
@@ -1096,7 +1102,7 @@ tbody{
 }
 
 .navbar-light {
-    background-color: #f5f5f5 !important;
+    background-color: #1a90ab !important;
 }
 
 #expected_income{
