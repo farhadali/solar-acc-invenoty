@@ -219,8 +219,8 @@ $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids
                         
                        <div class="col-xs-12 col-sm-12 col-md-3 ">
                             <div class="form-group">
-                              <label class="mr-2" for="_main_ledger_id"><?php echo e(__('label.expense_head')); ?>d:<span class="_required">*</span></label>
-                            <input type="text" id="_search_main_ledger_id" name="_search_main_ledger_id" class="form-control _search_main_ledger_id" value="<?php echo e(old('_search_main_ledger_id',_ledger_name($_defaut_customer))); ?>" placeholder="Customer" required>
+                              <label class="mr-2" for="_main_ledger_id"><?php echo e(__('label.expense_head')); ?>:<span class="_required">*</span></label>
+                            <input type="text" id="_search_main_ledger_id" name="_search_main_ledger_id" class="form-control _search_main_ledger_id" value="<?php echo e(old('_search_main_ledger_id',_ledger_name($_defaut_customer))); ?>" placeholder="<?php echo e(__('label.expense_head')); ?>" required>
 
                             <input type="hidden" id="_main_ledger_id" name="_main_ledger_id" class="form-control _main_ledger_id" value="<?php echo e(old('_main_ledger_id',$_defaut_customer)); ?>" placeholder="Customer" required>
                             <div class="search_box_main_ledger"> </div>

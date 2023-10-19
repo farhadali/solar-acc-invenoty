@@ -988,8 +988,8 @@ input[type='text']{
 }
 
 .table-responsive >table > thead {
-    background: #89d9eb;
-    border-color: #89d9eb;
+    background: #89d9eb6b;
+    border-color: #89d9eb6b;
     color: #222020;
     font-family: math !important;
 }
