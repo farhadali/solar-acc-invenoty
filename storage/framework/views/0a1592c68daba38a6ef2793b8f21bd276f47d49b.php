@@ -511,7 +511,7 @@ $__user= Auth::user();
 </div>
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
-    <form action="<?php echo e(url('material-issue-settings')); ?>" method="POST">
+    <form action="<?php echo e(url('material-issue-setting')); ?>" method="POST">
         <?php echo csrf_field(); ?>
     <div class="modal-content">
       <div class="modal-header">
