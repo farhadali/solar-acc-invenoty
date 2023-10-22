@@ -22,7 +22,17 @@ class RlpAccessChain extends Model
         }
 
         public function _chain_user(){
-            return $this->hasMany(AccessChainUser::class,'chain_id','id')->where('_status',1)->orderBy('_order','ASC');
+            return $this->hasMany(AccessChainUser::class,'chain_id','id')->with(['_user_group','_user_info'])->where('_status',1)->orderBy('_order','ASC');
         }
+
+        public function _entry_by(){
+            return $this->hasOne(\App\Models\User::class,'id','created_by')->select('id','name','email');
+        }
+
+        public function _updated_by(){
+            return $this->hasOne(\App\Models\User::class,'id','updated_by')->select('id','name','email');
+        }
+
+
 
 }

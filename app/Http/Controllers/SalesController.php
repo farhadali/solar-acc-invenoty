@@ -753,13 +753,13 @@ return json_encode( $data);
 
       $datas = Sales::with(['_organization','_master_branch','_ledger'])->where('_status',1);
         //$datas = $datas->whereIn('sales._branch_id',explode(',',\Auth::user()->branch_ids));
-        if($request->has('_branch_id') && $request->_branch_id !=""){
-            $datas = $datas->where('_branch_id',$request->_branch_id);  
-        }else{
-           if($auth_user->user_type !='admin'){
+      $datas = $datas->whereIn('_branch_id',explode(',',$auth_user->branch_ids));
+        $datas = $datas->whereIn('_cost_center_id',explode(',',$auth_user->cost_center_ids));
+        $datas = $datas->whereIn('organization_id',explode(',',$auth_user->organization_ids));
+        if($auth_user->user_type !='admin'){
                 $datas = $datas->where('_user_id',$auth_user->id);   
-            } 
-        }
+        } 
+        
         
 
         if($request->has('_user_date') && $request->_user_date=="yes" && $request->_datex !="" && $request->_datex !=""){

@@ -85,6 +85,24 @@ if (! function_exists('selected_access_chain_types')) {
       return 'Empty';
     }
 }
+if (! function_exists('priorities')) {
+    function priorities()
+    {
+      return [1=>'Urgent',2=>'High',3=>'Medium',4=>'Normal'];
+    }
+}
+
+if (! function_exists('selected_priority')) {
+    function selected_priority($id)
+    {
+      foreach(priorities() as $key=>$val){
+        if($id == $key){
+            return $val;
+        } 
+      } 
+      return 'Empty';
+    }
+}
 
 if (!function_exists('UserImageUpload')) {
 

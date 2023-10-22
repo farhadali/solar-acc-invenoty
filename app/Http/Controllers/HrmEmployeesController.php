@@ -103,6 +103,24 @@ class HrmEmployeesController extends Controller
         return view('hrm.hrm-employee.index',compact('datas','page_name','employee_catogories','departments','designations','grades','job_locations','limit','request'));
     }
 
+
+    public function employeeSearch(Request $request){
+       $limit = $request->limit ?? default_pagination();
+        $_asc_desc = $request->_asc_desc ?? 'ASC';
+        $asc_cloumn =  $request->asc_cloumn ?? '_code';
+        $text_val = trim($request->_text_val);
+        if($text_val =='%'){ $text_val=''; }
+
+         $datas = HrmEmployees::where('_status',1)
+        ->where(function ($query) use ($text_val) {
+                $query->orWhere('_code','like',"%$text_val%")
+                      ->orWhere('_name','like',"%$text_val%");
+            });
+        
+        $datas = $datas->orderBy($asc_cloumn,$_asc_desc)->paginate($limit);
+        return json_encode( $datas);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

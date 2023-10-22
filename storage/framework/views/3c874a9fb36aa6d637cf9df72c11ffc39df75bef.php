@@ -37,7 +37,7 @@
                 <?php echo $__env->make('users.search', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
               </div>
               <div class="card-body">
-                <div class="table-responsive">
+                <div class="">
                   <table class="table table-bordered _list_table">
                      <thead>
                        <tr>

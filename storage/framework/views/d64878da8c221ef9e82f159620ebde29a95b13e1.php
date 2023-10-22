@@ -504,9 +504,6 @@ $(document).on('keyup','._search_main_sales_man',delay(function(e){
     request.fail(function( jqXHR, textStatus ) {
       alert( "Request failed: " + textStatus );
     });
-
-  
-
 }, 500));
 
 
@@ -520,6 +517,77 @@ $(document).on('click','.search_row_sales_man',function(){
 
   $(document).find('.search_box_sales_man').hide();
   $(document).find('.search_box_sales_man').removeClass('search_box_show').hide();
+})
+
+
+
+
+//user_id_name
+
+//Employe Search 
+
+$(document).on('keyup','.user_id_name',delay(function(e){
+    
+  var _gloabal_this = $(this);
+  var _text_val = $(this).val().trim();
+  var request = $.ajax({
+      url: "<?php echo e(url('employee-search')); ?>",
+      method: "GET",
+      data: { _text_val : _text_val },
+      dataType: "JSON"
+    });
+     
+    request.done(function( result ) {
+      var search_html =``;
+      var data = result.data; 
+      if(data.length > 0 ){
+            search_html +=`<div class="card"><table style="width: 300px;"> <tbody>`;
+                        for (var i = 0; i < data.length; i++) {
+                         search_html += `<tr class="_employee_search_row _cursor_pointer" >
+                                        <td>${data[i]._code}
+                                        <input type="hidden" name="_emplyee_row_id" class="_emplyee_row_id" value="${data[i].id}">
+                                        <input type="hidden" name="_emplyee_row_code_id" class="_emplyee_row_code_id" value="${data[i]._code}">
+                                        </td>
+                                        <td>${data[i]._name}
+                                        <input type="hidden" name="_search_employee_name" class="_search_employee_name" value="${data[i]._name}">
+                                        
+                                        </td>
+                                        
+                                       
+                                        </tr>`;
+                        }                         
+            search_html += ` </tbody> </table></div>`;
+      }else{
+        search_html +=`<div class="card"><table style="width: 300px;"> 
+        <thead><th colspan="3">No Data Found</th></thead><tbody></tbody></table></div>`;
+      }   
+
+       _gloabal_this.parent('td').find('.search_box_employee').html(search_html);
+      _gloabal_this.parent('td').find('.search_box_employee').addClass('search_box_show').show();  
+      
+      
+    });
+     
+    request.fail(function( jqXHR, textStatus ) {
+      alert( "Request failed: " + textStatus );
+    });
+}, 500));
+
+
+$(document).on('click','._employee_search_row',function(){
+ var employee_row_id = $(this).children('td').find('._emplyee_row_id').val();
+ var employee_code_id = $(this).children('td').find('._emplyee_row_code_id').val();
+ var employee_name = $(this).children('td').find('._search_employee_name').val();
+ console.log(employee_name)
+ var _code_and_name = `${employee_code_id},${employee_name}`;
+
+$(this).parent().parent().parent().parent().parent().parent().find('.user_id_name').val(_code_and_name);
+$(this).parent().parent().parent().parent().parent().parent().find('.user_row_id').val(employee_row_id);
+$(this).parent().parent().parent().parent().parent().parent().find('.user_id').val(employee_code_id);
+
+
+  $(document).find('.search_box_employee').hide();
+  $(document).find('.search_box_employee').removeClass('search_box_show').hide();
 })
 
 

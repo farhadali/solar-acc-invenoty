@@ -1,22 +1,23 @@
-@extends('backend.layouts.app')
-@section('title',$page_name)
 
-@section('content')
-@php
+<?php $__env->startSection('title',$page_name); ?>
+
+<?php $__env->startSection('content'); ?>
+<?php
 $__user= Auth::user();
-@endphp
+?>
 <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-12" style="display: flex;">
-            <a class="m-0 _page_name" href="{{ route('rlp-chain.index') }}">{!! $page_name ?? '' !!} </a>
+            <a class="m-0 _page_name" href="<?php echo e(route('rlp-chain.index')); ?>"><?php echo $page_name ?? ''; ?> </a>
             <ol class="breadcrumb float-sm-right ml-2">
                
              <li class="breadcrumb-item active">
                 <a type="button" 
                class="btn btn-sm btn-info" 
-               href="{{ route('rlp-chain.create') }}">
-                   <i class="nav-icon fas fa-plus"></i> {{__('label.create_new')}}
+               href="<?php echo e(route('rlp-chain.create')); ?>">
+                   <i class="nav-icon fas fa-plus"></i> <?php echo e(__('label.create_new')); ?>
+
                 </a>
 
                </li>
@@ -28,7 +29,7 @@ $__user= Auth::user();
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
-     @include('backend.message.message')
+     <?php echo $__env->make('backend.message.message', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <div class="content">
       <div class="container-fluid">
         <div class="row">
@@ -36,7 +37,7 @@ $__user= Auth::user();
             <div class="card">
               <div class="card-header border-0 mt-1">
                 <div class="row">
-                   @php
+                   <?php
 
                      $currentURL = URL::full();
                      $current = URL::current();
@@ -49,7 +50,7 @@ $__user= Auth::user();
                     }
     
 
-                   @endphp
+                   ?>
                     <div class="col-md-4">
                       
                     </div>
@@ -62,7 +63,7 @@ $__user= Auth::user();
                               </a>
                               <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                                <div class="dropdown-divider"></div>
-                                <a target="__blank" href="{{$print_url_detal}}"  class="dropdown-item">
+                                <a target="__blank" href="<?php echo e($print_url_detal); ?>"  class="dropdown-item">
                                   <i class="fa fa-fax mr-2" aria-hidden="true"></i> Detail Print
                                 </a>
                               
@@ -81,69 +82,69 @@ $__user= Auth::user();
                      <thead>
                         <tr>
                          <th class=""><b>##</b></th>
-                         <th class=""><b>{{__('label.id')}}</b></th>
-                         <th class=""><b>{{__('label.organization')}}</b></th>
-                         <th class=""><b>{{__('label.Branch')}}</b></th>
-                         <th class=""><b>{{__('label.Cost center')}}</b></th>
-                         <th class=""><b>{{__('label.chain_name')}}</b></th>
-                         <th class=""><b>{{__('label.details')}}</b></th>
-                         <th class=""><b>{{__('label._status')}}</b></th>
-                         <th class=""><b>{{__('label.user')}}</b></th>
+                         <th class=""><b><?php echo e(__('label.id')); ?></b></th>
+                         <th class=""><b><?php echo e(__('label.organization')); ?></b></th>
+                         <th class=""><b><?php echo e(__('label.Branch')); ?></b></th>
+                         <th class=""><b><?php echo e(__('label.Cost center')); ?></b></th>
+                         <th class=""><b><?php echo e(__('label.chain_name')); ?></b></th>
+                         <th class=""><b><?php echo e(__('label.details')); ?></b></th>
+                         <th class=""><b><?php echo e(__('label._status')); ?></b></th>
+                         <th class=""><b><?php echo e(__('label.user')); ?></b></th>
                       </tr>
                      </thead>
                      <tbody>
                       
-                        @foreach ($datas as $key => $data)
+                        <?php $__currentLoopData = $datas; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <tr>
                             
                              <td style="display: flex;">
                              
                               <a  type="button" 
-                                  href="{{ route('rlp-chain.show',$data->id) }}"
+                                  href="<?php echo e(route('rlp-chain.show',$data->id)); ?>"
                                   class="btn btn-sm btn-default  mr-1"><i class="fa fa-eye"></i></a>
 
-                             @can('rlp-chain-edit')
+                             <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('rlp-chain-edit')): ?>
                                   <a  type="button" 
-                                  href="{{ route('rlp-chain.edit',$data->id) }}"
+                                  href="<?php echo e(route('rlp-chain.edit',$data->id)); ?>"
                                  
                                   class="btn btn-sm btn-default  mr-1"><i class="fa fa-pen "></i></a>
-                              @endcan  
+                              <?php endif; ?>  
                                
                             </td>
-                            <td>{{ $data->id }}</td>
+                            <td><?php echo e($data->id); ?></td>
                             
 
 
-                            <td>{{ $data->_organization->_name ?? '' }}</td>
-                            <td>{{ $data->_branch->_name ?? '' }}</td>
-                            <td>{{ $data->_cost_center->_name ?? '' }}</td>
-                            <td>{{ $data->chain_name ?? '' }}</td>
+                            <td><?php echo e($data->_organization->_name ?? ''); ?></td>
+                            <td><?php echo e($data->_branch->_name ?? ''); ?></td>
+                            <td><?php echo e($data->_cost_center->_name ?? ''); ?></td>
+                            <td><?php echo e($data->chain_name ?? ''); ?></td>
                             <td>
                               
-                              @php
+                              <?php
                               $_chain_user = $data->_chain_user ?? [];
-                              @endphp
-                              @if(sizeof($_chain_user) > 0)
+                              ?>
+                              <?php if(sizeof($_chain_user) > 0): ?>
                               <table class="table">
-                                @forelse($_chain_user as $key=>$val)
+                                <?php $__empty_1 = true; $__currentLoopData = $_chain_user; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                                   <tr>
-                                    <td>{!! $val->user_id ?? '' !!}</td>
-                                    <td>{!! _find_employee_name($val->user_id ?? '') !!}</td>
-                                    <td>{!! $val->_user_group->_name ?? '' !!}</td>
-                                    <td>{!! $val->_order ?? '' !!}</td>
+                                    <td><?php echo $val->user_id ?? ''; ?></td>
+                                    <td><?php echo _find_employee_name($val->user_id ?? ''); ?></td>
+                                    <td><?php echo $val->_user_group->_name ?? ''; ?></td>
+                                    <td><?php echo $val->_order ?? ''; ?></td>
                                     
                                   </tr>
-                                @empty
-                                @endforelse
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                                <?php endif; ?>
                                 </table>
-                              @endif
+                              <?php endif; ?>
                             </td>
-                           <td>{{ selected_status($data->_status) }}</td>
-                           <td>{{ $data->_entry_by->name ?? '' }}</td>
+                           <td><?php echo e(selected_status($data->_status)); ?></td>
+                           <td><?php echo e($data->_entry_by->name ?? ''); ?></td>
                            
                         </tr>
                         
-                        @endforeach
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         
 
                         </tbody>
@@ -163,15 +164,15 @@ $__user= Auth::user();
     </div>
 </div>
 
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('script')
+<?php $__env->startSection('script'); ?>
 
 <script type="text/javascript">
  $(function () {
-   var default_date_formate = `{{default_date_formate()}}`
-   var _datex = `{{$request->_datex ?? '' }}`
-   var _datey = `{{$request->_datey ?? '' }}`
+   var default_date_formate = `<?php echo e(default_date_formate()); ?>`
+   var _datex = `<?php echo e($request->_datex ?? ''); ?>`
+   var _datey = `<?php echo e($request->_datey ?? ''); ?>`
     
      $('#reservationdate_datex').datetimepicker({
         format:'L'
@@ -222,4 +223,5 @@ function after_request_date__today(_date){
  
 
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('backend.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\xampp\htdocs\own\inv-acc-hrm\resources\views/rlp-module/rlp-chain/index.blade.php ENDPATH**/ ?>

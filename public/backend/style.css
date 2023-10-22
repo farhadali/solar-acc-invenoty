@@ -237,6 +237,12 @@ label{
 ._barcode_search_row_item:hover{
     background: #a3dfe2;
 }
+.search_box_employee{
+    position: absolute;
+    z-index: 9999;
+    background: #fff;
+    display: none;
+}
 .search_box{
     position: absolute;
     z-index: 9999;

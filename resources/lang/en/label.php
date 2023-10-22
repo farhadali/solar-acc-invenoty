@@ -17,6 +17,12 @@ return [
 
 
 
+    'entry' => 'Entry',
+    '_order' => 'Order',
+    '_group_name' => 'Group Name',
+    'rlp' => 'RLP',
+    'rlp-info' => 'RLP Information',
+    'rlp-chain' => 'RLP Chain',
     'issue_return_no' => 'Issue Return No',
     'material_issue_return' => 'Material Issue Return',
     '_vat' => 'Vat',

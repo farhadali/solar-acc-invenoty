@@ -1,7 +1,7 @@
-@extends('backend.layouts.app')
-@section('title',$page_name)
 
-@section('content')
+<?php $__env->startSection('title',$page_name); ?>
+
+<?php $__env->startSection('content'); ?>
 
   <div class="content ">
       <div class="container-fluid">
@@ -10,18 +10,19 @@
           <div class="card">
            <div class="row mb-2">
                   <div class="col-sm-6">
-                    <a class="m-0 _page_name" href="{{ route('rlp.index') }}">{!! $page_name !!} </a>
+                    <a class="m-0 _page_name" href="<?php echo e(route('rlp.index')); ?>"><?php echo $page_name; ?> </a>
                   </div><!-- /.col -->
                   <div class="col-sm-6">
                     
                   </div><!-- /.col -->
                 </div><!-- /.row -->
           <div class="message-area">
-    @include('backend.message.message')
+    <?php echo $__env->make('backend.message.message', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     </div>
          
             <div class="card-body p-4" >
-                {!! Form::open(array('route' => 'rlp.store','method'=>'POST')) !!}
+                <?php echo Form::open(array('route' => 'rlp.store','method'=>'POST')); ?>
+
                 
             <div class="row" >
             <div class="col-xs-12 col-sm-12 col-md-2">
@@ -41,11 +42,11 @@
               <div class="form-group ">
                 <label>Priority:<span class="_required">*</span></label>
                 <select class="form-control priority" name="priority" required >
-                  <option value="">{{__('label.select')}}</option>
-                  @forelse(priorities() as $p_key=>$p_val)
-                  <option value="{{$p_key}}">{{$p_val}}</option>
-                  @empty
-                  @endforelse
+                  <option value=""><?php echo e(__('label.select')); ?></option>
+                  <?php $__empty_1 = true; $__currentLoopData = priorities(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $p_key=>$p_val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                  <option value="<?php echo e($p_key); ?>"><?php echo e($p_val); ?></option>
+                  <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                  <?php endif; ?>
                 </select>
               </div>
             </div>
@@ -60,13 +61,13 @@
 
             <div class="col-xs-12 col-sm-12 col-md-2 ">
               <div class="form-group ">
-                  <label>{!! __('label.organization') !!}:<span class="_required">*</span></label>
+                  <label><?php echo __('label.organization'); ?>:<span class="_required">*</span></label>
                   <select class="form-control _master_organization_id" name="organization_id" required >
 
-                     @forelse($permited_organizations as $val )
-                     <option value="{{$val->id}}" @if(isset($data->organization_id)) @if($data->organization_id == $val->id) selected @endif   @endif>{{ $val->id ?? '' }} - {{ $val->_name ?? '' }}</option>
-                     @empty
-                     @endforelse
+                     <?php $__empty_1 = true; $__currentLoopData = $permited_organizations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                     <option value="<?php echo e($val->id); ?>" <?php if(isset($data->organization_id)): ?> <?php if($data->organization_id == $val->id): ?> selected <?php endif; ?>   <?php endif; ?>><?php echo e($val->id ?? ''); ?> - <?php echo e($val->_name ?? ''); ?></option>
+                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                     <?php endif; ?>
                    </select>
                </div>
               </div>
@@ -75,22 +76,22 @@
                       <label>Branch:<span class="_required">*</span></label>
                      <select class="form-control _master_branch_id" name="_branch_id" required >
                         
-                        @forelse($permited_branch as $branch )
-                        <option value="{{$branch->id}}" @if(isset($data->_branch_id)) @if($data->_branch_id == $branch->id) selected @endif   @endif>{{ $branch->id ?? '' }} - {{ $branch->_name ?? '' }}</option>
-                        @empty
-                        @endforelse
+                        <?php $__empty_1 = true; $__currentLoopData = $permited_branch; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $branch): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                        <option value="<?php echo e($branch->id); ?>" <?php if(isset($data->_branch_id)): ?> <?php if($data->_branch_id == $branch->id): ?> selected <?php endif; ?>   <?php endif; ?>><?php echo e($branch->id ?? ''); ?> - <?php echo e($branch->_name ?? ''); ?></option>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                        <?php endif; ?>
                       </select>
                   </div>
               </div>
               <div class="col-xs-12 col-sm-12 col-md-2 ">
                   <div class="form-group ">
-                      <label>{{__('label.Cost center')}}:<span class="_required">*</span></label>
+                      <label><?php echo e(__('label.Cost center')); ?>:<span class="_required">*</span></label>
                      <select class="form-control _cost_center_id" name="_cost_center_id" required >
                         
-                        @forelse($permited_costcenters as $cost_center )
-                        <option value="{{$cost_center->id}}" @if(isset($data->_cost_center_id)) @if($data->_cost_center_id == $cost_center->id) selected @endif   @endif>{{ $cost_center->id ?? '' }} - {{ $cost_center->_name ?? '' }}</option>
-                        @empty
-                        @endforelse
+                        <?php $__empty_1 = true; $__currentLoopData = $permited_costcenters; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cost_center): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                        <option value="<?php echo e($cost_center->id); ?>" <?php if(isset($data->_cost_center_id)): ?> <?php if($data->_cost_center_id == $cost_center->id): ?> selected <?php endif; ?>   <?php endif; ?>><?php echo e($cost_center->id ?? ''); ?> - <?php echo e($cost_center->_name ?? ''); ?></option>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                        <?php endif; ?>
                       </select>
                   </div>
               </div>
@@ -175,7 +176,7 @@
 
                       <!-- <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
-                                <label>{{__('label._status')}}:</label>
+                                <label><?php echo e(__('label._status')); ?>:</label>
                                 <select class="form-control" name="_status">
                                   <option value="1">Active</option>
                                   <option value="0">In Active</option>
@@ -184,11 +185,12 @@
                         </div> -->
                 
                         <div class="col-xs-12 col-sm-12 col-md-12  text-middle">
-                            <button type="submit" class="btn btn-success  ml-5"><i class="fa fa-credit-card mr-2" aria-hidden="true"></i> {{__('label.save')}}</button>
+                            <button type="submit" class="btn btn-success  ml-5"><i class="fa fa-credit-card mr-2" aria-hidden="true"></i> <?php echo e(__('label.save')); ?></button>
                            
                         </div>
                         <br><br>
-                    {!! Form::close() !!}
+                    <?php echo Form::close(); ?>
+
                 
               </div>
               </div>
@@ -202,9 +204,9 @@
 
 
 
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('script')
+<?php $__env->startSection('script'); ?>
 
 <script type="text/javascript">
 
@@ -212,7 +214,7 @@
  
     $(function () {
 
-     var default_date_formate = `{{default_date_formate()}}`
+     var default_date_formate = `<?php echo e(default_date_formate()); ?>`
          $('#reservationdate').datetimepicker({
             format:default_date_formate
         });
@@ -282,7 +284,7 @@ $(document).on('keyup','._search_item_id',delay(function(e){
 
 
   var request = $.ajax({
-      url: "{{url('item-purchase-search')}}",
+      url: "<?php echo e(url('item-purchase-search')); ?>",
       method: "GET",
       data: { _text_val : _text_val },
       dataType: "JSON"
@@ -348,7 +350,7 @@ $(document).on('click','.search_row_item',function(){
 var self = $(this);
 
     var request = $.ajax({
-      url: "{{url('item-wise-units')}}",
+      url: "<?php echo e(url('item-wise-units')); ?>",
       method: "GET",
       data: { item_id:_id },
        dataType: "html"
@@ -462,5 +464,7 @@ function _rlp_total_calculation(){
   }    
 
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
 
+
+<?php echo $__env->make('backend.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\xampp\htdocs\own\inv-acc-hrm\resources\views/rlp-module/rlp/create.blade.php ENDPATH**/ ?>

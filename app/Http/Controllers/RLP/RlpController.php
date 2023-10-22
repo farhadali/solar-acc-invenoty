@@ -5,9 +5,21 @@ namespace App\Http\Controllers\RLP;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
+use Session;
 
 class RlpController extends Controller
 {
+
+     function __construct()
+    {
+        
+         $this->middleware('permission:rlp-create', ['only' => ['create','store']]);
+         $this->middleware('permission:rlp-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:rlp-list', ['only' => ['index']]);
+         $this->middleware('permission:rlp-delete', ['only' => ['destroy']]);
+         $this->page_name = __('label.rlp-info');
+    }
+
     /**
      * Display a listing of the resource.
      *

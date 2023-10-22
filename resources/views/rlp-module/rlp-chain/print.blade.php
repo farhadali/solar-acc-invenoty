@@ -41,14 +41,16 @@
     <!-- info row -->
    
   
-<div class="table-responsive">
-   <table class="table table-bordered _list_table">
+<div class="">
+    <table class="table table-bordered _list_table">
                      <thead>
                         <tr>
                          <th class=""><b>{{__('label.id')}}</b></th>
-                         <th class=""><b>{{__('label._code')}}</b></th>
-                         <th class=""><b>{{__('label._name')}}</b></th>
-                         <th class=""><b>{{__('label._details')}}</b></th>
+                         <th class=""><b>{{__('label.organization')}}</b></th>
+                         <th class=""><b>{{__('label.Branch')}}</b></th>
+                         <th class=""><b>{{__('label.Cost center')}}</b></th>
+                         <th class=""><b>{{__('label.chain_name')}}</b></th>
+                         <th class=""><b>{{__('label.details')}}</b></th>
                          <th class=""><b>{{__('label._status')}}</b></th>
                          <th class=""><b>{{__('label.user')}}</b></th>
                       </tr>
@@ -56,13 +58,37 @@
                      <tbody>
                       
                         @foreach ($datas as $key => $data)
-                        
                         <tr>
                             
+                            
                             <td>{{ $data->id }}</td>
-                            <td>{{ $data->_code ?? '' }}</td>
-                            <td>{{ $data->_name ?? '' }}</td>
-                            <td>{{ $data->_details ?? '' }}</td>
+                            
+
+
+                            <td>{{ $data->_organization->_name ?? '' }}</td>
+                            <td>{{ $data->_branch->_name ?? '' }}</td>
+                            <td>{{ $data->_cost_center->_name ?? '' }}</td>
+                            <td>{{ $data->chain_name ?? '' }}</td>
+                            <td>
+                              
+                              @php
+                              $_chain_user = $data->_chain_user ?? [];
+                              @endphp
+                              @if(sizeof($_chain_user) > 0)
+                              <table class="table">
+                                @forelse($_chain_user as $key=>$val)
+                                  <tr>
+                                    <td>{!! $val->user_id ?? '' !!}</td>
+                                    <td>{!! _find_employee_name($val->user_id ?? '') !!}</td>
+                                    <td>{!! $val->_user_group->_name ?? '' !!}</td>
+                                    <td>{!! $val->_order ?? '' !!}</td>
+                                   
+                                  </tr>
+                                @empty
+                                @endforelse
+                                </table>
+                              @endif
+                            </td>
                            <td>{{ selected_status($data->_status) }}</td>
                            <td>{{ $data->_entry_by->name ?? '' }}</td>
                            
