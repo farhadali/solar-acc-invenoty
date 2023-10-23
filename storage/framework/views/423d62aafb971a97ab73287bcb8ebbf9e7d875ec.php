@@ -50,20 +50,32 @@
                 </select>
               </div>
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-2">
+            <!-- <div class="col-xs-12 col-sm-12 col-md-2">
                   <div class="form-group">
                       <label>RLP No:</label>
                         <div class="input-group" id="rlp_no" >
                           <input type="text" name="rlp_no" class="form-control" readonly />
                         </div>
                     </div>
-              </div>
+              </div> -->
 
+            <div class="col-xs-12 col-sm-12 col-md-2 ">
+              <div class="form-group ">
+                  <label><?php echo __('label.rlp-chain'); ?>:<span class="_required">*</span></label>
+                  <select class="form-control _master_rlp_chain_id" name="chain_id" required >
+                    <option value=""><?php echo e(__('label.select')); ?> <?php echo e(__('label.rlp-chain')); ?></option>
+                     <?php $__empty_1 = true; $__currentLoopData = $rlp_chains; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                     <option value="<?php echo e($val->id); ?>" ><?php echo e($val->chain_name ?? ''); ?></option>
+                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                     <?php endif; ?>
+                   </select>
+               </div>
+              </div>
             <div class="col-xs-12 col-sm-12 col-md-2 ">
               <div class="form-group ">
                   <label><?php echo __('label.organization'); ?>:<span class="_required">*</span></label>
                   <select class="form-control _master_organization_id" name="organization_id" required >
-
+                    <option value=""><?php echo e(__('label.select')); ?></option>
                      <?php $__empty_1 = true; $__currentLoopData = $permited_organizations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                      <option value="<?php echo e($val->id); ?>" <?php if(isset($data->organization_id)): ?> <?php if($data->organization_id == $val->id): ?> selected <?php endif; ?>   <?php endif; ?>><?php echo e($val->id ?? ''); ?> - <?php echo e($val->_name ?? ''); ?></option>
                      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
@@ -75,7 +87,7 @@
                   <div class="form-group ">
                       <label>Branch:<span class="_required">*</span></label>
                      <select class="form-control _master_branch_id" name="_branch_id" required >
-                        
+                        <option value=""><?php echo e(__('label.select')); ?></option>
                         <?php $__empty_1 = true; $__currentLoopData = $permited_branch; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $branch): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                         <option value="<?php echo e($branch->id); ?>" <?php if(isset($data->_branch_id)): ?> <?php if($data->_branch_id == $branch->id): ?> selected <?php endif; ?>   <?php endif; ?>><?php echo e($branch->id ?? ''); ?> - <?php echo e($branch->_name ?? ''); ?></option>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
@@ -87,7 +99,7 @@
                   <div class="form-group ">
                       <label><?php echo e(__('label.Cost center')); ?>:<span class="_required">*</span></label>
                      <select class="form-control _cost_center_id" name="_cost_center_id" required >
-                        
+                        <option value=""><?php echo e(__('label.select')); ?></option>
                         <?php $__empty_1 = true; $__currentLoopData = $permited_costcenters; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cost_center): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                         <option value="<?php echo e($cost_center->id); ?>" <?php if(isset($data->_cost_center_id)): ?> <?php if($data->_cost_center_id == $cost_center->id): ?> selected <?php endif; ?>   <?php endif; ?>><?php echo e($cost_center->id ?? ''); ?> - <?php echo e($cost_center->_name ?? ''); ?></option>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
@@ -95,14 +107,37 @@
                       </select>
                   </div>
               </div>
-
-
-              <div class="col-xs-12 col-sm-12 col-md-12">
-                    <div class="form-group">
-                        <label>Remarks:</label>
-                        <textarea class="form-control" name="user_remarks"></textarea>
-                    </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label><?php echo e(__('label.request_person')); ?></label>
+                  <input type="text" name="user_id_name" class="form-control user_id_name" placeholder="<?php echo e(__('label.request_person')); ?>">
+                  <input type="hidden" name="request_person" class="request_person">
                 </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label><?php echo e(__('label.designation')); ?></label>
+                  <input type="text" name="designation" class="form-control designation" placeholder="<?php echo e(__('label.designation')); ?>" readonly>
+                  
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label><?php echo e(__('label.email')); ?></label>
+                  <input type="text" name="email" class="form-control email" placeholder="<?php echo e(__('label.email')); ?>" readonly>
+                  
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label><?php echo e(__('label.contact_number')); ?></label>
+                  <input type="text" name="contact_number" class="form-control contact_number" placeholder="<?php echo e(__('label.contact_number')); ?>" >
+                  
+                </div>
+              </div>
+
+    
+              
                 <div class="col-md-12  ">
                              <div class="card">
                               <div class="card-header">
@@ -171,6 +206,20 @@
                                       </table>
                                 </div>
                             </div>
+                          </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <div class="form-group">
+                                <label>Remarks:</label>
+                                <textarea class="form-control" name="user_remarks"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                          <div class="card">
+                            <div class="card-header">
+                              <h3>Apporoval Chain Details</h3>
+                            </div>
+                            <div class="card-body chain_detail_section"></div>
                           </div>
                         </div>
 
@@ -245,6 +294,53 @@
      
 
  }); 
+
+
+  $(document).on('change',"._master_rlp_chain_id",function(){
+        var chain_id = $(this).val();
+        var self = $(this);
+        var request = $.ajax({
+          url: "<?php echo e(url('rlp-chain-wise-detail')); ?>",
+          method: "GET",
+          data: { chain_id:chain_id },
+        });
+         
+        request.done(function( response ) {
+          var data = response.data;
+
+          $(document).find("._master_organization_id").val(data?.organization_id).change();
+          $(document).find("._master_branch_id").val(data?._branch_id).change();
+          $(document).find("._cost_center_id").val(data?._cost_center_id).change();
+
+          var chain_user_details = data?._chain_user;
+          var table=`<table class="table table-bordered">
+          <tr>
+          <th>Group</th>
+          <th>EMP ID</th>
+          <th>Name</th>
+          <th>Order</th>
+          </tr>`
+          for (var i = 0; i < chain_user_details?.length; i++) {
+            table+=`<tr style="background:${chain_user_details[i]?._user_group?._color}">
+                    <td>${chain_user_details[i]?._user_group?._name}</td>
+                    <td>${chain_user_details[i]?._user_info?._code}</td>
+                    <td>${chain_user_details[i]?._user_info?._name}</td>
+                    <td>${chain_user_details[i]?._order}</td>
+                    
+              </tr>`;
+            chain_user_details[i]
+          }
+          table+=`<table>`;
+
+          $(document).find(".chain_detail_section").html(table);
+
+         console.log(response)
+        });
+         
+        request.fail(function( jqXHR, textStatus ) {
+          alert( "Request failed: " + textStatus );
+        });
+  })
 
   function _item_add_new_row(event){
     $(document).find("#area__rlp_item_details").append(`<tr class="_purchase_row">

@@ -32,7 +32,39 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+//own user name and password Update
 
+    public function userProfile(){
+         $user = Auth::user();
+        return view('users.profile',compact('user'));
+    }
+    public function profileUpdate(Request $request){
+        $id = $request->id;
+         $this->validate($request, [
+            'id' => 'required',
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email,'.$id,
+            
+        ]);
+        
+        
+        $input = $request->all();
+        if(!empty($input['password'])){ 
+            $input['password'] = Hash::make($input['password']);
+        }else{
+            $input = Arr::except($input,array('password'));    
+        }
+        if($request->hasFile('image')){ 
+            $_image = UserImageUpload($request->image); 
+            $input['image'] = $_image;
+        }
+        
+        $user = User::find($id);
+        $user->update($input);
+        
+
+        return redirect()->back()->with('success','Profile updated successfully');
+    }
 
 
     public function index(Request $request)

@@ -53,19 +53,16 @@
                             <td>{{ ++$i }}</td>
                             <td style="display: flex;">
                            
-                                <button  type="button" 
-                                  attr_base_edit_url="{{ route('roles.show',$role->id) }}"
-                                  data-toggle="modal" 
-                                  data-target="#commonEntryModal_item" 
-                                  class="btn btn-sm btn-default attr_base_edit_url mr-1"><i class="fa fa-eye"></i></button>
+                                <a  href="{{ route('roles.show',$role->id) }}" 
+                                   
+                                  class="btn btn-sm btn-default  mr-1"><i class="fa fa-eye"></i></a>
 
 
                                   @can('role-edit')
-                                  <button  type="button" 
-                                  attr_base_edit_url="{{ route('roles.edit',$role->id) }}"
-                                  data-toggle="modal" 
-                                  data-target="#commonEntryModal_item" 
-                                  class="btn btn-sm btn-default attr_base_edit_url mr-1"><i class="fa fa-pen "></i></button>
+                                  <a   
+                                  href="{{ route('roles.edit',$role->id) }}"
+                                  
+                                  class="btn btn-sm btn-default  mr-1"><i class="fa fa-pen "></i></a>
 
                                     
                                   @endcan

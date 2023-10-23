@@ -67,6 +67,41 @@ function convert_number($number)
 
 //RLP Database Connection
 
+if (! function_exists('create_update_user')) {
+    function create_update_user($request)
+    {
+      
+      if($request->_ledger_is_user ==1){
+        $user_id = $request->user_id ?? 0;
+        $_ledger_id = $request->_ledger_id ?? 0;
+        if($user_id ==0){
+            $user = new \App\Models\User();
+        }else{
+           $user =  \App\Models\User::find($user_id); 
+        }
+        $user->name = $request->_name;
+        $user->user_name = $request->_code;
+        $user->email = $request->_email ?? '';
+        $user->user_type = 'user';
+        $user->ref_id = $_ledger_id;
+        $user->organization_ids = $request->organization_id ?? '';
+        $user->branch_ids = $request->_branch_id ?? '';
+        $user->cost_center_ids = $request->_cost_center_id ?? '';
+
+        $user->status = 0;
+        $user->save();
+        $user->assignRole('user');
+        $user_id = $user->id;
+
+        return $user_id;
+      }else{
+        return 0;
+      }
+    }
+}
+
+
+
 if (! function_exists('access_chain_types')) {
     function access_chain_types()
     {
@@ -1297,7 +1332,7 @@ if (! function_exists('database_backup_info')) {
                 $statement = $connect->prepare($show_table_query);
                 $statement->execute();
                 $show_table_result = $statement->fetchAll();
-                //dump($show_table_result);
+                
 
                 foreach($show_table_result as $show_table_row)
                 {
@@ -1327,7 +1362,7 @@ if (! function_exists('database_backup_info')) {
                     $output .= "'" . implode("','", $remvoe_coma_from_array_values) . "');\n";
                 }
             }
-            $file_name = 'database_backup_on_' . date('y-m-d') . '.sql';
+            $file_name = $DbName."_". date('y-m-d') . '.sql';
             $file_handle = fopen($file_name, 'w+');
             fwrite($file_handle, $output);
             fclose($file_handle);

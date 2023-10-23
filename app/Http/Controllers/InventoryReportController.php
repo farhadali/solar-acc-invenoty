@@ -1337,7 +1337,7 @@ public function reportStockLedgerHistory(Request $request){
        
 
    
-     $_items = $request->_item_id;
+    $_items = $request->_item_id;
     $request_branchs = $request->_branch_id ?? [];
     $request_cost_centers = $request->_cost_center ?? [];
     $request_organization_ids = $request->organization_id ?? [];
@@ -1366,7 +1366,11 @@ public function reportStockLedgerHistory(Request $request){
       $_organization_ids = filterableOrganization($request_organizations,$permited_organizations);
       $_organization_id_rows = implode(',', $_organization_ids);
 
-       $datas = PurchaseDetail::with(['_purchase_master','_purchase_barcode','_purchase_master','_lot_product_history','_purchase_return_details'])->where('_item_id',$request->_item_id)->get();
+       // $datas = PurchaseDetail::with(['_purchase_master','_purchase_barcode','_purchase_master','_lot_product_history','_purchase_return_details'])->where('_item_id',$request->_item_id)->get();
+      $purchase_type = 0;
+      $datas = ProductPriceList::with(['_purchase_detail','_lot_wise_sales_details','_lot_wise_sales_return_details','_purchase_detail' => function($q) use ($purchase_type){
+        $q->where('_status', $purchase_type);
+    }])->where('_item_id',$request->_item_id)->get();
       
       
 return $datas;

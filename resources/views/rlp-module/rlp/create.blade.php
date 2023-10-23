@@ -49,20 +49,32 @@
                 </select>
               </div>
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-2">
+            <!-- <div class="col-xs-12 col-sm-12 col-md-2">
                   <div class="form-group">
                       <label>RLP No:</label>
                         <div class="input-group" id="rlp_no" >
                           <input type="text" name="rlp_no" class="form-control" readonly />
                         </div>
                     </div>
-              </div>
+              </div> -->
 
+            <div class="col-xs-12 col-sm-12 col-md-2 ">
+              <div class="form-group ">
+                  <label>{!! __('label.rlp-chain') !!}:<span class="_required">*</span></label>
+                  <select class="form-control _master_rlp_chain_id" name="chain_id" required >
+                    <option value="">{{__('label.select')}} {{__('label.rlp-chain')}}</option>
+                     @forelse($rlp_chains as $val )
+                     <option value="{{$val->id}}" >{{ $val->chain_name ?? '' }}</option>
+                     @empty
+                     @endforelse
+                   </select>
+               </div>
+              </div>
             <div class="col-xs-12 col-sm-12 col-md-2 ">
               <div class="form-group ">
                   <label>{!! __('label.organization') !!}:<span class="_required">*</span></label>
                   <select class="form-control _master_organization_id" name="organization_id" required >
-
+                    <option value="">{{__('label.select')}}</option>
                      @forelse($permited_organizations as $val )
                      <option value="{{$val->id}}" @if(isset($data->organization_id)) @if($data->organization_id == $val->id) selected @endif   @endif>{{ $val->id ?? '' }} - {{ $val->_name ?? '' }}</option>
                      @empty
@@ -74,7 +86,7 @@
                   <div class="form-group ">
                       <label>Branch:<span class="_required">*</span></label>
                      <select class="form-control _master_branch_id" name="_branch_id" required >
-                        
+                        <option value="">{{__('label.select')}}</option>
                         @forelse($permited_branch as $branch )
                         <option value="{{$branch->id}}" @if(isset($data->_branch_id)) @if($data->_branch_id == $branch->id) selected @endif   @endif>{{ $branch->id ?? '' }} - {{ $branch->_name ?? '' }}</option>
                         @empty
@@ -86,7 +98,7 @@
                   <div class="form-group ">
                       <label>{{__('label.Cost center')}}:<span class="_required">*</span></label>
                      <select class="form-control _cost_center_id" name="_cost_center_id" required >
-                        
+                        <option value="">{{__('label.select')}}</option>
                         @forelse($permited_costcenters as $cost_center )
                         <option value="{{$cost_center->id}}" @if(isset($data->_cost_center_id)) @if($data->_cost_center_id == $cost_center->id) selected @endif   @endif>{{ $cost_center->id ?? '' }} - {{ $cost_center->_name ?? '' }}</option>
                         @empty
@@ -94,14 +106,37 @@
                       </select>
                   </div>
               </div>
-
-
-              <div class="col-xs-12 col-sm-12 col-md-12">
-                    <div class="form-group">
-                        <label>Remarks:</label>
-                        <textarea class="form-control" name="user_remarks"></textarea>
-                    </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>{{__('label.request_person')}}</label>
+                  <input type="text" name="user_id_name" class="form-control user_id_name" placeholder="{{__('label.request_person')}}">
+                  <input type="hidden" name="request_person" class="request_person">
                 </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>{{__('label.designation')}}</label>
+                  <input type="text" name="designation" class="form-control designation" placeholder="{{__('label.designation')}}" readonly>
+                  
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>{{__('label.email')}}</label>
+                  <input type="text" name="email" class="form-control email" placeholder="{{__('label.email')}}" readonly>
+                  
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>{{__('label.contact_number')}}</label>
+                  <input type="text" name="contact_number" class="form-control contact_number" placeholder="{{__('label.contact_number')}}" >
+                  
+                </div>
+              </div>
+
+    
+              
                 <div class="col-md-12  ">
                              <div class="card">
                               <div class="card-header">
@@ -170,6 +205,20 @@
                                       </table>
                                 </div>
                             </div>
+                          </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <div class="form-group">
+                                <label>Remarks:</label>
+                                <textarea class="form-control" name="user_remarks"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                          <div class="card">
+                            <div class="card-header">
+                              <h3>Apporoval Chain Details</h3>
+                            </div>
+                            <div class="card-body chain_detail_section"></div>
                           </div>
                         </div>
 
@@ -243,6 +292,53 @@
      
 
  }); 
+
+
+  $(document).on('change',"._master_rlp_chain_id",function(){
+        var chain_id = $(this).val();
+        var self = $(this);
+        var request = $.ajax({
+          url: "{{url('rlp-chain-wise-detail')}}",
+          method: "GET",
+          data: { chain_id:chain_id },
+        });
+         
+        request.done(function( response ) {
+          var data = response.data;
+
+          $(document).find("._master_organization_id").val(data?.organization_id).change();
+          $(document).find("._master_branch_id").val(data?._branch_id).change();
+          $(document).find("._cost_center_id").val(data?._cost_center_id).change();
+
+          var chain_user_details = data?._chain_user;
+          var table=`<table class="table table-bordered">
+          <tr>
+          <th>Group</th>
+          <th>EMP ID</th>
+          <th>Name</th>
+          <th>Order</th>
+          </tr>`
+          for (var i = 0; i < chain_user_details?.length; i++) {
+            table+=`<tr style="background:${chain_user_details[i]?._user_group?._color}">
+                    <td>${chain_user_details[i]?._user_group?._name}</td>
+                    <td>${chain_user_details[i]?._user_info?._code}</td>
+                    <td>${chain_user_details[i]?._user_info?._name}</td>
+                    <td>${chain_user_details[i]?._order}</td>
+                    
+              </tr>`;
+            chain_user_details[i]
+          }
+          table+=`<table>`;
+
+          $(document).find(".chain_detail_section").html(table);
+
+         console.log(response)
+        });
+         
+        request.fail(function( jqXHR, textStatus ) {
+          alert( "Request failed: " + textStatus );
+        });
+  })
 
   function _item_add_new_row(event){
     $(document).find("#area__rlp_item_details").append(`<tr class="_purchase_row">

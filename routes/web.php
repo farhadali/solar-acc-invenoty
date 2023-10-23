@@ -78,8 +78,9 @@ use App\Http\Controllers\PM\ProjectManagementController;
 
 Route::get('/', 'App\Http\Controllers\FrontendController@index');
 
-Auth::routes();
 
+Auth::routes();
+Route::post('/login', 'App\Http\Controllers\CustomLoginController@login');
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
@@ -677,6 +678,9 @@ Route::get('item-history-update','App\Http\Controllers\InventoryReportController
 
     Route::get('invoice-prefix','App\Http\Controllers\GeneralSettingsController@invoicePrefix')->name('invoice-prefix');
     Route::post('invoice-prefix-store','App\Http\Controllers\GeneralSettingsController@invoicePrefixStore');
+
+    Route::get('user-profile','App\Http\Controllers\UserController@userProfile');
+    Route::post('user-profile-update','App\Http\Controllers\UserController@profileUpdate');
 
 
 

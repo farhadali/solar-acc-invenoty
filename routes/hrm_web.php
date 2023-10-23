@@ -24,6 +24,7 @@ use App\Http\Controllers\HrmDesignationController;
 Route::resource('hrm-employee',HrmEmployeesController::class);
 
 Route::get('employee-search','App\Http\Controllers\HrmEmployeesController@employeeSearch');
+Route::get('employee-dataupdate','App\Http\Controllers\HrmEmployeesController@employeeDataUpdate');
 Route::resource('hrm-designation',HrmDesignationController::class);
 
 Route::resource('weekworkday',HrmWeekworkdayController::class);

@@ -1326,25 +1326,9 @@
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <span class="dropdown-item dropdown-header">User Name :  <b><?php echo e(Auth::user()->name ?? ''); ?></b></span>
           <div class="dropdown-divider"></div>
-          <?php if(Auth::user()->ref_id ==0): ?>
-          <button  type="button" 
-                                  attr_base_edit_url="<?php echo e(route('users.edit',Auth::user()->id)); ?>"
-                                  data-toggle="modal" 
-                                  data-target="#commonEntryModal_item" 
-                                  class="btn btn-sm btn-default attr_base_edit_url mr-1"><i class="fa fa-pen "></i>Update Profile</button>
-          <?php else: ?>
-          <button  type="button" 
-                                  attr_base_edit_url="<?php echo e(route('users.edit',Auth::user()->id)); ?>"
-                                  data-toggle="modal" 
-                                  data-target="#commonEntryModal_item" 
-                                  class="btn btn-sm btn-default attr_base_edit_url mr-1"><i class="fa fa-pen "></i>Update Profile</button>
-            <!-- <a class="dropdown-item text-center" 
-                        href="<?php echo e(url('branch_user')); ?>/<?php echo e(Auth::user()->id); ?>/edit"
-                        >
-                  <?php echo e(__('Profile')); ?>
-
-            </a> -->
-          <?php endif; ?>
+          <div class="text-center">
+             <a href="<?php echo e(url('user-profile')); ?>"><?php echo e(__('label.profile')); ?></a>
+          </div>
         <div class="dropdown-divider"></div>
                 <a class="dropdown-item text-center" 
                         href="<?php echo e(route('logout')); ?>"

@@ -84,8 +84,8 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label><?php echo __('label._code'); ?>:</label>
-                                <?php echo Form::text('_code', old('_code'), array('placeholder' => __('label._code'),'class' => 'form-control')); ?>
+                                <label><?php echo __('label.EMP_ID'); ?>:<span class="_required">*</span></label>
+                                <?php echo Form::text('_code', old('_code'), array('placeholder' => __('label._code'),'class' => 'form-control','required'=>'required')); ?>
 
                                 
                             </div>
@@ -286,6 +286,15 @@ $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids
                                 <label><?php echo __('label.image'); ?>:<span class="_required">*</span></label>
                                 <input type="file" accept="image/*" onchange="loadFile(event,1 )"  name="_photo" class="form-control">
                                <img id="output_1" class="banner_image_create" src="<?php echo e(asset('/')); ?><?php echo e($settings->logo ?? ''); ?>"  style="max-height:100px;max-width: 100px; " />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label><?php echo e(__('label._ledger_is_user')); ?>:</label>
+                                <select class="form-control" name="_ledger_is_user">
+                                  <option value="0">No</option>
+                                  <option value="1">Yes</option>
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-3">

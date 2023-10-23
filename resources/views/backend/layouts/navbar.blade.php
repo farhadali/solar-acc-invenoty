@@ -1234,24 +1234,9 @@
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <span class="dropdown-item dropdown-header">User Name :  <b>{{Auth::user()->name ?? '' }}</b></span>
           <div class="dropdown-divider"></div>
-          @if(Auth::user()->ref_id ==0)
-          <button  type="button" 
-                                  attr_base_edit_url="{{ route('users.edit',Auth::user()->id) }}"
-                                  data-toggle="modal" 
-                                  data-target="#commonEntryModal_item" 
-                                  class="btn btn-sm btn-default attr_base_edit_url mr-1"><i class="fa fa-pen "></i>Update Profile</button>
-          @else
-          <button  type="button" 
-                                  attr_base_edit_url="{{ route('users.edit',Auth::user()->id) }}"
-                                  data-toggle="modal" 
-                                  data-target="#commonEntryModal_item" 
-                                  class="btn btn-sm btn-default attr_base_edit_url mr-1"><i class="fa fa-pen "></i>Update Profile</button>
-            <!-- <a class="dropdown-item text-center" 
-                        href="{{ url('branch_user') }}/{{Auth::user()->id}}/edit"
-                        >
-                  {{ __('Profile') }}
-            </a> -->
-          @endif
+          <div class="text-center">
+             <a href="{{url('user-profile')}}">{{__('label.profile')}}</a>
+          </div>
         <div class="dropdown-divider"></div>
                 <a class="dropdown-item text-center" 
                         href="{{ route('logout') }}"

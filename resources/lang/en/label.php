@@ -17,6 +17,10 @@ return [
 
 
 
+    'EMP_ID' => 'EMP ID',
+    'profile' => 'Profile',
+    'profile_update' => 'Profile Update',
+    '_ledger_is_user' => 'Create User Account',
     'entry' => 'Entry',
     '_order' => 'Order',
     '_group_name' => 'Group Name',

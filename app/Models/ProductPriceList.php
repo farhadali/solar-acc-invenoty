@@ -48,6 +48,9 @@ class ProductPriceList extends Model
     public function _lot_wise_sales_return_details(){
         return $this->hasMany(SalesReturnDetail::class,'_p_p_l_id','id')->with(['_sales_return_barcodes','_sales_return_master']);
     }
+    public function _purchase_detail(){
+        return $this->hasMany(Purchase::class,'id','_master_id')->with(['_master_details']);
+    }
     
     //Material Issue
 
