@@ -249,6 +249,12 @@ label{
     background: #fff;
     display: none;
 }
+.search_box_ledger{
+    position: absolute;
+    z-index: 9999;
+    background: #fff;
+    display: none;
+}
 .search_boxManufacCompany{
     position: absolute;
     z-index: 9999;

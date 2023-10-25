@@ -44,7 +44,7 @@
                 <select class="form-control priority" name="priority" required >
                   <option value=""><?php echo e(__('label.select')); ?></option>
                   <?php $__empty_1 = true; $__currentLoopData = priorities(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $p_key=>$p_val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                  <option value="<?php echo e($p_key); ?>"><?php echo e($p_val); ?></option>
+                  <option value="<?php echo e($p_val); ?>"><?php echo e($p_val); ?></option>
                   <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                   <?php endif; ?>
                 </select>
@@ -107,31 +107,55 @@
                       </select>
                   </div>
               </div>
-              <div class="col-md-3">
+              <div class="col-xs-12 col-sm-12 col-md-2 ">
+                  <div class="form-group ">
+                      <label><?php echo e(__('Type')); ?>:<span class="_required">*</span></label>
+                     <select class="form-control chain_type" name="chain_type" required >
+                        <option value=""><?php echo e(__('Select')); ?></option>
+                        <?php $__empty_1 = true; $__currentLoopData = access_chain_types(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=> $val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                        <option value="<?php echo e($key); ?>" > <?php echo e($val); ?></option>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                        <?php endif; ?>
+                      </select>
+                  </div>
+              </div>
+              <div class="col-md-2">
                 <div class="form-group">
                   <label><?php echo e(__('label.request_person')); ?></label>
-                  <input type="text" name="user_id_name" class="form-control user_id_name" placeholder="<?php echo e(__('label.request_person')); ?>">
+                  <input type="text" name="requested_user_name" class="form-control requested_user_name" placeholder="<?php echo e(__('label.request_person')); ?>">
                   <input type="hidden" name="request_person" class="request_person">
+                  <input type="hidden" name="request_person_user_id" class="request_person_user_id">
+                  <div class="search_box_employee"></div>
+
                 </div>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label><?php echo e(__('label.request_department')); ?></label>
+                  <input type="text" name="request_department_name" class="form-control employee_request_department_name" placeholder="<?php echo e(__('label.request_department')); ?>" readonly >
+                  <input type="hidden" name="request_department" class="form-control employee_request_department" placeholder="<?php echo e(__('label.request_department')); ?>" >
+                  
+                </div>
+              </div>
+              <div class="col-md-2">
                 <div class="form-group">
                   <label><?php echo e(__('label.designation')); ?></label>
-                  <input type="text" name="designation" class="form-control designation" placeholder="<?php echo e(__('label.designation')); ?>" readonly>
+                  <input type="text" name="designation_name" class="form-control employee_designation_name" placeholder="<?php echo e(__('label.designation')); ?>" readonly>
+                  <input type="hidden" name="designation" class="form-control employee_designation" placeholder="<?php echo e(__('label.designation')); ?>" >
                   
                 </div>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-2">
                 <div class="form-group">
                   <label><?php echo e(__('label.email')); ?></label>
-                  <input type="text" name="email" class="form-control email" placeholder="<?php echo e(__('label.email')); ?>" readonly>
+                  <input type="text" name="email" class="form-control employee_email" placeholder="<?php echo e(__('label.email')); ?>" >
                   
                 </div>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-2">
                 <div class="form-group">
                   <label><?php echo e(__('label.contact_number')); ?></label>
-                  <input type="text" name="contact_number" class="form-control contact_number" placeholder="<?php echo e(__('label.contact_number')); ?>" >
+                  <input type="text" name="contact_number" class="form-control employee_contact_number" placeholder="<?php echo e(__('label.contact_number')); ?>" >
                   
                 </div>
               </div>
@@ -141,7 +165,7 @@
                 <div class="col-md-12  ">
                              <div class="card">
                               <div class="card-header">
-                                <strong>Details</strong>
+                                <strong>Item Details</strong>
 
                               </div>
                              
@@ -150,21 +174,24 @@
                                       <table class="table table-bordered" >
                                           <thead >
                                             <th class="text-left" >&nbsp;</th>
-                                            <th class="text-left" >Item</th>
-                                            <th class="text-left" >Tran. Unit</th>
-                                            <th class="text-left" >Qty</th>
-                                            <th class="text-left" >Rate</th>
-                                            <th class="text-left" >Value</th>
+                                            <th class="text-left" ><?php echo e(__('label._item')); ?></th>
+                                            <th class="text-left" ><?php echo e(__('label.purpose')); ?></th>
+                                            <th class="text-left" ><?php echo e(__('label.Tran. Unit')); ?></th>
+                                            <th class="text-left" ><?php echo e(__('label._qty')); ?></th>
+                                            <th class="text-left" ><?php echo e(__('label._rate')); ?></th>
+                                            <th class="text-left" ><?php echo e(__('label._value')); ?></th>
                                           </thead>
                                           <tbody class="area__rlp_item_details" id="area__rlp_item_details">
                                             <tr class="_purchase_row">
                                               <td>
-                                                <a  href="#none" class="btn btn-default _purchase_row_remove" ><i class="fa fa-trash"></i></a>
+                                                <a  href="#none" class="btn btn-default _rlp_item_row_remove" ><i class="fa fa-trash"></i></a>
                                               </td>
                                               <td>
                                                 <input type="text" name="_search_item_id[]" class="form-control _search_item_id width_280_px" placeholder="Item">
                                                 <input type="hidden" name="_item_id[]" class="form-control _item_id width_200_px" >
                                                 <div class="search_box_item"></div>
+
+                                                <textarea style="margin-top:10px;" class="form-control _item_description" name="_item_description[]" placeholder="<?php echo e(__('label.item_details')); ?>"></textarea>
                                               </td>
 
                                                <td class="display_none">
@@ -175,16 +202,19 @@
                                                 <input type="number" name="conversion_qty[]" min="0" step="any" class="form-control conversion_qty " value="1" readonly>
                                               </td>
                                               <td>
+                                                <input type="text" name="purpose[]" class="form-control purpose" placeholder="<?php echo e(__('label.purpose')); ?>">
+                                              </td>
+                                              <td>
                                                 <select class="form-control _transection_unit" name="_transection_unit[]"></select>
                                               </td>
                                               <td>
-                                                <input type="number" name="_qty[]" class="form-control _qty _common_keyup" >
+                                                <input type="number" name="_qty[]" class="form-control _qty _common_keyup" value="0" >
                                               </td>
                                               <td>
-                                                <input type="number" name="_rate[]" class="form-control _rate _common_keyup" >
+                                                <input type="number" name="_rate[]" class="form-control _rate _common_keyup" value="0">
                                               </td>
                                               <td>
-                                                <input type="number" name="_value[]" class="form-control _value " readonly >
+                                                <input type="number" name="_value[]" class="form-control _value " readonly value="0">
                                             </tr>
                                           </tbody>
                                           <tfoot>
@@ -192,13 +222,68 @@
                                               <td>
                                                 <a href="#none"  class="btn btn-default btn-sm" onclick="_item_add_new_row(event)"><i class="fa fa-plus"></i></a>
                                               </td>
-                                              <td colspan="2"  class="text-right"><b>Total</b></td>
+                                              <td colspan="3"  class="text-right"><b>Total</b></td>
                                              <td>
                                                 <input type="number" step="any" min="0" name="_total_qty_amount" class="form-control _total_qty_amount" value="0" readonly required>
                                               </td>
                                               <td></td>
                                               <td>
                                                 <input type="number" step="any" min="0" name="_total_value_amount" class="form-control _total_value_amount" value="0" readonly required>
+                                              </td>
+                                             
+                                            </tr>
+                                          </tfoot>
+                                      </table>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-12  ">
+                             <div class="card">
+                              <div class="card-header">
+                                <strong>Others Expenses </strong>
+
+                              </div>
+                             
+                              <div class="card-body">
+                                <div class="table-responsive">
+                                      <table class="table table-bordered" >
+                                          <thead >
+                                            <th class="text-left" >&nbsp;</th>
+                                            <th class="text-left" ><?php echo e(__('label._ledger')); ?></th>
+                                            <th class="text-left" ><?php echo e(__('label._details')); ?></th>
+                                            <th class="text-left" ><?php echo e(__('label.purpose')); ?></th>
+                                            <th class="text-left" ><?php echo e(__('label._value')); ?></th>
+                                          </thead>
+                                          <tbody class="area__rlp_ledger_details" id="area__rlp_ledger_details">
+                                            <tr class="_purchase_row">
+                                              <td>
+                                                <a  href="#none" class="btn btn-default _rlp_ledger_row_remove" ><i class="fa fa-trash"></i></a>
+                                              </td>
+                                              <td>
+                                                <input type="text" name="_search_rlp_ledger_id[]" class="form-control _search_rlp_ledger_id width_280_px" placeholder="<?php echo e(__('label._ledger_id')); ?>">
+                                                <input type="hidden" name="_rlp_ledger_id[]" class="form-control _rlp_ledger_id width_200_px" value="0">
+                                                <div class="search_box_ledger"></div>
+                                              </td>
+                                              <td>
+                                                <textarea class="form-control _rlp_ledger_description" name="_rlp_ledger_description[]"></textarea>
+                                              </td>
+                                              <td>
+                                                <input type="text" name="_ledger_purpose[]" class="form-control _ledger_purpose" placeholder="<?php echo e(__('label.purpose')); ?>">
+                                              </td>
+                                              <td>
+                                                <input type="number" name="_ledger_amount[]" class="form-control _ledger_amount " value="0" >
+                                            </tr>
+                                          </tbody>
+                                          <tfoot>
+                                            <tr>
+                                              <td>
+                                                <a href="#none"  class="btn btn-default btn-sm" onclick="_ledger_add_new_row(event)"><i class="fa fa-plus"></i></a>
+                                              </td>
+                                              <td colspan="3"  class="text-right"><b>Total</b></td>
+                                            
+                                              <td>
+                                                <input type="number" step="any" min="0" name="_total_ledger_amount" class="form-control _total_ledger_amount" value="0" readonly required>
                                               </td>
                                              
                                             </tr>
@@ -293,8 +378,222 @@
 
      
 
- }); 
+ });
 
+
+function _ledger_add_new_row(event){
+  $(document).find("#area__rlp_ledger_details").append(`<tr class="_purchase_row">
+                    <td>
+                      <a  href="#none" class="btn btn-default _rlp_ledger_row_remove" ><i class="fa fa-trash"></i></a>
+                    </td>
+                    <td>
+                      <input type="text" name="_search_rlp_ledger_id[]" class="form-control _search_rlp_ledger_id width_280_px" placeholder="<?php echo e(__('label._ledger_id')); ?>">
+                      <input type="hidden" name="_rlp_ledger_id[]" class="form-control _rlp_ledger_id width_200_px" value="0" >
+                      <div class="search_box_ledger"></div>
+                    </td>
+                    <td>
+                      <textarea class="form-control _rlp_ledger_description" name="_rlp_ledger_description[]"></textarea>
+                    </td>
+                    <td>
+                      <input type="text" name="_ledger_purpose[]" class="form-control _ledger_purpose" placeholder="<?php echo e(__('label.purpose')); ?>">
+                    </td>
+                    <td>
+                      <input type="number" name="_ledger_amount[]" class="form-control _ledger_amount " value="0" >
+                  </tr>`);
+}
+
+function _ledger_total_amount(){
+  var _total_ledger_amount =0;
+  $(document).find('._ledger_amount').each(function(){
+    var _ledger_amount = $(this).val();
+    _ledger_amount = parseFloat(_ledger_amount);
+    if(isNaN(_ledger_amount)){ _ledger_amount=0 }
+      _total_ledger_amount+=parseFloat(_ledger_amount);
+  })
+
+  $(document).find("._total_ledger_amount").val(_total_ledger_amount);
+}
+
+$(document).on('keyup','._ledger_amount',function(){
+  _ledger_total_amount();
+})
+
+$(document).on('click','._rlp_ledger_row_remove',function(){
+    $(this).closest('tr').remove();
+    _ledger_total_amount();
+})
+
+ $(document).on('keyup','._search_rlp_ledger_id',delay(function(e){
+   
+  var _gloabal_this = $(this);
+  var _text_val = $(this).val().trim();
+  var request = $.ajax({
+      url: "<?php echo e(url('ledger-search')); ?>",
+      method: "GET",
+      data: { _text_val : _text_val },
+      dataType: "JSON"
+    });
+     
+    request.done(function( result ) {
+      var search_html =``;
+      var data = result.data; 
+      console.log(_gloabal_this)
+      if(data.length > 0 ){
+            search_html +=`<div class="card"><table style="width: 300px;"><thead><tr><th><?php echo e(__('label.id')); ?></th><th><?php echo e(__('label._code')); ?></th><th><?php echo e(__('label._name')); ?></th></tr></thead> <tbody>`;
+                        for (var i = 0; i < data.length; i++) {
+                          var ledger_id= data[i]?.id;
+                          var ledger_name = data[i]?._name;
+                          var ledger_code = data[i]?._code;
+                          var address = data[i]?._address;
+                          var phone = data[i]?._phone;
+                          var balance = data[i]?._balance;
+                          var single_data = JSON.toString(data[i]);
+                         search_html += `<tr class="search_row_ledger_row _cursor_pointer"  >
+                                        <td>${data[i].id}
+                                        <input type="hidden" name="_search_rlp_ledger_id_hidden" class="_search_rlp_ledger_id_hidden" value="${data[i]?.id}">
+                                        </td> 
+                                        <td>${isEmpty(data[i]?._code)}
+                                        <input type="hidden" name="rlp_ledger_code" class="rlp_ledger_code" value="${isEmpty(data[i]?._code)}">
+                                        </td>
+                                        <td>${isEmpty(data[i]._name)}
+                                        <input type="hidden" name="rlp_ledger_name" class="rlp_ledger_name" value="${isEmpty(data[i]?._name)}">
+                                        
+                                        <input type="hidden" name="rlp_ledger_address" class="rlp_ledger_address" value="${isEmpty(data[i]._address)}">
+                                        <input type="hidden" name="rlp_ledger_phone" class="rlp_ledger_phone" value="${isEmpty(data[i]._phone)}">
+                                        </td>
+                                       
+                                        </tr>`;
+                        }                         
+            search_html += ` </tbody> </table></div>`;
+      }else{
+        search_html +=`<div class="card"><table style="width: 300px;"> 
+        <thead><th colspan="3"><button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#exampleModalLong" title="Create Ledger"> New Ledger</button></th></thead><tbody></tbody></table></div>`;
+      }     
+      _gloabal_this.parent('td').find('.search_box_ledger').html(search_html);
+      _gloabal_this.parent('td').find('.search_box_ledger').addClass('search_box_show').show();
+      
+    });
+     
+    request.fail(function( jqXHR, textStatus ) {
+      alert( "Request failed: " + textStatus );
+    });
+
+  
+
+}, 500));
+
+$(document).on("click",".search_row_ledger_row",function(){
+
+  var _rlp_ledger_id = $(this).children('td').find("._search_rlp_ledger_id_hidden").val();
+  var  rlp_ledger_name = $(this).children('td').find(".rlp_ledger_name").val();
+  var  rlp_ledger_code = $(this).children('td').find(".rlp_ledger_code").val();
+  var  rlp_ledger_address = $(this).children('td').find(".rlp_ledger_address").val();
+  var  rlp_ledger_phone  = $(this).children('td').find(".rlp_ledger_phone").val();
+
+  $(this).parent().parent().parent().parent().parent().parent().find('._rlp_ledger_id ').val(_rlp_ledger_id);
+  var _id_name = `${isEmpty(rlp_ledger_code)} `+isEmpty(rlp_ledger_name);
+  $(this).parent().parent().parent().parent().parent().parent().find('._search_rlp_ledger_id').val(_id_name);
+
+   $(document).find('.search_box_ledger').hide();
+  $(document).find('.search_box_ledger').removeClass('search_box_show').hide();
+
+});
+
+ $(document).on('keyup','.requested_user_name',delay(function(e){
+    
+  var _gloabal_this = $(this);
+  var _text_val = $(this).val().trim();
+  var request = $.ajax({
+      url: "<?php echo e(url('employee-search')); ?>",
+      method: "GET",
+      data: { _text_val : _text_val },
+      dataType: "JSON"
+    });
+     
+    request.done(function( result ) {
+      var search_html =``;
+      var data = result.data; 
+      console.log(data)
+      if(data.length > 0 ){
+            search_html +=`<div class="card"><table class="table-bordered" style="width: 300px;"><thead><th><?php echo e(__('label._code')); ?></th><th><?php echo e(__('label._name')); ?></th></tr></thead> <tbody>`;
+                        for (var i = 0; i < data.length; i++) {
+                         search_html += `<tr class="_select_employee_row _cursor_pointer" >
+                                        <td>${data[i]._code}
+                                        <input type="hidden" name="_emplyee_row_id" class="_emplyee_row_id" value="${data[i].id}">
+                                        <input type="hidden" name="_emplyee_row_code_id" class="_emplyee_row_code_id" value="${isEmpty(data[i]._code)}">
+                                        <input type="hidden" name="_emplyee_row_department_id" class="_emplyee_row_department_id" value="${isEmpty(data[i]?._emp_department?.id)}">
+                                        <input type="hidden" name="_emplyee_row_department_name" class="_emplyee_row_department_name" value="${isEmpty(data[i]?._emp_department?._name)}">
+                                        <input type="hidden" name="_emplyee_row_email" class="_emplyee_row_email" value="${isEmpty(data[i]._email)}">
+                                        <input type="hidden" name="_emplyee_row_phone" class="_emplyee_row_phone" value="${isEmpty(data[i]._mobile1)}">
+                                        <input type="hidden" name="_emplyee_row_jobtitle_id" class="_emplyee_row_jobtitle_id" value="${isEmpty(data[i]?._jobtitle_id)}">
+                                        <input type="hidden" name="_emplyee_row_jobtitle_name" class="_emplyee_row_jobtitle_name" value="${isEmpty(data[i]?._emp_designation?._name)}">
+                                        </td>
+                                        <td>${isEmpty(data[i]._name)}
+                                        <input type="hidden" name="_search_employee_name" class="_search_employee_name" value="${isEmpty(data[i]._name)}">
+                                        
+                                        </td>
+                                        
+                                       
+                                        </tr>`;
+                        }                         
+            search_html += ` </tbody> </table></div>`;
+      }else{
+        search_html +=`<div class="card"><table style="width: 300px;"> 
+        <thead><th colspan="3">No Data Found</th></thead><tbody></tbody></table></div>`;
+      }   
+
+       _gloabal_this.parent('div').find('.search_box_employee').html(search_html);
+      _gloabal_this.parent('div').find('.search_box_employee').addClass('search_box_show').show();  
+      
+      
+    });
+     
+    request.fail(function( jqXHR, textStatus ) {
+      alert( "Request failed: " + textStatus );
+    });
+}, 500)); 
+
+ $(document).on('click','._select_employee_row',function(){
+ var employee_row_id = $(this).children('td').find('._emplyee_row_id').val();
+ var employee_code_id = $(this).children('td').find('._emplyee_row_code_id').val();
+ var employee_name = $(this).children('td').find('._search_employee_name').val();
+ var employee_email = $(this).children('td').find('._emplyee_row_email').val();
+ var employee_contact_number = $(this).children('td').find('._emplyee_row_phone').val();
+ var employee_designation = $(this).children('td').find('._emplyee_row_jobtitle_id').val();
+ var employee_designation_name = $(this).children('td').find('._emplyee_row_jobtitle_name').val();
+ var _emplyee_row_department_id = $(this).children('td').find('._emplyee_row_department_id').val();
+ var _emplyee_row_department_name = $(this).children('td').find('._emplyee_row_department_name').val();
+
+
+
+ 
+
+
+
+ console.log(employee_name)
+ var _code_and_name = `${isEmpty(employee_code_id)} ${isEmpty(employee_name)}`;
+
+$(document).find('.requested_user_name').val(_code_and_name);
+$(document).find('.request_person').val(employee_code_id);
+$(document).find('.request_person_user_id').val(employee_row_id);
+$(document).find('.employee_designation').val(employee_designation);
+$(document).find('.employee_designation_name').val(employee_designation_name);
+$(document).find('.employee_email').val(employee_email);
+$(document).find('.employee_contact_number').val(employee_contact_number);
+$(document).find('.employee_request_department_name').val(_emplyee_row_department_name);
+$(document).find('.employee_request_department').val(_emplyee_row_department_id);
+
+
+
+
+  $(document).find('.search_box_employee').hide();
+  $(document).find('.search_box_employee').removeClass('search_box_show').hide();
+})
+
+$(document).on('click','._rlp_item_row_remove',function(){
+      $(this).closest('tr').remove();
+      _rlp_total_calculation();
+});
 
   $(document).on('change',"._master_rlp_chain_id",function(){
         var chain_id = $(this).val();
@@ -345,12 +644,13 @@
   function _item_add_new_row(event){
     $(document).find("#area__rlp_item_details").append(`<tr class="_purchase_row">
                                               <td>
-                                                <a  href="#none" class="btn btn-default _purchase_row_remove" ><i class="fa fa-trash"></i></a>
+                                                <a  href="#none" class="btn btn-default _rlp_item_row_remove" ><i class="fa fa-trash"></i></a>
                                               </td>
                                               <td>
                                                 <input type="text" name="_search_item_id[]" class="form-control _search_item_id width_280_px" placeholder="Item">
                                                 <input type="hidden" name="_item_id[]" class="form-control _item_id width_200_px" >
                                                 <div class="search_box_item"></div>
+                                                <textarea style="margin-top:10px;" class="form-control _item_description" name="_item_description[]" placeholder="<?php echo e(__('label.item_details')); ?>"></textarea>
                                               </td>
 
                                                <td class="display_none">
@@ -361,16 +661,19 @@
                                                 <input type="number" name="conversion_qty[]" min="0" step="any" class="form-control conversion_qty " value="1" readonly>
                                               </td>
                                               <td>
+                                                <input type="text" name="purpose[]" class="form-control purpose" placeholder="<?php echo e(__('label.purpose')); ?>">
+                                              </td>
+                                              <td>
                                                 <select class="form-control _transection_unit" name="_transection_unit[]"></select>
                                               </td>
                                               <td>
-                                                <input type="number" name="_qty[]" class="form-control _qty _common_keyup" >
+                                                <input type="number" name="_qty[]" class="form-control _qty _common_keyup" value="0">
                                               </td>
                                               <td>
-                                                <input type="number" name="_rate[]" class="form-control _rate _common_keyup" >
+                                                <input type="number" name="_rate[]" class="form-control _rate _common_keyup" value="0">
                                               </td>
                                               <td>
-                                                <input type="number" name="_value[]" class="form-control _value " readonly >
+                                                <input type="number" name="_value[]" class="form-control _value " value="0" readonly >
                                             </tr>`);
   }
 $(document).on('keyup','._search_item_id',delay(function(e){

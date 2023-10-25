@@ -545,6 +545,7 @@ Route::get('book_table_list_ajax', 'App\Http\Controllers\ResturantSalesControlle
     
     //Searching section 
     Route::any('ledger-search','App\Http\Controllers\AccountLedgerController@ledger_search');
+    Route::any('rlp-ledger-search','App\Http\Controllers\AccountLedgerController@rlpLedgerSearch');
     Route::any('main-ledger-search','App\Http\Controllers\AccountLedgerController@mainLedgerSearch');
     Route::any('type_base_group','App\Http\Controllers\AccountLedgerController@type_base_group');
     Route::any('group-base-ledger','App\Http\Controllers\AccountLedgerController@groupBaseLedger');

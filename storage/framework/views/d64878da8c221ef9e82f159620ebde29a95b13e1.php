@@ -806,9 +806,19 @@ function _common_click_function(){
     var _dr_search_box= $(document).find('._dr_search_box').hasClass('search_box_show');
     var _cr_search_box= $(document).find('._cr_search_box').hasClass('search_box_show');
     var search_boxManufacCompany= $(document).find('.search_boxManufacCompany').hasClass('search_box_show');
+    var search_box_ledger= $(document).find('.search_box_ledger').hasClass('search_box_show');
+    var search_box_employee= $(document).find('.search_box_employee').hasClass('search_box_show');
 
+
+
+    if(search_box_employee ==true){
+      $(document).find('.search_box_employee').removeClass('search_box_show').hide();
+    }
     if(searach_show ==true){
       $(document).find('.search_box_item').removeClass('search_box_show').hide();
+    }
+    if(search_box_ledger ==true){
+      $(document).find('.search_box_ledger').removeClass('search_box_show').hide();
     }
 
     if(_dr_search_box ==true){

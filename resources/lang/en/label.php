@@ -17,6 +17,15 @@ return [
 
 
 
+    'request_department' => 'Department',
+    'Tran. Unit' => 'Tran. Unit',
+    '_rate' => 'Rate',
+    'request_person' => 'Request Person',
+    'item_details' => 'Item Details',
+    'purpose' => 'Purpose',
+    'designation' => 'Designation',
+    'email' => 'Email',
+    'contact_number' => 'Contact Number',
     'EMP_ID' => 'EMP ID',
     'profile' => 'Profile',
     'profile_update' => 'Profile Update',

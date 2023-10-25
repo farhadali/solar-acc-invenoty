@@ -105,7 +105,7 @@ if (! function_exists('create_update_user')) {
 if (! function_exists('access_chain_types')) {
     function access_chain_types()
     {
-      return ['1'=>'RLP','2'=>'NOTESHEET','3'=>'WORKORDER'];
+      return ['RLP'=>'RLP','NOT'=>'NOTESHEET','WOR'=>'WORKORDER'];
     }
 }
 
