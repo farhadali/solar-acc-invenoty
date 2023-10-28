@@ -17,6 +17,28 @@ return [
 
 
 
+
+
+
+
+
+
+    'supplier' => 'Supplier',
+    'approve' => 'Approve',
+    'reject' => 'Reject',
+    'revert' => 'Revert',
+    '_amount' => 'Amount',
+    'request_date' => 'Request Date',
+    'rlp_no' => 'RLP NO',
+    'priority' => 'Priority',
+    'ledger_head' => 'Ledger Head',
+    'purpose_purchase' => 'Purpose Purchase',
+    'quantity' => 'Quantity',
+    'estimated_price' => 'Estimated Price',
+    'total_estimated_price' => 'Total Estimated Price',
+    'supplier_details' => 'Supplier Details',
+    'remarks' => 'Remarks',
+    '_terms_condition' => 'Terms & Condition',
     'request_department' => 'Department',
     'Tran. Unit' => 'Tran. Unit',
     '_rate' => 'Rate',

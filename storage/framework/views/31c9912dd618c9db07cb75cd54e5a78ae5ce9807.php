@@ -83,10 +83,14 @@ $__user= Auth::user();
                      <thead>
                         <tr>
                          <th class=""><b>##</b></th>
+                         <th class=""><b><?php echo e(__('label.action')); ?></b></th>
                          <th class=""><b><?php echo e(__('label.id')); ?></b></th>
-                         <th class=""><b><?php echo e(__('label._name')); ?></b></th>
-                         <th class=""><b><?php echo e(__('label._code')); ?></b></th>
-                         <th class=""><b><?php echo e(__('label._details')); ?></b></th>
+                         <th class=""><b><?php echo e(__('label.organization_id')); ?></b></th>
+                         <th class=""><b><?php echo e(__('label._branch_id')); ?></b></th>
+                         <th class=""><b><?php echo e(__('label._cost_center_id')); ?></b></th>
+                         <th class=""><b><?php echo e(__('label.rlp_no')); ?></b></th>
+                         <th class=""><b><?php echo e(__('label.request_date')); ?></b></th>
+                         <th class=""><b><?php echo e(__('label._amount')); ?></b></th>
                          <th class=""><b><?php echo e(__('label._status')); ?></b></th>
                          <th class=""><b><?php echo e(__('label.user')); ?></b></th>
                       </tr>
@@ -117,11 +121,31 @@ $__user= Auth::user();
                               <?php endif; ?>  
                                
                             </td>
+
+                            <td>
+                               <a  type="button" 
+                                  href="<?php echo e(route('rlp.edit',$data->id)); ?>"
+                                 
+                                  class="btn btn-sm btn-success  mr-1"><i class="fa fa-check "></i><?php echo e(__('label.approve')); ?></a>
+                            
+                               <a  type="button" 
+                                  href="<?php echo e(route('rlp.edit',$data->id)); ?>"
+                                 
+                                  class="btn btn-sm btn-warning  mr-1"><i class="fa fa-trash "></i><?php echo e(__('label.reject')); ?></a>
+                            
+                               <a  type="button" 
+                                  href="<?php echo e(route('rlp.edit',$data->id)); ?>"
+                                 
+                                  class="btn btn-sm btn-info  mr-1"><i class="fa fa-undo "></i><?php echo e(__('label.revert')); ?></a>
+                            </td>
                             <td><?php echo e($data->id); ?></td>
-                            <td><?php echo e($data->_name ?? ''); ?></td>
-                            <td><?php echo e($data->_code ?? ''); ?></td>
-                            <td><?php echo e($data->_details ?? ''); ?></td>
-                           <td><?php echo e(selected_status($data->_status)); ?></td>
+                            <td><?php echo e($data->_organization->_name ?? ''); ?></td>
+                            <td><?php echo e($data->_branch->_name ?? ''); ?></td>
+                            <td><?php echo e($data->_cost_center->_name ?? ''); ?></td>
+                            <td><?php echo e($data->rlp_no ?? ''); ?></td>
+                            <td><?php echo e(_view_date_formate($data->request_date ?? '')); ?></td>
+                            <td><?php echo e(_report_amount($data->totalamount ?? 0)); ?></td>
+                           <td><?php echo e(selected_rlp_status($data->rlp_status ?? 0)); ?></td>
                             <td><?php echo e($data->_entry_by->name ?? ''); ?></td>
                            
                         </tr>

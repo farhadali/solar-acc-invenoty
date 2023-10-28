@@ -82,10 +82,14 @@ $__user= Auth::user();
                      <thead>
                         <tr>
                          <th class=""><b>##</b></th>
+                         <th class=""><b>{{__('label.action')}}</b></th>
                          <th class=""><b>{{__('label.id')}}</b></th>
-                         <th class=""><b>{{__('label._name')}}</b></th>
-                         <th class=""><b>{{__('label._code')}}</b></th>
-                         <th class=""><b>{{__('label._details')}}</b></th>
+                         <th class=""><b>{{__('label.organization_id')}}</b></th>
+                         <th class=""><b>{{__('label._branch_id')}}</b></th>
+                         <th class=""><b>{{__('label._cost_center_id')}}</b></th>
+                         <th class=""><b>{{__('label.rlp_no')}}</b></th>
+                         <th class=""><b>{{__('label.request_date')}}</b></th>
+                         <th class=""><b>{{__('label._amount')}}</b></th>
                          <th class=""><b>{{__('label._status')}}</b></th>
                          <th class=""><b>{{__('label.user')}}</b></th>
                       </tr>
@@ -114,11 +118,31 @@ $__user= Auth::user();
                               @endcan  
                                
                             </td>
+
+                            <td>
+                               <a  type="button" 
+                                  href="{{ route('rlp.edit',$data->id) }}"
+                                 
+                                  class="btn btn-sm btn-success  mr-1"><i class="fa fa-check "></i>{{__('label.approve')}}</a>
+                            
+                               <a  type="button" 
+                                  href="{{ route('rlp.edit',$data->id) }}"
+                                 
+                                  class="btn btn-sm btn-warning  mr-1"><i class="fa fa-trash "></i>{{__('label.reject')}}</a>
+                            
+                               <a  type="button" 
+                                  href="{{ route('rlp.edit',$data->id) }}"
+                                 
+                                  class="btn btn-sm btn-info  mr-1"><i class="fa fa-undo "></i>{{__('label.revert')}}</a>
+                            </td>
                             <td>{{ $data->id }}</td>
-                            <td>{{ $data->_name ?? '' }}</td>
-                            <td>{{ $data->_code ?? '' }}</td>
-                            <td>{{ $data->_details ?? '' }}</td>
-                           <td>{{ selected_status($data->_status) }}</td>
+                            <td>{{ $data->_organization->_name ?? '' }}</td>
+                            <td>{{ $data->_branch->_name ?? '' }}</td>
+                            <td>{{ $data->_cost_center->_name ?? '' }}</td>
+                            <td>{{ $data->rlp_no ?? '' }}</td>
+                            <td>{{ _view_date_formate($data->request_date ?? '') }}</td>
+                            <td>{{ _report_amount($data->totalamount ?? 0) }}</td>
+                           <td>{{ selected_rlp_status($data->rlp_status ?? 0) }}</td>
                             <td>{{ $data->_entry_by->name ?? '' }}</td>
                            
                         </tr>

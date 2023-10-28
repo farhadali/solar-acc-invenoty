@@ -1,7 +1,7 @@
-@extends('backend.layouts.app')
-@section('title',$page_name)
 
-@section('content')
+<?php $__env->startSection('title',$page_name); ?>
+
+<?php $__env->startSection('content'); ?>
 
   <div class="content ">
       <div class="container-fluid">
@@ -10,18 +10,19 @@
           <div class="card">
            <div class="row mb-2">
                   <div class="col-sm-6">
-                    <a class="m-0 _page_name" href="{{ route('rlp.index') }}">{!! $page_name !!} </a>
+                    <a class="m-0 _page_name" href="<?php echo e(route('rlp.index')); ?>"><?php echo $page_name; ?> </a>
                   </div><!-- /.col -->
                   <div class="col-sm-6">
                     
                   </div><!-- /.col -->
                 </div><!-- /.row -->
           <div class="message-area">
-    @include('backend.message.message')
+    <?php echo $__env->make('backend.message.message', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     </div>
          
             <div class="card-body p-4" >
-                {!! Form::open(array('route' => 'rlp.store','method'=>'POST')) !!}
+                <?php echo Form::open(array('route' => 'rlp.store','method'=>'POST')); ?>
+
                 
             <div class="row" >
             <div class="col-xs-12 col-sm-12 col-md-2">
@@ -29,7 +30,7 @@
                   <div class="form-group">
                       <label>Date:</label>
                         <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                            <input type="text" name="request_date" class="form-control datetimepicker-input" data-target="#reservationdate" value="{{_view_date_formate($data->request_date)}}" />
+                            <input type="text" name="request_date" class="form-control datetimepicker-input" data-target="#reservationdate" value="<?php echo e(_view_date_formate($data->request_date)); ?>" />
                             <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
                                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                             </div>
@@ -41,11 +42,11 @@
               <div class="form-group ">
                 <label>Priority:<span class="_required">*</span></label>
                 <select class="form-control priority" name="priority" required >
-                  <option value="">{{__('label.select')}}</option>
-                  @forelse(priorities() as $p_key=>$p_val)
-                  <option value="{{$p_key}}" @if($data->priority==$p_key) selected @endif >{{$p_val}}</option>
-                  @empty
-                  @endforelse
+                  <option value=""><?php echo e(__('label.select')); ?></option>
+                  <?php $__empty_1 = true; $__currentLoopData = priorities(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $p_key=>$p_val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                  <option value="<?php echo e($p_key); ?>" <?php if($data->priority==$p_key): ?> selected <?php endif; ?> ><?php echo e($p_val); ?></option>
+                  <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                  <?php endif; ?>
                 </select>
               </div>
             </div>
@@ -60,25 +61,25 @@
 
             <div class="col-xs-12 col-sm-12 col-md-2 ">
               <div class="form-group ">
-                  <label>{!! __('label.rlp-chain') !!}:<span class="_required">*</span></label>
+                  <label><?php echo __('label.rlp-chain'); ?>:<span class="_required">*</span></label>
                   <select class="form-control _master_rlp_chain_id" name="chain_id" required >
-                    <option value="">{{__('label.select')}} {{__('label.rlp-chain')}}</option>
-                     @forelse($rlp_chains as $val )
-                     <option value="{{$val->id}}" @if($data->chain_id==$val->id) selected @endif>{{ $val->chain_name ?? '' }}</option>
-                     @empty
-                     @endforelse
+                    <option value=""><?php echo e(__('label.select')); ?> <?php echo e(__('label.rlp-chain')); ?></option>
+                     <?php $__empty_1 = true; $__currentLoopData = $rlp_chains; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                     <option value="<?php echo e($val->id); ?>" <?php if($data->chain_id==$val->id): ?> selected <?php endif; ?>><?php echo e($val->chain_name ?? ''); ?></option>
+                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                     <?php endif; ?>
                    </select>
                </div>
               </div>
             <div class="col-xs-12 col-sm-12 col-md-2 ">
               <div class="form-group ">
-                  <label>{!! __('label.organization') !!}:<span class="_required">*</span></label>
+                  <label><?php echo __('label.organization'); ?>:<span class="_required">*</span></label>
                   <select class="form-control _master_organization_id" name="organization_id" required >
-                    <option value="">{{__('label.select')}}</option>
-                     @forelse($permited_organizations as $val )
-                     <option value="{{$val->id}}" @if(isset($data->organization_id)) @if($data->organization_id == $val->id) selected @endif   @endif>{{ $val->id ?? '' }} - {{ $val->_name ?? '' }}</option>
-                     @empty
-                     @endforelse
+                    <option value=""><?php echo e(__('label.select')); ?></option>
+                     <?php $__empty_1 = true; $__currentLoopData = $permited_organizations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                     <option value="<?php echo e($val->id); ?>" <?php if(isset($data->organization_id)): ?> <?php if($data->organization_id == $val->id): ?> selected <?php endif; ?>   <?php endif; ?>><?php echo e($val->id ?? ''); ?> - <?php echo e($val->_name ?? ''); ?></option>
+                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                     <?php endif; ?>
                    </select>
                </div>
               </div>
@@ -86,75 +87,75 @@
                   <div class="form-group ">
                       <label>Branch:<span class="_required">*</span></label>
                      <select class="form-control _master_branch_id" name="_branch_id" required >
-                        <option value="">{{__('label.select')}}</option>
-                        @forelse($permited_branch as $branch )
-                        <option value="{{$branch->id}}" @if(isset($data->_branch_id)) @if($data->_branch_id == $branch->id) selected @endif   @endif>{{ $branch->id ?? '' }} - {{ $branch->_name ?? '' }}</option>
-                        @empty
-                        @endforelse
+                        <option value=""><?php echo e(__('label.select')); ?></option>
+                        <?php $__empty_1 = true; $__currentLoopData = $permited_branch; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $branch): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                        <option value="<?php echo e($branch->id); ?>" <?php if(isset($data->_branch_id)): ?> <?php if($data->_branch_id == $branch->id): ?> selected <?php endif; ?>   <?php endif; ?>><?php echo e($branch->id ?? ''); ?> - <?php echo e($branch->_name ?? ''); ?></option>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                        <?php endif; ?>
                       </select>
                   </div>
               </div>
               <div class="col-xs-12 col-sm-12 col-md-2 ">
                   <div class="form-group ">
-                      <label>{{__('label.Cost center')}}:<span class="_required">*</span></label>
+                      <label><?php echo e(__('label.Cost center')); ?>:<span class="_required">*</span></label>
                      <select class="form-control _cost_center_id" name="_cost_center_id" required >
-                        <option value="">{{__('label.select')}}</option>
-                        @forelse($permited_costcenters as $cost_center )
-                        <option value="{{$cost_center->id}}" @if(isset($data->_cost_center_id)) @if($data->_cost_center_id == $cost_center->id) selected @endif   @endif>{{ $cost_center->id ?? '' }} - {{ $cost_center->_name ?? '' }}</option>
-                        @empty
-                        @endforelse
+                        <option value=""><?php echo e(__('label.select')); ?></option>
+                        <?php $__empty_1 = true; $__currentLoopData = $permited_costcenters; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cost_center): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                        <option value="<?php echo e($cost_center->id); ?>" <?php if(isset($data->_cost_center_id)): ?> <?php if($data->_cost_center_id == $cost_center->id): ?> selected <?php endif; ?>   <?php endif; ?>><?php echo e($cost_center->id ?? ''); ?> - <?php echo e($cost_center->_name ?? ''); ?></option>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                        <?php endif; ?>
                       </select>
                   </div>
               </div>
               <div class="col-xs-12 col-sm-12 col-md-2 ">
                   <div class="form-group ">
-                      <label>{{__('Type')}}:<span class="_required">*</span></label>
+                      <label><?php echo e(__('Type')); ?>:<span class="_required">*</span></label>
                      <select class="form-control rlp_prefix" name="rlp_prefix" required >
-                        <option value="">{{__('Select')}}</option>
-                        @forelse(access_chain_types() as $key=> $val )
-                        <option value="{{$key}}" @if($data->rlp_prefix==$key) selected @endif  > {{ $val }}</option>
-                        @empty
-                        @endforelse
+                        <option value=""><?php echo e(__('Select')); ?></option>
+                        <?php $__empty_1 = true; $__currentLoopData = access_chain_types(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=> $val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                        <option value="<?php echo e($key); ?>" <?php if($data->rlp_prefix==$key): ?> selected <?php endif; ?>  > <?php echo e($val); ?></option>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                        <?php endif; ?>
                       </select>
                   </div>
               </div>
               <div class="col-md-2">
                 <div class="form-group">
-                  <label>{{__('label.request_person')}}</label>
-                  <input type="text" name="requested_user_name" class="form-control requested_user_name" placeholder="{{__('label.request_person')}}"  value="{{$data->_rlp_req_user->_code ?? ''}} {{$data->_rlp_req_user->_name ?? ''}}" >
-                  <input type="hidden" name="request_person" class="request_person" value="{{ $data->requested_user_name ?? '' }}">
-                  <input type="hidden" name="request_person_user_id" class="request_person_user_id" value="{{$data->rlp_user_id}}">
+                  <label><?php echo e(__('label.request_person')); ?></label>
+                  <input type="text" name="requested_user_name" class="form-control requested_user_name" placeholder="<?php echo e(__('label.request_person')); ?>"  value="<?php echo e($data->_rlp_req_user->_code ?? ''); ?> <?php echo e($data->_rlp_req_user->_name ?? ''); ?>" >
+                  <input type="hidden" name="request_person" class="request_person" value="<?php echo e($data->requested_user_name ?? ''); ?>">
+                  <input type="hidden" name="request_person_user_id" class="request_person_user_id" value="<?php echo e($data->rlp_user_id); ?>">
                   <div class="search_box_employee"></div>
 
                 </div>
               </div>
               <div class="col-md-2">
                 <div class="form-group">
-                  <label>{{__('label.request_department')}}</label>
-                  <input type="text" name="request_department_name" class="form-control employee_request_department_name" placeholder="{{__('label.request_department')}}" readonly  value="{!! $data->_emp_department->_name ?? '' !!}" >
-                  <input type="hidden" name="request_department" class="form-control employee_request_department" placeholder="{{__('label.request_department')}}"  value="{!! $data->request_department ?? '' !!}" >
+                  <label><?php echo e(__('label.request_department')); ?></label>
+                  <input type="text" name="request_department_name" class="form-control employee_request_department_name" placeholder="<?php echo e(__('label.request_department')); ?>" readonly  value="<?php echo $data->_emp_department->_name ?? ''; ?>" >
+                  <input type="hidden" name="request_department" class="form-control employee_request_department" placeholder="<?php echo e(__('label.request_department')); ?>"  value="<?php echo $data->request_department ?? ''; ?>" >
                   
                 </div>
               </div>
               <div class="col-md-2">
                 <div class="form-group">
-                  <label>{{__('label.designation')}}</label>
-                  <input type="text" name="designation_name" class="form-control employee_designation_name" placeholder="{{__('label.designation')}}" value="{!! $data->_emp_designation->_name ?? '' !!}" readonly>
-                  <input type="hidden" name="designation" class="form-control employee_designation" placeholder="{{__('label.designation')}}"  value="{!! $data->designation ?? '' !!}">
+                  <label><?php echo e(__('label.designation')); ?></label>
+                  <input type="text" name="designation_name" class="form-control employee_designation_name" placeholder="<?php echo e(__('label.designation')); ?>" value="<?php echo $data->_emp_designation->_name ?? ''; ?>" readonly>
+                  <input type="hidden" name="designation" class="form-control employee_designation" placeholder="<?php echo e(__('label.designation')); ?>"  value="<?php echo $data->designation ?? ''; ?>">
                   
                 </div>
               </div>
               <div class="col-md-2">
                 <div class="form-group">
-                  <label>{{__('label.email')}}</label>
-                  <input type="text" name="email" class="form-control employee_email" placeholder="{{__('label.email')}}" value="{!! $data->email ?? '' !!}" >
+                  <label><?php echo e(__('label.email')); ?></label>
+                  <input type="text" name="email" class="form-control employee_email" placeholder="<?php echo e(__('label.email')); ?>" value="<?php echo $data->email ?? ''; ?>" >
                   
                 </div>
               </div>
               <div class="col-md-2">
                 <div class="form-group">
-                  <label>{{__('label.contact_number')}}</label>
-                  <input type="text" name="contact_number" class="form-control employee_contact_number" placeholder="{{__('label.contact_number')}}" value="{!! $data->contact_number ?? '' !!}" >
+                  <label><?php echo e(__('label.contact_number')); ?></label>
+                  <input type="text" name="contact_number" class="form-control employee_contact_number" placeholder="<?php echo e(__('label.contact_number')); ?>" value="<?php echo $data->contact_number ?? ''; ?>" >
                   
                 </div>
               </div>
@@ -173,22 +174,22 @@
                                       <table class="table table-bordered" >
                                           <thead >
                                             <th class="text-left" >&nbsp;</th>
-                                            <th class="text-left" >{{__('label._item')}}</th>
-                                            <th class="text-left" >{{__('label.purpose')}}</th>
-                                            <th class="text-left" >{{__('label.Tran. Unit')}}</th>
-                                            <th class="text-left" >{{__('label._qty')}}</th>
-                                            <th class="text-left" >{{__('label._rate')}}</th>
-                                            <th class="text-left" >{{__('label._value')}}</th>
-                                            <th class="text-left" >{{__('label.supplier_details')}}</th>
+                                            <th class="text-left" ><?php echo e(__('label._item')); ?></th>
+                                            <th class="text-left" ><?php echo e(__('label.purpose')); ?></th>
+                                            <th class="text-left" ><?php echo e(__('label.Tran. Unit')); ?></th>
+                                            <th class="text-left" ><?php echo e(__('label._qty')); ?></th>
+                                            <th class="text-left" ><?php echo e(__('label._rate')); ?></th>
+                                            <th class="text-left" ><?php echo e(__('label._value')); ?></th>
+                                            <th class="text-left" ><?php echo e(__('label.supplier_details')); ?></th>
 
                                           </thead>
-                                          @php
+                                          <?php
                                           $_item_detail = $data->_item_detail ?? [];
                                           $_total_item_qty=0;
                                           $_total_item_amount=0;
-                                          @endphp
+                                          ?>
                                           <tbody class="area__rlp_item_details" id="area__rlp_item_details">
-                                            @forelse($_item_detail as $i_key=>$item)
+                                            <?php $__empty_1 = true; $__currentLoopData = $_item_detail; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $i_key=>$item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                                             <tr class="_purchase_row">
                                               <td>
                                                 <a  href="#none" class="btn btn-default _rlp_item_row_remove" ><i class="fa fa-trash"></i></a>
@@ -199,7 +200,7 @@
                                                 <input type="hidden" name="_item_id[]" class="form-control _item_id width_200_px" >
                                                 <div class="search_box_item"></div>
 
-                                                <textarea style="margin-top:10px;" class="form-control _item_description" name="_item_description[]" placeholder="{{__('label.item_details')}}"></textarea>
+                                                <textarea style="margin-top:10px;" class="form-control _item_description" name="_item_description[]" placeholder="<?php echo e(__('label.item_details')); ?>"></textarea>
                                               </td>
 
                                                <td class="display_none">
@@ -210,7 +211,7 @@
                                                 <input type="number" name="conversion_qty[]" min="0" step="any" class="form-control conversion_qty " value="1" readonly>
                                               </td>
                                               <td>
-                                                <input type="text" name="purpose[]" class="form-control purpose" placeholder="{{__('label.purpose')}}">
+                                                <input type="text" name="purpose[]" class="form-control purpose" placeholder="<?php echo e(__('label.purpose')); ?>">
                                               </td>
                                               <td>
                                                 <select class="form-control _transection_unit" name="_transection_unit[]"></select>
@@ -225,13 +226,13 @@
                                                 <input type="number" name="_value[]" class="form-control _value " readonly value="0">
                                               </td>
                                               <td>
-                                                <input type="text" name="_search_supplier_ledger[]" class="form-control _search_supplier_ledger width_200_px" placeholder="{{__('label.supplier')}}">
+                                                <input type="text" name="_search_supplier_ledger[]" class="form-control _search_supplier_ledger width_200_px" placeholder="<?php echo e(__('label.supplier')); ?>">
                                                 <input type="hidden" name="_ledger_id[]" class="form-control _ledger_id width_200_px" >
                                                 <div class="search_box_supplier"></div>
                                               </td>
                                             </tr>
-                                            @empty
-                                            @endforelse
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                                            <?php endif; ?>
                                           </tbody>
                                           <tfoot>
                                             <tr>
@@ -267,10 +268,10 @@
                                       <table class="table table-bordered" >
                                           <thead >
                                             <th class="text-left" >&nbsp;</th>
-                                            <th class="text-left" >{{__('label._ledger')}}</th>
-                                            <th class="text-left" >{{__('label._details')}}</th>
-                                            <th class="text-left" >{{__('label.purpose')}}</th>
-                                            <th class="text-left" >{{__('label._value')}}</th>
+                                            <th class="text-left" ><?php echo e(__('label._ledger')); ?></th>
+                                            <th class="text-left" ><?php echo e(__('label._details')); ?></th>
+                                            <th class="text-left" ><?php echo e(__('label.purpose')); ?></th>
+                                            <th class="text-left" ><?php echo e(__('label._value')); ?></th>
                                           </thead>
                                           <tbody class="area__rlp_ledger_details" id="area__rlp_ledger_details">
                                             <tr class="_purchase_row">
@@ -279,7 +280,7 @@
                                                 <input type="hidden" name="_rlp_ledger_row_id[]" class="form-control _rlp_ledger_row_id" value="0">
                                               </td>
                                               <td>
-                                                <input type="text" name="_search_rlp_ledger_id[]" class="form-control _search_rlp_ledger_id width_280_px" placeholder="{{__('label._ledger_id')}}">
+                                                <input type="text" name="_search_rlp_ledger_id[]" class="form-control _search_rlp_ledger_id width_280_px" placeholder="<?php echo e(__('label._ledger_id')); ?>">
                                                 <input type="hidden" name="_rlp_ledger_id[]" class="form-control _rlp_ledger_id width_200_px" value="0">
                                                 <div class="search_box_ledger"></div>
                                               </td>
@@ -287,7 +288,7 @@
                                                 <textarea class="form-control _rlp_ledger_description" name="_rlp_ledger_description[]"></textarea>
                                               </td>
                                               <td>
-                                                <input type="text" name="_ledger_purpose[]" class="form-control _ledger_purpose" placeholder="{{__('label.purpose')}}">
+                                                <input type="text" name="_ledger_purpose[]" class="form-control _ledger_purpose" placeholder="<?php echo e(__('label.purpose')); ?>">
                                               </td>
                                               <td>
                                                 <input type="number" name="_ledger_amount[]" class="form-control _ledger_amount " value="0" >
@@ -313,13 +314,13 @@
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
-                                <label>{{__('label.remarks')}}:</label>
+                                <label><?php echo e(__('label.remarks')); ?>:</label>
                                 <textarea class="form-control" name="user_remarks"></textarea>
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
-                                <label>{{__('label._terms_condition')}}:</label>
+                                <label><?php echo e(__('label._terms_condition')); ?>:</label>
                                 <textarea class="form-control summernote" name="_terms_condition"></textarea>
                             </div>
                         </div>
@@ -334,7 +335,7 @@
 
                       <!-- <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
-                                <label>{{__('label._status')}}:</label>
+                                <label><?php echo e(__('label._status')); ?>:</label>
                                 <select class="form-control" name="_status">
                                   <option value="1">Active</option>
                                   <option value="0">In Active</option>
@@ -343,11 +344,12 @@
                         </div> -->
                 
                         <div class="col-xs-12 col-sm-12 col-md-12  text-middle">
-                            <button type="submit" class="btn btn-success  ml-5"><i class="fa fa-credit-card mr-2" aria-hidden="true"></i> {{__('label.save')}}</button>
+                            <button type="submit" class="btn btn-success  ml-5"><i class="fa fa-credit-card mr-2" aria-hidden="true"></i> <?php echo e(__('label.save')); ?></button>
                            
                         </div>
                         <br><br>
-                    {!! Form::close() !!}
+                    <?php echo Form::close(); ?>
+
                 
               </div>
               </div>
@@ -361,9 +363,9 @@
 
 
 
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('script')
+<?php $__env->startSection('script'); ?>
 
 <script type="text/javascript">
 
@@ -373,7 +375,7 @@
 });
     $(function () {
 
-     var default_date_formate = `{{default_date_formate()}}`
+     var default_date_formate = `<?php echo e(default_date_formate()); ?>`
       
 
 
@@ -384,7 +386,7 @@ function _ledger_add_new_row(event){
                       <input type="hidden" name="_rlp_ledger_row_id[]" class="form-control _rlp_ledger_row_id" value="0">
                     </td>
                     <td>
-                      <input type="text" name="_search_rlp_ledger_id[]" class="form-control _search_rlp_ledger_id width_280_px" placeholder="{{__('label._ledger_id')}}">
+                      <input type="text" name="_search_rlp_ledger_id[]" class="form-control _search_rlp_ledger_id width_280_px" placeholder="<?php echo e(__('label._ledger_id')); ?>">
                       <input type="hidden" name="_rlp_ledger_id[]" class="form-control _rlp_ledger_id width_200_px" value="0" >
                       <div class="search_box_ledger"></div>
                     </td>
@@ -392,7 +394,7 @@ function _ledger_add_new_row(event){
                       <textarea class="form-control _rlp_ledger_description" name="_rlp_ledger_description[]"></textarea>
                     </td>
                     <td>
-                      <input type="text" name="_ledger_purpose[]" class="form-control _ledger_purpose" placeholder="{{__('label.purpose')}}">
+                      <input type="text" name="_ledger_purpose[]" class="form-control _ledger_purpose" placeholder="<?php echo e(__('label.purpose')); ?>">
                     </td>
                     <td>
                       <input type="number" name="_ledger_amount[]" class="form-control _ledger_amount " value="0" >
@@ -425,7 +427,7 @@ $(document).on('click','._rlp_ledger_row_remove',function(){
   var _gloabal_this = $(this);
   var _text_val = $(this).val().trim();
   var request = $.ajax({
-      url: "{{url('ledger-search')}}",
+      url: "<?php echo e(url('ledger-search')); ?>",
       method: "GET",
       data: { _text_val : _text_val },
       dataType: "JSON"
@@ -436,7 +438,7 @@ $(document).on('click','._rlp_ledger_row_remove',function(){
       var data = result.data; 
       console.log(_gloabal_this)
       if(data.length > 0 ){
-            search_html +=`<div class="card"><table style="width: 300px;"><thead><tr><th>{{__('label.id')}}</th><th>{{__('label._code')}}</th><th>{{__('label._name')}}</th></tr></thead> <tbody>`;
+            search_html +=`<div class="card"><table style="width: 300px;"><thead><tr><th><?php echo e(__('label.id')); ?></th><th><?php echo e(__('label._code')); ?></th><th><?php echo e(__('label._name')); ?></th></tr></thead> <tbody>`;
                         for (var i = 0; i < data.length; i++) {
                           var ledger_id= data[i]?.id;
                           var ledger_name = data[i]?._name;
@@ -501,7 +503,7 @@ $(document).on("click",".search_row_ledger_row",function(){
   var _gloabal_this = $(this);
   var _text_val = $(this).val().trim();
   var request = $.ajax({
-      url: "{{url('employee-search')}}",
+      url: "<?php echo e(url('employee-search')); ?>",
       method: "GET",
       data: { _text_val : _text_val },
       dataType: "JSON"
@@ -512,7 +514,7 @@ $(document).on("click",".search_row_ledger_row",function(){
       var data = result.data; 
       console.log(data)
       if(data.length > 0 ){
-            search_html +=`<div class="card"><table class="table-bordered" style="width: 300px;"><thead><th>{{__('label._code')}}</th><th>{{__('label._name')}}</th></tr></thead> <tbody>`;
+            search_html +=`<div class="card"><table class="table-bordered" style="width: 300px;"><thead><th><?php echo e(__('label._code')); ?></th><th><?php echo e(__('label._name')); ?></th></tr></thead> <tbody>`;
                         for (var i = 0; i < data.length; i++) {
                          search_html += `<tr class="_select_employee_row _cursor_pointer" >
                                         <td>${data[i]._code}
@@ -596,7 +598,7 @@ $(document).on('click','._rlp_item_row_remove',function(){
         var chain_id = $(this).val();
         var self = $(this);
         var request = $.ajax({
-          url: "{{url('rlp-chain-wise-detail')}}",
+          url: "<?php echo e(url('rlp-chain-wise-detail')); ?>",
           method: "GET",
           data: { chain_id:chain_id },
         });
@@ -648,7 +650,7 @@ $(document).on('click','._rlp_item_row_remove',function(){
                                                 <input type="text" name="_search_item_id[]" class="form-control _search_item_id width_280_px" placeholder="Item">
                                                 <input type="hidden" name="_item_id[]" class="form-control _item_id width_200_px" >
                                                 <div class="search_box_item"></div>
-                                                <textarea style="margin-top:10px;" class="form-control _item_description" name="_item_description[]" placeholder="{{__('label.item_details')}}"></textarea>
+                                                <textarea style="margin-top:10px;" class="form-control _item_description" name="_item_description[]" placeholder="<?php echo e(__('label.item_details')); ?>"></textarea>
                                               </td>
 
                                                <td class="display_none">
@@ -659,7 +661,7 @@ $(document).on('click','._rlp_item_row_remove',function(){
                                                 <input type="number" name="conversion_qty[]" min="0" step="any" class="form-control conversion_qty " value="1" readonly>
                                               </td>
                                               <td>
-                                                <input type="text" name="purpose[]" class="form-control purpose" placeholder="{{__('label.purpose')}}">
+                                                <input type="text" name="purpose[]" class="form-control purpose" placeholder="<?php echo e(__('label.purpose')); ?>">
                                               </td>
                                               <td>
                                                 <select class="form-control _transection_unit" name="_transection_unit[]"></select>
@@ -681,7 +683,7 @@ $(document).on('keyup','._search_item_id',delay(function(e){
 
 
   var request = $.ajax({
-      url: "{{url('item-purchase-search')}}",
+      url: "<?php echo e(url('item-purchase-search')); ?>",
       method: "GET",
       data: { _text_val : _text_val },
       dataType: "JSON"
@@ -747,7 +749,7 @@ $(document).on('click','.search_row_item',function(){
 var self = $(this);
 
     var request = $.ajax({
-      url: "{{url('item-wise-units')}}",
+      url: "<?php echo e(url('item-wise-units')); ?>",
       method: "GET",
       data: { item_id:_id },
        dataType: "html"
@@ -861,5 +863,7 @@ function _rlp_total_calculation(){
   }    
 
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
 
+
+<?php echo $__env->make('backend.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\xampp\htdocs\own\inv-acc-hrm\resources\views/rlp-module/rlp/edit.blade.php ENDPATH**/ ?>

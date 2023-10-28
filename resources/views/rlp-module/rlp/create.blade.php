@@ -43,7 +43,7 @@
                 <select class="form-control priority" name="priority" required >
                   <option value="">{{__('label.select')}}</option>
                   @forelse(priorities() as $p_key=>$p_val)
-                  <option value="{{$p_val}}">{{$p_val}}</option>
+                  <option value="{{$p_key}}">{{$p_val}}</option>
                   @empty
                   @endforelse
                 </select>
@@ -109,7 +109,7 @@
               <div class="col-xs-12 col-sm-12 col-md-2 ">
                   <div class="form-group ">
                       <label>{{__('Type')}}:<span class="_required">*</span></label>
-                     <select class="form-control chain_type" name="chain_type" required >
+                     <select class="form-control rlp_prefix" name="rlp_prefix" required >
                         <option value="">{{__('Select')}}</option>
                         @forelse(access_chain_types() as $key=> $val )
                         <option value="{{$key}}" > {{ $val }}</option>
@@ -184,6 +184,7 @@
                                             <tr class="_purchase_row">
                                               <td>
                                                 <a  href="#none" class="btn btn-default _rlp_item_row_remove" ><i class="fa fa-trash"></i></a>
+                                                <input type="hidden" name="_item_row_id[]" class="form-control _item_row_id" value="0">
                                               </td>
                                               <td>
                                                 <input type="text" name="_search_item_id[]" class="form-control _search_item_id width_280_px" placeholder="Item">
@@ -214,6 +215,7 @@
                                               </td>
                                               <td>
                                                 <input type="number" name="_value[]" class="form-control _value " readonly value="0">
+                                              </td>
                                             </tr>
                                           </tbody>
                                           <tfoot>
@@ -258,6 +260,7 @@
                                             <tr class="_purchase_row">
                                               <td>
                                                 <a  href="#none" class="btn btn-default _rlp_ledger_row_remove" ><i class="fa fa-trash"></i></a>
+                                                <input type="hidden" name="_rlp_ledger_row_id[]" class="form-control _rlp_ledger_row_id" value="0">
                                               </td>
                                               <td>
                                                 <input type="text" name="_search_rlp_ledger_id[]" class="form-control _search_rlp_ledger_id width_280_px" placeholder="{{__('label._ledger_id')}}">
@@ -294,8 +297,14 @@
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
-                                <label>Remarks:</label>
+                                <label>{{__('label.remarks')}}:</label>
                                 <textarea class="form-control" name="user_remarks"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <div class="form-group">
+                                <label>{{__('label._terms_condition')}}:</label>
+                                <textarea class="form-control summernote" name="_terms_condition"></textarea>
                             </div>
                         </div>
                         <div class="col-md-12">
@@ -343,7 +352,9 @@
 <script type="text/javascript">
 
 
- 
+ $(document).ready(function() {
+  $('.summernote').summernote();
+});
     $(function () {
 
      var default_date_formate = `{{default_date_formate()}}`
@@ -383,6 +394,7 @@ function _ledger_add_new_row(event){
   $(document).find("#area__rlp_ledger_details").append(`<tr class="_purchase_row">
                     <td>
                       <a  href="#none" class="btn btn-default _rlp_ledger_row_remove" ><i class="fa fa-trash"></i></a>
+                      <input type="hidden" name="_rlp_ledger_row_id[]" class="form-control _rlp_ledger_row_id" value="0">
                     </td>
                     <td>
                       <input type="text" name="_search_rlp_ledger_id[]" class="form-control _search_rlp_ledger_id width_280_px" placeholder="{{__('label._ledger_id')}}">
@@ -643,6 +655,7 @@ $(document).on('click','._rlp_item_row_remove',function(){
     $(document).find("#area__rlp_item_details").append(`<tr class="_purchase_row">
                                               <td>
                                                 <a  href="#none" class="btn btn-default _rlp_item_row_remove" ><i class="fa fa-trash"></i></a>
+                                                <input type="hidden" name="_item_row_id[]" class="form-control _item_row_id" value="0">
                                               </td>
                                               <td>
                                                 <input type="text" name="_search_item_id[]" class="form-control _search_item_id width_280_px" placeholder="Item">

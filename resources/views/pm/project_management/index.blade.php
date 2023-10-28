@@ -66,11 +66,6 @@
                     </table>
                 </div>
                 <!-- /.d-flex -->
-
- 
-
-                
-
                 <div class="d-flex flex-row justify-content-end">
                   {!! $data->render() !!}
                 </div>

@@ -105,7 +105,7 @@ if (! function_exists('create_update_user')) {
 if (! function_exists('access_chain_types')) {
     function access_chain_types()
     {
-      return ['RLP'=>'RLP','NOT'=>'NOTESHEET','WOR'=>'WORKORDER'];
+      return ['RLP'=>'Request for Local Purchase','NOT'=>'NOTESHEET','WOR'=>'WORKORDER'];
     }
 }
 
@@ -793,6 +793,14 @@ if (! function_exists('_category_name')) {
     }
 }
 
+if (! function_exists('_code_wise_emp')) {
+    function _code_wise_emp($_code)
+    {
+        $data= \DB::table('hrm_employees')->where('_code',$_code)->select('_name')->first();
+        return $data->_name ?? '';
+    }
+}
+
 if (! function_exists('_item_name')) {
     function _item_name($id)
     {
@@ -1193,10 +1201,28 @@ function find_bud_item_column($item_id,$column_name,$array_data=[]){
 
 
 
+
+
+if (! function_exists('selected_rlp_status')) {
+    function selected_rlp_status($id)
+    {
+      $rlp_status = \DB::table('status_details')->get();
+      foreach($rlp_status as $key=>$val){
+        if($val->id ==$id){
+            return $val->name ?? '';
+        }
+      }
+      return "empty";
+    }
+}
+
+
+
+
 if (! function_exists('default_des')) {
     function default_des()
     {
-      return 3;
+      return 2;
     }
 }
 if (! function_exists('_date_diff')) {

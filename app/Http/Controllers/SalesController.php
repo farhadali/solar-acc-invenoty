@@ -2675,9 +2675,8 @@ $ProductPriceList->_barcode = $_new_last_barcode_string;
              //End Sms Send to customer and Supplier
 
           DB::commit();
-          if(($request->_lock ?? 0) ==1){
-                return redirect('sales/print/'.$_master_id)
-                ->with('success','Information save successfully');
+          if(($request->_print_value ?? 0) ==1){
+                return redirect('sales/print/'.$_master_id);
           }else{
             return redirect()
                 ->back()
