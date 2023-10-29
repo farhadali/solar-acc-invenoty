@@ -87,6 +87,7 @@
                      <tbody>
                       <?php
                       $sl=1;
+                      $last_key = (sizeof($_item_detail)-1);
                       ?>
                       <?php $__empty_1 = true; $__currentLoopData = $_item_detail; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                        <?php
@@ -100,8 +101,8 @@
                           <?php echo $item->_item_description ?? ''; ?>
 
                         </td>
-                        <?php if($key==0): ?>
-                        <td rowspan="<?php echo e($row_span); ?>">
+                       
+                        <td >
                           <?php if(!in_array($item->purpose,$purpose)): ?>
                           <?php
                           array_push($purpose,$item->purpose);
@@ -109,7 +110,7 @@
                            <?php echo $item->purpose ?? ''; ?> 
                            <?php endif; ?>
                         </td>
-                        <?php endif; ?>
+                       
                         <td><?php echo _find_unit($item->_unit_id); ?></td>
                         <td style="text-align:right;"><?php echo _report_amount($item->quantity ?? 0); ?></td>
                         <td style="text-align:right;"><?php echo _report_amount($item->unit_price ?? 0); ?></td>
@@ -137,8 +138,8 @@
                           <?php echo $item->_rlp_ledger_description ?? ''; ?>
 
                         </td>
-                        <?php if($key==0): ?>
-                        <td rowspan="<?php echo e($row_span); ?>">
+                       
+                        <td >
                           <?php if(!in_array($item->purpose,$purpose)): ?>
                           <?php
                           array_push($purpose,$item->purpose);
@@ -146,7 +147,7 @@
                            <?php echo $item->purpose ?? ''; ?> 
                            <?php endif; ?>
                         </td>
-                        <?php endif; ?>
+                        
                         <td></td>
                         <td></td>
                         <td></td>

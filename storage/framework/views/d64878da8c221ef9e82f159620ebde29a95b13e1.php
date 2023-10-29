@@ -808,9 +808,13 @@ function _common_click_function(){
     var search_boxManufacCompany= $(document).find('.search_boxManufacCompany').hasClass('search_box_show');
     var search_box_ledger= $(document).find('.search_box_ledger').hasClass('search_box_show');
     var search_box_employee= $(document).find('.search_box_employee').hasClass('search_box_show');
+    var search_box_supplier= $(document).find('.search_box_supplier').hasClass('search_box_show');
 
 
 
+    if(search_box_supplier ==true){
+      $(document).find('.search_box_supplier').removeClass('search_box_show').hide();
+    }
     if(search_box_employee ==true){
       $(document).find('.search_box_employee').removeClass('search_box_show').hide();
     }

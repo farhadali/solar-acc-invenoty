@@ -14,6 +14,6 @@ class RlpDetail extends Model
     }
 
     public function _supplier(){
-        return $this->hasOne(\App\Models\AccountLedger::class,'id','_ledger_id')->select('id','_name','_phone','_address');
+        return $this->hasOne(\App\Models\AccountLedger::class,'id','_ledger_id')->select('id','_name','_phone','_address','_code');
     }
 }
