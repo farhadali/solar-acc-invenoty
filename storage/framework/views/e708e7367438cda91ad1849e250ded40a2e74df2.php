@@ -315,7 +315,19 @@
           </a>
         </div>
          <?php endif; ?> 
-         
+         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('material-issue-list')): ?>
+         <div class="dropdown-divider"></div>  
+          
+        <div style="display: flex;">
+           <a href="<?php echo e(url('material-issue')); ?>" class="dropdown-item">
+            <i class="fa fa-arrow-circle-right mr-2" aria-hidden="true"></i> <?php echo e(__('label.material_issued')); ?>
+
+          </a>
+           <a  href="<?php echo e(route('material-issue.create')); ?>" class="dropdown-item text-right">
+            <i class="nav-icon fas fa-plus"></i>
+          </a>
+        </div>
+         <?php endif; ?>  
           
        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('sales-order-list')): ?>
          <div class="dropdown-divider"></div>
@@ -373,7 +385,8 @@
             <i class="nav-icon fas fa-plus"></i>
           </a>
         </div>
-         <?php endif; ?>  
+         <?php endif; ?> 
+       
         
        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('damage-list')): ?>
          <div class="dropdown-divider"></div>  
