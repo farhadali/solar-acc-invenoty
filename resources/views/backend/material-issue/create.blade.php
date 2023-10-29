@@ -15,7 +15,7 @@ $__user= Auth::user();
       <div class="container-fluid">
         <div class="row mb-2">
           <div class=" col-sm-6 ">
-            <a class="m-0 _page_name" href="{{ route('sales.index') }}">{!! $page_name ?? '' !!} </a>
+            <a class="m-0 _page_name" href="{{ route('material-issue.index') }}">{!! $page_name ?? '' !!} </a>
           </div><!-- /.col -->
           
           <div class=" col-sm-6 ">
@@ -34,7 +34,7 @@ $__user= Auth::user();
                 </button>
                </li>
                @endcan
-                @can('sales-form-settings')
+                @can('material-issue-form-settings')
              <li class="breadcrumb-item ">
                  <button type="button" id="form_settings" class="btn btn-sm btn-default" data-toggle="modal" data-target="#exampleModal">
                    <i class="nav-icon fas fa-cog"></i> 
@@ -42,7 +42,7 @@ $__user= Auth::user();
                </li>
               @endcan
               <li class="breadcrumb-item ">
-                 <a class="btn btn-sm btn-success" title="List" href="{{ route('sales.index') }}"> <i class="nav-icon fas fa-list"></i> </a>
+                 <a class="btn btn-sm btn-success" title="List" href="{{ route('material-issue.index') }}"> <i class="nav-icon fas fa-list"></i> </a>
                </li>
             </ol>
           </div><!-- /.col -->
@@ -50,17 +50,25 @@ $__user= Auth::user();
       </div><!-- /.container-fluid -->
     </div>
 
-    @php
+     @php
     $_show_delivery_man = $form_settings->_show_delivery_man ?? 0;
     $_show_sales_man = $form_settings->_show_sales_man ?? 0;
     $_show_barcode = $form_settings->_show_barcode ?? 0;
     $_show_cost_rate =  $form_settings->_show_cost_rate ?? 0;
     $_show_payment_terms =  $form_settings->_show_payment_terms ?? 0;
     $_show_vat =  $form_settings->_show_vat ?? 0;
-   $_inline_discount = $form_settings->_inline_discount ?? 0;
+    $_inline_discount = $form_settings->_inline_discount ?? 0;
     $_show_self = $form_settings->_show_self ?? 0;
     $_show_warranty = $form_settings->_show_warranty ?? 0;
     $_defaut_customer = $form_settings->_defaut_customer ?? 0;
+    $_show_unit = $form_settings->_show_unit ?? 0;
+    $_show_manufacture_date = $form_settings->_show_manufacture_date ?? 0;
+    $_show_expire_date = $form_settings->_show_expire_date ?? 0;
+
+    $_show_branch = $form_settings->_show_branch ?? 0;
+    $_show_cost_center = $form_settings->_show_cost_center ?? 0;
+    $_show_store = $form_settings->_show_store ?? 0;
+
     @endphp
   
     <div class="content">
@@ -93,11 +101,11 @@ $__user= Auth::user();
                  </div> 
                </div>
                @endif
-               <form action="{{route('sales.store')}}" method="POST" class="purchase_form" >
+               <form action="{{route('material-issue.store')}}" method="POST" class="purchase_form" >
                 @csrf
                     <div class="row">
                        <div class="col-xs-12 col-sm-12 col-md-2">
-                        <input type="hidden" name="_form_name" class="_form_name"  value="sales">
+                        <input type="hidden" name="_form_name" class="_form_name"  value="material_issue">
                             <div class="form-group">
                                 <label>Date:</label>
                                   <div class="input-group date" id="reservationdate" data-target-input="nearest">
@@ -109,7 +117,7 @@ $__user= Auth::user();
                               </div>
                         </div>
                         
-                        <div class="col-xs-12 col-sm-12 col-md-2 ">
+                        <div class="col-xs-12 col-sm-12 col-md-2 display_none">
                             <div class="form-group">
                               <label class="mr-2" for="_order_number">Invoice Number:</label>
                               <input type="text" id="_order_number" name="_order_number" class="form-control _order_number" value="{{old('_order_number')}}" placeholder="Invoice Number" readonly >
@@ -126,7 +134,7 @@ $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids
 @endphp 
 
 
-<div class="col-xs-12 col-sm-12 col-md-2 ">
+<div class="col-xs-12 col-sm-12 col-md-3 ">
  <div class="form-group ">
      <label>{!! __('label.organization') !!}:<span class="_required">*</span></label>
     <select class="form-control _master_organization_id" name="organization_id" required >
@@ -139,7 +147,7 @@ $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids
      </select>
  </div>
 </div>
-<div class="col-xs-12 col-sm-12 col-md-2 ">
+<div class="col-xs-12 col-sm-12 col-md-3 ">
  <div class="form-group ">
      <label>Branch:<span class="_required">*</span></label>
     <select class="form-control _master_branch_id" name="_branch_id" required >
@@ -151,7 +159,7 @@ $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids
      </select>
  </div>
 </div>
-<div class="col-xs-12 col-sm-12 col-md-2 ">
+<div class="col-xs-12 col-sm-12 col-md-3 ">
  <div class="form-group ">
      <label>{{__('label.Cost center')}}:<span class="_required">*</span></label>
     <select class="form-control _cost_center_id" name="_cost_center_id" required >
@@ -163,20 +171,9 @@ $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids
      </select>
  </div>
 </div>
-<div class="col-xs-12 col-sm-12 col-md-2 ">
- <div class="form-group ">
-     <label>{{__('label.store_house')}}:<span class="_required">*</span></label>
-    <select class="form-control _master_store_id" name="_store_id" required >
-       <option value="">{{__('label.select_store')}}</option>
-       @forelse($store_houses as $store )
-       <option value="{{$store->id}}" >{{ $store->id ?? '' }} - {{ $store->_name ?? '' }}</option>
-       @empty
-       @endforelse
-     </select>
- </div>
-</div>
+
                         
-                        <div class="col-xs-12 col-sm-12 col-md-2 ">
+                        <div class="col-xs-12 col-sm-12 col-md-2 display_none">
                             <div class="form-group">
                               <label class="mr-2" for="_order_ref_id">Sales Order:</label>
                               <input type="text" id="_order_ref_id" name="_order_ref_id" class="form-control _order_ref_id" value="{{old('_order_ref_id')}}" placeholder="Sales Order" >
@@ -184,7 +181,7 @@ $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids
                             </div>
                         </div>
                          @if($_show_sales_man ==1)
-                        <div class="col-xs-12 col-sm-12 col-md-3 ">
+                        <div class="col-xs-12 col-sm-12 col-md-3 display_none">
                             <div class="form-group">
                               <label class="mr-2" for="_sales_man">Sales Man:</label>
                               <input type="text" id="_search_main_sales_man" name="_search_main_sales_man" class="form-control _search_main_sales_man" value="@if ($sales_man_name_leder = Session::get('sales_man_name_leder')) {{ $sales_man_name_leder}} @endif" placeholder="Sales Man" >
@@ -195,7 +192,7 @@ $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids
                         </div>
                         @endif
                           @if($_show_delivery_man ==1)
-                        <div class="col-xs-12 col-sm-12 col-md-3 ">
+                        <div class="col-xs-12 col-sm-12 col-md-3 display_none">
                             <div class="form-group">
                               <label class="mr-2" for="_delivery_man">Delivery Man:</label>
                               <input type="text" id="_search_main_delivery_man" name="_search_main_delivery_man" class="form-control _search_main_delivery_man" 
@@ -207,7 +204,7 @@ $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids
                         </div>
                         @endif
 
-                        <div class="col-xs-12 col-sm-12 col-md-3 @if($_show_payment_terms==0) display_none @endif ">
+                        <div class="col-xs-12 col-sm-12 col-md-3 display_none ">
                             <div class="form-group">
                               <label class="mr-2" for="_payment_terms">Payment Terms:</label>
                               <select class="form-control _payment_terms" name="_payment_terms">
@@ -222,8 +219,8 @@ $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids
                         
                        <div class="col-xs-12 col-sm-12 col-md-3 ">
                             <div class="form-group">
-                              <label class="mr-2" for="_main_ledger_id">Customer:<span class="_required">*</span></label>
-                            <input type="text" id="_search_main_ledger_id" name="_search_main_ledger_id" class="form-control _search_main_ledger_id" value="{{old('_search_main_ledger_id',_ledger_name($_defaut_customer))}}" placeholder="Customer" required>
+                              <label class="mr-2" for="_main_ledger_id">{{__('label.expense_head')}}:<span class="_required">*</span></label>
+                            <input type="text" id="_search_main_ledger_id" name="_search_main_ledger_id" class="form-control _search_main_ledger_id" value="{{old('_search_main_ledger_id',_ledger_name($_defaut_customer))}}" placeholder="{{__('label.expense_head')}}" required>
 
                             <input type="hidden" id="_main_ledger_id" name="_main_ledger_id" class="form-control _main_ledger_id" value="{{old('_main_ledger_id',$_defaut_customer)}}" placeholder="Customer" required>
                             <div class="search_box_main_ledger"> </div>
@@ -234,23 +231,30 @@ $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids
                         
                         <div class="col-xs-12 col-sm-12 col-md-3 ">
                             <div class="form-group">
-                              <label class="mr-2" for="_phone">Phone:</label>
-                              <input type="text" id="_phone" name="_phone" class="form-control _phone" value="{{old('_phone','N/A')}}" placeholder="Phone" >
+                              <label class="mr-2" for="_phone">{{__('label._phone')}}:</label>
+                              <input type="text" id="_phone" name="_phone" class="form-control _phone" value="{{old('_phone','N/A')}}" placeholder="{{__('label._phone')}}" >
                                 
                             </div>
                         </div>
                         
                         <div class="col-xs-12 col-sm-12 col-md-3 ">
                             <div class="form-group">
-                              <label class="mr-2" for="_address">Address:</label>
-                              <input type="text" id="_address" name="_address" class="form-control _address" value="{{old('_address','N/A')}}" placeholder="Address" >
+                              <label class="mr-2" for="_address">{{__('label._address')}}:</label>
+                              <input type="text" id="_address" name="_address" class="form-control _address" value="{{old('_address','N/A')}}" placeholder="{{__('label._address')}}" >
                                 
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-3 ">
                             <div class="form-group">
-                              <label class="mr-2" for="_referance">Referance:</label>
-                              <input type="text" id="_referance" name="_referance" class="form-control _referance" value="{{old('_referance','')}}" placeholder="Referance" >
+                              <label class="mr-2" for="_referance">{{__('label._referance')}}:</label>
+                              <input type="text" id="_referance" name="_referance" class="form-control _referance" value="{{old('_referance','')}}" placeholder="{{__('label._referance')}}" >
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 ">
+                            <div class="form-group">
+                              <label class="mr-2" for="_referance">{{__('label._delivery_details')}}:</label>
+                              <textarea class="form-control" name="_delivery_details" >{!! old('_delivery_details') !!}</textarea>
+                              
                             </div>
                         </div>
                         
@@ -259,7 +263,7 @@ $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids
                         <div class="col-md-12  ">
                              <div class="card">
                               <div class="card-header">
-                                <strong>Item Details</strong>
+                                <strong>{{__('label._details')}}</strong>
                                 
                                
                               </div>
@@ -269,41 +273,31 @@ $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids
                                       <table class="table table-bordered" >
                                           <thead >
                                             <th class="text-left" >&nbsp;</th>
-                                            <th class="text-left" >Item</th>
-                                            <th class="text-left display_none" >Base Unit</th>
-                                            <th class="text-left display_none" >Con. Qty</th>
-                                            <th class="text-left @if(isset($form_settings->_show_unit)) @if($form_settings->_show_unit==0) display_none    @endif @endif" >Tran. Unit</th>
-                                          
-                                            <th class="text-left @if($_show_barcode  ==0) display_none @endif" >Barcode</th>
-                                            <th class="text-left @if($_show_warranty  ==0) display_none @endif" >Warranty</th>
                                             
-                                            <th class="text-left" >Qty</th>
-                                            <th class="text-left @if($_show_cost_rate  ==0) display_none @endif" >Cost</th>
-                                            <th class="text-left" >Sales Rate</th>
-                                            
-                                            <th class="text-left  @if($_show_vat  ==0) display_none @endif" >VAT%</th>
-                                            <th class="text-left  @if($_show_vat  ==0) display_none @endif" >VAT Amount</th>
+                                            <th class="text-left" >{{__('label._item')}}</th>
+                                            <th class="text-left display_none" >{{__('label._base_unit')}}</th>
+                                            <th class="text-left display_none" >{{__('lable.conversion_qty')}}</th>
+                                            <th class="text-left @if($_show_unit==0) display_none @endif " >{{__('label.transection_unit')}}</th>
                                            
-                                             
-                                            <th class="text-left @if($_inline_discount  ==0) display_none @endif" >Dis%</th>
-                                            <th class="text-left @if($_inline_discount  ==0) display_none @endif" >Discount</th>
-                                            <th class="text-left" >Value</th>
-
-                                            <th class="text-middle @if(isset($form_settings->_show_manufacture_date)) @if($form_settings->_show_manufacture_date==0) display_none @endif
-                                            @endif" >Manu. Date</th>
-                                             <th class="text-middle @if(isset($form_settings->_show_expire_date)) @if($form_settings->_show_expire_date==0) display_none @endif
-                                            @endif"> Expired Date </th>
-                                           
-                                            <th class="text-left  @if(sizeof($permited_branch)  ==1) display_none @endif " >Branch</th>
+                                            <th class="text-left @if($_show_barcode == 0) display_none @endif" >{{__('label._barcode')}}</th>
+                                            <th class="text-left @if($_show_warranty==0) display_none @endif" >{{__('label._warrantry')}}</th>
+                                            <th class="text-left  " >{{__('label._qty')}}</th>
                                             
+                                            <th class="text-left @if($_show_cost_rate == 0) display_none @endif" >{{__('label._cost_rate')}}</th>
+                                            <th class="text-left" >{{__('label.issue_rate')}}</th>
                                             
-                                             <th class="text-left  @if(sizeof($permited_costcenters)  ==1) display_none @endif " >Cost Center</th>
+                                            <th class="text-left @if($_show_vat == 0) display_none @endif " >{{__('label._vat')}}%</th>
+                                            <th class="text-left @if($_show_vat == 0) display_none @endif" >{{__('label._vat_amount')}}</th>
                                             
-                                             
-                                             <th class="text-left @if(sizeof($store_houses)  ==1) display_none @endif" >Store</th>
-                                           
-                                            
-                                             <th class="text-left  @if($_show_self  ==0) display_none @endif " >Shelf</th>
+                                            <th class="text-left @if($_inline_discount == 0) display_none @endif " >{{__('label._dis')}}%</th>
+                                            <th class="text-left @if($_inline_discount == 0) display_none @endif " >{{__('label._discount_amount')}}</th>
+                                            <th class="text-left" >{{__('label._value')}}</th>
+                                             <th class="text-middle @if($_show_manufacture_date==0) display_none @endif " >{{__('label._manufacture_date')}}</th>
+                                             <th class="text-middle @if($_show_expire_date==0) display_none @endif "> {{__('label._expire_date')}} </th>
+                                            <th class="text-left   @if($_show_branch == 0) display_none @endif" >{{__('label._branch_id')}}</th>
+                                             <th class="text-left @if($_show_cost_center==0) display_none @endif" >{{__('label._cost_center_id')}}</th>
+                                             <th class="text-left @if($_show_store== 0) display_none @endif" >{{__('label.store_house')}}</th>
+                                             <th class="text-left @if($_show_self==0) display_none @endif" >{{__('label.shelf')}}</th>
                                            
                                            
                                           </thead>
@@ -386,7 +380,7 @@ $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids
                                                 <input type="date" name="_expire_date[]" class="form-control _expire_date " >
                                               </td>
                                             
-                                               <td class="@if(sizeof($permited_branch) == 1) display_none @endif ">
+                                               <td class="@if($_show_branch == 0) display_none @endif ">
                                                 <select class="form-control  _main_branch_id_detail" name="_main_branch_id_detail[]"  required>
                                                   @forelse($permited_branch as $branch )
                                                   <option value="{{$branch->id}}" @if(isset($request->_branch_id)) @if($request->_branch_id == $branch->id) selected @endif   @endif>{{ $branch->_name ?? '' }}</option>
@@ -396,7 +390,9 @@ $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids
                                               </td>
                                              
                                              
-                                               <td class=" @if(sizeof($permited_costcenters) == 1) display_none @endif " >
+
+
+                                               <td class=" @if($_show_cost_center == 0) display_none @endif " >
                                                  <select class="form-control  _main_cost_center" name="_main_cost_center[]" required >
                                             
                                                   @forelse($permited_costcenters as $costcenter )
@@ -406,7 +402,7 @@ $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids
                                                 </select>
                                               </td>
                                             
-                                              <td class=" @if(sizeof($store_houses) == 1) display_none @endif ">
+                                              <td class=" @if($_show_store ==0) display_none @endif ">
                                                 <select class="form-control  _main_store_id" name="_main_store_id[]">
                                                   @forelse($store_houses as $store)
                                                   <option value="{{$store->id}}">{{$store->_name ?? '' }}</option>
@@ -461,13 +457,9 @@ $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids
                                               <td class="@if(isset($form_settings->_show_expire_date)) @if($form_settings->_show_expire_date==0) display_none  @endif @endif">
                                               </td>
                                              
-                                               <td class="@if(sizeof($permited_branch) == 1) display_none @endif"></td>
-                                              
-                                              
-                                               <td class="@if(sizeof($permited_costcenters) == 1) display_none @endif"></td>
-                                             
-                                               <td class="@if(sizeof($store_houses) == 1) display_none @endif"></td>
-                                              
+                                               <td class="@if($_show_branch==0) display_none @endif"></td>
+                                               <td class="@if($_show_cost_center==0) display_none @endif"></td>
+                                               <td class="@if($_show_store==0) display_none @endif"></td>
                                               <td class="@if($_show_self==0) display_none @endif"></td>
                                              
                                             </tr>
@@ -478,12 +470,7 @@ $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids
                           </div>
                         </div>
                         
-                      @if($__user->_ac_type==1)
-                      @include('backend.sales.create_acc_cb')
-                         
-                      @else
-                       @include('backend.sales.create_acc_detail')
-                      @endif
+                     
 
 
                         <div class="col-xs-12 col-sm-12 col-md-12 mb-10">
@@ -512,13 +499,13 @@ $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids
                                 <input type="number" name="_sub_total" class="form-control width_200_px" id="_sub_total" readonly value="0">
                               </td>
                             </tr>
-                            <tr>
+                            <tr class="@if($_inline_discount==0) display_none @endif">
                               <td style="border:0px;width: 20%;"><label for="_discount_input">Invoice Discount</label></td>
                               <td style="border:0px;width: 80%;">
                                 <input type="text" name="_discount_input" class="form-control width_200_px" id="_discount_input" value="0" >
                               </td>
                             </tr>
-                            <tr>
+                            <tr class="@if($_inline_discount==0) display_none @endif">
                               <td style="border:0px;width: 20%;"><label for="_total_discount">Total Discount</label></td>
                               <td style="border:0px;width: 80%;">
                                 <input type="number" name="_total_discount" class="form-control width_200_px" id="_total_discount" readonly value="0">
@@ -586,11 +573,11 @@ $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids
 </div>
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog  modal-lg" role="document">
-    <form action="{{ url('sales-settings')}}" method="POST" enctype="multipart/form-data">
+    <form action="{{ url('material-issue-setting')}}" method="POST" enctype="multipart/form-data">
         @csrf
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Sales Form Settings</h5>
+        <h5 class="modal-title" id="exampleModalLabel">{{__('label.material_issue_form_settings')}}</h5>
         <button type="button" class="close exampleModalClose"  aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -656,7 +643,7 @@ $("#_serach_baorce").focus();
 
   function setting_data_fetch(){
       var request = $.ajax({
-            url: "{{url('sales-setting-modal')}}",
+            url: "{{url('material-issue-setting-modal')}}",
             method: "GET",
             dataType: "html"
           });
@@ -705,7 +692,9 @@ function _main_item_search(_text_val){
       if(data.length > 0 ){
         console.log("keyup call function and ger data")
 console.log(result)
-            search_html +=`<div class="card"><table style="width: 100%;"><tbody>`;
+            search_html +=`<div class="card"><table style="width: 100%;">
+            
+            <tbody>`;
                   for (var i = 0; i < data.length; i++) {
                     var _barcode_array =[];
                     var __barcode = data[i]._barcode;
@@ -719,7 +708,7 @@ console.log(result)
                 </td><td>${data[i]._name} </td>
                                    
                                    <td>${data[i]._qty}</td>
-                                    <td>${data[i]._sales_rate}</td>
+                                    <td>${data[i]._pur_rate}</td>
                                     `;
                                     if(_barcode_array.length == 1){ //_barcode _array_means it's Model Barcode if item qty is 1 then unique barcode count as model barcode 
                               search_html +=`<td class="text-center">
@@ -940,6 +929,10 @@ function _click_row_and_barcode(_click_global_this){
   var _expire_date_s = $("._expire_date");
   var _add_row_or_not = 0;
 
+  //only for Material issue Page
+
+  _sales_rate = _pur_rate;
+
  //console.log("this row id "+row_id)
     for(var i = 0; i < _p_p_l_id_s.length; i++){
       var _p_p_l_id_s_val = $(_p_p_l_id_s[i]).val();
@@ -1040,6 +1033,8 @@ function _click_row_and_barcode(_click_global_this){
 }
 
 function line_total_calculation(row_id,_sales_rate,_pur_rate,_sales_vat,_sales_discount,_qty){
+          //Only for Material Issue
+          var _sales_rate =_pur_rate;
           if(isNaN(_sales_rate)){ _sales_rate=0 }
           if(isNaN(_pur_rate)){ _pur_rate=0 }
           if(isNaN(_sales_vat)){ _sales_vat=0 }
@@ -1136,6 +1131,7 @@ function _add_new_row_for_barcode(_warranty,row_id,_name,_p_item_item_id,_unit_i
   // console.log("_value "+_unit_name)
   // console.log("_qty "+_qty)
   // console.log("_sales_rate "+_sales_rate)
+  var _sales_rate = _pur_rate;
   var _unique_barcode =1;
   var _value_line = parseFloat(parseFloat(_qty)*parseFloat(_sales_rate));
   var _item_row_count = parseFloat($(document).find('._item_row_count').val());
@@ -1233,7 +1229,7 @@ function _add_new_row_for_barcode(_warranty,row_id,_name,_p_item_item_id,_unit_i
                                                 <input type="date" name="_expire_date[]" class="form-control _expire_date__${row_id} _expire_date " value="${_expire_date}" >
                                               </td>
                                               
-                                              <td class="@if(sizeof($permited_branch) == 1) display_none @endif ">
+                                              <td class="@if($_show_branch== 0) display_none @endif ">
                                                 <select class="form-control  _main_branch_id_detail__${row_id} _main_branch_id_detail" name="_main_branch_id_detail[]"  required>
                                                   @forelse($permited_branch as $branch )
                                                   <option value="{{$branch->id}}" @if(isset($request->_branch_id)) @if($request->_branch_id == $branch->id) selected @endif   @endif>{{ $branch->_name ?? '' }}</option>
@@ -1242,7 +1238,7 @@ function _add_new_row_for_barcode(_warranty,row_id,_name,_p_item_item_id,_unit_i
                                                 </select>
                                               </td>
                                               
-                                               <td class="@if(sizeof($permited_costcenters)==1) display_none @endif">
+                                               <td class="@if($_show_cost_center==0) display_none @endif">
                                                  <select class="form-control  _main_cost_center__${row_id} _main_cost_center" name="_main_cost_center[]" required >
                                             
                                                   @forelse($permited_costcenters as $costcenter )
@@ -1253,7 +1249,7 @@ function _add_new_row_for_barcode(_warranty,row_id,_name,_p_item_item_id,_unit_i
                                               </td>
                                               
                                              
-                                              <td class="@if(sizeof($store_houses)==1) display_none @endif">
+                                              <td class="@if($_show_store==1) display_none @endif">
                                                 <select class="form-control  _main_store_id__${row_id} _main_store_id" name="_main_store_id[]">
                                                   @forelse($store_houses as $store)
                                                   <option value="{{$store->id}}" >{{$store->_name ?? '' }}</option>
@@ -1271,6 +1267,14 @@ function _add_new_row_for_barcode(_warranty,row_id,_name,_p_item_item_id,_unit_i
                                             </tr>`);
 
 $("."+_item_row_count+"___warranty").val(_warranty);
+
+$("._main_store_id__"+row_id).val(_store_id).change();
+$("._main_cost_center__"+row_id).val(_cost_center_id).change();
+$("._main_branch_id_detail__"+row_id).val(_branch_id).change();
+
+
+
+
 
 var _main_unit_id = _unit_id;
 var _main_unit_val = '';
@@ -1342,6 +1346,10 @@ $(document).on("click",'._barcode_modal_button',function(){
     $(document).find('._search_item_id').removeClass('required_border');
     var _gloabal_this = $(this);
     var _text_val = $(this).val().trim();
+   var check_selelct= check_select_org_branch_cost_center();
+   if(check_selelct ==false){
+    return false;
+   }
 
 
   var request = $.ajax({
@@ -1352,11 +1360,20 @@ $(document).on("click",'._barcode_modal_button',function(){
     });
      
     request.done(function( result ) {
-
+console.log(result)
       var search_html =``;
       var data = result.data; 
       if(data.length > 0 ){
-            search_html +=`<div class="card"><table style="width: 300px;">
+            search_html +=`<div class="card"><table style="width: 450px;"><thead>
+              <tr>
+                  <th>{{__('label.id')}}</th>
+                  <th>{{__('label._item')}}</th>
+                  <th>{{__('label._qty')}}</th>
+                  <th>{{__('label._cost_rate')}}</th>
+                  <th>{{__('label._issue_rate')}}</th>
+                  <th>{{__('label.store_house')}}</th>
+              </tr>
+            </thead>
                             <tbody>`;
                         for (var i = 0; i < data.length; i++) {
                          search_html += `<tr class="search_row_item" >
@@ -1389,8 +1406,9 @@ $(document).on("click",'._barcode_modal_button',function(){
 
                                    
                                    <td>${data[i]._qty} ${data[i]?._unit_name}</td>
-                                    <td>${data[i]._pur_rate}</td>
-                                    <td>${data[i]._sales_rate}</td>
+                                    <td>${data[i]?._pur_rate}</td>
+                                    <td>${data[i]?._sales_rate}</td>
+                                    <td>${data[i]?._store_name}</td>
                                    </tr>`;
 
                                   
@@ -1440,7 +1458,11 @@ $(document).on('click','.search_row_item',function(){
   if(_barcode=='null'){ _barcode='' } 
   if(_store_salves_id=='null'){ _store_salves_id='' } 
   if(isNaN(_sales_rate)){ _sales_rate=0 }
+
   if(isNaN(_pur_rate)){ _pur_rate=0 }
+
+  if(_sales_rate ==0){ _sales_rate = _pur_rate; } //only Materail Issue
+
   if(isNaN(_sales_vat)){ _sales_vat=0 }
   _vat_amount = ((_sales_rate*_sales_vat)/100)
   if(isNaN(_sales_discount)){ _sales_discount=0 }
@@ -1491,6 +1513,11 @@ $(this).parent().parent().parent().parent().parent().parent().find('.'+find_coun
   $(this).parent().parent().parent().parent().parent().parent().find('._qty').val(1);
   $(this).parent().parent().parent().parent().parent().parent().find('._value').val(_sales_rate);
   $(this).parent().parent().parent().parent().parent().parent().find('._store_salves_id').val(_store_salves_id);
+  $(this).parent().parent().parent().parent().parent().parent().find('._main_store_id').val(_store_id);
+  $(this).parent().parent().parent().parent().parent().parent().find('._main_branch_id_detail').val(_branch_id);
+  $(this).parent().parent().parent().parent().parent().parent().find('._main_cost_center').val(_cost_center_id);
+
+
   $(this).parent().parent().parent().parent().parent().parent().find('._manufacture_date').val(_manufacture_date);
   $(this).parent().parent().parent().parent().parent().parent().find('._expire_date').val(_expire_date);
   $(this).parent().parent().parent().parent().parent().parent().find('._warranty').val(_warranty);
@@ -1682,75 +1709,15 @@ $(document).on("change","#_discount_input",function(){
   }
 
 
- var single_row =  `<tr class="_voucher_row">
-                      <td><a  href="" class="btn btn-sm btn-default _voucher_row_remove" ><i class="fa fa-trash"></i></a></td>
-                      <td><input type="text" name="_search_ledger_id[]" @if($__user->_ac_type==1) attr_account_head_no="1" @endif  class="form-control _search_ledger_id width_280_px" placeholder="Ledger"   >
-                      <input type="hidden" name="_ledger_id[]" class="form-control _ledger_id" >
-                      <div class="search_box">
-                      </div>
-                      </td>
-                      
-                      <td class="@if(sizeof($permited_branch) == 1) display_none @endif ">
-                      <select class="form-control width_150_px _branch_id_detail" name="_branch_id_detail[]"  required >
-                        @forelse($permited_branch as $branch )
-                            <option value="{{$branch->id}}" @if(isset($request->_branch_id)) @if($request->_branch_id == $branch->id) selected @endif   @endif>{{ $branch->_name ?? '' }}</option>
-                        @empty
-                        @endforelse
-                        </select>
-                        </td>
-                       
 
-                         
-                        <td class="@if(sizeof($permited_costcenters) == 1) display_none @endif ">
-                          <select class="form-control width_150_px _cost_center" name="_cost_center[]" required >
-                            @forelse($permited_costcenters as $costcenter )
-                              <option value="{{$costcenter->id}}" @if(isset($request->_cost_center)) @if($request->_cost_center == $costcenter->id) selected @endif   @endif> {{ $costcenter->_name ?? '' }}</option>
-                            @empty
-                            @endforelse
-                            </select>
-                            </td>
-                        
-                            <td><input type="text" name="_short_narr[]" class="form-control width_250_px" placeholder="Short Narr"></td>
-                            <td>
-                              <input type="number" name="_dr_amount[]" class="form-control  _dr_amount" placeholder="Dr. Amount" value="{{old('_dr_amount',0)}}">
-                            </td>
-                            <td class=" @if($__user->_ac_type==1) display_none @endif ">
-                              <input type="number" name="_cr_amount[]" class="form-control  _cr_amount" placeholder="Cr. Amount" value="{{old('_cr_amount',0)}}">
-                              </td>
-                            </tr>`;
 
-  function voucher_row_add(event) {
-      event.preventDefault();
-      $("#area__voucher_details").append(single_row);
-  }
+ 
 
 
 function purchase_row_add(event){
    event.preventDefault();
 
-var _master_organization_id = $(document).find("._master_organization_id").val();
-var _master_branch_id = $(document).find("._master_branch_id").val();
-var _cost_center_id = $(document).find("._cost_center_id").val();
-var _master_store_id = $(document).find("._master_store_id").val();
 
-if(_master_organization_id ==""){
-  
-  alert('Please Select Organization/Company');
-  return false;
-}
-if(_master_branch_id ==""){
-  alert('Please Select Branch/Division');
-  return false;
-}
-
-if(_cost_center_id ==""){
-  alert('Please Select Cost Center/Project');
-  return false;
-}
-if(_master_store_id ==""){
-  alert('Please Select Store');
-  return false;
-}
 
 
 
@@ -1837,27 +1804,26 @@ if(_master_store_id ==""){
                                                 <input type="date" name="_expire_date[]" class="form-control _expire_date " >
                                               </td>
                                               
-                                              <td class="@if(sizeof($permited_branch)==1) display_none @endif">
+                                              <td class="@if($_show_branch==0) display_none @endif">
                                                 <select class="form-control  _main_branch_id_detail" name="_main_branch_id_detail[]"  required>
                                                   @forelse($permited_branch as $branch )
-                                                  <option value="{{$branch->id}}" @if(isset($request->_branch_id)) @if($request->_branch_id == $branch->id) selected @endif   @endif>{{ $branch->_name ?? '' }}</option>
+                                                  <option value="{{$branch->id}}" >{{ $branch->_name ?? '' }}</option>
                                                   @empty
                                                   @endforelse
                                                 </select>
                                               </td>
-                                              
-                                               <td class="@if(sizeof($permited_costcenters)==1) display_none @endif">
+                                               <td class="@if($_show_cost_center==0) display_none @endif">
                                                  <select class="form-control  _main_cost_center" name="_main_cost_center[]" required >
                                             
                                                   @forelse($permited_costcenters as $costcenter )
-                                                  <option value="{{$costcenter->id}}" @if(isset($request->_main_cost_center)) @if($request->_main_cost_center == $costcenter->id) selected @endif   @endif> {{ $costcenter->_name ?? '' }}</option>
+                                                  <option value="{{$costcenter->id}}" > {{ $costcenter->_name ?? '' }}</option>
                                                   @empty
                                                   @endforelse
                                                 </select>
                                               </td>
                                               
                                              
-                                              <td class="@if(sizeof($store_houses)==1) display_none @endif">
+                                              <td class="@if($_show_store==0) display_none @endif">
                                                 <select class="form-control  _main_store_id" name="_main_store_id[]">
                                                   @forelse($store_houses as $store)
                                                   <option value="{{$store->id}}">{{$store->_name ?? '' }}</option>
@@ -1876,9 +1842,9 @@ if(_master_store_id ==""){
 
 
 
-change_all_branch(_master_branch_id);
-change_all_cost_center(_cost_center_id)
-change_all_store(_master_store_id)
+// change_all_branch(_master_branch_id);
+// change_all_cost_center(_cost_center_id)
+// change_all_store(_master_store_id)
 
 }
  $(document).on('click','._purchase_row_remove',function(event){
@@ -1960,8 +1926,8 @@ change_all_store(_master_store_id)
               })
     }
     if(_stop_sales ==1){
-        alert(" You Can not Sales More then Available Qty  ");
-       var _message =" You Can not Sales More then Available Qty";
+        alert(" You Can not Issue More then Available Qty  ");
+       var _message =" You Can not Issue More then Available Qty";
         $(document).find("._over_qty").text(_message);
         $(".remove_area").hide();
       return false;
@@ -2013,15 +1979,15 @@ change_all_store(_master_store_id)
 
 
 
-@if($__user->_ac_type==0)
-    if( parseFloat(_total_dr_amount) !=parseFloat(_total_cr_amount)){
-      $(document).find("._total_dr_amount").addClass('required_border').focus();
-      $(document).find("._total_cr_amount").addClass('required_border').focus();
-       alert("Account Details Dr. And Cr. Amount Not Equal");
-      return false;
+// @if($__user->_ac_type==0)
+//     if( parseFloat(_total_dr_amount) !=parseFloat(_total_cr_amount)){
+//       $(document).find("._total_dr_amount").addClass('required_border').focus();
+//       $(document).find("._total_cr_amount").addClass('required_border').focus();
+//        alert("Account Details Dr. And Cr. Amount Not Equal");
+//       return false;
 
-    }
-@endif
+//     }
+// @endif
 
 //Cash Customer Can not Sale without payment Start
 var _cash_customers = <?php echo json_encode($_cash_customer); ?>;

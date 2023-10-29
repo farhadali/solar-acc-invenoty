@@ -12,4 +12,5 @@ use App\Http\Controllers\RLP\RlpChainController;
 
 
 Route::resource('rlp',RlpController::class);
+Route::get('rlp-chain-wise-detail',[RlpController::class,'chainWiseDetail']);
 Route::resource('rlp-chain',RlpChainController::class);

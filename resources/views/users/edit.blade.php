@@ -89,7 +89,7 @@
                         </div>
                          <div class="col-xs-12 col-sm-12 col-md-6">
                             <div class="form-group">
-                                <label>Store:<span class="_required">*</span></label>
+                                <label>Store:</label>
                                 @php
                                 $stores= \DB::table('store_houses')->where('_status',1)->get();
                                 
@@ -98,7 +98,7 @@
                                  $selected_stores =  explode(",",$user->store_ids);
                                 }
                                 @endphp
-                                <select class="form-control" name="store_ids[]" multiple="" required>
+                                <select class="form-control" name="store_ids[]" multiple="" >
                                   @forelse($stores as $val)
                                   <option value="{{$val->id}}" @if(in_array($val->id,$selected_stores)) selected @endif  >{{ $val->_name ?? '' }}</option>
                                   @empty
@@ -111,6 +111,12 @@
                             <div class="form-group">
                                 <label>Name:</label>
                                 {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <div class="form-group">
+                                <label>User Name/EMP ID:</label>
+                                {!! Form::text('user_name', null, array('placeholder' => 'User Name/EMP ID','class' => 'form-control')) !!}
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12">

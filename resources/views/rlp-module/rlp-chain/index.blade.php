@@ -15,7 +15,6 @@ $__user= Auth::user();
              <li class="breadcrumb-item active">
                 <a type="button" 
                class="btn btn-sm btn-info" 
-              
                href="{{ route('rlp-chain.create') }}">
                    <i class="nav-icon fas fa-plus"></i> {{__('label.create_new')}}
                 </a>
@@ -95,20 +94,15 @@ $__user= Auth::user();
                      <tbody>
                       
                         @foreach ($datas as $key => $data)
-                        
                         <tr>
                             
                              <td style="display: flex;">
-                              @can('rlp-delete')
-                                 {!! Form::open(['method' => 'DELETE','route' => ['rlp.destroy', $data->id],'style'=>'display:inline']) !!}
-                                      <button onclick="return confirm('Are you sure?')" type="submit" class="btn btn-sm btn-default"><i class="fa fa-trash _required"></i></button>
-                                  {!! Form::close() !!}
-                               @endcan 
+                             
                               <a  type="button" 
                                   href="{{ route('rlp-chain.show',$data->id) }}"
                                   class="btn btn-sm btn-default  mr-1"><i class="fa fa-eye"></i></a>
 
-                             @can('rlp-edit')
+                             @can('rlp-chain-edit')
                                   <a  type="button" 
                                   href="{{ route('rlp-chain.edit',$data->id) }}"
                                  
@@ -130,13 +124,14 @@ $__user= Auth::user();
                               $_chain_user = $data->_chain_user ?? [];
                               @endphp
                               @if(sizeof($_chain_user) > 0)
-                              <table>
+                              <table class="table">
                                 @forelse($_chain_user as $key=>$val)
                                   <tr>
                                     <td>{!! $val->user_id ?? '' !!}</td>
                                     <td>{!! _find_employee_name($val->user_id ?? '') !!}</td>
+                                    <td>{!! $val->_user_group->_name ?? '' !!}</td>
                                     <td>{!! $val->_order ?? '' !!}</td>
-                                    <td></td>
+                                    
                                   </tr>
                                 @empty
                                 @endforelse
@@ -144,7 +139,7 @@ $__user= Auth::user();
                               @endif
                             </td>
                            <td>{{ selected_status($data->_status) }}</td>
-                            <td>{{ $data->_entry_by->name ?? '' }}</td>
+                           <td>{{ $data->_entry_by->name ?? '' }}</td>
                            
                         </tr>
                         

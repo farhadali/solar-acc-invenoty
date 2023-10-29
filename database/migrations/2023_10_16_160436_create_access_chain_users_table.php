@@ -13,11 +13,12 @@ class CreateAccessChainUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('access_chain_users', function (Blueprint $table) {
+        Schema::create('rlp_access_chain_users', function (Blueprint $table) {
             $table->id();
             $table->integer('chain_id');
             $table->integer('user_row_id');
             $table->string('user_id');
+            $table->string('user_group')->nullable()->comment('Maker,Checker,Approver');
             $table->integer('_order');
             $table->tinyInteger('_status')->default(1);
             $table->timestamps();

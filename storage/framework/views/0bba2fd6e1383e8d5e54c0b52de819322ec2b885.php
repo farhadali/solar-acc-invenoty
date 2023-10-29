@@ -24,6 +24,38 @@
           </a>
          <?php endif; ?>
        </li>
+       <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('rlp-module')): ?> 
+      <li class="nav-item dropdown remove_from_header">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+           <?php echo e(__('label.rlp')); ?> <i class="right fas fa-angle-down"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+       <p style="padding-left: 20px;"><b><?php echo e(__('label.entry')); ?></b></p>
+       <div class="dropdown-divider"></div>
+        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('rlp-chain-list')): ?>
+         <div style="display: flex;">
+         <a href="<?php echo e(route('rlp-chain.index')); ?>" class="dropdown-item">
+            <i class="fa fa-fax mr-2" aria-hidden="true"></i> <?php echo e(__('label.rlp-chain')); ?>
+
+          </a>
+          <a  href="<?php echo e(route('rlp-chain.create')); ?>" class="dropdown-item text-right">
+            <i class="nav-icon fas fa-plus"></i>
+          </a>
+        </div>
+        <?php endif; ?>
+        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('rlp-list')): ?>
+         <div style="display: flex;">
+         <a href="<?php echo e(route('rlp.index')); ?>" class="dropdown-item">
+            <i class="fa fa-fax mr-2" aria-hidden="true"></i> <?php echo e(__('label.rlp-info')); ?>
+
+          </a>
+          <a  href="<?php echo e(route('rlp.create')); ?>" class="dropdown-item text-right">
+            <i class="nav-icon fas fa-plus"></i>
+          </a>
+        </div>
+        <?php endif; ?>
+      </li>
+    <?php endif; ?>
         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('hrm-module')): ?> 
       <li class="nav-item dropdown remove_from_header">
         <a class="nav-link" data-toggle="dropdown" href="#">
@@ -324,6 +356,19 @@
 
           </a>
            <a  href="<?php echo e(route('material-issue.create')); ?>" class="dropdown-item text-right">
+            <i class="nav-icon fas fa-plus"></i>
+          </a>
+        </div>
+         <?php endif; ?>
+         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('material-issue-return-list')): ?>
+         <div class="dropdown-divider"></div>  
+          
+        <div style="display: flex;">
+           <a href="<?php echo e(url('material-issue-return')); ?>" class="dropdown-item">
+            <i class="fa fa-arrow-circle-down mr-2" aria-hidden="true"></i> <?php echo e(__('label.material_issue_return')); ?>
+
+          </a>
+           <a  href="<?php echo e(route('material-issue-return.create')); ?>" class="dropdown-item text-right">
             <i class="nav-icon fas fa-plus"></i>
           </a>
         </div>
@@ -1214,10 +1259,10 @@
           <a href="<?php echo e(url('cost-center')); ?>" class="dropdown-item">
            <i class="fa fa-adjust mr-2" aria-hidden="true"></i> <?php echo e(__('label.Cost center')); ?> 
           </a>
-            <a   href="#None" 
-          class="dropdown-item text-right attr_base_create_url"
-            data-toggle="modal" data-target="#commonEntryModal_item" 
-            attr_base_create_url="<?php echo e(route('cost-center.create')); ?>"> 
+            <a   
+          class="dropdown-item text-right "
+            
+            href="<?php echo e(route('cost-center.create')); ?>"> 
             <i class="nav-icon fas fa-plus"></i> </a>
         </div>
           
@@ -1281,25 +1326,9 @@
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <span class="dropdown-item dropdown-header">User Name :  <b><?php echo e(Auth::user()->name ?? ''); ?></b></span>
           <div class="dropdown-divider"></div>
-          <?php if(Auth::user()->ref_id ==0): ?>
-          <button  type="button" 
-                                  attr_base_edit_url="<?php echo e(route('users.edit',Auth::user()->id)); ?>"
-                                  data-toggle="modal" 
-                                  data-target="#commonEntryModal_item" 
-                                  class="btn btn-sm btn-default attr_base_edit_url mr-1"><i class="fa fa-pen "></i>Update Profile</button>
-          <?php else: ?>
-          <button  type="button" 
-                                  attr_base_edit_url="<?php echo e(route('users.edit',Auth::user()->id)); ?>"
-                                  data-toggle="modal" 
-                                  data-target="#commonEntryModal_item" 
-                                  class="btn btn-sm btn-default attr_base_edit_url mr-1"><i class="fa fa-pen "></i>Update Profile</button>
-            <!-- <a class="dropdown-item text-center" 
-                        href="<?php echo e(url('branch_user')); ?>/<?php echo e(Auth::user()->id); ?>/edit"
-                        >
-                  <?php echo e(__('Profile')); ?>
-
-            </a> -->
-          <?php endif; ?>
+          <div class="text-center">
+             <a href="<?php echo e(url('user-profile')); ?>"><?php echo e(__('label.profile')); ?></a>
+          </div>
         <div class="dropdown-divider"></div>
                 <a class="dropdown-item text-center" 
                         href="<?php echo e(route('logout')); ?>"

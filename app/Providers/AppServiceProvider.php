@@ -31,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
       //  $settings = [];
 
         ini_set('max_input_vars', '1000000');
+       // ini_set('max_execution_time', '120');
 
         view()->share(compact('settings'));
     }

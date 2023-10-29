@@ -90,7 +90,7 @@
                         </div>
                          <div class="col-xs-12 col-sm-12 col-md-6">
                             <div class="form-group">
-                                <label>Store:<span class="_required">*</span></label>
+                                <label>Store:</label>
                                 <?php
                                 $stores= \DB::table('store_houses')->where('_status',1)->get();
                                 
@@ -99,7 +99,7 @@
                                  $selected_stores =  explode(",",$user->store_ids);
                                 }
                                 ?>
-                                <select class="form-control" name="store_ids[]" multiple="" required>
+                                <select class="form-control" name="store_ids[]" multiple="" >
                                   <?php $__empty_1 = true; $__currentLoopData = $stores; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                                   <option value="<?php echo e($val->id); ?>" <?php if(in_array($val->id,$selected_stores)): ?> selected <?php endif; ?>  ><?php echo e($val->_name ?? ''); ?></option>
                                   <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
@@ -112,6 +112,13 @@
                             <div class="form-group">
                                 <label>Name:</label>
                                 <?php echo Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')); ?>
+
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <div class="form-group">
+                                <label>User Name/EMP ID:</label>
+                                <?php echo Form::text('user_name', null, array('placeholder' => 'User Name/EMP ID','class' => 'form-control')); ?>
 
                             </div>
                         </div>

@@ -14,21 +14,7 @@
       </div><!-- /.container-fluid -->
     </div>
     <div class="message-area">
-    @if (count($errors) > 0)
-           <div class="alert alert-danger">
-                <strong>Whoops!</strong> There were some problems with your input.<br><br>
-                <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-                </ul>
-            </div>
-        @endif
-        @if ($message = Session::get('success'))
-    <div class="alert alert-success">
-      <p>{{ $message }}</p>
-    </div>
-    @endif
+     @include('backend.message.message')
     </div>
     <div class="content">
       <div class="container-fluid">
@@ -37,11 +23,12 @@
             <div class="card">
               
               <div class="card-body">
- {!! Form::open(array('route' => 'rlp-chain.store','method'=>'POST')) !!}                    @csrf
+ {!! Form::open(array('route' => 'rlp-chain.store','method'=>'POST')) !!} 
+ @csrf
                     <div class="row">
                  
 
-<div class="col-xs-12 col-sm-12 col-md-2 @if(sizeof($permited_organizations)==1) display_none @endif">
+<div class="col-xs-12 col-sm-12 col-md-2 ">
  <div class="form-group ">
      <label>{!! __('label.organization') !!}:<span class="_required">*</span></label>
     <select class="form-control _master_organization_id" name="organization_id" required >
@@ -53,7 +40,7 @@
      </select>
  </div>
 </div>
-<div class="col-xs-12 col-sm-12 col-md-2 @if(sizeof($permited_branch)==1) display_none @endif">
+<div class="col-xs-12 col-sm-12 col-md-2 ">
     <div class="form-group ">
         <label>Branch:<span class="_required">*</span></label>
        <select class="form-control _master_branch_id" name="_branch_id" required >
@@ -65,7 +52,7 @@
         </select>
     </div>
 </div>
-<div class="col-xs-12 col-sm-12 col-md-2 @if(sizeof($permited_costcenters)==1) display_none @endif">
+<div class="col-xs-12 col-sm-12 col-md-2 ">
     <div class="form-group ">
         <label>{{__('label.Cost center')}}:<span class="_required">*</span></label>
        <select class="form-control _cost_center_id" name="_cost_center_id" required >
@@ -89,6 +76,15 @@
         </select>
     </div>
 </div>
+<div class="col-xs-12 col-sm-12 col-md-2">
+    <div class="form-group">
+        <label>Status</label>
+        <select class="form-control " name="_status">
+              <option value="1"  >Active</option>
+              <option value="0"  >In Active</option>
+            </select>
+    </div>
+</div>
 
 <div class="col-xs-12 col-sm-12 col-md-12 ">
     <div class="form-group ">
@@ -108,51 +104,51 @@
                                       <table class="table table-bordered" >
                                           <thead >
                                             <th class="text-left" >&nbsp;</th>
+                                            <th class="text-left" >Group Name</th>
                                             <th class="text-left" >User</th>
                                             <th class="text-left" >Order</th>
                                             
                                           </thead>
-                                          <tbody class="area__user_chain" id="area__user_chain">
-                            @php
+                                          
+                        @forelse($rlp_user_groups as $key=>$group)
 
-                            $chain_datas= $data->chain ?? [];
-                            @endphp
-                        @forelse($chain_datas as $key=>$val)
-                        <tr class="_purchase_row">
+                        <tbody class="area__user_chain__{{$key}}" id="area__user_chain__{{$key}}" style="background:{!! $group->_color ?? '' !!} !important">
+                          
+                        <tr>
+                          <td colspan="2"></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr class="_purchase_row" style="background:{!! $group->_color ?? '' !!} !important">
                           <td>
-                            <a  href="#none" class="btn btn-default _purchase_row_remove" ><i class="fa fa-trash"></i></a>
-                            <input type="hidden" name="_row_id[]" value="{{$val->id}}">
+                            <a  href="#none" class="btn btn-default _purchase_row_remove" >
+                              <i class="fa fa-trash"></i></a>
+                            <input type="hidden" name="_row_id[]" value="0">
                           </td>
                           <td>
-                              <select class="form-control select2 employee_change" name="user_id[]">
-                                @forelse($_list_data as $uval)
-                                <option value="">Select Employee</option>
-                                <option attr_id="{!! $uval->id  !!}" value="{!! $uval->_code  !!}" @if($val->erp_user_id==$uval->_code) selected @endif >{!! $uval->_code ?? '' !!}-{!! $uval->_name ?? '' !!}</option>
-                                @empty
-                                @endforelse
-                              </select>
-                               <input type="hidden" class="user_auto_id" name="user_row_id[]" value="0"  />
+                            <input type="hidden" class="user_group" name="user_group[]" value="{{$group->id}}"  />
+                            <input type="text" class="form-control user_group_name" name="user_group_name[]" value="{{$group->_name}}" readonly />
                           </td>
                           <td>
-                              <input type="text" name="ack_order[]" class="form-control" value="{{$val->ack_order}}">
+                              <input type="text" name="user_id_name[]" class="form-control user_id_name" placeholder="{{__('label.user')}}">
+
+                               <input type="hidden" class="user_row_id" name="user_row_id[]" value="0"  />
+                               <input type="hidden" class="user_id" name="user_id[]" value="0"  />
+                               <div class="search_box_employee"> </div>
+                               
+                          </td>
+                          <td>
+                              <input type="text" name="ack_order[]" class="form-control" value="{{$group->_order}}" readonly>
+                          </td>
+                          <td>
+                            <a href="#none"  class="btn btn-default btn-sm" onclick="add_new_user({{$key}},{{$group}})"><i class="fa fa-plus"></i></a>
                           </td>
                          
-                        </tr>
-                                @empty
-                                @endforelse
-                                          </tbody>
-                                          <tfoot>
-                                            <tr>
-                                              <td>
-                                                <a href="#none"  class="btn btn-default btn-sm" onclick="add_new_user(event)"><i class="fa fa-plus"></i></a>
-                                              </td>
-                                              <td></td>
-                                              <td></td>
-                                              
-                                              
-                                              
-                                            </tr>
-                                          </tfoot>
+                        </tr>    
+                        </tbody>
+                         @empty
+                        @endforelse
+                                          
                                       </table>
                                 </div>
                             </div>
@@ -192,37 +188,38 @@
       
   })
 
-   var single_row_user= `<tr class="_purchase_row">
+   
+
+            function add_new_user($_row_key,$group){
+              console.log($group);
+              var group_id = $group.id;
+              var group_name=$group._name;
+              var order_number = $group._order;
+                $(document).find("#area__user_chain__"+$_row_key).append(`<tr class="_purchase_row">
               <td>
                 <a  href="#none" class="btn btn-default _purchase_row_remove" ><i class="fa fa-trash"></i></a>
                 <input type="hidden" name="_row_id[]" value="0">
               </td>
+               <td>
+                      <input type="hidden" class="user_group" name="user_group[]" value="${group_id}"  />
+                      <input type="text" class="form-control user_group" name="user_group_name[]" value="${group_name}" readonly />
+                    </td>
               <td>
-                  <select class="form-control select2 employee_change" name="user_id[]">
-                  <option value="">Select Employee</option>
-                    @forelse($_list_data as $uval)
-<option
-data-id="{!! $uval->id  !!}"
- value="{!! $uval->_code  !!}">{!! $uval->_code ?? '' !!}-{!! $uval->_name ?? '' !!}</option>
-                    @empty
-                    @endforelse
-                  </select>
-                  <input type="hidden" class="user_auto_id" name="user_row_id[]" value="0"  />
-              </td>
-              <td>
-                  <input type="text" name="ack_order[]" class="form-control">
-              </td>
-            </tr>`;
+                    <input type="text" name="user_id_name[]" class="form-control user_id_name" placeholder="{{__('label.user')}}">
+                     <input type="hidden" class="user_row_id" name="user_row_id[]" value="0"  />
+                     <input type="hidden" class="user_id" name="user_id[]" value="0"  />
+                      <div class="search_box_employee"> </div>
+                </td>
 
-            function add_new_user(event){
-                $(document).find("#area__user_chain").append(single_row_user);
-                $(document).find('.select2').select2();
+              <td>
+                  <input readonly type="text" name="ack_order[]" class="form-control" value="${order_number}">
+              </td>
+              <td></td>
+            </tr>`);
+                
             }
 
-            $(document).on('change','.employee_change',function(){
-              var user_row_id = $(this).find(":selected").data("id");
-              $(this).closest('td').find('.user_auto_id').val(user_row_id);
-            })
+            
 </script>
 
 @endsection

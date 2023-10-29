@@ -31,16 +31,16 @@ class MaterialIssue extends Model
     }
 
      public function _master_cost_center(){
-        return $this->hasOne(CostCenter::class,'id','_cost_center_id')->select('id','_name');
+        return $this->hasOne(CostCenter::class,'id','_cost_center_id');
     }
    public function _organization(){
-        return $this->hasOne(\App\Models\hrm\Company::class,'id','organization_id')->select('id','_name');
+        return $this->hasOne(\App\Models\hrm\Company::class,'id','organization_id');
     }
 
    
 
     public function _master_store(){
-        return $this->hasOne(StoreHouse::class,'id','_store_id')->select('id','_name');
+        return $this->hasOne(StoreHouse::class,'id','_store_id');
     }
 
     public function _terms_con(){

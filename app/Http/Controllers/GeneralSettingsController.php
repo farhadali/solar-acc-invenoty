@@ -25,7 +25,12 @@ class GeneralSettingsController extends Controller
          
     }
 
+
+
+    
+
    
+
 
     public function databaseBackup(){
     	database_backup_info();

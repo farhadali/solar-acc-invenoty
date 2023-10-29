@@ -1,4 +1,4 @@
-<div class="col-md-12  ">
+ <div class="col-md-12  ">
                              <div class="card">
                               <div class="card-header">
                                 <strong>Account Details</strong>
@@ -31,7 +31,7 @@
                                                 <a  href="#none" class="btn btn-sm btn-default _voucher_row_remove" ><i class="fa fa-trash"></i></a>
                                               </td>
                                               <td>
-                                                <input type="text" name="_search_ledger_id[]" class="form-control _search_ledger_id width_280_px" placeholder="Ledger"  >
+                                                <input type="text" name="_search_ledger_id[]" class="form-control _search_ledger_id width_280_px" placeholder="Ledger">
                                                 <input type="hidden" name="_ledger_id[]" class="form-control _ledger_id" >
                                                 <div class="search_box">
                                                   
@@ -93,7 +93,7 @@
                                           <tfoot>
                                             <tr>
                                               <td>
-                                                <a href="#none"  class="btn btn-default " onclick="voucher_row_add(event)"><i class="fa fa-plus"></i></a>
+                                                <a href="#none"  class="btn btn-default btn-sm" onclick="voucher_row_add(event)"><i class="fa fa-plus"></i></a>
                                               </td>
                                               <td></td>
                                               @if(sizeof($permited_branch)>1)

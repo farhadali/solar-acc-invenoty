@@ -128,7 +128,28 @@ class AccountLedgerController extends Controller
             $datas = $datas->where('_account_head_id','=',$_head_no);
         }
          if($request->has('_text_val') && $text_val !=''){
-            $datas = $datas->where('_name','like',"%$text_val%")
+            $datas = $datas->where('_name','like',"%$text_val%");
+            $datas = $datas->orWhere('_code','like',"%$text_val%")
+            ->orWhere('id','like',"%text_val%");
+        }
+       
+        $datas = $datas->orderBy($asc_cloumn,$_asc_desc)->paginate($limit);
+        return json_encode( $datas);
+    }
+    public function rlpLedgerSearch(Request $request){
+        $limit = $request->limit ?? default_pagination();
+        $_asc_desc = $request->_asc_desc ?? 'ASC';
+        $asc_cloumn =  $request->asc_cloumn ?? '_name';
+        $text_val = trim($request->_text_val);
+        if($text_val =='%'){ $text_val=''; }
+        $_head_no = $request->_head_no ?? 0;
+        $datas = AccountLedger::select('id','_name','_code','_address','_balance','_phone')->where('_status',1);
+         if($_head_no !=0){
+            $datas = $datas->where('_account_head_id','=',$_head_no);
+        }
+         if($request->has('_text_val') && $text_val !=''){
+            $datas = $datas->where('_name','like',"%$text_val%");
+            $datas = $datas->orWhere('_code','like',"%$text_val%")
             ->orWhere('id','like',"%text_val%");
         }
        

@@ -534,7 +534,10 @@ class InventoryController extends Controller
         $data->_unit_id = $request->_unit_id;
         $data->_code = $request->_code ?? $full_product_code;
         $data->_serial = $_serial;
-        $data->_barcode = $request->_barcode ?? $full_product_code;;
+        if($request->_unique_barcode ==0){
+            $data->_barcode = $request->_barcode ?? $full_product_code;
+        }
+        
         $data->_category_id = $request->_category_id;
         $data->_discount = $request->_discount ?? 0;
         $data->_vat = $request->_vat ?? 0;

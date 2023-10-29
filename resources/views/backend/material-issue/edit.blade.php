@@ -12,14 +12,14 @@ $__user= Auth::user();
       <div class="container-fluid">
         <div class="row mb-2">
           <div class=" col-sm-6 ">
-            <a class="m-0 _page_name" href="{{ route('sales.index') }}">{!! $page_name ?? '' !!} </a>
+            <a class="m-0 _page_name" href="{{ route('material-issue.index') }}">{!! $page_name ?? '' !!} </a>
           </div><!-- /.col -->
           <div class=" col-sm-6 ">
             <ol class="breadcrumb float-sm-right">
 
                
              <li class="breadcrumb-item ">
-                 <a target="__blank" href="{{url('sales/print')}}/{{$data->id}}" class="btn btn-sm btn-warning"> <i class="nav-icon fas fa-print"></i> </a>
+                 <a target="__blank" href="{{url('material-issue/print')}}/{{$data->id}}" class="btn btn-sm btn-warning"> <i class="nav-icon fas fa-print"></i> </a>
                   
                 
                </li>
@@ -39,36 +39,45 @@ $__user= Auth::user();
                 </button>
                </li>
                @endcan
-                @can('sales-form-settings')
+                @can('material-issue-form-settings')
              <li class="breadcrumb-item ">
                  <button type="button" id="form_settings" class="btn btn-sm btn-default" data-toggle="modal" data-target="#exampleModal">
                    <i class="nav-icon fas fa-cog"></i> 
                 </button>
                </li>
               @endcan
-               @can('sales-create')
+               @can('material-issue-create')
               <li class="breadcrumb-item ">
-                        <a title="Add New" class="btn btn-success btn-sm" href="{{ route('sales.create') }}"> <i class="nav-icon fas fa-plus"></i> </a>
+                        <a title="Add New" class="btn btn-success btn-sm" href="{{ route('material-issue.create') }}"> <i class="nav-icon fas fa-plus"></i> </a>
                </li>
               @endcan
               <li class="breadcrumb-item ">
-                 <a class="btn btn-sm btn-success" title="List" href="{{ route('sales.index') }}"> <i class="nav-icon fas fa-list"></i> </a>
+                 <a class="btn btn-sm btn-success" title="List" href="{{ route('material-issue.index') }}"> <i class="nav-icon fas fa-list"></i> </a>
                </li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
-    @php
+     @php
     $_show_delivery_man = $form_settings->_show_delivery_man ?? 0;
     $_show_sales_man = $form_settings->_show_sales_man ?? 0;
     $_show_barcode = $form_settings->_show_barcode ?? 0;
     $_show_cost_rate =  $form_settings->_show_cost_rate ?? 0;
+    $_show_payment_terms =  $form_settings->_show_payment_terms ?? 0;
     $_show_vat =  $form_settings->_show_vat ?? 0;
-   $_inline_discount = $form_settings->_inline_discount ?? 0;
+    $_inline_discount = $form_settings->_inline_discount ?? 0;
     $_show_self = $form_settings->_show_self ?? 0;
     $_show_warranty = $form_settings->_show_warranty ?? 0;
-    $_show_payment_terms  = $form_settings->_show_payment_terms  ?? 0;
+    $_defaut_customer = $form_settings->_defaut_customer ?? 0;
+    $_show_unit = $form_settings->_show_unit ?? 0;
+    $_show_manufacture_date = $form_settings->_show_manufacture_date ?? 0;
+    $_show_expire_date = $form_settings->_show_expire_date ?? 0;
+
+    $_show_branch = $form_settings->_show_branch ?? 0;
+    $_show_cost_center = $form_settings->_show_cost_center ?? 0;
+    $_show_store = $form_settings->_show_store ?? 0;
+
     @endphp
     <div class="content">
       <div class="container-fluid">
@@ -97,14 +106,15 @@ $__user= Auth::user();
               </div>
              
               <div class="card-body">
-               <form action="{{url('sales/update')}}" method="POST" class="purchase_form" >
+                 {!! Form::model($data, ['method' => 'PATCH','class'=>'purchase_form','route' => ['material-issue.update', $data->id]]) !!}
+               
                 @csrf
                       <div class="row">
 
                        <div class="col-xs-12 col-sm-12 col-md-2">
-                        <input type="hidden" name="_form_name" class="_form_name"  value="sales">
+                        <input type="hidden" name="_form_name" class="_form_name"  value="material_issue_return">
                             <div class="form-group">
-                                <label>Date:</label>
+                                <label>{{__('label._date')}}:</label>
                                   <div class="input-group date" id="reservationdate" data-target-input="nearest">
                                       <input type="text" name="_date" class="form-control datetimepicker-input" data-target="#reservationdate" value="{{_view_date_formate($data->_date)}}" />
                                       <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
@@ -115,15 +125,59 @@ $__user= Auth::user();
                               <input type="hidden" name="_sales_id" value="{{$data->id}}" class="_sales_id" >
                               <input type="hidden" id="_search_form_value" name="_search_form_value" class="_search_form_value" value="2" >
                         </div>
-                         <div class="col-xs-12 col-sm-12 col-md-3 ">
+                         <div class="col-xs-12 col-sm-12 col-md-2 ">
                             <div class="form-group">
-                              <label class="mr-2" for="_order_number" >Invoice Number: </label>
+                              <label class="mr-2" for="_order_number" >{{__('label.issue_number')}}: </label>
                               <input type="text" id="_order_number"  name="_order_number"  class="form-control _order_number"  value="{{old('_order_number' ,$data->_order_number)}}" placeholder="Invoice Number"  readonly>
                                 
                             </div>
                         </div>
 
-                        @include('basic.org_edit')
+                        @php
+$users = \Auth::user();
+$permited_organizations = permited_organization(explode(',',$users->organization_ids));
+$permited_branch = permited_branch(explode(',',$users->branch_ids));
+$permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
+@endphp 
+
+
+<div class="col-xs-12 col-sm-12 col-md-2 ">
+ <div class="form-group ">
+     <label>{!! __('label.organization') !!}:<span class="_required">*</span></label>
+    <select class="form-control _master_organization_id" name="organization_id" required >
+
+       <option value="">{{__('label.select_organization')}}</option>
+       @forelse($permited_organizations as $val )
+       <option value="{{$val->id}}" @if(isset($data->organization_id)) @if($data->organization_id == $val->id) selected @endif   @endif>{{ $val->id ?? '' }} - {{ $val->_name ?? '' }}</option>
+       @empty
+       @endforelse
+     </select>
+ </div>
+</div>
+<div class="col-xs-12 col-sm-12 col-md-2 ">
+ <div class="form-group ">
+     <label>Branch:<span class="_required">*</span></label>
+    <select class="form-control _master_branch_id" name="_branch_id" required >
+       <option value="">{{__('label.select_branch')}}</option>
+       @forelse($permited_branch as $branch )
+       <option value="{{$branch->id}}" @if(isset($data->_branch_id)) @if($data->_branch_id == $branch->id) selected @endif   @endif>{{ $branch->id ?? '' }} - {{ $branch->_name ?? '' }}</option>
+       @empty
+       @endforelse
+     </select>
+ </div>
+</div>
+<div class="col-xs-12 col-sm-12 col-md-3 ">
+ <div class="form-group ">
+     <label>{{__('label.Cost center')}}:<span class="_required">*</span></label>
+    <select class="form-control _cost_center_id" name="_cost_center_id" required >
+       <option value="">{{__('label.select_cost_center')}}</option>
+       @forelse($permited_costcenters as $cost_center )
+       <option value="{{$cost_center->id}}" @if(isset($data->_cost_center_id)) @if($data->_cost_center_id == $cost_center->id) selected @endif   @endif>{{ $cost_center->id ?? '' }} - {{ $cost_center->_name ?? '' }}</option>
+       @empty
+       @endforelse
+     </select>
+ </div>
+</div>
                         
                         <div class="col-xs-12 col-sm-12 col-md-2 display_none">
                             <div class="form-group">
@@ -167,7 +221,7 @@ $__user= Auth::user();
 
                         <div class="col-xs-12 col-sm-12 col-md-3 ">
                             <div class="form-group">
-                              <label class="mr-2" for="_main_ledger_id">Customer:<span class="_required">*</span></label>
+                              <label class="mr-2" for="_main_ledger_id">{{__('label.expense_head')}}:<span class="_required">*</span></label>
                             <input type="text" id="_search_main_ledger_id" name="_search_main_ledger_id" class="form-control _search_main_ledger_id" value="{{old('_search_main_ledger_id',$data->_ledger->_name ?? '' )}}" placeholder="Customer" required>
 
                             <input type="hidden" id="_main_ledger_id" name="_main_ledger_id" class="form-control _main_ledger_id" value="{{old('_main_ledger_id',$data->_ledger_id)}}" placeholder="Customer" required>
@@ -179,24 +233,32 @@ $__user= Auth::user();
                         
                         <div class="col-xs-12 col-sm-12 col-md-3 ">
                             <div class="form-group">
-                              <label class="mr-2" for="_phone">Phone:</label>
-                              <input type="text" id="_phone" name="_phone" class="form-control _phone" value="{{old('_phone',$data->_phone)}}" placeholder="Phone" >
+                              <label class="mr-2" for="_phone">{{__('label._phone')}}:</label>
+                              <input type="text" id="_phone" name="_phone" class="form-control _phone" value="{{old('_phone',$data->_phone)}}" placeholder="{{__('label._phone')}}" >
                                 
                             </div>
                         </div>
                         
                         <div class="col-xs-12 col-sm-12 col-md-3 ">
                             <div class="form-group">
-                              <label class="mr-2" for="_address">Address:</label>
-                              <input type="text" id="_address" name="_address" class="form-control _address" value="{{old('_address',$data->_address)}}" placeholder="Address" >
+                              <label class="mr-2" for="_address">{{__('label._address')}}:</label>
+                              <input type="text" id="_address" name="_address" class="form-control _address" value="{{old('_address',$data->_address)}}" placeholder="{{__('label._address')}}" >
                                 
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-3 ">
                             <div class="form-group">
-                              <label class="mr-2" for="_referance">Referance:</label>
-                              <input type="text" id="_referance" name="_referance" class="form-control _referance" value="{{old('_referance',$data->_referance)}}" placeholder="Referance" >
+                              <label class="mr-2" for="_referance">{{__('label._referance')}}:</label>
+                              <input type="text" id="_referance" name="_referance" class="form-control _referance" value="{{old('_referance',$data->_referance)}}" placeholder="{{__('label._referance')}}" >
                                 
+                            </div>
+                        </div>
+
+                         <div class="col-xs-12 col-sm-12 col-md-12 ">
+                            <div class="form-group">
+                              <label class="mr-2" for="_referance">{{__('label._delivery_details')}}:</label>
+                              <textarea class="form-control" name="_delivery_details" >{!! $data->_delivery_details ?? '' !!}</textarea>
+                              
                             </div>
                         </div>
                       </div>
@@ -204,7 +266,7 @@ $__user= Auth::user();
                         <div class="col-md-12  ">
                              <div class="card">
                               <div class="card-header">
-                                <strong>Details</strong>
+                                <strong>{{__('label.details')}}</strong>
 
                               </div>
                              
@@ -213,37 +275,31 @@ $__user= Auth::user();
                                       <table class="table table-bordered" >
                                           <thead >
                                             <th class="text-left" >&nbsp;</th>
-                                            <th class="text-left" >ID</th>
-                                            <th class="text-left" >Item</th>
-                                            <th class="text-left display_none" >Base Unit</th>
-                                            <th class="text-left display_none" >Con. Qty</th>
-                                            <th class="text-left @if(isset($form_settings->_show_unit)) @if($form_settings->_show_unit==0) display_none    @endif @endif" >Tran. Unit</th>
+                                            <th class="text-left" >{{__('label.id')}}</th>
+                                            <th class="text-left" >{{__('label._item')}}</th>
+                                            <th class="text-left display_none" >{{__('label._base_unit')}}</th>
+                                            <th class="text-left display_none" >{{__('lable.conversion_qty')}}</th>
+                                            <th class="text-left @if($_show_unit==0) display_none @endif " >{{__('label.transection_unit')}}</th>
                                            
-                                            <th class="text-left @if($form_settings->_show_barcode == 0) display_none @endif" >Barcode</th>
-                                            <th class="text-left @if($_show_warranty  ==0) display_none @endif" >Warranty</th>
-                                           
-                                            <th class="text-left" >Qty</th>
-                                            <th class="text-left @if($form_settings->_show_cost_rate == 0) display_none @endif" >Cost Rate</th>
-                                            <th class="text-left" >Sales Rate</th>
+                                            <th class="text-left @if($_show_barcode == 0) display_none @endif" >{{__('label._barcode')}}</th>
+                                            <th class="text-left @if($_show_warranty==0) display_none @endif" >{{__('label._warrantry')}}</th>
+                                            <th class="text-left  " >{{__('label._qty')}}</th>
                                             
-                                            <th class="text-left @if($form_settings->_show_vat == 0) display_none @endif " >VAT%</th>
-                                            <th class="text-left @if($form_settings->_show_vat == 0) display_none @endif" >VAT Amount</th>
+                                            <th class="text-left @if($_show_cost_rate == 0) display_none @endif" >{{__('label._cost_rate')}}</th>
+                                            <th class="text-left" >{{__('label.issue_rate')}}</th>
                                             
-                                            <th class="text-left @if($form_settings->_inline_discount == 0) display_none @endif " >Dis%</th>
-                                            <th class="text-left @if($form_settings->_inline_discount == 0) display_none @endif " >Discount</th>
-                                            <th class="text-left" >Value</th>
-                                             <th class="text-middle @if(isset($form_settings->_show_manufacture_date)) @if($form_settings->_show_manufacture_date==0) display_none @endif
-                                            @endif" >Manu. Date</th>
-                                             <th class="text-middle @if(isset($form_settings->_show_expire_date)) @if($form_settings->_show_expire_date==0) display_none @endif
-                                            @endif"> Expired Date </th>
-                                            <th class="text-left   @if(sizeof($permited_branch) == 1) display_none @endif" >Branch</th>
-                                           
-                                             <th class="text-left @if(sizeof($permited_costcenters) == 1) display_none @endif" >Cost Center</th>
-                                           
-                                             <th class="text-left @if(sizeof($store_houses) == 1) display_none @endif" >Store</th>
-                                           
+                                            <th class="text-left @if($_show_vat == 0) display_none @endif " >{{__('label._vat')}}%</th>
+                                            <th class="text-left @if($_show_vat == 0) display_none @endif" >{{__('label._vat_amount')}}</th>
                                             
-                                             <th class="text-left @if($form_settings->_show_self==0) display_none @endif" >Shelf</th>
+                                            <th class="text-left @if($_inline_discount == 0) display_none @endif " >{{__('label._dis')}}%</th>
+                                            <th class="text-left @if($_inline_discount == 0) display_none @endif " >{{__('label._discount_amount')}}</th>
+                                            <th class="text-left" >{{__('label._value')}}</th>
+                                             <th class="text-middle @if($_show_manufacture_date==0) display_none @endif " >{{__('label._manufacture_date')}}</th>
+                                             <th class="text-middle @if($_show_expire_date==0) display_none @endif "> {{__('label._expire_date')}} </th>
+                                            <th class="text-left   @if($_show_branch == 0) display_none @endif" >{{__('label._branch_id')}}</th>
+                                             <th class="text-left @if($_show_cost_center==0) display_none @endif" >{{__('label._cost_center_id')}}</th>
+                                             <th class="text-left @if($_show_store== 0) display_none @endif" >{{__('label.store_house')}}</th>
+                                             <th class="text-left @if($_show_self==0) display_none @endif" >{{__('label.shelf')}}</th>
                                             
                                            
                                           </thead>
@@ -297,7 +353,7 @@ $__user= Auth::user();
                                               <td class="display_none">
                                                 <input type="number" name="conversion_qty[]" min="0" step="any" class="form-control conversion_qty " value="{{$detail->_unit_conversion ?? 1}}" readonly>
                                               </td>
-                                              <td class="@if($form_settings->_show_unit==0) display_none @endif">
+                                              <td class="@if($_show_unit==0) display_none @endif">
                                                 <select class="form-control _transection_unit" name="_transection_unit[]">
                                                   @php
                                                   $own_unit_conversions = $detail->unit_conversion ?? [];
@@ -397,7 +453,7 @@ $__user= Auth::user();
                                                 <input type="date" name="_expire_date[]" class="form-control _expire_date _expire_date__counter_{{($m_key+1)}}  _expire_date__{{$detail->_p_p_l_id}} " value="{{ $detail->_expire_date ?? '' }}" >
                                               </td>
                                             
-                                               <td class="@if(sizeof($permited_branch) == 1) display_none @endif">
+                                               <td class="@if($_show_branch==0) display_none @endif">
                                                 <select class="form-control  _main_branch_id_detail _main_branch_id_detail__counter_{{($m_key+1)}} _main_branch_id_detail__{{$detail->_p_p_l_id}}" name="_main_branch_id_detail[]"  required>
                                                   @forelse($permited_branch as $branch )
                                                   <option value="{{$branch->id}}" @if(isset($detail->_branch_id)) @if($detail->_branch_id == $branch->id) selected @endif   @endif>{{ $branch->_name ?? '' }}</option>
@@ -407,7 +463,7 @@ $__user= Auth::user();
                                               </td>
                                               
                                              
-                                               <td class=" @if(sizeof($permited_costcenters) == 1) display_none @endif">
+                                               <td class=" @if($_show_cost_center == 0) display_none @endif">
                                                  <select class="form-control  _main_cost_center _main_cost_center__counter_{{($m_key+1)}} _main_cost_center__{{$detail->_p_p_l_id}}" name="_main_cost_center[]" required >
                                             
                                                   @forelse($permited_costcenters as $costcenter )
@@ -418,7 +474,7 @@ $__user= Auth::user();
                                               </td>
                                               
                                              
-                                              <td class=" @if(sizeof($store_houses) == 1) display_none @endif ">
+                                              <td class=" @if($_show_store == 0) display_none @endif ">
                                                 <select class="form-control  _main_store_id _main_store_id__counter_{{($m_key+1)}}  _main_store_id__{{$detail->_p_p_l_id}} " name="_main_store_id[]">
                                                   @forelse($store_houses as $store)
                                                   <option value="{{$store->id}}"   @if(isset($detail->_store_id)) @if($detail->_store_id == $costcenter->id) selected @endif   @endif  >{{$store->_name ?? '' }}</option>
@@ -488,12 +544,7 @@ $__user= Auth::user();
                             </div>
                           </div>
                         </div>
-                       @if($__user->_ac_type==1)
-                      @include('backend.sales.edit_ac_cb')
-                         
-                      @else
-                       @include('backend.sales.edit_ac_detail')
-                      @endif 
+                      
                        
                          
 
@@ -508,7 +559,7 @@ $__user= Auth::user();
                                     <input type="hidden" name="_after_print" value="0" class="_after_print" >
                                     @endif
                                     @if ($_master_id = Session::get('_master_id'))
-                                     <input type="hidden" name="_master_id" value="{{url('sales/print')}}/{{$_master_id}}" class="_master_id">
+                                     <input type="hidden" name="_master_id" value="{{url('material-issue/print')}}/{{$_master_id}}" class="_master_id">
                                     
                                     @endif
                                    
@@ -523,13 +574,13 @@ $__user= Auth::user();
                                 <input type="text" name="_sub_total" class="form-control width_200_px" id="_sub_total" readonly value="{{ _php_round($data->_sub_total ?? 0) }}">
                               </td>
                             </tr>
-                            <tr>
+                            <tr class="@if($_inline_discount==0) display_none @endif">
                               <td style="width: 10%;border:0px;"><label for="_discount_input">Invoice Discount</label></td>
                               <td style="width: 70%;border:0px;">
                                 <input type="text" name="_discount_input" class="form-control width_200_px" id="_discount_input" value="{{$data->_discount_input ?? 0}}" >
                               </td>
                             </tr>
-                            <tr>
+                            <tr class="@if($_inline_discount==0) display_none @endif">
                               <td style="width: 10%;border:0px;"><label for="_total_discount">Total Discount</label></td>
                               <td style="width: 70%;border:0px;">
                                 <input type="text" name="_total_discount" class="form-control width_200_px" id="_total_discount" readonly value="{{$data->_total_discount ?? 0}}">
@@ -599,11 +650,11 @@ $__user= Auth::user();
 <!-- Modal -->
 <div style="width: 100%;" class="modal  fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
-    <form action="{{ url('sales-settings')}}" method="POST" enctype="multipart/form-data">
+    <form action="{{ url('material-issue-setting')}}" method="POST" enctype="multipart/form-data">
         @csrf
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Sales Form Settings</h5>
+        <h5 class="modal-title" id="exampleModalLabel">{{__('label.material_issue_form_settings')}}</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -668,7 +719,7 @@ var _item_row_count = parseFloat($(document).find('._item_row_count').val());
 
   function setting_data_fetch(){
       var request = $.ajax({
-            url: "{{url('sales-setting-modal')}}",
+             url: "{{url('material-issue-setting-modal')}}",
             method: "GET",
             dataType: "html"
           });
@@ -700,7 +751,7 @@ $(document).on('click','._action_button',function(){
 
 function _main_item_search(_text_val){
   var request = $.ajax({
-      url: "{{url('item-sales-edit-barcode-search')}}",
+      url: "{{url('item-issue-edit-barcode-search')}}",
       method: "GET",
       data: { _text_val : _text_val },
       dataType: "JSON"
@@ -1239,27 +1290,27 @@ function _add_new_row_for_barcode(_warranty,row_id,_name,_p_item_item_id,_unit_i
                                                 <input type="date" name="_expire_date[]" class="form-control _expire_date__${row_id} _expire_date " value="${_expire_date}" >
                                               </td>
                                               
-                                              <td class="@if(sizeof($permited_branch)==1) display_none @endif">
+                                              <td class="@if($_show_branch==0) display_none @endif">
                                                 <select class="form-control  _main_branch_id_detail__${row_id} _main_branch_id_detail" name="_main_branch_id_detail[]"  required>
                                                   @forelse($permited_branch as $branch )
-                                                  <option value="{{$branch->id}}" @if(isset($request->_branch_id)) @if($request->_branch_id == $branch->id) selected @endif   @endif>{{ $branch->_name ?? '' }}</option>
+                                                  <option value="{{$branch->id}}">{{ $branch->_name ?? '' }}</option>
                                                   @empty
                                                   @endforelse
                                                 </select>
                                               </td>
                                               
-                                               <td class="@if(sizeof($permited_costcenters)==1) display_none @endif">
+                                               <td class="@if($_show_cost_center==0) display_none @endif">
                                                  <select class="form-control  _main_cost_center__${row_id} _main_cost_center" name="_main_cost_center[]" required >
                                             
                                                   @forelse($permited_costcenters as $costcenter )
-                                                  <option value="{{$costcenter->id}}" @if(isset($request->_main_cost_center)) @if($request->_main_cost_center == $costcenter->id) selected @endif   @endif> {{ $costcenter->_name ?? '' }}</option>
+                                                  <option value="{{$costcenter->id}}"> {{ $costcenter->_name ?? '' }}</option>
                                                   @empty
                                                   @endforelse
                                                 </select>
                                               </td>
                                               
                                              
-                                              <td class="@if(sizeof($store_houses)==1) display_none @endif">
+                                              <td class="@if($_show_store==0) display_none @endif">
                                                 <select class="form-control  _main_store_id__${row_id} _main_store_id" name="_main_store_id[]">
                                                   @forelse($store_houses as $store)
                                                   <option value="{{$store->id}}" >{{$store->_name ?? '' }}</option>
@@ -1276,6 +1327,11 @@ function _add_new_row_for_barcode(_warranty,row_id,_name,_p_item_item_id,_unit_i
                                               
                                             </tr>`);
 $("."+_item_row_count+"___warranty").val(_warranty);
+
+$("._main_store_id__"+row_id).val(_store_id).change();
+$("._main_cost_center__"+row_id).val(_cost_center_id).change();
+$("._main_branch_id_detail__"+row_id).val(_branch_id).change();
+
 
 var _main_unit_id = _unit_id;
 var _main_unit_val = '';
@@ -1344,7 +1400,10 @@ $(document).on("click",'._barcode_modal_button',function(){
     $(document).find('._search_item_id').removeClass('required_border');
     var _gloabal_this = $(this);
     var _text_val = $(this).val().trim();
-
+    var check_selelct= check_select_org_branch_cost_center();
+   if(check_selelct ==false){
+    return false;
+   }
 
   var request = $.ajax({
       url: "{{url('item-sales-search')}}",
@@ -1358,8 +1417,17 @@ $(document).on("click",'._barcode_modal_button',function(){
       var search_html =``;
       var data = result.data; 
       if(data.length > 0 ){
-            search_html +=`<div class="card"><table style="width: 300px;">
-                            <tbody>`;
+            search_html +=`<div class="card"><table style="width: 450px;"><thead>
+              <tr>
+                  <th>{{__('label.id')}}</th>
+                  <th>{{__('label._item')}}</th>
+                  <th>{{__('label._qty')}}</th>
+                  <th>{{__('label._cost_rate')}}</th>
+                  <th>{{__('label._issue_rate')}}</th>
+                  <th>{{__('label.store_house')}}</th>
+              </tr>
+            </thead>
+                            `;
                         for (var i = 0; i < data.length; i++) {
                          search_html += `<tr class="search_row_item" >
                                         <td>${data[i]._master_id}
@@ -1388,7 +1456,9 @@ $(document).on("click",'._barcode_modal_button',function(){
    <input type="hidden" name="_main_unit_text" class="_main_unit_text" value="${data[i]?._unit_name}">
                                    </td>
                                    <td>${data[i]._qty} ${data[i]?._unit_name}</td>
-                                    <td>${data[i]._sales_rate}</td>
+                                    <td>${data[i]?._pur_rate}</td>
+                                    <td>${data[i]?._sales_rate}</td>
+                                    <td>${data[i]?._store_name}</td>
                                    </tr>`;
                         }                         
             search_html += ` </tbody> </table></div>`;
@@ -1435,6 +1505,10 @@ $(document).on('click','.search_row_item',function(){
   if(_store_salves_id=='null'){ _store_salves_id='' } 
   if(isNaN(_sales_rate)){ _sales_rate=0 }
   if(isNaN(_pur_rate)){ _pur_rate=0 }
+
+    
+  if(_sales_rate ==0){ _sales_rate = _pur_rate; } //only Materail Issue
+
   if(isNaN(_sales_vat)){ _sales_vat=0 }
   _vat_amount = ((_sales_rate*_sales_vat)/100)
   if(isNaN(_sales_discount)){ _sales_discount=0 }
@@ -1485,6 +1559,12 @@ $(this).parent().parent().parent().parent().parent().parent().find('.'+find_coun
   $(this).parent().parent().parent().parent().parent().parent().find('._value').val(_sales_rate);
   $(this).parent().parent().parent().parent().parent().parent().find('._store_salves_id').val(_store_salves_id);
   $(this).parent().parent().parent().parent().parent().parent().find('._manufacture_date').val(_manufacture_date);
+
+   $(this).parent().parent().parent().parent().parent().parent().find('._main_store_id').val(_store_id);
+  $(this).parent().parent().parent().parent().parent().parent().find('._main_branch_id_detail').val(_branch_id);
+  $(this).parent().parent().parent().parent().parent().parent().find('._main_cost_center').val(_cost_center_id);
+
+
   $(this).parent().parent().parent().parent().parent().parent().find('._expire_date').val(_expire_date);
    $(this).parent().parent().parent().parent().parent().parent().find('._warranty').val(_warranty);
 var _search_item_id="_search_item_id__"+row_id;
@@ -1676,67 +1756,6 @@ $(document).on("change","#_discount_input",function(){
   }
 
 
- var single_row =  `<tr class="_voucher_row">
-                      <td><a  href="" class="btn btn-sm btn-default _voucher_row_remove" ><i class="fa fa-trash"></i></a></td>
-                      <td></td>
-                      <td><input type="text" name="_search_ledger_id[]" @if($__user->_ac_type==1) attr_account_head_no="1" @endif  class="form-control _search_ledger_id width_280_px" placeholder="Ledger"   >
-                      <input type="hidden" name="_ledger_id[]" class="form-control _ledger_id" >
-                      <div class="search_box">
-                      </div>
-                      </td>
-                       @if(sizeof($permited_branch)>1)
-                      <td>
-                      <select class="form-control width_150_px _branch_id_detail" name="_branch_id_detail[]"  required >
-                        @forelse($permited_branch as $branch )
-                            <option value="{{$branch->id}}" @if(isset($request->_branch_id)) @if($request->_branch_id == $branch->id) selected @endif   @endif>{{ $branch->_name ?? '' }}</option>
-                        @empty
-                        @endforelse
-                        </select>
-                        </td>
-                        @else
-                          <td class="display_none">
-                      <select class="form-control width_150_px _branch_id_detail" name="_branch_id_detail[]"  required >
-                        @forelse($permited_branch as $branch )
-                            <option value="{{$branch->id}}" @if(isset($request->_branch_id)) @if($request->_branch_id == $branch->id) selected @endif   @endif>{{ $branch->_name ?? '' }}</option>
-                        @empty
-                        @endforelse
-                        </select>
-                        </td>
-                        @endif
-
-                         @if(sizeof($permited_costcenters)>1)
-                        <td>
-                          <select class="form-control width_150_px _cost_center" name="_cost_center[]" required >
-                            @forelse($permited_costcenters as $costcenter )
-                              <option value="{{$costcenter->id}}" @if(isset($request->_cost_center)) @if($request->_cost_center == $costcenter->id) selected @endif   @endif> {{ $costcenter->_name ?? '' }}</option>
-                            @empty
-                            @endforelse
-                            </select>
-                            </td>
-                        @else
-                        <td class="display_none">
-                          <select class="form-control width_150_px _cost_center" name="_cost_center[]" required >
-                            @forelse($permited_costcenters as $costcenter )
-                              <option value="{{$costcenter->id}}" @if(isset($request->_cost_center)) @if($request->_cost_center == $costcenter->id) selected @endif   @endif> {{ $costcenter->_name ?? '' }}</option>
-                            @empty
-                            @endforelse
-                            </select>
-                            </td>
-                        @endif
-                            <td><input type="text" name="_short_narr[]" class="form-control width_250_px" placeholder="Short Narr"></td>
-                            <td>
-                              <input type="number" name="_dr_amount[]" class="form-control  _dr_amount" placeholder="Dr. Amount" value="{{old('_dr_amount',0)}}">
-                            </td>
-                            <td class=" @if($__user->_ac_type==1) display_none @endif ">
-                              <input type="number" name="_cr_amount[]" class="form-control  _cr_amount" placeholder="Cr. Amount" value="{{old('_cr_amount',0)}}">
-                              </td>
-                            </tr>`;
-
-  function voucher_row_add(event) {
-      event.preventDefault();
-      $("#area__voucher_details").append(single_row);
-  }
-
 
 function purchase_row_add(event){
    event.preventDefault();
@@ -1824,27 +1843,27 @@ function purchase_row_add(event){
                                                 <input type="date" name="_expire_date[]" class="form-control _expire_date " >
                                               </td>
                                               
-                                              <td class="@if(sizeof($permited_branch)==1) display_none @endif">
+                                              <td class="@if($_show_branch==0) display_none @endif">
                                                 <select class="form-control  _main_branch_id_detail" name="_main_branch_id_detail[]"  required>
                                                   @forelse($permited_branch as $branch )
-                                                  <option value="{{$branch->id}}" @if(isset($request->_branch_id)) @if($request->_branch_id == $branch->id) selected @endif   @endif>{{ $branch->_name ?? '' }}</option>
+                                                  <option value="{{$branch->id}}">{{ $branch->_name ?? '' }}</option>
                                                   @empty
                                                   @endforelse
                                                 </select>
                                               </td>
                                               
-                                               <td class="@if(sizeof($permited_costcenters)==1) display_none @endif">
+                                               <td class="@if($_show_cost_center==0) display_none @endif">
                                                  <select class="form-control  _main_cost_center" name="_main_cost_center[]" required >
                                             
                                                   @forelse($permited_costcenters as $costcenter )
-                                                  <option value="{{$costcenter->id}}" @if(isset($request->_main_cost_center)) @if($request->_main_cost_center == $costcenter->id) selected @endif   @endif> {{ $costcenter->_name ?? '' }}</option>
+                                                  <option value="{{$costcenter->id}}" > {{ $costcenter->_name ?? '' }}</option>
                                                   @empty
                                                   @endforelse
                                                 </select>
                                               </td>
                                               
                                              
-                                              <td class="@if(sizeof($store_houses)==1) display_none @endif">
+                                              <td class="@if($_show_store==0) display_none @endif">
                                                 <select class="form-control  _main_store_id" name="_main_store_id[]">
                                                   @forelse($store_houses as $store)
                                                   <option value="{{$store->id}}">{{$store->_name ?? '' }}</option>
@@ -1911,7 +1930,7 @@ function purchase_row_add(event){
      var _stop_sales =0;
     if(_p_p_l_ids_qtys.length > 0){
         var request = $.ajax({
-                url: "{{url('check-available-qty-update')}}",
+                url: "{{url('available-qty-check-for-materail-issue-update')}}",
                 method: "GET",
                 async:false,
                 data: { _p_p_l_ids_qtys,unique_p_ids,_sales_id },
@@ -1934,8 +1953,8 @@ function purchase_row_add(event){
     }
 
     if(_stop_sales ==1){
-      alert(" You Can not Sales More then Available Qty  ");
-       var _message =" You Can not Sales More then Available Qty";
+      alert(" You Can not Issue More then Available Qty  ");
+       var _message =" You Can not Issue More then Available Qty";
        $(document).find(".alert").addClass('_required')
       $(document).find(".alert").text(_message);
        
@@ -1984,38 +2003,6 @@ function purchase_row_add(event){
 
 
 
-@if($__user->_ac_type==0)
-    if( parseFloat(_total_dr_amount) !=parseFloat(_total_cr_amount)){
-      $(document).find("._total_dr_amount").addClass('required_border').focus();
-      $(document).find("._total_cr_amount").addClass('required_border').focus();
-      alert("Account Details Dr. And Cr. Amount Not Equal");
-      return false;
-
-    } 
-@endif
-
-//Cash Customer Can not Sale without payment Start
-var _cash_customers = <?php echo json_encode($_cash_customer); ?>;
-if(_cash_customers.length > 0){
-  var _total_dr_amount = $(document).find('._total_dr_amount').val();
-  var _total = $(document).find('#_total').val();
-  var _main_ledger_id = $(document).find('#_main_ledger_id').val();
-  var check_cash_customer = 0;
-  for (var i = 0; i < _cash_customers.length; i++) {
-      if(_main_ledger_id ==_cash_customers[i]){
-        check_cash_customer =1;
-          break;
-      }
-  }
-  if(check_cash_customer ==1){
-    if(Math.round(_total_dr_amount) !=Math.round(_total)){
-        $(document).find("._total_dr_amount").addClass('required_border').focus();
-        alert(" You have to pay full Amount  ");
-        return false;
-    }
-  }
-
-} //Cash Customer Can not Sale without payment End
 
     if(_note ==""){
        

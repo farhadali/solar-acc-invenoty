@@ -753,13 +753,13 @@ return json_encode( $data);
 
       $datas = Sales::with(['_organization','_master_branch','_ledger'])->where('_status',1);
         //$datas = $datas->whereIn('sales._branch_id',explode(',',\Auth::user()->branch_ids));
-        if($request->has('_branch_id') && $request->_branch_id !=""){
-            $datas = $datas->where('_branch_id',$request->_branch_id);  
-        }else{
-           if($auth_user->user_type !='admin'){
+      $datas = $datas->whereIn('_branch_id',explode(',',$auth_user->branch_ids));
+        $datas = $datas->whereIn('_cost_center_id',explode(',',$auth_user->cost_center_ids));
+        $datas = $datas->whereIn('organization_id',explode(',',$auth_user->organization_ids));
+        if($auth_user->user_type !='admin'){
                 $datas = $datas->where('_user_id',$auth_user->id);   
-            } 
-        }
+        } 
+        
         
 
         if($request->has('_user_date') && $request->_user_date=="yes" && $request->_datex !="" && $request->_datex !=""){
@@ -1014,6 +1014,11 @@ SELECT s1.id as _p_p_l_id,s1._item_id,s1._qty
         return json_encode($_over_qty); 
     }
 
+
+   
+
+    
+
     public function checkAvailableQtyUpdateDamage(Request $request){
       
 
@@ -1159,10 +1164,11 @@ SELECT s1.id as _p_p_l_id,s1._item_id,s1._qty
        $text_val = trim($request->_text_val);
         if($text_val =='%'){ $text_val=''; }
         
-        $datas = DB::select(" SELECT p.id, p._item as _name, p._item_id, p._unit_id, p._barcode,p._warranty, p._manufacture_date,p._unique_barcode, p._expire_date, p._qty, p._sales_rate, p._pur_rate, p._sales_discount, p._sales_vat, p._purchase_detail_id, p._master_id, p._branch_id, p._cost_center_id, p._store_id, p._store_salves_id,un._name as _unit_name
+        $datas = DB::select(" SELECT s._name as _store_name, p.id, p._item as _name, p._item_id, p._unit_id, p._barcode,p._warranty, p._manufacture_date,p._unique_barcode, p._expire_date, p._qty, p._sales_rate, p._pur_rate, p._sales_discount, p._sales_vat, p._purchase_detail_id, p._master_id, p._branch_id, p._cost_center_id, p._store_id, p._store_salves_id,un._name as _unit_name
          FROM  product_price_lists as p
          INNER JOIN units as un ON un.id=p._unit_id
-           WHERE  p._status = 1 and  (p._barcode like '%$text_val%' OR p._item like '%$text_val%'  ) and p._branch_id in ($users->branch_ids) and p._cost_center_id in ($users->cost_center_ids) AND p._unique_barcode !=1 AND  p._qty> 0 order by $asc_cloumn $_asc_desc LIMIT $limit ");
+         LEFT JOIN store_houses as s ON s.id=p._store_id
+           WHERE  p._status = 1 and  (p._barcode like '%$text_val%' OR p._item like '%$text_val%'  ) and p._branch_id in ($users->branch_ids) AND p._cost_center_id in ($users->cost_center_ids) AND p._store_id in ($users->store_ids) AND p._unique_barcode !=1 AND  p._qty > 0 order by $asc_cloumn $_asc_desc LIMIT $limit ");
         $datas["data"]=$datas;
         return json_encode( $datas);
     }
@@ -1485,7 +1491,11 @@ where  t1._status = 1 and  (t1._barcode like '%$text_val%' OR t2._item like '%$t
             for ($i = 0; $i <sizeof($_item_ids) ; $i++) {
                 $_total_cost_value += (($_rates[$i]*$conversion_qtys[$i] ?? 1)*$_qtys[$i]);
 
-                $_base_rate = ($_values[$i]/($_qtys[$i]*$conversion_qtys[$i] ?? 1));
+               // $_base_rate = ($_values[$i]/($_qtys[$i]*$conversion_qtys[$i] ?? 1));
+                 $converted_l=($_qtys[$i]*$conversion_qtys[$i] ?? 1);
+                if($converted_l ==0){$converted_l=1;};
+                $_base_rate = ($_values[$i]/$converted_l);
+
 
                 $SalesDetail = new SalesDetail();
                 $SalesDetail->_item_id = $_item_ids[$i];
@@ -1858,7 +1868,7 @@ where  t1._status = 1 and  (t1._barcode like '%$text_val%' OR t2._item like '%$t
   
 
 
-    public function Print($id){
+public function Print($id){
         $users = Auth::user();
         $page_name = $this->page_name;
         $permited_branch = permited_branch(explode(',',$users->branch_ids));
@@ -2285,7 +2295,13 @@ $over_qtys = array();
                 }
 
 
-                $_base_rate = ($_values[$i]/($_qtys[$i]*$conversion_qtys[$i] ?? 1));
+                //$_base_rate = ($_values[$i]/($_qtys[$i]*$conversion_qtys[$i] ?? 1));
+
+                 $converted_l=($_qtys[$i]*$conversion_qtys[$i] ?? 1);
+                if($converted_l ==0){$converted_l=1;};
+                $_base_rate = ($_values[$i]/$converted_l);
+
+
                 $SalesDetail->_transection_unit = $_transection_units[$i] ?? 1;
                 $SalesDetail->_unit_conversion = $conversion_qtys[$i] ?? 1;
                 $SalesDetail->_base_unit = $_base_unit_ids[$i] ?? 1;
@@ -2659,9 +2675,8 @@ $ProductPriceList->_barcode = $_new_last_barcode_string;
              //End Sms Send to customer and Supplier
 
           DB::commit();
-          if(($request->_lock ?? 0) ==1){
-                return redirect('sales/print/'.$_master_id)
-                ->with('success','Information save successfully');
+          if(($request->_print_value ?? 0) ==1){
+                return redirect('sales/print/'.$_master_id);
           }else{
             return redirect()
                 ->back()

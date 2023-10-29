@@ -29,7 +29,7 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="{{asset('dist/css/adminlte.min.css')}}">
 <link rel="stylesheet" href="{{asset('backend/amsify.suggestags.css')}}">
-<link rel="stylesheet" href="{{asset('backend/style.css?v=4')}}">
+<link rel="stylesheet" href="{{asset('backend/style.css?v=5')}}">
 
 
 
@@ -136,34 +136,52 @@ $currentURL = URL::full();
 
 <script type="text/javascript">
 
+ function check_select_org_branch_cost_center(){
+    var _master_organization_id = $(document).find("._master_organization_id").val();
+    var _master_branch_id = $(document).find("._master_branch_id").val();
+    var _cost_center_id = $(document).find("._cost_center_id").val();
+    if(_master_organization_id ==""){
+      alert('Please Select Organization/Company');
+        return false;
+      }
+      if(_master_branch_id ==""){
+        alert('Please Select Branch/Division');
+        return false;
+      }
 
-  $(document).on('change','._master_branch_id',function(){
-     var _master_branch_id = $(this).val();
-     change_all_branch(_master_branch_id);
-  })
-
-  function change_all_branch(_master_branch_id){
-    $(document).find("._main_branch_id_detail").val(_master_branch_id).change();
+      if(_cost_center_id ==""){
+        alert('Please Select Cost Center/Project');
+        return false;
+      }
   }
+  
+  // $(document).on('change','._master_branch_id',function(){
+  //    var _master_branch_id = $(this).val();
+  //    change_all_branch(_master_branch_id);
+  // })
+
+  // function change_all_branch(_master_branch_id){
+  //   $(document).find("._main_branch_id_detail").val(_master_branch_id).change();
+  // }
 
 
-  $(document).on('change','._cost_center_id',function(){
-     var _cost_center_id = $(this).val();
-     change_all_cost_center(_cost_center_id);
-  })
+  // $(document).on('change','._cost_center_id',function(){
+  //    var _cost_center_id = $(this).val();
+  //    change_all_cost_center(_cost_center_id);
+  // })
 
-  function change_all_cost_center(_cost_center_id){
-    $(document).find("._main_cost_center").val(_cost_center_id).change();
-  }
+  // function change_all_cost_center(_cost_center_id){
+  //   $(document).find("._main_cost_center").val(_cost_center_id).change();
+  // }
 
-  $(document).on('change','._master_store_id',function(){
-     var _master_store_id = $(this).val();
-     change_all_store(_master_store_id);
-  })
+  // $(document).on('change','._master_store_id',function(){
+  //    var _master_store_id = $(this).val();
+  //    change_all_store(_master_store_id);
+  // })
 
-  function change_all_store(_master_store_id){
-    $(document).find("._main_store_id").val(_master_store_id).change();
-  }
+  // function change_all_store(_master_store_id){
+  //   $(document).find("._main_store_id").val(_master_store_id).change();
+  // }
 
 
 
@@ -486,9 +504,6 @@ $(document).on('keyup','._search_main_sales_man',delay(function(e){
     request.fail(function( jqXHR, textStatus ) {
       alert( "Request failed: " + textStatus );
     });
-
-  
-
 }, 500));
 
 
@@ -502,6 +517,77 @@ $(document).on('click','.search_row_sales_man',function(){
 
   $(document).find('.search_box_sales_man').hide();
   $(document).find('.search_box_sales_man').removeClass('search_box_show').hide();
+})
+
+
+
+
+//user_id_name
+
+//Employe Search 
+
+$(document).on('keyup','.user_id_name',delay(function(e){
+    
+  var _gloabal_this = $(this);
+  var _text_val = $(this).val().trim();
+  var request = $.ajax({
+      url: "{{url('employee-search')}}",
+      method: "GET",
+      data: { _text_val : _text_val },
+      dataType: "JSON"
+    });
+     
+    request.done(function( result ) {
+      var search_html =``;
+      var data = result.data; 
+      if(data.length > 0 ){
+            search_html +=`<div class="card"><table style="width: 300px;"> <tbody>`;
+                        for (var i = 0; i < data.length; i++) {
+                         search_html += `<tr class="_employee_search_row _cursor_pointer" >
+                                        <td>${data[i]._code}
+                                        <input type="hidden" name="_emplyee_row_id" class="_emplyee_row_id" value="${data[i].id}">
+                                        <input type="hidden" name="_emplyee_row_code_id" class="_emplyee_row_code_id" value="${data[i]._code}">
+                                        </td>
+                                        <td>${data[i]._name}
+                                        <input type="hidden" name="_search_employee_name" class="_search_employee_name" value="${data[i]._name}">
+                                        
+                                        </td>
+                                        
+                                       
+                                        </tr>`;
+                        }                         
+            search_html += ` </tbody> </table></div>`;
+      }else{
+        search_html +=`<div class="card"><table style="width: 300px;"> 
+        <thead><th colspan="3">No Data Found</th></thead><tbody></tbody></table></div>`;
+      }   
+
+       _gloabal_this.parent('td').find('.search_box_employee').html(search_html);
+      _gloabal_this.parent('td').find('.search_box_employee').addClass('search_box_show').show();  
+      
+      
+    });
+     
+    request.fail(function( jqXHR, textStatus ) {
+      alert( "Request failed: " + textStatus );
+    });
+}, 500));
+
+
+$(document).on('click','._employee_search_row',function(){
+ var employee_row_id = $(this).children('td').find('._emplyee_row_id').val();
+ var employee_code_id = $(this).children('td').find('._emplyee_row_code_id').val();
+ var employee_name = $(this).children('td').find('._search_employee_name').val();
+ console.log(employee_name)
+ var _code_and_name = `${employee_code_id},${employee_name}`;
+
+$(this).parent().parent().parent().parent().parent().parent().find('.user_id_name').val(_code_and_name);
+$(this).parent().parent().parent().parent().parent().parent().find('.user_row_id').val(employee_row_id);
+$(this).parent().parent().parent().parent().parent().parent().find('.user_id').val(employee_code_id);
+
+
+  $(document).find('.search_box_employee').hide();
+  $(document).find('.search_box_employee').removeClass('search_box_show').hide();
 })
 
 
@@ -720,9 +806,19 @@ function _common_click_function(){
     var _dr_search_box= $(document).find('._dr_search_box').hasClass('search_box_show');
     var _cr_search_box= $(document).find('._cr_search_box').hasClass('search_box_show');
     var search_boxManufacCompany= $(document).find('.search_boxManufacCompany').hasClass('search_box_show');
+    var search_box_ledger= $(document).find('.search_box_ledger').hasClass('search_box_show');
+    var search_box_employee= $(document).find('.search_box_employee').hasClass('search_box_show');
 
+
+
+    if(search_box_employee ==true){
+      $(document).find('.search_box_employee').removeClass('search_box_show').hide();
+    }
     if(searach_show ==true){
       $(document).find('.search_box_item').removeClass('search_box_show').hide();
+    }
+    if(search_box_ledger ==true){
+      $(document).find('.search_box_ledger').removeClass('search_box_show').hide();
     }
 
     if(_dr_search_box ==true){

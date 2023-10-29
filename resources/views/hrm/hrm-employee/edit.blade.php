@@ -84,6 +84,7 @@
                                 <label>{!!__('label._name') !!}:</label>
                                 {!! Form::text('_name', old('_name'), array('placeholder' => __('label._name'),'class' => 'form-control')) !!}
                                 <input type="hidden" name="_ledger_id" value="{{$data->_ledger_id}}">
+                                <input type="hidden" name="user_id" value="{{$data->user_id ?? 0}}">
                                 
                             </div>
                         </div>
@@ -96,8 +97,8 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                            <label>{!!__('label._father') !!}:<span class="_required">*</span></label>
-                                {!! Form::text('_father', old('_father'), array('placeholder' => __('label._father'),'class' => 'form-control','required' => 'true')) !!}
+                            <label>{!!__('label._father') !!}:</label>
+                                {!! Form::text('_father', old('_father'), array('placeholder' => __('label._father'),'class' => 'form-control')) !!}
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -275,6 +276,16 @@ $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids
                                <img id="output_1" class="banner_image_create" src="{{asset($data->_photo)}}"  style="max-height:100px;max-width: 100px; " />
                             </div>
                         </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>{{__('label._ledger_is_user')}}:</label>
+                                <select class="form-control" name="_ledger_is_user">
+                                  <option value="1">Yes</option>
+                                  <option value="0">No</option>
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label>{{__('label._status')}}:</label>

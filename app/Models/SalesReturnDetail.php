@@ -38,4 +38,13 @@ class SalesReturnDetail extends Model
      public function unit_conversion(){
            return $this->hasMany(UnitConversion::class,'_item_id','_item_id')->where('_status',1);
     }
+
+
+    public function _sales_return_barcodes(){
+     return $this->hasMany(SalesReturnBarcode::class,'_no_detail_id','id');
+    }
+
+    public function _sales_return_master(){
+     return $this->hasOne(SalesReturn::class,'id','_no')->with(['_ledger']);
+    }
 }

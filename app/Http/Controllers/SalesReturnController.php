@@ -49,7 +49,7 @@ class SalesReturnController extends Controller
          $this->middleware('permission:sales-return-delete', ['only' => ['destroy']]);
          $this->middleware('permission:sales-return-print', ['only' => ['Print']]);
          $this->middleware('permission:sales-return-settings', ['only' => ['Settings']]);
-         $this->page_name = "Issued Material Return";
+         $this->page_name = "Sales Return";
     }
     /**
      * Display a listing of the resource.
@@ -714,7 +714,12 @@ WHERE s1._no=".$request->_sales_id." GROUP BY s1._p_p_l_id ");
                 //$_total_cost_value += ($_rates[$i]*$_qtys[$i]);
 
                   $_total_cost_value += (($_rates[$i]*$conversion_qtys[$i] ?? 1)*$_qtys[$i]);
-                  $_base_rate = ($_values[$i]/($_qtys[$i]*$conversion_qtys[$i] ?? 1));
+
+                 // $_base_rate = ($_values[$i]/($_qtys[$i]*$conversion_qtys[$i] ?? 1));
+
+                   $converted_l=($_qtys[$i]*$conversion_qtys[$i] ?? 1);
+                if($converted_l ==0){$converted_l=1;}
+                $_base_rate = ($_values[$i]/$converted_l);
 
                     $SalesReturnDetail = new SalesReturnDetail();
                     $SalesReturnDetail->_item_id = $_item_ids[$i];
@@ -1339,7 +1344,12 @@ WHERE s1._no=".$request->_sales_id." GROUP BY s1._p_p_l_id ");
 
 
 
-                $_base_rate = ($_values[$i]/($_qtys[$i]*$conversion_qtys[$i] ?? 1));
+                //$_base_rate = ($_values[$i]/($_qtys[$i]*$conversion_qtys[$i] ?? 1));
+
+                 $converted_l=($_qtys[$i]*$conversion_qtys[$i] ?? 1);
+                if($converted_l ==0){$converted_l=1;}
+                $_base_rate = ($_values[$i]/$converted_l);
+
                 $SalesReturnDetail->_transection_unit = $_transection_units[$i] ?? 1;
                 $SalesReturnDetail->_unit_conversion = $conversion_qtys[$i] ?? 1;
                 $SalesReturnDetail->_base_unit = $_base_unit_ids[$i] ?? 1;

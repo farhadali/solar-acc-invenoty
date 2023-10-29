@@ -69,6 +69,8 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
+            'table' => 'users',
+            'user_name' => 'username', // Your username column name
         ],
 
         // 'users' => [

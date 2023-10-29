@@ -67,10 +67,45 @@ function convert_number($number)
 
 //RLP Database Connection
 
+if (! function_exists('create_update_user')) {
+    function create_update_user($request)
+    {
+      
+      if($request->_ledger_is_user ==1){
+        $user_id = $request->user_id ?? 0;
+        $_ledger_id = $request->_ledger_id ?? 0;
+        if($user_id ==0){
+            $user = new \App\Models\User();
+        }else{
+           $user =  \App\Models\User::find($user_id); 
+        }
+        $user->name = $request->_name;
+        $user->user_name = $request->_code;
+        $user->email = $request->_email ?? '';
+        $user->user_type = 'user';
+        $user->ref_id = $_ledger_id;
+        $user->organization_ids = $request->organization_id ?? '';
+        $user->branch_ids = $request->_branch_id ?? '';
+        $user->cost_center_ids = $request->_cost_center_id ?? '';
+
+        $user->status = 0;
+        $user->save();
+        $user->assignRole('user');
+        $user_id = $user->id;
+
+        return $user_id;
+      }else{
+        return 0;
+      }
+    }
+}
+
+
+
 if (! function_exists('access_chain_types')) {
     function access_chain_types()
     {
-      return ['1'=>'RLP','2'=>'NOTESHEET','3'=>'WORKORDER'];
+      return ['RLP'=>'Request for Local Purchase','NOT'=>'NOTESHEET','WOR'=>'WORKORDER'];
     }
 }
 
@@ -78,6 +113,24 @@ if (! function_exists('selected_access_chain_types')) {
     function selected_access_chain_types($id)
     {
       foreach(access_chain_types() as $key=>$val){
+        if($id == $key){
+            return $val;
+        } 
+      } 
+      return 'Empty';
+    }
+}
+if (! function_exists('priorities')) {
+    function priorities()
+    {
+      return [1=>'Urgent',2=>'High',3=>'Medium',4=>'Normal'];
+    }
+}
+
+if (! function_exists('selected_priority')) {
+    function selected_priority($id)
+    {
+      foreach(priorities() as $key=>$val){
         if($id == $key){
             return $val;
         } 
@@ -740,6 +793,14 @@ if (! function_exists('_category_name')) {
     }
 }
 
+if (! function_exists('_code_wise_emp')) {
+    function _code_wise_emp($_code)
+    {
+        $data= \DB::table('hrm_employees')->where('_code',$_code)->select('_name')->first();
+        return $data->_name ?? '';
+    }
+}
+
 if (! function_exists('_item_name')) {
     function _item_name($id)
     {
@@ -948,10 +1009,26 @@ if (! function_exists('warranty_prefix')) {
         return $data->_prefix ?? '';
     }
 }
+
 if (! function_exists('_sales_pfix')) {
     function _sales_pfix()
     {
         $data= InvoicePrefix::where('_table_name','sales')->select('_prefix')->first();
+        return $data->_prefix ?? '';
+    }
+}
+if (! function_exists('_issue_pfix')) {
+    function _issue_pfix()
+    {
+        $data= InvoicePrefix::where('_table_name','material_issues')->select('_prefix')->first();
+        return $data->_prefix ?? '';
+    }
+}
+
+if (! function_exists('_issue_return_pfix')) {
+    function _issue_return_pfix()
+    {
+        $data= InvoicePrefix::where('_table_name','material_issue_returns')->select('_prefix')->first();
         return $data->_prefix ?? '';
     }
 }
@@ -1124,10 +1201,28 @@ function find_bud_item_column($item_id,$column_name,$array_data=[]){
 
 
 
+
+
+if (! function_exists('selected_rlp_status')) {
+    function selected_rlp_status($id)
+    {
+      $rlp_status = \DB::table('status_details')->get();
+      foreach($rlp_status as $key=>$val){
+        if($val->id ==$id){
+            return $val->name ?? '';
+        }
+      }
+      return "empty";
+    }
+}
+
+
+
+
 if (! function_exists('default_des')) {
     function default_des()
     {
-      return 3;
+      return 2;
     }
 }
 if (! function_exists('_date_diff')) {
@@ -1263,7 +1358,7 @@ if (! function_exists('database_backup_info')) {
                 $statement = $connect->prepare($show_table_query);
                 $statement->execute();
                 $show_table_result = $statement->fetchAll();
-                //dump($show_table_result);
+                
 
                 foreach($show_table_result as $show_table_row)
                 {
@@ -1293,7 +1388,7 @@ if (! function_exists('database_backup_info')) {
                     $output .= "'" . implode("','", $remvoe_coma_from_array_values) . "');\n";
                 }
             }
-            $file_name = 'database_backup_on_' . date('y-m-d') . '.sql';
+            $file_name = $DbName."_". date('y-m-d') . '.sql';
             $file_handle = fopen($file_name, 'w+');
             fwrite($file_handle, $output);
             fclose($file_handle);

@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class RlpRemarks extends Model
 {
     use HasFactory;
+
+    public function _employee(){
+        return $this->hasOne(\App\Models\User::class,'id','user_id');
+    }
 }

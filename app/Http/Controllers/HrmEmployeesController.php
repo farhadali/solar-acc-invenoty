@@ -26,6 +26,39 @@ class HrmEmployeesController extends Controller
          $this->middleware('permission:hrm-employee-delete', ['only' => ['destroy']]);
          $this->page_name = __('label.hrm-employee');
     }
+
+
+     public function employeeDataUpdate()
+    {
+     // \DB::statement(" UPDATE hrm_employees
+     //        JOIN saif_employee_db ON saif_employee_db.EMP_ID= hrm_employees._code
+     //        JOIN hrm_departments ON hrm_departments._department = saif_employee_db.DEPARTMENT
+     //        SET hrm_employees._department_id=hrm_departments.id ");
+//      \DB::statement(" UPDATE hrm_employees
+// JOIN saif_employee_db ON saif_employee_db.EMP_ID= hrm_employees._code
+// JOIN designations ON designations._name = saif_employee_db.DESIGNATION
+// SET hrm_employees._jobtitle_id=designations.id ");
+
+     // $old_data = \DB::select(" SELECT hrm_emp_categories.id as _id,saif_employee_db.CATEGORY,saif_employee_db.EMP_ID as _code FROM saif_employee_db INNER JOIN hrm_emp_categories ON hrm_emp_categories._name=saif_employee_db.CATEGORY  ");
+
+   // $old_data = \DB::select(" SELECT designations.id as _id,saif_employee_db.DESIGNATION,saif_employee_db.EMP_ID as _code FROM saif_employee_db INNER JOIN designations ON designations._name=saif_employee_db.DESIGNATION  ");
+
+  
+//    $old_data = \DB::select(" SELECT hrm_grades.id as _id,saif_employee_db.EMP_GRADE,saif_employee_db.EMP_ID as _code
+// FROM saif_employee_db 
+// INNER JOIN hrm_grades ON hrm_grades._grade=saif_employee_db.EMP_GRADE  ");
+
+//      foreach($old_data as $key=>$val){
+//         $_code= $val->_code;
+//         $_category_id= $val->_id;
+
+//         //\DB::table("hrm_employees")->where('_code',$_code)->update(['_category_id'=>$_category_id]);
+//         \DB::table("hrm_employees")->where('_code',$_code)->update(['_grade_id'=>$_category_id]);
+//      }
+
+     
+           
+    }
     /**
      * Display a listing of the resource.
      *
@@ -101,6 +134,24 @@ class HrmEmployeesController extends Controller
 
 
         return view('hrm.hrm-employee.index',compact('datas','page_name','employee_catogories','departments','designations','grades','job_locations','limit','request'));
+    }
+
+
+    public function employeeSearch(Request $request){
+       $limit = $request->limit ?? default_pagination();
+        $_asc_desc = $request->_asc_desc ?? 'ASC';
+        $asc_cloumn =  $request->asc_cloumn ?? '_code';
+        $text_val = trim($request->_text_val);
+        if($text_val =='%'){ $text_val=''; }
+
+         $datas = HrmEmployees::with(['_emp_designation','_emp_department'])->where('_status',1)
+        ->where(function ($query) use ($text_val) {
+                $query->orWhere('_code','like',"%$text_val%")
+                      ->orWhere('_name','like',"%$text_val%");
+            });
+        
+        $datas = $datas->orderBy($asc_cloumn,$_asc_desc)->paginate($limit);
+        return json_encode( $datas);
     }
 
     /**
@@ -198,7 +249,6 @@ class HrmEmployeesController extends Controller
             $data->_doj =$request->_doj ?? '';
             $data->_tin =$request->_tin ?? '';
             $data->_ledger_id =$_ledger_id;
-
             if($request->hasFile('_photo')){ 
                 $_photo = UserImageUpload($request->_photo); 
                 $data->_photo = $_photo;
@@ -271,6 +321,8 @@ class HrmEmployeesController extends Controller
             '_ledger_id' => 'required',
             
         ]);
+        
+       // return dump($request->all());
 
         try {
 
@@ -278,8 +330,12 @@ class HrmEmployeesController extends Controller
             $_account_groups = GeneralSettings::select('_employee_group')->first();
             $_employee_group = $_account_groups->_employee_group;
              $_account_head_id = _find_group_to_head($_employee_group);
-
-             $data = AccountLedger::find($request->_ledger_id);
+            if($request->_ledger_id ==0){
+                $data = new AccountLedger();
+            }else{
+                $data = AccountLedger::find($request->_ledger_id);
+            }
+            
             $data->_account_head_id = $_account_head_id;
             $data->_account_group_id = $_employee_group;
             $data->_branch_id = $request->_branch_id;
@@ -300,6 +356,11 @@ class HrmEmployeesController extends Controller
             $data->_created_by = $_user->id."-".$_user->name;
             $data->save();
             $_ledger_id = $data->id;
+            $request->_ledger_id=$_ledger_id;
+
+
+            $user_id = create_update_user($request);
+        
 
             $data = HrmEmployees::find($id);
             $data->_name =$request->_name ?? '';
@@ -332,6 +393,9 @@ class HrmEmployeesController extends Controller
             $data->_doj =$request->_doj ?? '';
             $data->_tin =$request->_tin ?? '';
             $data->_ledger_id =$_ledger_id;
+            if($request->_ledger_is_user ==1){
+                $data->user_id =$user_id;
+            }
 
             if($request->hasFile('_photo')){ 
                 $_photo = UserImageUpload($request->_photo); 

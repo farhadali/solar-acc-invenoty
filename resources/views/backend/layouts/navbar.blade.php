@@ -24,6 +24,36 @@
           </a>
          @endcan
        </li>
+       @can('rlp-module') 
+      <li class="nav-item dropdown remove_from_header">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+           {{ __('label.rlp') }} <i class="right fas fa-angle-down"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+       <p style="padding-left: 20px;"><b>{{__('label.entry')}}</b></p>
+       <div class="dropdown-divider"></div>
+        @can('rlp-chain-list')
+         <div style="display: flex;">
+         <a href="{{route('rlp-chain.index')}}" class="dropdown-item">
+            <i class="fa fa-fax mr-2" aria-hidden="true"></i> {{ __('label.rlp-chain') }}
+          </a>
+          <a  href="{{route('rlp-chain.create')}}" class="dropdown-item text-right">
+            <i class="nav-icon fas fa-plus"></i>
+          </a>
+        </div>
+        @endcan
+        @can('rlp-list')
+         <div style="display: flex;">
+         <a href="{{route('rlp.index')}}" class="dropdown-item">
+            <i class="fa fa-fax mr-2" aria-hidden="true"></i> {{ __('label.rlp-info') }}
+          </a>
+          <a  href="{{route('rlp.create')}}" class="dropdown-item text-right">
+            <i class="nav-icon fas fa-plus"></i>
+          </a>
+        </div>
+        @endcan
+      </li>
+    @endcan
         @can('hrm-module') 
       <li class="nav-item dropdown remove_from_header">
         <a class="nav-link" data-toggle="dropdown" href="#">
@@ -302,6 +332,18 @@
             <i class="fa fa-arrow-circle-right mr-2" aria-hidden="true"></i> {{ __('label.material_issued') }}
           </a>
            <a  href="{{route('material-issue.create')}}" class="dropdown-item text-right">
+            <i class="nav-icon fas fa-plus"></i>
+          </a>
+        </div>
+         @endcan
+         @can('material-issue-return-list')
+         <div class="dropdown-divider"></div>  
+          
+        <div style="display: flex;">
+           <a href="{{url('material-issue-return')}}" class="dropdown-item">
+            <i class="fa fa-arrow-circle-down mr-2" aria-hidden="true"></i> {{ __('label.material_issue_return') }}
+          </a>
+           <a  href="{{route('material-issue-return.create')}}" class="dropdown-item text-right">
             <i class="nav-icon fas fa-plus"></i>
           </a>
         </div>
@@ -1128,10 +1170,10 @@
           <a href="{{url('cost-center')}}" class="dropdown-item">
            <i class="fa fa-adjust mr-2" aria-hidden="true"></i> {{ __('label.Cost center') }} 
           </a>
-            <a   href="#None" 
-          class="dropdown-item text-right attr_base_create_url"
-            data-toggle="modal" data-target="#commonEntryModal_item" 
-            attr_base_create_url="{{route('cost-center.create')}}"> 
+            <a   
+          class="dropdown-item text-right "
+            
+            href="{{route('cost-center.create')}}"> 
             <i class="nav-icon fas fa-plus"></i> </a>
         </div>
           
@@ -1192,24 +1234,9 @@
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <span class="dropdown-item dropdown-header">User Name :  <b>{{Auth::user()->name ?? '' }}</b></span>
           <div class="dropdown-divider"></div>
-          @if(Auth::user()->ref_id ==0)
-          <button  type="button" 
-                                  attr_base_edit_url="{{ route('users.edit',Auth::user()->id) }}"
-                                  data-toggle="modal" 
-                                  data-target="#commonEntryModal_item" 
-                                  class="btn btn-sm btn-default attr_base_edit_url mr-1"><i class="fa fa-pen "></i>Update Profile</button>
-          @else
-          <button  type="button" 
-                                  attr_base_edit_url="{{ route('users.edit',Auth::user()->id) }}"
-                                  data-toggle="modal" 
-                                  data-target="#commonEntryModal_item" 
-                                  class="btn btn-sm btn-default attr_base_edit_url mr-1"><i class="fa fa-pen "></i>Update Profile</button>
-            <!-- <a class="dropdown-item text-center" 
-                        href="{{ url('branch_user') }}/{{Auth::user()->id}}/edit"
-                        >
-                  {{ __('Profile') }}
-            </a> -->
-          @endif
+          <div class="text-center">
+             <a href="{{url('user-profile')}}">{{__('label.profile')}}</a>
+          </div>
         <div class="dropdown-divider"></div>
                 <a class="dropdown-item text-center" 
                         href="{{ route('logout') }}"

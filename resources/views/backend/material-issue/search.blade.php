@@ -64,10 +64,36 @@
                       value="@if(isset($request->_order_number)){{$request->_order_number ?? ''}}@endif">
                     </div>
                   </div>
+                  
                   <div class="form-group row">
-                    <label for="_branch_id " class="col-sm-2 col-form-label">Branch:</label>
+                    <label for="_ledger_id " class="col-sm-2 col-form-label">{{__('label._ledger_id')}}:</label>
                     <div class="col-sm-10">
-                        <select class="form-control" name="_branch_id" required >
+                      <input type="text" id="_search_main_ledger_id" name="_search_main_ledger_id" class="form-control _search_main_ledger_id" value="@if(isset($request->_search_main_ledger_id)) {{$request->_search_main_ledger_id ?? ''}}  @endif" placeholder="Customer" >
+                            <input type="hidden" id="_ledger_id" name="_ledger_id" class="form-control _ledger_id" value="@if(isset($request->_ledger_id)){{$request->_ledger_id ?? ''}}@endif" placeholder="Customer" required>
+                            <div class="search_box_main_ledger"> </div>
+                    </div>
+                  </div>
+                 
+ <div class="form-group row">
+  <div class="col-xs-2 col-sm-2 col-md-2 ">
+     <label>{!! __('label.organization') !!}:</label>
+   </div>
+      <div class="col-xs-10 col-sm-10 col-md-10 ">
+    <select class="form-control _master_organization_id" name="organization_id"  >
+
+       <option value="">{{__('label.select_organization')}}</option>
+       @forelse($permited_organizations as $val )
+       <option value="{{$val->id}}" @if(isset($request->organization_id)) @if($request->organization_id == $val->id) selected @endif   @endif>{{ $val->id ?? '' }} - {{ $val->_name ?? '' }}</option>
+       @empty
+       @endforelse
+     </select>
+   </div>
+ </div>
+
+                  <div class="form-group row">
+                    <label for="_branch_id " class="col-sm-2 col-form-label">{{__('label._branch_id')}}:</label>
+                    <div class="col-sm-10">
+                        <select class="form-control" name="_branch_id"  >
                                   <option value="">{!! __('label.select') !!}</option>
                                   @forelse($permited_branch as $branch )
                                   <option value="{{$branch->id}}" @if(isset($request->_branch_id)) @if($request->_branch_id == $branch->id) selected @endif   @endif>{{ $branch->id ?? '' }} - {{ $branch->_name ?? '' }}</option>
@@ -77,18 +103,10 @@
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label for="_ledger_id " class="col-sm-2 col-form-label">Customer:</label>
-                    <div class="col-sm-10">
-                      <input type="text" id="_search_main_ledger_id" name="_search_main_ledger_id" class="form-control _search_main_ledger_id" value="@if(isset($request->_search_main_ledger_id)) {{$request->_search_main_ledger_id ?? ''}}  @endif" placeholder="Customer" >
-                            <input type="hidden" id="_ledger_id" name="_ledger_id" class="form-control _ledger_id" value="@if(isset($request->_ledger_id)){{$request->_ledger_id ?? ''}}@endif" placeholder="Customer" required>
-                            <div class="search_box_main_ledger"> </div>
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <label for="_cost_center_id" class="col-sm-2 col-form-label">Cost Center:</label>
+                    <label for="_cost_center_id" class="col-sm-2 col-form-label">{{__('label._cost_center_id')}}:</label>
                     <div class="col-sm-10">
                       <select class="form-control" name="_cost_center_id">
-                        <option value="">Select Cost Center</option>
+                        <option value="">{{__('label.select_cost_center')}}</option>
                       @forelse($permited_costcenters as $cost)
                          <option value="{{$cost->id}}" @if(isset($request->_cost_center_id)) @if($cost["id"]==$request->_cost_center_id) selected @endif @endif>{{$cost->_name}}</option>
                       @empty
@@ -96,37 +114,7 @@
                       </select>
                     </div>
                   </div>
-                  <div class="form-group row">
-                    <label for="_delivery_man_id" class="col-sm-2 col-form-label">Delivery Man:</label>
-                    <div class="col-sm-10">
-                      <input type="text" id="_search_main_delivery_man_id" name="_search_main_delivery_man_id" class="form-control _search_main_delivery_man_id" value="@if(isset($request->_search_main_delivery_man_id)) {{$request->_search_main_delivery_man_id ?? ''}}  @endif" placeholder="Delivery Man" >
-                            <input type="hidden" id="_delivery_man_id" name="_delivery_man_id" class="form-control _delivery_man_id" value="@if(isset($request->_delivery_man_id)){{$request->_delivery_man_id ?? ''}}@endif" placeholder="Supplier" required>
-                            <div class="search_box_delivery_man"> </div>
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <label for="_sales_man_id" class="col-sm-2 col-form-label">Sales Man:</label>
-                    <div class="col-sm-10">
-                      <input type="text" id="_search_main_sales_man_id" name="_search_main_sales_man_id" class="form-control _search_main_sales_man_id" value="@if(isset($request->_search_main_sales_man_id)) {{$request->_search_main_sales_man_id ?? ''}}  @endif" placeholder="Sales Man" >
-                      <input type="hidden" id="_sales_man_id" name="_sales_man_id" class="form-control _sales_man_id" value="@if(isset($request->_sales_man_id)){{$request->_sales_man_id ?? ''}}@endif" placeholder="Sales Man" required>
-                            <div class="search_box_sales_man"> </div>
-                    </div>
-                  </div>
                   
-                  
-                  <div class="form-group row">
-                    <label for="_order_ref_id" class="col-sm-2 col-form-label">Purchase Number:</label>
-                    <div class="col-sm-10">
-                      <input type="text" id="_order_ref_id" name="_order_ref_id" class="form-control" placeholder="Search By Purchase Number" value="@if(isset($request->_order_ref_id)){{$request->_order_ref_id ?? ''}}@endif">
-                    </div>
-                  </div>
-                  
-                  <div class="form-group row">
-                    <label for="_store_salves_id" class="col-sm-2 col-form-label">Store Self:</label>
-                    <div class="col-sm-10">
-                      <input type="text" id="_store_salves_id" name="_store_salves_id" class="form-control" placeholder="Search By Store Self" value="@if(isset($request->_store_salves_id)){{$request->_store_salves_id ?? ''}}@endif">
-                    </div>
-                  </div>
                   
                   <div class="form-group row">
                     <label for="_referance" class="col-sm-2 col-form-label">Referance:</label>
@@ -135,12 +123,7 @@
                     </div>
                   </div>
                   
-                  <div class="form-group row">
-                    <label for="_note" class="col-sm-2 col-form-label">Note:</label>
-                    <div class="col-sm-10">
-                      <input type="text" id="_note" name="_note" class="form-control" placeholder="Search By Note" value="@if(isset($request->_note)){{$request->_note ?? ''}}@endif">
-                    </div>
-                  </div>
+                  
                   
                   
                   <div class="form-group row">
@@ -170,8 +153,7 @@
                     <label for="inputEmail3" class="col-sm-2 col-form-label">Order By:</label>
                     <div class="col-sm-10">
                       @php
-             $cloumns = [ 'id'=>'ID','_date'=>'Date','_user_name'=>'User name','_order_number'=>'Order Number','_order_ref_id'=>'Order Refarance','_referance'=>'Referance','_note'=>'Note', '_branch_id '=>'Branch','_ledger_id'=>'Ledger','_sub_total'=>'Sub Total','_total_discount'=>'Total Discount','_total_vat'=>'Total VAT','_total'=>'Total','_store_id'=>'Store','_cost_center_id'=>'Cost Center',
-             '_store_salves_id'=>'Store Self','_delivery_man_id'=>'Delivery Man','_sales_man_id'=>'Sales Man','_sales_type'=>'Sales Type'];
+             $cloumns = [ 'id'=>'ID','_date'=>'Date','_user_name'=>'User name','_order_number'=>'Order Number','_branch_id '=>'Branch','_ledger_id'=>'Ledger','_cost_center_id'=>'Cost Center'];
 
                       @endphp
                        <select class="form-control" name="asc_cloumn" >
@@ -240,7 +222,7 @@
                               <div class="form-group ">
                                 
                                     <button type="button" class="btn btn-sm btn-warning mr-3" data-toggle="modal" data-target="#modal-default" title="Advance Search"><i class="fa fa-search mr-2"></i> </button>
-                                     <a href="{{url('sales-reset')}}" class="btn btn-sm btn-danger" title="Search Reset"><i class="fa fa-retweet mr-2"></i> </a>
+                                     <a href="{{url('material-issue')}}" class="btn btn-sm btn-danger" title="Search Reset"><i class="fa fa-retweet mr-2"></i> </a>
                               </div>
                           </div>
                         </div><!-- end row -->

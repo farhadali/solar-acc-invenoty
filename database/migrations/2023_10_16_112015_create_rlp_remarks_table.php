@@ -17,6 +17,7 @@ class CreateRlpRemarksTable extends Migration
             $table->id();
             $table->integer('rlp_info_id');
             $table->integer('user_id');
+            $table->string('user_office_id')->nullable();
             $table->text('remarks')->nullable();
             $table->date('remarks_date')->nullable();
             $table->tinyInteger('_status')->default(1);

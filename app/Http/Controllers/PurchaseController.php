@@ -62,13 +62,11 @@ class PurchaseController extends Controller
         $asc_cloumn =  $request->asc_cloumn ?? 'id';
 
         $datas = Purchase::with(['_organization','_master_branch','_ledger']);
-        $datas = $datas->whereIn('_branch_id',explode(',',\Auth::user()->branch_ids));
-        if($request->has('_branch_id') && $request->_branch_id !=""){
-            $datas = $datas->where('_branch_id',$request->_branch_id);  
-        }else{
-           if($auth_user->user_type !='admin'){
+        $datas = $datas->whereIn('_branch_id',explode(',',$auth_user->branch_ids));
+        $datas = $datas->whereIn('_cost_center_id',explode(',',$auth_user->cost_center_ids));
+        $datas = $datas->whereIn('organization_id',explode(',',$auth_user->organization_ids));
+        if($auth_user->user_type !='admin'){
                 $datas = $datas->where('_user_id',$auth_user->id);   
-            } 
         }
         
 

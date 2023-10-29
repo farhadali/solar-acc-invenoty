@@ -55,6 +55,10 @@ use App\Http\Controllers\WItemReceiveFromSupplierController;
 
 use App\Http\Controllers\BudgetsController;
 use App\Http\Controllers\MaterialIssueController;
+use App\Http\Controllers\MaterialIssueReturnController;
+
+
+use App\Http\Controllers\PM\ProjectManagementController;
 
 
 
@@ -74,14 +78,39 @@ use App\Http\Controllers\MaterialIssueController;
 
 Route::get('/', 'App\Http\Controllers\FrontendController@index');
 
-Auth::routes();
 
+Auth::routes();
+Route::post('/login', 'App\Http\Controllers\CustomLoginController@login');
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::group(['middleware' => ['auth']], function() {
 
 Route::resource('material-issue',MaterialIssueController::class);
+Route::post('material-issue-setting', 'App\Http\Controllers\MaterialIssueController@Settings');
+Route::get('material-issue-setting-modal', 'App\Http\Controllers\MaterialIssueController@formSettingAjax');
+Route::get('available-qty-check-for-materail-issue-update', 'App\Http\Controllers\MaterialIssueController@checkQtyUpdateFoMaterialIssue');
+Route::get('item-issue-edit-barcode-search', 'App\Http\Controllers\MaterialIssueController@itemIssueEditBarcodeSearch');
+Route::get('material-issue/print/{id}', 'App\Http\Controllers\MaterialIssueController@Print');
+Route::get('material-issue/challan/{id}', 'App\Http\Controllers\MaterialIssueController@challanPrint');
+Route::get('net-material-issue-after-return/{id}', 'App\Http\Controllers\MaterialIssueController@issueAfterReturn');
+
+
+
+
+ Route::resource('material-issue-return', MaterialIssueReturnController::class);
+    Route::post('material-issue-return/update', 'App\Http\Controllers\MaterialIssueReturnController@update');
+    Route::get('material-issue-return-reset', 'App\Http\Controllers\MaterialIssueReturnController@reset');
+    Route::get('material-issue-return/print/{id}', 'App\Http\Controllers\MaterialIssueReturnController@Print');
+    Route::post('material-issue-return-settings', 'App\Http\Controllers\MaterialIssueReturnController@Settings');
+    Route::get('material-issue-return-setting-modal', 'App\Http\Controllers\MaterialIssueReturnController@formSettingAjax');
+    Route::get('material-issue-search', 'App\Http\Controllers\MaterialIssueReturnController@orderSearch');
+    Route::post('material-issue-details', 'App\Http\Controllers\MaterialIssueReturnController@issueDetail');
+    Route::get('check-material-issue-return-available-qty', 'App\Http\Controllers\MaterialIssueReturnController@checkAvailableSalesQty');
+    Route::get('material-issue-return-money-receipt/{id}', 'App\Http\Controllers\MaterialIssueReturnController@moneyReceipt');
+    Route::post('material-issue-return-detail', 'App\Http\Controllers\MaterialIssueReturnController@salesReturnDetail');
+    Route::get('material-issue-return/challan/{id}', 'App\Http\Controllers\MaterialIssueReturnController@challanPrint');
+    
 
 
 //#########################
@@ -95,9 +124,15 @@ Route::get('budget-compare', 'App\Http\Controllers\BudgetsController@budgetCompa
 
 
 
+
+//PM SECTION
+Route::resource('project_management',ProjectManagementController::class);
+
 /* HRM SECTION END*/
 
-
+Route::resource('cost-center', CostCenterController::class);
+Route::get('cost-center-chain/{id}', 'App\Http\Controllers\CostCenterController@csAuthorizationChain');
+Route::post('cost-center-authorization-chain', 'App\Http\Controllers\CostCenterController@csAuthorizationChainUpdate');
 
 
 
@@ -206,10 +241,7 @@ Route::get('book_table_list_ajax', 'App\Http\Controllers\ResturantSalesControlle
     Route::post('account-group/update', 'App\Http\Controllers\AccountGroupController@update');
     Route::get('account-group-reset', 'App\Http\Controllers\AccountGroupController@reset');
 
-    Route::resource('cost-center', CostCenterController::class);
-    Route::post('cost-center/update', 'App\Http\Controllers\CostCenterController@update');
-    Route::get('cost-center-chain/{id}', 'App\Http\Controllers\CostCenterController@csAuthorizationChain');
-    Route::post('cost-center-authorization-chain', 'App\Http\Controllers\CostCenterController@csAuthorizationChainUpdate');
+   
 
     Route::resource('item-category', ItemCategoryController::class);
     Route::post('item-category/update', 'App\Http\Controllers\ItemCategoryController@update');
@@ -283,6 +315,9 @@ Route::get('book_table_list_ajax', 'App\Http\Controllers\ResturantSalesControlle
 
     Route::post('sales-settings', 'App\Http\Controllers\SalesController@Settings');
     Route::get('sales-setting-modal', 'App\Http\Controllers\SalesController@formSettingAjax');
+
+
+    
     
     Route::get('item-sales-search', 'App\Http\Controllers\SalesController@itemSalesSearch');
     Route::get('item-damage-search', 'App\Http\Controllers\SalesController@itemDamageSearch');
@@ -510,6 +545,7 @@ Route::get('book_table_list_ajax', 'App\Http\Controllers\ResturantSalesControlle
     
     //Searching section 
     Route::any('ledger-search','App\Http\Controllers\AccountLedgerController@ledger_search');
+    Route::any('rlp-ledger-search','App\Http\Controllers\AccountLedgerController@rlpLedgerSearch');
     Route::any('main-ledger-search','App\Http\Controllers\AccountLedgerController@mainLedgerSearch');
     Route::any('type_base_group','App\Http\Controllers\AccountLedgerController@type_base_group');
     Route::any('group-base-ledger','App\Http\Controllers\AccountLedgerController@groupBaseLedger');
@@ -584,6 +620,12 @@ Route::get('item-history-update','App\Http\Controllers\InventoryReportController
     Route::post('report-stock-ledger','App\Http\Controllers\InventoryReportController@reportStockLedger');
     Route::get('stock-ledger','App\Http\Controllers\InventoryReportController@filterStockLedger');
     Route::get('reset-stock-ledger','App\Http\Controllers\InventoryReportController@resetStockLedger');
+
+    Route::post('report-stock-ledger-history','App\Http\Controllers\InventoryReportController@reportStockLedgerHistory');
+    Route::get('stock-ledger-history','App\Http\Controllers\InventoryReportController@filterStockLedgerHistory');
+    Route::get('reset-stock-ledger-history','App\Http\Controllers\InventoryReportController@resetStockLedgerHistory');
+
+
     Route::get('stock-ledger-cat-item','App\Http\Controllers\InventoryReportController@stockLedgerCatItem');
 
     Route::post('report-single-stock-ledger','App\Http\Controllers\InventoryReportController@reportSingleStockLedger');
@@ -637,6 +679,9 @@ Route::get('item-history-update','App\Http\Controllers\InventoryReportController
 
     Route::get('invoice-prefix','App\Http\Controllers\GeneralSettingsController@invoicePrefix')->name('invoice-prefix');
     Route::post('invoice-prefix-store','App\Http\Controllers\GeneralSettingsController@invoicePrefixStore');
+
+    Route::get('user-profile','App\Http\Controllers\UserController@userProfile');
+    Route::post('user-profile-update','App\Http\Controllers\UserController@profileUpdate');
 
 
 

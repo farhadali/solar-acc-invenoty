@@ -44,6 +44,7 @@
                        <th>No</th>
                        <th class="">Action</th>
                        <th>Name</th>
+                       <th>EMP ID</th>
                        <th>Email</th>
                        <th>Roles</th>
                        <th>Company</th>
@@ -87,6 +88,7 @@
                               
                         
                         <td>{{ $user->id }} - {{ $user->name }}</td>
+                        <td>{{ $user->user_name ?? '' }}</td>
                         <td>{{ $user->email }}</td>
                         <td>
                           @if(!empty($user->getRoleNames()))
