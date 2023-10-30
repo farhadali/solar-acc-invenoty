@@ -103,37 +103,56 @@ $__user= Auth::user();
                              <td style="display: flex;">
                               @can('rlp-delete')
                                  {!! Form::open(['method' => 'DELETE','route' => ['rlp.destroy', $data->id],'style'=>'display:inline']) !!}
-                                      <button onclick="return confirm('Are you sure?')" type="submit" class="btn btn-sm btn-default"><i class="fa fa-trash _required"></i></button>
+                                      <button onclick="return confirm('Are you sure?')" type="submit" class="btn btn-sm btn-default"><i class="fa fa-trash _required"></i>  {{__('label.trash')}}</button>
                                   {!! Form::close() !!}
                                @endcan 
-                              <a  type="button" 
-                                  href="{{ route('rlp.show',$data->id) }}"
-                                  class="btn btn-sm btn-default  mr-1"><i class="fa fa-eye"></i></a>
+                              
 
                              @can('rlp-edit')
                                   <a  type="button" 
                                   href="{{ route('rlp.edit',$data->id) }}"
                                  
-                                  class="btn btn-sm btn-default  mr-1"><i class="fa fa-pen "></i></a>
-                              @endcan  
+                                  class="btn btn-sm btn-default  mr-1"><i class="fa fa-pen "></i> {{__('label.edit')}}</a>
+                              @endcan 
+                              <a target="__blank"  type="button" 
+                                  href="{{ route('rlp.show',$data->id) }}"
+                                  class="btn btn-sm btn-default  mr-1"><i class="fa fa-eye"> {{__('label._details')}}</i></a> 
                                
                             </td>
 
                             <td>
                                <a  type="button" 
-                                  href="{{ route('rlp.edit',$data->id) }}"
-                                 
-                                  class="btn btn-sm btn-success  mr-1"><i class="fa fa-check "></i>{{__('label.approve')}}</a>
+                                  href="#None"
+                                  attr_rlp_id="{{$data->id}}"
+                                  attr_rlp_no="{{$data->rlp_no}}"
+                                  attr_rlp_action="approve"
+                                  attr_rlp_action_title="Approve"
+
+                                 data-toggle="modal" data-target="#ApproveModal" data-whatever="@mdo"
+                                  class="btn btn-sm btn-success approve_reject_revert_button  mr-1"><i class="fa fa-check "></i> {{__('label.approve')}}
+                                </a>
                             
                                <a  type="button" 
-                                  href="{{ route('rlp.edit',$data->id) }}"
+                                  href="#None"
+                                  attr_rlp_id="{{$data->id}}"
+                                  attr_rlp_no="{{$data->rlp_no}}"
+                                  attr_rlp_action="reject"
+                                  attr_rlp_action_title="Reject"
+
+                                 data-toggle="modal" data-target="#ApproveModal" data-whatever="@mdo"
                                  
-                                  class="btn btn-sm btn-warning  mr-1"><i class="fa fa-trash "></i>{{__('label.reject')}}</a>
+                                  class="btn btn-sm btn-warning approve_reject_revert_button  mr-1"><i class="fa fa-trash "></i> {{__('label.reject')}}</a>
                             
                                <a  type="button" 
-                                  href="{{ route('rlp.edit',$data->id) }}"
+                                  href="#None"
+                                  attr_rlp_id="{{$data->id}}"
+                                  attr_rlp_no="{{$data->rlp_no}}"
+                                  attr_rlp_action="revert"
+                                  attr_rlp_action_title="Revert"
+
+                                 data-toggle="modal" data-target="#ApproveModal" data-whatever="@mdo"
                                  
-                                  class="btn btn-sm btn-info  mr-1"><i class="fa fa-undo "></i>{{__('label.revert')}}</a>
+                                  class="btn btn-sm btn-info approve_reject_revert_button  mr-1"><i class="fa fa-undo "></i> {{__('label.revert')}}</a>
                             </td>
                             <td>{{ $data->id }}</td>
                             <td>{{ $data->_organization->_name ?? '' }}</td>
@@ -166,7 +185,31 @@ $__user= Auth::user();
       <!-- /.container-fluid -->
     </div>
 </div>
-
+<div class="modal fade" id="ApproveModal" tabindex="-1" role="dialog" aria-labelledby="ApproveModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document" style="width:332px;margin: 0px auto;height: auto;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ApproveModalLabel">New message</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">{{__('label.rlp_remarks')}}:</label>
+            <textarea cols="6"  class="form-control" id="message-text"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Send message</button>
+      </div>
+    </div>
+  </div>
+</div>
 @endsection
 
 @section('script')
@@ -222,6 +265,16 @@ function after_request_date__today(_date){
           }
 
 });
+
+
+ $(document).on('click','.approve_reject_revert_button',function(){
+  var rlp_id = $(this).attr('attr_rlp_id');
+  var rlp_no = $(this).attr('attr_rlp_no');
+  var attr_rlp_action = $(this).attr('attr_rlp_action');
+  var attr_rlp_action_title = $(this).attr('attr_rlp_action_title');
+
+  $("#ApproveModalLabel").html(attr_rlp_action_title);
+ })
 
  
 

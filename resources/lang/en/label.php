@@ -15,14 +15,13 @@ return [
 
 
 
-
-
-
-
-
-
-
-
+    'trash' => 'Trash',
+    'edit' => 'Edit',
+    'ack_request_date' => 'Request Date',
+    'ack_updated_date' => 'Updated Date',
+    'duration' => 'Duration',
+    'rlp_remarks' => 'Remarks',
+    'acknowledgement' => 'Acknowledgement',
     'supplier' => 'Supplier',
     'approve' => 'Approve',
     'reject' => 'Reject',

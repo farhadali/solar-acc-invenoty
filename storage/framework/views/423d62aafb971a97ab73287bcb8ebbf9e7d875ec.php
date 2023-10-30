@@ -216,6 +216,7 @@
                                               </td>
                                               <td>
                                                 <input type="number" name="_value[]" class="form-control _value " readonly value="0">
+                                              </td>
                                             </tr>
                                           </tbody>
                                           <tfoot>

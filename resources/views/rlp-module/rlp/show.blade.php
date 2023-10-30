@@ -87,6 +87,7 @@
                      <tbody>
                       @php
                       $sl=1;
+                      $last_key = (sizeof($_item_detail)-1);
                       @endphp
                       @forelse($_item_detail as $key=>$item)
                        @php
@@ -99,8 +100,8 @@
                         <td>{!! $item->_items->_item ?? '' !!} <br>
                           {!! $item->_item_description ?? '' !!}
                         </td>
-                        @if($key==0)
-                        <td rowspan="{{$row_span}}">
+                       
+                        <td >
                           @if(!in_array($item->purpose,$purpose))
                           @php
                           array_push($purpose,$item->purpose);
@@ -108,7 +109,7 @@
                            {!! $item->purpose ?? '' !!} 
                            @endif
                         </td>
-                        @endif
+                       
                         <td>{!! _find_unit($item->_unit_id) !!}</td>
                         <td style="text-align:right;">{!! _report_amount($item->quantity ?? 0) !!}</td>
                         <td style="text-align:right;">{!! _report_amount($item->unit_price ?? 0) !!}</td>
@@ -135,8 +136,8 @@
                         <td>{!! $item->_ledger->_name ?? '' !!} <br>
                           {!! $item->_rlp_ledger_description ?? '' !!}
                         </td>
-                        @if($key==0)
-                        <td rowspan="{{$row_span}}">
+                       
+                        <td >
                           @if(!in_array($item->purpose,$purpose))
                           @php
                           array_push($purpose,$item->purpose);
@@ -144,7 +145,7 @@
                            {!! $item->purpose ?? '' !!} 
                            @endif
                         </td>
-                        @endif
+                        
                         <td></td>
                         <td></td>
                         <td></td>

@@ -10,7 +10,7 @@ class RlpMaster extends Model
     use HasFactory;
 
     public function _item_detail(){
-        return $this->hasMany(RlpDetail::class,'rlp_info_id','id')->with(['_items'])->where('_status',1);
+        return $this->hasMany(RlpDetail::class,'rlp_info_id','id')->with(['_items','_supplier'])->where('_status',1);
     }
 
     public function _account_detail(){
