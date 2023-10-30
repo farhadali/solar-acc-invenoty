@@ -10,7 +10,7 @@ form {border: 3px solid #f1f1f1;
     box-shadow: 2px 2px 2px 2px #413c69;
     padding: 5px;}
 
-input[type=email], input[type=password] {
+input[type=text], input[type=password] {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -87,7 +87,7 @@ span.psw {
  <?php echo $__env->make('backend.message.message', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
   <div class="container">
     <label for="email"><b> <?php echo __('E-Mail Address'); ?></b></label>
-    <input type="email" placeholder="Enter email" name="email" required value="<?php echo old('email'); ?>">
+    <input type="text" placeholder="Enter email/ User name" name="email" required value="<?php echo old('email'); ?>">
 
     <label for="password"><b><?php echo __('Password'); ?></b></label>
     <input type="password" placeholder="Enter Password" name="password" required>
