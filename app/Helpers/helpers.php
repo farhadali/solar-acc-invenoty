@@ -63,7 +63,9 @@ function convert_number($number)
     }
 
     return $res;
-} 
+}
+
+
 
 //RLP Database Connection
 
@@ -97,6 +99,24 @@ if (! function_exists('create_update_user')) {
       }else{
         return 0;
       }
+    }
+}
+
+
+
+
+
+if (! function_exists('access_chain_types')) {
+    function find_group_and_permision($_rlp_acks,$__user)
+    {
+      $ack_order = 1;
+      foreach($_rlp_acks as $key=>$val){
+        if($__user->user_name==$val->user_office_id && $val->ack_order){
+            $ack_order = $val->ack_order;
+        }
+      }
+
+      return $ack_order;
     }
 }
 
@@ -1209,7 +1229,7 @@ if (! function_exists('selected_rlp_status')) {
       $rlp_status = \DB::table('status_details')->get();
       foreach($rlp_status as $key=>$val){
         if($val->id ==$id){
-            return $val->name ?? '';
+            return "<button class='btn' style='background:".$val->bg_color."'>".$val->name ?? ''."</button>";
         }
       }
       return "empty";

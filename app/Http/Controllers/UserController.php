@@ -82,7 +82,7 @@ class UserController extends Controller
             $data = $data->where('branch_ids','like',"%$request->branch_ids%");
         }
 
-        $data = $data->orderBy('name','asc')->paginate($limit);
+        $data = $data->orderBy('id','DESC')->paginate($limit);
 
         $branchs = Branch::select('id','_name')->orderBy('_name','asc')->get();
         $cost_centers = CostCenter::select('id','_name')->orderBy('_name','ASC')->get();

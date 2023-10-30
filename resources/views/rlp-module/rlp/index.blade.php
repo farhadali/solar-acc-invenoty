@@ -97,7 +97,11 @@ $__user= Auth::user();
                      <tbody>
                       
                         @foreach ($datas as $key => $data)
-                        
+        @php
+        $_rlp_acks = $data->_rlp_ack ?? [];
+         $find_group_and_permision=find_group_and_permision($_rlp_acks,$__user);
+        @endphp
+
                         <tr>
                             
                              <td style="display: flex;">
@@ -114,6 +118,7 @@ $__user= Auth::user();
                                  
                                   class="btn btn-sm btn-default  mr-1"><i class="fa fa-pen "></i> {{__('label.edit')}}</a>
                               @endcan 
+
                               <a target="__blank"  type="button" 
                                   href="{{ route('rlp.show',$data->id) }}"
                                   class="btn btn-sm btn-default  mr-1"><i class="fa fa-eye"> {{__('label._details')}}</i></a> 
@@ -121,6 +126,8 @@ $__user= Auth::user();
                             </td>
 
                             <td>
+
+    @if($find_group_and_permision ==2 || $find_group_and_permision ==3 || $find_group_and_permision ==4)
                                <a  type="button" 
                                   href="#None"
                                   attr_rlp_id="{{$data->id}}"
@@ -153,6 +160,7 @@ $__user= Auth::user();
                                  data-toggle="modal" data-target="#ApproveModal" data-whatever="@mdo"
                                  
                                   class="btn btn-sm btn-info approve_reject_revert_button  mr-1"><i class="fa fa-undo "></i> {{__('label.revert')}}</a>
+@endif
                             </td>
                             <td>{{ $data->id }}</td>
                             <td>{{ $data->_organization->_name ?? '' }}</td>
@@ -161,7 +169,7 @@ $__user= Auth::user();
                             <td>{{ $data->rlp_no ?? '' }}</td>
                             <td>{{ _view_date_formate($data->request_date ?? '') }}</td>
                             <td>{{ _report_amount($data->totalamount ?? 0) }}</td>
-                           <td>{{ selected_rlp_status($data->rlp_status ?? 0) }}</td>
+                           <td>{!! selected_rlp_status($data->rlp_status ?? 0) !!}</td>
                             <td>{{ $data->_entry_by->name ?? '' }}</td>
                            
                         </tr>
@@ -199,13 +207,23 @@ $__user= Auth::user();
           
           <div class="form-group">
             <label for="message-text" class="col-form-label">{{__('label.rlp_remarks')}}:</label>
-            <textarea cols="6"  class="form-control" id="message-text"></textarea>
+            <textarea cols="6"  class="form-control" id="rlp_app_reject_remarks"></textarea>
+            <input type="hidden" name="rlp_id_app_reject" class="rlp_id_app_reject" >
+            <input type="hidden" name="rlp_no_app_reject" class="rlp_no_app_reject" >
+            <input type="hidden" name="attr_rlp_action_app_reject" class="attr_rlp_action_app_reject" >
+            <input type="hidden" name="attr_rlp_action_title_action_app_reject" class="attr_rlp_action_title_action_app_reject" >
+
+            
+
+
+
+
           </div>
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Send message</button>
+        <button type="button" class="btn  rlpApproveRejectSubmit" data-dismiss="modal">{{__('label.submit')}}</button>
       </div>
     </div>
   </div>
@@ -272,9 +290,55 @@ function after_request_date__today(_date){
   var rlp_no = $(this).attr('attr_rlp_no');
   var attr_rlp_action = $(this).attr('attr_rlp_action');
   var attr_rlp_action_title = $(this).attr('attr_rlp_action_title');
+  var success = $(this).hasClass("btn-success");
+  var warning = $(this).hasClass("btn-warning");
+  var btn_info = $(this).hasClass("btn-info");
+  var button_class="btn-primary";
+  if(success ==true){ button_class ="btn-success"; }
+  if(warning ==true){ button_class ="btn-warning"; }
+  if(btn_info ==true){ button_class ="btn-info"; }
 
+  console.log(button_class);
+  
+
+
+$(document).find(".rlp_id_app_reject").val(rlp_id);
+$(document).find(".rlp_no_app_reject").val(rlp_no);
+$(document).find(".attr_rlp_action_app_reject").val(attr_rlp_action);
+$(document).find(".attr_rlp_action_title_action_app_reject").val(attr_rlp_action_title);
+  
+
+
+
+  $(".rlpApproveRejectSubmit").removeClass("btn-success").removeClass("btn-warning").removeClass("btn-info");
   $("#ApproveModalLabel").html(attr_rlp_action_title);
+  $(".rlpApproveRejectSubmit").addClass(button_class);
+  $(".rlpApproveRejectSubmit").html(attr_rlp_action_title);
+
  })
+
+ $(document).on("click",".rlpApproveRejectSubmit",function(){
+  var rlp_id = $(document).find(".rlp_id_app_reject").val();
+  var rlp_no = $(document).find(".rlp_no_app_reject").val();
+  var rlp_action = $(document).find(".attr_rlp_action_app_reject").val();
+  var rlp_remarks = $(document).find("#rlp_app_reject_remarks").val();
+  
+
+
+   $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')} });
+        $.ajax({
+           type:'POST',
+           url:"{{ url('rlp-approve-reject') }}",
+           data:{rlp_id,rlp_no,rlp_action,rlp_remarks},
+           success:function(data){
+              console.log(data);
+           }
+        });
+  
+ })
+
+ 
+
 
  
 

@@ -186,7 +186,7 @@ $_rlp_acks =  $data->_rlp_ack_app ?? [];
                         <tfoot>
                           <tr>
                             <?php $__empty_1 = true; $__currentLoopData = $_rlp_acks; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                            <?php if($val->ack_status==1 && $val->_is_approve==1): ?>
+                            <?php if($val->ack_status==1): ?>
                               <td colspan="2" style="height: 60px;">
                                 
 
@@ -197,7 +197,7 @@ $_rlp_acks =  $data->_rlp_ack_app ?? [];
                           </tr>
                           <tr>
                             <?php $__empty_1 = true; $__currentLoopData = $_rlp_acks; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                            <?php if($val->ack_status==1 && $val->_is_approve==1): ?>
+                            <?php if($val->ack_status==1 ): ?>
                               <td colspan="2" class="text-center">
                                 <b><?php echo $val->_check_group->_display_name ?? ''; ?></b>
                                 <br>

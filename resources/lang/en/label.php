@@ -15,6 +15,7 @@ return [
 
 
 
+    'submit' => 'Submit',
     'trash' => 'Trash',
     'edit' => 'Edit',
     'ack_request_date' => 'Request Date',

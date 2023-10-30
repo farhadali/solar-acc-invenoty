@@ -184,7 +184,7 @@ $_rlp_acks =  $data->_rlp_ack_app ?? [];
                         <tfoot>
                           <tr>
                             @forelse($_rlp_acks as $key=>$val)
-                            @if($val->ack_status==1 && $val->_is_approve==1)
+                            @if($val->ack_status==1)
                               <td colspan="2" style="height: 60px;">
                                 
 
@@ -195,7 +195,7 @@ $_rlp_acks =  $data->_rlp_ack_app ?? [];
                           </tr>
                           <tr>
                             @forelse($_rlp_acks as $key=>$val)
-                            @if($val->ack_status==1 && $val->_is_approve==1)
+                            @if($val->ack_status==1 )
                               <td colspan="2" class="text-center">
                                 <b>{!! $val->_check_group->_display_name ?? '' !!}</b>
                                 <br>
