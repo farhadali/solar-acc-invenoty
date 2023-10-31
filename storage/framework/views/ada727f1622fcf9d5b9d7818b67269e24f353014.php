@@ -11,6 +11,15 @@
     color: #000;
     background-color: #fff; 
 }
+.footer{
+       position:relative;
+       top:-20px; // this sets the footer -20px from the top of the next 
+                  //header/page ... 20px above the bottom of target page
+                  //so make sure it is more negative than your footer's height.
+
+       height:10px;//notice that the top position subtracts 
+                   //more than the assigned height of the footer
+    }
 }
   </style>
 <div class="_report_button_header">
@@ -183,22 +192,25 @@
 
 $_rlp_acks =  $data->_rlp_ack_app ?? [];
 ?>
-                        <tfoot>
+                        <tfoot class="footer">
                           <tr>
-                            <?php $__empty_1 = true; $__currentLoopData = $_rlp_acks; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                            <?php if($val->ack_status==1): ?>
-                              <td colspan="2" style="height: 60px;">
-                                
+                            <td colspan="8">
+                              <table style="width:100%;">
+                                <tr>
+                                   <?php $__empty_1 = true; $__currentLoopData = $_rlp_acks; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                                <?php if($val->ack_status==1): ?>
+                                  <td  style="height: 100px;">
+                                    
 
-                              </td>
-                            <?php endif; ?>
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-                            <?php endif; ?>
-                          </tr>
-                          <tr>
+                                  </td>
+                                <?php endif; ?>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                                <?php endif; ?>
+                                </tr>
+                                <tr>
                             <?php $__empty_1 = true; $__currentLoopData = $_rlp_acks; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                             <?php if($val->ack_status==1 ): ?>
-                              <td colspan="2" class="text-center">
+                              <td  class="text-center">
                                 <b><?php echo $val->_check_group->_display_name ?? ''; ?></b>
                                 <br>
                                 <?php echo $val->_employee->_name ?? ''; ?><br>
@@ -209,6 +221,12 @@ $_rlp_acks =  $data->_rlp_ack_app ?? [];
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                             <?php endif; ?>
                           </tr>
+                              </table>
+                              
+                            </td>
+                           
+                          </tr>
+                          
                         </tfoot>
                         
 

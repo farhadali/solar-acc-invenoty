@@ -583,7 +583,7 @@
           </a>
         </div>
          @endcan 
-       @can('actual-sales-report')
+       @can('actual-sales-report')wa
         <div style="display: flex;">
            <a href="{{url('filter-actual-sales')}}" class="dropdown-item">
             <i class="fa fa-list-alt mr-2" aria-hidden="true"></i> {{ __('label.actual-sales-report') }}
@@ -898,11 +898,9 @@
           <a href="{{url('item-category')}}" class="dropdown-item">
             <i class="fa fa-laptop mr-2" aria-hidden="true"></i>{{ __('label.Item Category') }}
           </a>
-           <a  href="#None" 
-           class="dropdown-item text-right attr_base_create_url" 
-               data-toggle="modal" 
-               data-target="#commonEntryModal_item" 
-               attr_base_create_url="{{route('item-category.create')}}"
+           <a  
+           class="dropdown-item text-right " 
+               href="{{route('item-category.create')}}"
                 >
             <i class="nav-icon fas fa-plus"></i>
           </a>
@@ -917,12 +915,9 @@
            <a href="{{url('unit')}}" class="dropdown-item">
             <i class="fa fa-laptop mr-2" aria-hidden="true"></i>{{ __('label.Unit Of Measurment') }}
           </a>
-          <a  href="#None" 
-           class="dropdown-item text-right attr_base_create_url" 
-               data-toggle="modal" 
-               data-target="#commonEntryModal_item" 
-               attr_base_create_url="{{route('unit.create')}}"
-                >
+          <a   
+           class="dropdown-item text-right " 
+               href="{{route('unit.create')}}" >
             <i class="nav-icon fas fa-plus"></i>
           </a>
 
@@ -936,11 +931,9 @@
            <a href="{{url('warranty')}}" class="dropdown-item">
             <i class="fa fa-laptop mr-2" aria-hidden="true"></i>{{ __('label.Warranty') }}
           </a>
-           <a  href="#None" 
-           class="dropdown-item text-right attr_base_create_url" 
-               data-toggle="modal" 
-               data-target="#commonEntryModal_item" 
-               attr_base_create_url="{{route('warranty.create')}}"
+           <a   
+           class="dropdown-item text-right " 
+               href="{{route('warranty.create')}}"
                 >
             <i class="nav-icon fas fa-plus"></i>
           </a>
@@ -955,12 +948,9 @@
            <a href="{{url('transection_terms')}}" class="dropdown-item">
             <i class="fa fa-laptop mr-2" aria-hidden="true"></i>{{ __('label.Transection Terms') }}
           </a>
-          <a  href="#None" 
-           class="dropdown-item text-right attr_base_create_url" 
-               data-toggle="modal" 
-               data-target="#commonEntryModal_item" 
-               attr_base_create_url="{{route('transection_terms.create')}}"
-                >
+          <a   
+           class="dropdown-item text-right " 
+               href="{{route('transection_terms.create')}}" >
             <i class="nav-icon fas fa-plus"></i>
           </a>
           
@@ -975,12 +965,9 @@
            <a href="{{url('vat-rules')}}" class="dropdown-item">
             <i class="fa fa-laptop mr-2" aria-hidden="true"></i>{{ __('label.Vat Rules') }}
           </a>
-           <a  href="#None" 
-           class="dropdown-item text-right attr_base_create_url" 
-               data-toggle="modal" 
-               data-target="#commonEntryModal_item" 
-               attr_base_create_url="{{route('vat-rules.create')}}"
-                >
+           <a  
+           class="dropdown-item text-right " 
+               href="{{route('vat-rules.create')}}" >
             <i class="nav-icon fas fa-plus"></i>
           </a>
           
@@ -994,11 +981,10 @@
            <a href="{{url('item-information')}}" class="dropdown-item">
             <i class="fa fa-list-alt mr-2" aria-hidden="true"></i> {{ __('label.Item Information') }}
           </a>
-           <a  href="#None" 
-           class="dropdown-item text-right attr_base_create_url" 
-               data-toggle="modal" 
-               data-target="#commonEntryModal_item" 
-               attr_base_create_url="{{route('item-information.create')}}"
+           <a  
+           class="dropdown-item text-right " 
+              
+               href="{{route('item-information.create')}}"
                 >
             <i class="nav-icon fas fa-plus"></i>
           </a>

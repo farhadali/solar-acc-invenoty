@@ -1,6 +1,5 @@
 @extends('backend.layouts.app')
-@section('title',$page_name)
-
+@section('title',$page_name ?? '')
 @section('content')
 <div class="content-header">
       <div class="container-fluid">
@@ -12,13 +11,11 @@
                
 
               <li class="breadcrumb-item active">
-                  <button type="button" 
-               class="btn btn-sm btn-info active attr_base_create_url" 
-               data-toggle="modal" 
-               data-target="#commonEntryModal_item" 
-               attr_base_create_url="{{ route('warranty.create') }}">
+                  <a type="button" 
+               class="btn btn-sm btn-info active " 
+               href="{{ route('warranty.create') }}">
                    <i class="nav-icon fas fa-plus"></i> Create New
-                </button>
+                </a>
                </li>
               @endcan
             </ol>
@@ -60,22 +57,19 @@
                             <td>{{ $key+1 }}</td>
  <td style="display: flex;">
                            
-                                <button  type="button" 
-                                  attr_base_edit_url="{{ route('warranty.show',$data->id) }}"
-                                  data-toggle="modal" 
-                                  data-target="#commonEntryModal_item" 
-                                  class="btn btn-sm btn-default attr_base_edit_url mr-1"><i class="fa fa-eye"></i></button>
+                                <a   
+                                  href="{{ route('warranty.show',$data->id) }}"
+                                  
+                                  class="btn btn-sm btn-default  mr-1"><i class="fa fa-eye"></i></a>
 
 
                                   @can('warranty-edit')
-                                  <button  type="button" 
-                                  attr_base_edit_url="{{ route('warranty.edit',$data->id) }}"
-                                  data-toggle="modal" 
-                                  data-target="#commonEntryModal_item" 
-                                  class="btn btn-sm btn-default attr_base_edit_url mr-1"><i class="fa fa-pen "></i></button>
+                                  <a  
+                                  href="{{ route('warranty.edit',$data->id) }}"
+                                  class="btn btn-sm btn-default  mr-1"><i class="fa fa-pen "></i></a>
 
-                                    
                                   @endcan
+                                  
                                 @can('warranty-delete')
                                  {!! Form::open(['method' => 'DELETE','route' => ['warranty.destroy', $data->id],'style'=>'display:inline']) !!}
                                       <button onclick="return confirm('Are you sure?')" type="submit" class="btn btn-sm btn-default"><i class="fa fa-trash _required"></i></button>

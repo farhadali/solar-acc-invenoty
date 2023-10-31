@@ -1,4 +1,6 @@
 
+<?php $__env->startSection('title',$page_name ?? ''); ?>
+<?php $__env->startSection('content'); ?>
 <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
@@ -90,5 +92,6 @@
       <!-- /.container-fluid -->
     </div>
 </div>
+<?php $__env->stopSection(); ?>
 
-<?php /**PATH D:\xampp\htdocs\own\inv-acc-hrm\resources\views/backend/item-category/edit.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('backend.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\xampp\htdocs\own\inv-acc-hrm\resources\views/backend/item-category/edit.blade.php ENDPATH**/ ?>

@@ -159,6 +159,22 @@
                   
                 </div>
               </div>
+            <!--   <div class="col-md-2">
+                <div class="form-group">
+                  <label><?php echo e(__('label._status')); ?> <span class="_required">*</span></label>
+                  <?php
+                  $status_details  = \DB::table('status_details')->get();
+                  ?>
+                 
+                 <select class="form-control" name="rlp_status" required>
+                    <?php $__empty_1 = true; $__currentLoopData = $status_details; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $st_key=>$st_val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                   <option value="<?php echo e($st_val->id); ?>" <?php if($st_val->id==$data->rlp_status): ?> selected <?php endif; ?> ><?php echo $st_val->name ?? ''; ?></option>
+                   <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                   <?php endif; ?>
+                 </select>
+                  
+                </div>
+              </div> -->
 
     
               
@@ -413,8 +429,8 @@
                                          <td><?php echo _view_date_formate($ack_val->ack_updated_date ?? ''); ?></td>
                                         </tr>
                                         <tr>
-                                          <td><?php echo e(__('label.duration')); ?>:</td>
-                                         <td></td>
+                                          <td colspan="2"><?php echo e(__('label.duration')); ?>: <?php echo e(_date_time_diff($ack_val->ack_updated_date,$ack_val->ack_request_date)); ?> </td>
+                                        
                                         </tr>
                                         </tbody>
                                       </table>

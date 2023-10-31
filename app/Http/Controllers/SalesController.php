@@ -776,7 +776,7 @@ return json_encode( $data);
             $datas = $datas->where('id', $ids); 
         }
         
-         if($request->has('_lock') && $request->_lock !=''){
+        if($request->has('_lock') && $request->_lock !=''){
             $datas = $datas->where('_lock','=',$request->_lock);
         }
         if($request->has('_order_ref_id') && $request->_order_ref_id !=''){

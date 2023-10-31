@@ -15,6 +15,7 @@ return [
 
 
 
+    'rlp_user_office_id' => 'EMP ID',
     'submit' => 'Submit',
     'trash' => 'Trash',
     'edit' => 'Edit',

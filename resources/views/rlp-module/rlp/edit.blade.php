@@ -159,6 +159,22 @@
                   
                 </div>
               </div>
+            <!--   <div class="col-md-2">
+                <div class="form-group">
+                  <label>{{__('label._status')}} <span class="_required">*</span></label>
+                  @php
+                  $status_details  = \DB::table('status_details')->get();
+                  @endphp
+                 
+                 <select class="form-control" name="rlp_status" required>
+                    @forelse($status_details as $st_key=>$st_val)
+                   <option value="{{$st_val->id}}" @if($st_val->id==$data->rlp_status) selected @endif >{!! $st_val->name ?? '' !!}</option>
+                   @empty
+                   @endforelse
+                 </select>
+                  
+                </div>
+              </div> -->
 
     
               
@@ -413,8 +429,8 @@
                                          <td>{!! _view_date_formate($ack_val->ack_updated_date ?? '') !!}</td>
                                         </tr>
                                         <tr>
-                                          <td>{{__('label.duration')}}:</td>
-                                         <td></td>
+                                          <td colspan="2">{{__('label.duration')}}: {{_date_time_diff($ack_val->ack_updated_date,$ack_val->ack_request_date)}} </td>
+                                        
                                         </tr>
                                         </tbody>
                                       </table>

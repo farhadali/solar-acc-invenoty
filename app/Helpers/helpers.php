@@ -1135,7 +1135,7 @@ if (! function_exists('_view_date_formate')) {
         if($_date ==''){
             return "";
         } 
-       return date('d-m-Y', strtotime($_date));
+       return date('d-m-Y h:i:s', strtotime($_date));
     }
 }
 
@@ -1253,6 +1253,27 @@ if (! function_exists('_date_diff')) {
         $diff1 = date_diff($date1,$date2);
         $daysdiff = $diff1->format("%R%a");
         return $daysdiff = abs($daysdiff)." Days";
+    }
+}
+if (! function_exists('_date_time_diff')) {
+    function _date_time_diff($date1,$date2)
+    {
+       
+    $datetime1 = new DateTime($date1);
+    $datetime2 = new DateTime($date2);
+
+    $interval = $datetime1->diff($datetime2);
+
+    $days = $interval->d;
+    $hours = $interval->h;
+    $minutes = $interval->i;
+    if($days > 0){
+        return " $days days, $hours hours, $minutes minutes";
+    }else{
+        return "$hours hours, $minutes minutes";
+    }
+
+
     }
 }
 

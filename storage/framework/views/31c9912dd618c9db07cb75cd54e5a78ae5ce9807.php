@@ -53,7 +53,7 @@ $__user= Auth::user();
 
                    ?>
                     <div class="col-md-4">
-                      
+                      <?php echo $__env->make('rlp-module.rlp.search', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                     </div>
                     <div class="col-md-8">
                       <div class="d-flex flex-row justify-content-end">
@@ -85,6 +85,7 @@ $__user= Auth::user();
                          <th class=""><b>##</b></th>
                          <th class=""><b><?php echo e(__('label.action')); ?></b></th>
                          <th class=""><b><?php echo e(__('label.id')); ?></b></th>
+                         <th class=""><b><?php echo e(__('label.priority')); ?></b></th>
                          <th class=""><b><?php echo e(__('label.organization_id')); ?></b></th>
                          <th class=""><b><?php echo e(__('label._branch_id')); ?></b></th>
                          <th class=""><b><?php echo e(__('label._cost_center_id')); ?></b></th>
@@ -93,6 +94,7 @@ $__user= Auth::user();
                          <th class=""><b><?php echo e(__('label._amount')); ?></b></th>
                          <th class=""><b><?php echo e(__('label._status')); ?></b></th>
                          <th class=""><b><?php echo e(__('label.user')); ?></b></th>
+                         <th class=""><b><?php echo e(__('label._lock')); ?></b></th>
                       </tr>
                      </thead>
                      <tbody>
@@ -167,6 +169,7 @@ $__user= Auth::user();
 <?php endif; ?>
                             </td>
                             <td><?php echo e($data->id); ?></td>
+                            <td><?php echo e(selected_priority($data->priority ?? '')); ?></td>
                             <td><?php echo e($data->_organization->_name ?? ''); ?></td>
                             <td><?php echo e($data->_branch->_name ?? ''); ?></td>
                             <td><?php echo e($data->_cost_center->_name ?? ''); ?></td>
@@ -175,6 +178,20 @@ $__user= Auth::user();
                             <td><?php echo e(_report_amount($data->totalamount ?? 0)); ?></td>
                            <td><?php echo selected_rlp_status($data->rlp_status ?? 0); ?></td>
                             <td><?php echo e($data->_entry_by->name ?? ''); ?></td>
+                             <td style="display: flex;">
+                              <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('lock-permission')): ?>
+                              <input class="form-control _invoice_lock" type="checkbox" name="_lock" _attr_invoice_id="<?php echo e($data->id); ?>" value="<?php echo e($data->_lock); ?>" <?php if($data->_lock==1): ?> checked <?php endif; ?>>
+                              <?php endif; ?>
+
+                              
+                              <?php if($data->_lock==1): ?>
+                              <i class="fa fa-lock _green ml-1 _icon_change__<?php echo e($data->id); ?>" aria-hidden="true"></i>
+                              <?php else: ?>
+                              <i class="fa fa-lock _required ml-1 _icon_change__<?php echo e($data->id); ?>" aria-hidden="true"></i>
+                              <?php endif; ?>
+                              
+
+                            </td>
                            
                         </tr>
                         
@@ -342,7 +359,25 @@ $(document).find(".attr_rlp_action_title_action_app_reject").val(attr_rlp_action
  })
 
  
-
+  $(document).on("click","._invoice_lock",function(){
+    var _id = $(this).attr('_attr_invoice_id');
+    console.log(_id)
+    var _table_name ="rlp_masters";
+      if($(this).is(':checked')){
+            $(this).prop("selected", "selected");
+          var _action = 1;
+          $('._icon_change__'+_id).addClass('_green').removeClass('_required');
+         
+         
+        } else {
+          $(this).removeAttr("selected");
+          var _action = 0;
+            $('._icon_change__'+_id).addClass('_required').removeClass('_green');
+           
+        }
+      _lock_action(_id,_action,_table_name)
+       
+  })
 
  
 

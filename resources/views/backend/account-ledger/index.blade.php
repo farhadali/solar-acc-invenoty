@@ -12,13 +12,11 @@
               <li class="breadcrumb-item active">
                   
 
-                  <button type="button" 
-               class="btn btn-sm btn-info active attr_base_create_url" 
-               data-toggle="modal" 
-               data-target="#commonEntryModal_item" 
-               attr_base_create_url="{{ route('account-ledger.create') }}">
+                  <a 
+               class="btn btn-sm btn-info active " 
+               href="{{ route('account-ledger.create') }}">
                    <i class="nav-icon fas fa-plus"></i> Create New
-                </button>
+                </a>
 
 
                </li>
@@ -117,19 +115,15 @@ if($currentURL === $current){
                            <td>{{($key3+1)}}</td>
                            <td style="display: flex;">
                            
-                                <button  type="button" 
-                                  attr_base_edit_url="{{ route('account-ledger.show',$data->id) }}"
-                                  data-toggle="modal" 
-                                  data-target="#commonEntryModal_item" 
-                                  class="btn btn-sm btn-default attr_base_edit_url mr-1"><i class="fa fa-eye"></i></button>
+                                <a  
+                                  href="{{ route('account-ledger.show',$data->id) }}"
+                                  class="btn btn-sm btn-default  mr-1"><i class="fa fa-eye"></i></a>
 
 
                                   @can('account-ledger-edit')
-                                  <button  type="button" 
-                                  attr_base_edit_url="{{ route('account-ledger.edit',$data->id) }}"
-                                  data-toggle="modal" 
-                                  data-target="#commonEntryModal_item" 
-                                  class="btn btn-sm btn-default attr_base_edit_url mr-1"><i class="fa fa-pen "></i></button>
+                                  <a  
+                                  href="{{ route('account-ledger.edit',$data->id) }}"
+                                  class="btn btn-sm btn-default  mr-1"><i class="fa fa-pen "></i></a>
 
                                     
                                   @endcan
