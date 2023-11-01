@@ -17,6 +17,7 @@ class CreateBranchesTable extends Migration
             $table->id();
             $table->string('_name',100);
             $table->string('_address',255)->nullable();
+            $table->string('_code',255)->nullable();
             $table->date('_date')->nullable();
             $table->string('_email',60)->nullable();
             $table->string('_phone',20)->nullable();
@@ -26,6 +27,8 @@ class CreateBranchesTable extends Migration
             $table->timestamps();
         });
     }
+
+ 
 
     /**
      * Reverse the migrations.

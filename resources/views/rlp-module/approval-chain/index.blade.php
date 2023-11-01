@@ -9,19 +9,18 @@ $__user= Auth::user();
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-12" style="display: flex;">
-            <a class="m-0 _page_name" href="{{ route('hrm-employee.index') }}">{!! $page_name ?? '' !!} </a>
+            <a class="m-0 _page_name" href="{{ route('approval-chain.index') }}">{!! $page_name ?? '' !!} </a>
             <ol class="breadcrumb float-sm-right ml-2">
-               @can('hrm-employee-create')
+               
              <li class="breadcrumb-item active">
                 <a type="button" 
                class="btn btn-sm btn-info" 
-              
-               href="{{ route('hrm-employee.create') }}">
+               href="{{ route('approval-chain.create') }}">
                    <i class="nav-icon fas fa-plus"></i> {{__('label.create_new')}}
                 </a>
 
                </li>
-              @endcan
+              
             </ol>
           </div>
           
@@ -52,7 +51,7 @@ $__user= Auth::user();
 
                    @endphp
                     <div class="col-md-4">
-                      @include('hrm.hrm-employee.search')
+                      
                     </div>
                     <div class="col-md-8">
                       <div class="d-flex flex-row justify-content-end">
@@ -82,82 +81,72 @@ $__user= Auth::user();
                      <thead>
                         <tr>
                          <th class=""><b>##</b></th>
-                         <th class=""><b>{{__('label.sl')}}</b></th>
                          <th class=""><b>{{__('label.id')}}</b></th>
-                         <th class=""><b>{{__('label._name')}}</b></th>
-                         <th class=""><b>{{__('label._code')}}</b></th>
-                         <th class=""><b>{{__('label._mobile1')}}</b></th>
-                         <th class=""><b>{{__('label._email')}}</b></th>
-                         <th class=""><b>{{__('label.employee_category_id')}}</b></th>
-                         <th class=""><b>{{__('label._department_id')}}</b></th>
-                         <th class=""><b>{{__('label._jobtitle_id')}}</b></th>
-                         <th class=""><b>{{__('label._grade_id')}}</b></th>
                          <th class=""><b>{{__('label.organization')}}</b></th>
                          <th class=""><b>{{__('label.Branch')}}</b></th>
                          <th class=""><b>{{__('label.Cost center')}}</b></th>
-                         <th class=""><b>{{__('label._location')}}</b></th>
+                         <th class=""><b>{{__('label.chain_name')}}</b></th>
+                         <th class=""><b>{{__('label.details')}}</b></th>
                          <th class=""><b>{{__('label._status')}}</b></th>
                          <th class=""><b>{{__('label.user')}}</b></th>
                       </tr>
-
-                      
-
-
-
                      </thead>
                      <tbody>
                       
                         @foreach ($datas as $key => $data)
                         <tr>
+                            
                              <td style="display: flex;">
-                              @can('hrm-employee-delete')
-                                 {!! Form::open(['method' => 'DELETE','route' => ['hrm-employee.destroy', $data->id],'style'=>'display:inline']) !!}
-                                      <button onclick="return confirm('Are you sure?')" type="submit" class="btn btn-sm btn-default"><i class="fa fa-trash _required"></i></button>
-                                  {!! Form::close() !!}
-                               @endcan 
+                             
                               <a  type="button" 
-                                  href="{{ route('hrm-employee.show',$data->id) }}"
+                                  href="{{ route('approval-chain.show',$data->id) }}"
                                   class="btn btn-sm btn-default  mr-1"><i class="fa fa-eye"></i></a>
 
-                             @can('hrm-employee-edit')
+                             @can('approval-chain-edit')
                                   <a  type="button" 
-                                  href="{{ route('hrm-employee.edit',$data->id) }}"
+                                  href="{{ route('approval-chain.edit',$data->id) }}"
                                  
                                   class="btn btn-sm btn-default  mr-1"><i class="fa fa-pen "></i></a>
                               @endcan  
                                
                             </td>
-                            <td>{{ ($key+1) }}</td>
                             <td>{{ $data->id }}</td>
-                            <td>{{ $data->_name ?? '' }}</td>
-                            <td>{{ $data->_code ?? '' }}</td>
-                            <td>{{ $data->_mobile1 ?? '' }}</td>
-                            <td>{{ $data->_email ?? '' }}</td>
-                            <td>{{ $data->_employee_cat->_name ?? '' }}</td>
-                            <td>{{ $data->_emp_department->_name ?? '' }}</td>
-                            <td>{{ $data->_emp_designation->_name ?? '' }}</td>
-                            <td>{{ $data->_emp_grade->_name ?? '' }}</td>
+                            
+
+
                             <td>{{ $data->_organization->_name ?? '' }}</td>
                             <td>{{ $data->_branch->_name ?? '' }}</td>
                             <td>{{ $data->_cost_center->_name ?? '' }}</td>
-                            <td>{{ $data->_emp_location->_name ?? '' }}</td>
-                            <td>{{ selected_status($data->_status) }}</td>
-                            <td>{{ $data->_entry_by->name ?? '' }}</td>
-
-
-
-                        </tr>
-                        @endforeach
-                        </tbody>
-                        <tfoot>
-                          <tr>
-                            <td colspan="16">
-                              <div class="d-flex flex-row justify-content-start">
-                                 {!! $datas->render() !!}
-                                </div>
+                            <td>{{ $data->chain_name ?? '' }}</td>
+                            <td>
+                              
+                              @php
+                              $_chain_user = $data->_chain_user ?? [];
+                              @endphp
+                              @if(sizeof($_chain_user) > 0)
+                              <table class="table">
+                                @forelse($_chain_user as $key=>$val)
+                                  <tr>
+                                    <td>{!! $val->user_id ?? '' !!}</td>
+                                    <td>{!! _find_employee_name($val->user_id ?? '') !!}</td>
+                                    <td>{!! $val->_user_group->_name ?? '' !!}</td>
+                                    <td>{!! $val->_order ?? '' !!}</td>
+                                    
+                                  </tr>
+                                @empty
+                                @endforelse
+                                </table>
+                              @endif
                             </td>
-                          </tr>
-                        </tfoot>
+                           <td>{{ selected_status($data->_status) }}</td>
+                           <td>{{ $data->_entry_by->name ?? '' }}</td>
+                           
+                        </tr>
+                        
+                        @endforeach
+                        
+
+                        </tbody>
                     </table>
                 </div>
                 <!-- /.d-flex -->

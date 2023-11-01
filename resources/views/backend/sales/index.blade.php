@@ -225,6 +225,15 @@ $__user= Auth::user();
                         
                        
                         </tbody>
+                        <tfoot>
+                          <tr>
+                            <td colspan="14">
+                              <div class="d-flex flex-row justify-content-start">
+                                 {!! $datas->render() !!}
+                                </div>
+                            </td>
+                          </tr>
+                        </tfoot>
 
                     </table>
                 </div>

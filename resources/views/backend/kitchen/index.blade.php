@@ -1,5 +1,5 @@
 @extends('backend.layouts.app')
-@section('title',$page_name)
+@section('title',$page_name ?? '')
 
 @section('content')
 @php

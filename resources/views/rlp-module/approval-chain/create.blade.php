@@ -6,7 +6,7 @@
       <div class="container-fluid">
 
         <div class="col-sm-12" style="display: flex;">
-             <a class="m-0 _page_name" href="{{ route('rlp-chain.index') }}"> {!! $page_name ?? '' !!} </a>
+             <a class="m-0 _page_name" href="{{ route('approval-chain.index') }}"> {!! $page_name ?? '' !!} </a>
             
           </div>
 
@@ -23,7 +23,7 @@
             <div class="card">
               
               <div class="card-body">
- {!! Form::open(array('route' => 'rlp-chain.store','method'=>'POST')) !!} 
+ {!! Form::open(array('route' => 'approval-chain.store','method'=>'POST')) !!} 
  @csrf
                     <div class="row">
                  

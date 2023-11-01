@@ -16,11 +16,11 @@ class RlpChainController extends Controller
     function __construct()
     {
         
-         $this->middleware('permission:rlp-chain-create', ['only' => ['create','store']]);
-         $this->middleware('permission:rlp-chain-edit', ['only' => ['edit','update']]);
-         $this->middleware('permission:rlp-chain-list', ['only' => ['index']]);
-         $this->middleware('permission:rlp-chain-delete', ['only' => ['destroy']]);
-         $this->page_name = __('label.rlp-chain');
+         $this->middleware('permission:approval-chain-create', ['only' => ['create','store']]);
+         $this->middleware('permission:approval-chain-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:approval-chain-list', ['only' => ['index']]);
+         $this->middleware('permission:approval-chain-delete', ['only' => ['destroy']]);
+         $this->page_name = __('label.approval-chain');
     }
     /**
      * Display a listing of the resource.
@@ -45,11 +45,11 @@ class RlpChainController extends Controller
 
        if($request->has('print')){
             if($request->print =="detail"){
-                return view('rlp-module.rlp-chain.print',compact('page_name','datas'));
+                return view('rlp-module.approval-chain.print',compact('page_name','datas'));
             }
          }
 
-        return view('rlp-module.rlp-chain.index',compact('page_name','datas'));
+        return view('rlp-module.approval-chain.index',compact('page_name','datas'));
     }
 
     /**
@@ -68,7 +68,7 @@ class RlpChainController extends Controller
         $permited_organizations = permited_organization(explode(',',$users->organization_ids));
         $rlp_user_groups = RlpUserGroup::where('_status',1)->orderBy('_order','ASC')->get();
 
-        return view('rlp-module.rlp-chain.create',compact('page_name','permited_branch','permited_costcenters','permited_organizations','rlp_user_groups'));
+        return view('rlp-module.approval-chain.create',compact('page_name','permited_branch','permited_costcenters','permited_organizations','rlp_user_groups'));
     }
 
     /**
@@ -150,7 +150,7 @@ class RlpChainController extends Controller
        $permited_organizations = permited_organization(explode(',',$users->organization_ids));
        $rlp_user_groups = RlpUserGroup::where('_status',1)->orderBy('_order','ASC')->get();
 
-    return view('rlp-module.rlp-chain.show',compact('page_name','permited_branch','permited_costcenters','permited_organizations','rlp_user_groups','data'));
+    return view('rlp-module.approval-chain.show',compact('page_name','permited_branch','permited_costcenters','permited_organizations','rlp_user_groups','data'));
     }
 
     /**
@@ -170,7 +170,7 @@ class RlpChainController extends Controller
        $permited_organizations = permited_organization(explode(',',$users->organization_ids));
        $rlp_user_groups = RlpUserGroup::where('_status',1)->orderBy('_order','ASC')->get();
 
-    return view('rlp-module.rlp-chain.edit',compact('page_name','permited_branch','permited_costcenters','permited_organizations','rlp_user_groups','data'));
+    return view('rlp-module.approval-chain.edit',compact('page_name','permited_branch','permited_costcenters','permited_organizations','rlp_user_groups','data'));
 
         
     }

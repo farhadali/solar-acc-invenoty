@@ -20,14 +20,17 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('user_name')->nullable();
+            $table->string('email')->unique();
             $table->string('user_type');
             $table->string('image')->nullable();
+            $table->string('organization_ids')->default(0);
             $table->string('branch_ids')->default(0);
             $table->string('cost_center_ids')->default(0);
+            $table->string('store_ids')->default(0);
             $table->integer('ref_id')->default(0);
             $table->integer('status')->default(1);
             $table->integer('_ac_type')->default(0);
-            $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
@@ -41,13 +44,13 @@ class CreateUsersTable extends Migration
             'password' => bcrypt('admin@1234')
         ]);
   
-        $role = Role::create(['name' => 'Admin']);
+        // $role = Role::create(['name' => 'Admin']);
    
-        $permissions = Permission::pluck('id','id')->all();
+        // $permissions = Permission::pluck('id','id')->all();
   
-        $role->syncPermissions($permissions);
+        // $role->syncPermissions($permissions);
    
-        $user->assignRole([$role->id]);
+        // $user->assignRole([$role->id]);
     }
 
     /**

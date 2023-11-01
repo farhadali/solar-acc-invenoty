@@ -32,12 +32,12 @@
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
        <p style="padding-left: 20px;"><b>{{__('label.entry')}}</b></p>
        <div class="dropdown-divider"></div>
-        @can('rlp-chain-list')
+        @can('approval-chain-list')
          <div style="display: flex;">
-         <a href="{{route('rlp-chain.index')}}" class="dropdown-item">
-            <i class="fa fa-fax mr-2" aria-hidden="true"></i> {{ __('label.rlp-chain') }}
+         <a href="{{route('approval-chain.index')}}" class="dropdown-item">
+            <i class="fa fa-fax mr-2" aria-hidden="true"></i> {{ __('label.approval-chain') }}
           </a>
-          <a  href="{{route('rlp-chain.create')}}" class="dropdown-item text-right">
+          <a  href="{{route('approval-chain.create')}}" class="dropdown-item text-right">
             <i class="nav-icon fas fa-plus"></i>
           </a>
         </div>

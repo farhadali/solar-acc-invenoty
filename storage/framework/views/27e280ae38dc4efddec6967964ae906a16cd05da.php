@@ -17,6 +17,7 @@
         padding: .15rem !important;
         vertical-align: top;
         border-top: 1px solid #CCCCCC;
+        white-space: nowrap;
     }
   </style>
 </head>
@@ -41,33 +42,59 @@
     <!-- info row -->
    
   
-<div class="table-responsive">
+<div class="">
    <table class="table table-bordered _list_table">
                      <thead>
                         <tr>
-                         <th class=""><b><?php echo e(__('label.id')); ?></b></th>
+                         <th class=""><b><?php echo e(__('label.sl')); ?></b></th>
                          <th class=""><b><?php echo e(__('label._name')); ?></b></th>
+                         <th class=""><b><?php echo e(__('label._code')); ?></b></th>
+                         <th class=""><b><?php echo e(__('label._mobile1')); ?></b></th>
+                         <th class=""><b><?php echo e(__('label._email')); ?></b></th>
+                         <th class=""><b><?php echo e(__('label.employee_category_id')); ?></b></th>
+                         <th class=""><b><?php echo e(__('label._department_id')); ?></b></th>
+                         <th class=""><b><?php echo e(__('label._jobtitle_id')); ?></b></th>
+                         <th class=""><b><?php echo e(__('label._grade_id')); ?></b></th>
+                         <th class=""><b><?php echo e(__('label.organization')); ?></b></th>
+                         <th class=""><b><?php echo e(__('label.Branch')); ?></b></th>
+                         <th class=""><b><?php echo e(__('label.Cost center')); ?></b></th>
+                         <th class=""><b><?php echo e(__('label._location')); ?></b></th>
                          <th class=""><b><?php echo e(__('label._status')); ?></b></th>
                          <th class=""><b><?php echo e(__('label.user')); ?></b></th>
                       </tr>
+
+                      
+
+
+
                      </thead>
                      <tbody>
                       
                         <?php $__currentLoopData = $datas; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        
                         <tr>
                             
-                            <td><?php echo e($data->id); ?></td>
+                            <td><?php echo e(($key+1)); ?></td>
                             <td><?php echo e($data->_name ?? ''); ?></td>
-                           <td><?php echo e(selected_status($data->_status)); ?></td>
-                           <td><?php echo e($data->_entry_by->name ?? ''); ?></td>
-                           
-                        </tr>
-                        
-                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                        
+                            <td><?php echo e($data->_code ?? ''); ?></td>
+                            <td><?php echo e($data->_mobile1 ?? ''); ?></td>
+                            <td><?php echo e($data->_email ?? ''); ?></td>
+                            <td><?php echo e($data->_employee_cat->_name ?? ''); ?></td>
+                            <td><?php echo e($data->_emp_department->_name ?? ''); ?></td>
+                            <td><?php echo e($data->_emp_designation->_name ?? ''); ?></td>
+                            <td><?php echo e($data->_emp_grade->_name ?? ''); ?></td>
+                            <td><?php echo e($data->_organization->_name ?? ''); ?></td>
+                            <td><?php echo e($data->_branch->_name ?? ''); ?></td>
+                            <td><?php echo e($data->_cost_center->_name ?? ''); ?></td>
+                            <td><?php echo e($data->_emp_location->_name ?? ''); ?></td>
+                            <td><?php echo e(selected_status($data->_status)); ?></td>
+                            <td><?php echo e($data->_entry_by->name ?? ''); ?></td>
 
+
+
+                        </tr>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </tbody>
+                        
                     </table>
                 </div>
     

@@ -19,6 +19,10 @@ class CreateSalesDetailsTable extends Migration
             $table->foreign('_item_id')->references('id')->on('inventories');
             $table->unsignedBigInteger('_p_p_l_id');
             $table->foreign('_p_p_l_id')->references('id')->on('product_price_lists');
+            $table->integer('_transection_unit')->default(0);
+            $table->integer('_base_unit')->default(0);
+            $table->double('_unit_conversion',15,4)->default(0);
+            $table->double('_base_rate',15,4)->default(0);
             $table->double('_qty',15,4)->default(0);
             $table->double('_rate',15,4)->default(0);
             $table->double('_sales_rate',15,4)->default(0);
@@ -31,13 +35,14 @@ class CreateSalesDetailsTable extends Migration
             $table->integer('_warranty')->default(0);
             $table->integer('_cost_center_id')->nullable();
             $table->string('_store_salves_id')->nullable();
-            $table->string('_barcode')->nullable();
+            $table->longText('_barcode')->nullable();
             $table->integer('_purchase_invoice_no')->nullable();
             $table->integer('_purchase_detail_id')->nullable();
             $table->date('_manufacture_date')->nullable();
             $table->date('_expire_date')->nullable();
             $table->unsignedBigInteger('_no');
             $table->foreign('_no')->references('id')->on('sales');
+            $table->integer('organization_id');
             $table->unsignedBigInteger('_branch_id');
             $table->foreign('_branch_id')->references('id')->on('branches');
             $table->tinyInteger('_status')->default(0);
@@ -46,6 +51,8 @@ class CreateSalesDetailsTable extends Migration
             $table->timestamps();
         });
     }
+
+
 
     /**
      * Reverse the migrations.

@@ -13,12 +13,8 @@
 }
 .footer{
        position:relative;
-       top:-20px; // this sets the footer -20px from the top of the next 
-                  //header/page ... 20px above the bottom of target page
-                  //so make sure it is more negative than your footer's height.
-
-       height:10px;//notice that the top position subtracts 
-                   //more than the assigned height of the footer
+       top:-20px; 
+       height:10px;
     }
 }
   </style>
@@ -191,6 +187,7 @@
 <?php
 
 $_rlp_acks =  $data->_rlp_ack_app ?? [];
+
 ?>
                         <tfoot class="footer">
                           <tr>
@@ -200,7 +197,10 @@ $_rlp_acks =  $data->_rlp_ack_app ?? [];
                                    <?php $__empty_1 = true; $__currentLoopData = $_rlp_acks; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                                 <?php if($val->ack_status==1): ?>
                                   <td  style="height: 100px;">
-                                    
+                                    <!-- <img src="<?php echo e(asset($val->_signature)); ?>" style="width: 100px;height: 50px;margin:0px auto;"> -->
+                                    <div style="text-align: center;">
+                                      <img src="<?php echo e(asset($val->_employee->_signature ?? '')); ?>" style="height: 80px;padding:10px 0px;">
+                                    </div>
 
                                   </td>
                                 <?php endif; ?>

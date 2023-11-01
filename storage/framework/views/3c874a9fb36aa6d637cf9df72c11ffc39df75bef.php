@@ -1,5 +1,5 @@
 
-<?php $__env->startSection('title',$settings->title); ?>
+<?php $__env->startSection('title',$settings->title ?? ''); ?>
 
 <?php $__env->startSection('content'); ?>
 <!-- Content Header (Page header) -->
@@ -64,13 +64,13 @@
                                   class="btn btn-sm btn-default  mr-1"><i class="fa fa-eye"></i></a>
 
 
-                                  <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('user-edit')): ?>
+                                 
                                   <a  type="button" 
                                   href="<?php echo e(route('users.edit',$user->id)); ?>"
                                   class="btn btn-sm btn-default  mr-1"><i class="fa fa-pen "></i></a>
 
                                     
-                                  <?php endif; ?>
+                                 
                                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('user-delete')): ?>
                                  <?php echo Form::open(['method' => 'DELETE','route' => ['users.destroy', $user->id],'style'=>'display:inline']); ?>
 

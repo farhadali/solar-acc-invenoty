@@ -32,13 +32,13 @@
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
        <p style="padding-left: 20px;"><b><?php echo e(__('label.entry')); ?></b></p>
        <div class="dropdown-divider"></div>
-        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('rlp-chain-list')): ?>
+        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('approval-chain-list')): ?>
          <div style="display: flex;">
-         <a href="<?php echo e(route('rlp-chain.index')); ?>" class="dropdown-item">
-            <i class="fa fa-fax mr-2" aria-hidden="true"></i> <?php echo e(__('label.rlp-chain')); ?>
+         <a href="<?php echo e(route('approval-chain.index')); ?>" class="dropdown-item">
+            <i class="fa fa-fax mr-2" aria-hidden="true"></i> <?php echo e(__('label.approval-chain')); ?>
 
           </a>
-          <a  href="<?php echo e(route('rlp-chain.create')); ?>" class="dropdown-item text-right">
+          <a  href="<?php echo e(route('approval-chain.create')); ?>" class="dropdown-item text-right">
             <i class="nav-icon fas fa-plus"></i>
           </a>
         </div>

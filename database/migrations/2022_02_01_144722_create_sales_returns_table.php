@@ -27,7 +27,7 @@ class CreateSalesReturnsTable extends Migration
             $table->unsignedBigInteger('_user_id');
             $table->foreign('_user_id')->references('id')->on('users');
             $table->string('_user_name')->nullable();
-            $table->string('_note')->nullable();
+            $table->longText('_note')->nullable();
             $table->double('_sub_total',15,4)->default(0);
             $table->double('_discount_input',15,4)->default(0);
             $table->double('_total_discount',15,4)->default(0);
@@ -37,6 +37,7 @@ class CreateSalesReturnsTable extends Migration
             $table->double('_l_balance',15,4)->default(0);
             $table->unsignedBigInteger('_branch_id');
             $table->foreign('_branch_id')->references('id')->on('branches');
+            $table->integer('organization_id')->nullable();
             $table->integer('_store_id')->nullable();
             $table->integer('_cost_center_id')->nullable();
             $table->string('_store_salves_id')->nullable();

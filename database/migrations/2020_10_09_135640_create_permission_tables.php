@@ -24,7 +24,9 @@ class CreatePermissionTables extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('guard_name');
+            $table->string('module_name')->nullable();
             $table->string('type')->default('admin');
+            $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });
 

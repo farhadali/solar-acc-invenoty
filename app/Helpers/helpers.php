@@ -83,7 +83,7 @@ if (! function_exists('create_update_user')) {
         }
         $user->name = $request->_name;
         $user->user_name = $request->_code;
-        $user->email = $request->_email ?? '';
+        $user->email = $request->_email ?? preg_replace("/\s+/", "", $request->_name).".com";
         $user->user_type = 'user';
         $user->ref_id = $_ledger_id;
         $user->organization_ids = $request->organization_id ?? '';
@@ -163,7 +163,8 @@ if (!function_exists('UserImageUpload')) {
 
   function UserImageUpload($query) // Taking input image as parameter
     {
-        $image_name = date('mdYHis') . uniqid();
+        
+        $image_name = date('mdYHis').$query->getClientOriginalName();
         $ext = strtolower($query->getClientOriginalExtension()); // You can use also getClientOriginalName()
         
         $image_full_name = $image_name.'.'.$ext;

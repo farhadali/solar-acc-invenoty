@@ -79,7 +79,7 @@ class HrmEmployeesController extends Controller
         $asc_cloumn =  $request->asc_cloumn ?? 'id';
                 $page_name = $this->page_name;
 
-         $datas = HrmEmployees::with(['_employee_cat','_emp_department','_emp_designation','_emp_grade','_emp_location','_branch','_cost_center','_organization']);
+         $datas = HrmEmployees::with(['_employee_cat','_emp_department','_emp_designation','_emp_grade','_emp_location','_branch','_cost_center','_organization'])->where('_status',1);
 
          $all_row = $datas->count();
          
@@ -253,6 +253,10 @@ class HrmEmployeesController extends Controller
                 $_photo = UserImageUpload($request->_photo); 
                 $data->_photo = $_photo;
             }
+            if($request->hasFile('_signature')){ 
+                $_signature = UserImageUpload($request->_signature); 
+                $data->_signature = $_signature;
+            }
 
             $data->_status =$request->_status ?? 0;
             $data->_user = $_user->id;
@@ -401,6 +405,10 @@ class HrmEmployeesController extends Controller
                 $_photo = UserImageUpload($request->_photo); 
                 $data->_photo = $_photo;
             }
+            if($request->hasFile('_signature')){ 
+                $_signature = UserImageUpload($request->_signature); 
+                $data->_signature = $_signature;
+            }
 
             $data->_status =$request->_status ?? 0;
             $data->_user = $_user->id;
@@ -424,7 +432,7 @@ class HrmEmployeesController extends Controller
      */
      public function destroy($id)
     {
-        HrmEmployees::find($id)->delete();
+        HrmEmployees::where('id',$id)->update(['_status'=>0]);
         return redirect('hrm-employee')->with('success','Information deleted successfully');
     }
 }

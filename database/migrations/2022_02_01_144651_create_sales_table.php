@@ -28,7 +28,8 @@ class CreateSalesTable extends Migration
             $table->unsignedBigInteger('_user_id');
             $table->foreign('_user_id')->references('id')->on('users');
             $table->string('_user_name')->nullable();
-            $table->string('_note')->nullable();
+            $table->longText('_note')->nullable();
+            $table->longText('_delivery_details')->nullable();
             $table->double('_sub_total',15,4)->default(0);
             $table->double('_discount_input',15,4)->default(0);
             $table->double('_total_discount',15,4)->default(0);
@@ -38,8 +39,9 @@ class CreateSalesTable extends Migration
             $table->double('_l_balance',15,4)->default(0);
             $table->unsignedBigInteger('_branch_id');
             $table->foreign('_branch_id')->references('id')->on('branches');
-            $table->integer('_store_id')->nullable();
-            $table->integer('_cost_center_id')->nullable();
+            $table->integer('organization_id')->default(1);
+            $table->integer('_store_id')->default(1);
+            $table->integer('_cost_center_id')->default(1);
             $table->string('_store_salves_id')->nullable();
             $table->integer('_delivery_man_id')->nullable();
             $table->integer('_sales_man_id')->nullable();
@@ -51,6 +53,8 @@ class CreateSalesTable extends Migration
             $table->timestamps();
         });
     }
+
+
 
     /**
      * Reverse the migrations.

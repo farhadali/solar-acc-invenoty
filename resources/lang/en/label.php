@@ -15,6 +15,7 @@ return [
 
 
 
+    '_signature' => 'Signature',
     'rlp_user_office_id' => 'EMP ID',
     'submit' => 'Submit',
     'trash' => 'Trash',
@@ -58,7 +59,7 @@ return [
     '_group_name' => 'Group Name',
     'rlp' => 'RLP',
     'rlp-info' => 'RLP Information',
-    'rlp-chain' => 'RLP Chain',
+    'approval-chain' => 'Approval Chain',
     'issue_return_no' => 'Issue Return No',
     'material_issue_return' => 'Material Issue Return',
     '_vat' => 'Vat',
