@@ -860,7 +860,7 @@ background: linear-gradient(90deg, rgba(19,173,180,1) 0%, rgba(74,134,170,0.7063
     border: 1px solid silver;
 }
 input[type='number']{
-    min-width: 140px;
+    min-width: 100px;
 }
 select{
     min-width: 100px;

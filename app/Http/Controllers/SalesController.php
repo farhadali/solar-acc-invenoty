@@ -48,7 +48,7 @@ class SalesController extends Controller
          $this->middleware('permission:sales-create', ['only' => ['create','store']]);
          $this->middleware('permission:sales-edit', ['only' => ['edit','update']]);
          $this->middleware('permission:sales-delete', ['only' => ['destroy']]);
-         $this->page_name = "Material Issue";
+         $this->page_name = "Sales";
     }
 
 

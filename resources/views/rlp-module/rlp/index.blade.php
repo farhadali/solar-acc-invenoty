@@ -163,6 +163,9 @@ $__user= Auth::user();
                                  
                                   class="btn btn-sm btn-info approve_reject_revert_button  mr-1"><i class="fa fa-undo "></i> {{__('label.revert')}}</a>
 @endif
+<a class="btn btn-sm btn-default _action_button" data-toggle="collapse" href="#collapseExample__{{$key}}" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                      <i class=" fas fa-angle-down"></i>
+                                    </a>
                             </td>
                             <td>{{ $data->id }}</td>
                             <td>{{ selected_priority($data->priority ?? '') }}</td>
@@ -190,6 +193,90 @@ $__user= Auth::user();
                             </td>
                            
                         </tr>
+                        <tr>
+                          <td colspan="14" >
+                           <div class="collapse" id="collapseExample__{{$key}}">
+                           @php
+                      $_item_detail = $data->_item_detail ?? [];
+                      $row_span= sizeof($_item_detail);
+                      $purpose =[];
+                      $suppliers =[];
+                      $item_total_qty=[];
+                      $item_total_amount=[];
+                      @endphp
+                          @if(sizeof($_item_detail) > 0)   
+                            <div class="card " >
+                              <table class="table">
+                                <thead >
+                                    <th class="text-left" >&nbsp;</th>
+                                    <th class="text-left" >{{__('label.note_sheet')}}</th>
+                                     <th class="text-left" >{{__('label.supplier_details')}}</th>
+                                    <th class="text-left" >{{__('label._item')}}</th>
+                                   
+                                    <th class="text-left" >{{__('label.purpose')}}</th>
+                                    <th class="text-left" >{{__('label.Tran. Unit')}}</th>
+                                    <th class="text-left" >{{__('label._qty')}}</th>
+                                    <th class="text-left" >{{__('label._rate')}}</th>
+                                    <th class="text-left" >{{__('label._value')}}</th>
+
+                                  </thead>
+
+                                <tbody>
+                   @php
+                      $sl=1;
+                      $last_key = (sizeof($_item_detail)-1);
+                      @endphp
+                      @forelse($_item_detail as $key=>$item)
+                       @php
+                      
+                      $item_total_qty[]=$item->quantity ?? 0;
+                      $item_total_amount[]=$item->amount ?? 0;
+
+                      
+                      @endphp
+                      <tr>
+                        <td>{{$sl}}</td>
+                        <td>
+                          <a href="{{url('rlp-to-notesheet')}}?rlp_no={{$data->rlp_no}}"></a>
+                        </td>
+                        <td>
+                         
+                           {!! $item->_supplier->_name ?? '' !!}
+                          
+                          </td>
+                        <td>{!! $item->_items->_item ?? '' !!} <br>
+                          {!! $item->_item_description ?? '' !!}
+                        </td>
+                       
+                        <td >
+                          @if(!in_array($item->purpose,$purpose))
+                          @php
+                          array_push($purpose,$item->purpose);
+                          @endphp
+                           {!! $item->purpose ?? '' !!} 
+                           @endif
+                        </td>
+                       
+                        <td>{!! _find_unit($item->_unit_id) !!}</td>
+                        <td style="text-align:right;">{!! _report_amount($item->quantity ?? 0) !!}</td>
+                        <td style="text-align:right;">{!! _report_amount($item->unit_price ?? 0) !!}</td>
+                        <td style="text-align:right;">{!! _report_amount($item->amount ?? 0) !!}</td>
+                        
+                      </tr>
+                      
+                      @php
+                      $sl++;
+                      @endphp
+                      @empty
+                      @endforelse
+                                </tbody>
+                              </table>
+                            </div>
+
+                            @endif
+                          </div>
+                        </td>
+                      </tr>
                         
                         @endforeach
                         

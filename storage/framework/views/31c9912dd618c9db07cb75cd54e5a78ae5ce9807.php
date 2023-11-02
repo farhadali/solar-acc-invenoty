@@ -167,6 +167,9 @@ $__user= Auth::user();
                                  
                                   class="btn btn-sm btn-info approve_reject_revert_button  mr-1"><i class="fa fa-undo "></i> <?php echo e(__('label.revert')); ?></a>
 <?php endif; ?>
+<a class="btn btn-sm btn-default _action_button" data-toggle="collapse" href="#collapseExample__<?php echo e($key); ?>" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                      <i class=" fas fa-angle-down"></i>
+                                    </a>
                             </td>
                             <td><?php echo e($data->id); ?></td>
                             <td><?php echo e(selected_priority($data->priority ?? '')); ?></td>
@@ -194,6 +197,92 @@ $__user= Auth::user();
                             </td>
                            
                         </tr>
+                        <tr>
+                          <td colspan="14" >
+                           <div class="collapse" id="collapseExample__<?php echo e($key); ?>">
+                           <?php
+                      $_item_detail = $data->_item_detail ?? [];
+                      $row_span= sizeof($_item_detail);
+                      $purpose =[];
+                      $suppliers =[];
+                      $item_total_qty=[];
+                      $item_total_amount=[];
+                      ?>
+                          <?php if(sizeof($_item_detail) > 0): ?>   
+                            <div class="card " >
+                              <table class="table">
+                                <thead >
+                                    <th class="text-left" >&nbsp;</th>
+                                    <th class="text-left" ><?php echo e(__('label.note_sheet')); ?></th>
+                                     <th class="text-left" ><?php echo e(__('label.supplier_details')); ?></th>
+                                    <th class="text-left" ><?php echo e(__('label._item')); ?></th>
+                                   
+                                    <th class="text-left" ><?php echo e(__('label.purpose')); ?></th>
+                                    <th class="text-left" ><?php echo e(__('label.Tran. Unit')); ?></th>
+                                    <th class="text-left" ><?php echo e(__('label._qty')); ?></th>
+                                    <th class="text-left" ><?php echo e(__('label._rate')); ?></th>
+                                    <th class="text-left" ><?php echo e(__('label._value')); ?></th>
+
+                                  </thead>
+
+                                <tbody>
+                   <?php
+                      $sl=1;
+                      $last_key = (sizeof($_item_detail)-1);
+                      ?>
+                      <?php $__empty_1 = true; $__currentLoopData = $_item_detail; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                       <?php
+                      
+                      $item_total_qty[]=$item->quantity ?? 0;
+                      $item_total_amount[]=$item->amount ?? 0;
+
+                      
+                      ?>
+                      <tr>
+                        <td><?php echo e($sl); ?></td>
+                        <td>
+                          <a href="<?php echo e(url('rlp-to-notesheet')); ?>?rlp_no=<?php echo e($data->rlp_no); ?>"></a>
+                        </td>
+                        <td>
+                         
+                           <?php echo $item->_supplier->_name ?? ''; ?>
+
+                          
+                          </td>
+                        <td><?php echo $item->_items->_item ?? ''; ?> <br>
+                          <?php echo $item->_item_description ?? ''; ?>
+
+                        </td>
+                       
+                        <td >
+                          <?php if(!in_array($item->purpose,$purpose)): ?>
+                          <?php
+                          array_push($purpose,$item->purpose);
+                          ?>
+                           <?php echo $item->purpose ?? ''; ?> 
+                           <?php endif; ?>
+                        </td>
+                       
+                        <td><?php echo _find_unit($item->_unit_id); ?></td>
+                        <td style="text-align:right;"><?php echo _report_amount($item->quantity ?? 0); ?></td>
+                        <td style="text-align:right;"><?php echo _report_amount($item->unit_price ?? 0); ?></td>
+                        <td style="text-align:right;"><?php echo _report_amount($item->amount ?? 0); ?></td>
+                        
+                      </tr>
+                      
+                      <?php
+                      $sl++;
+                      ?>
+                      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                      <?php endif; ?>
+                                </tbody>
+                              </table>
+                            </div>
+
+                            <?php endif; ?>
+                          </div>
+                        </td>
+                      </tr>
                         
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         

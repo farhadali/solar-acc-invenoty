@@ -27,7 +27,7 @@
        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('rlp-module')): ?> 
       <li class="nav-item dropdown remove_from_header">
         <a class="nav-link" data-toggle="dropdown" href="#">
-           <?php echo e(__('label.rlp')); ?> <i class="right fas fa-angle-down"></i>
+           <?php echo e(__('label.procurement')); ?> <i class="right fas fa-angle-down"></i>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
        <p style="padding-left: 20px;"><b><?php echo e(__('label.entry')); ?></b></p>

@@ -68,7 +68,7 @@ class RlpController extends Controller
          //  $datas =RlpMaster::with(['_item_detail','_account_detail','_rlp_remarks','_rlp_req_user','_emp_department','_emp_designation','_branch','_cost_center','_organization','_entry_by'])->with('_rlp_ack')
          // ->where('is_delete',0)->get();
 
-        $datas = RlpMaster::with(['_emp_department','_emp_designation','_branch','_cost_center','_organization','_entry_by'])
+        $datas = RlpMaster::with(['_emp_department','_emp_designation','_branch','_cost_center','_organization','_entry_by','_item_detail','_account_detail'])
          ->where('is_delete',0);
         if($auth_user->user_type !='admin'){
                 $datas = $datas->whereIn('id',$rlp_ids);  
@@ -226,9 +226,15 @@ class RlpController extends Controller
         
         $emp_id = $users->user_name;
 
-        $user_assign_rlp_chain = \DB::select("SELECT DISTINCT t1.id FROM `rlp_access_chains` as t1
-                INNER JOIN rlp_access_chain_users as t2 ON t1.id=t2.chain_id
-                    WHERE t2.user_id='".$emp_id."'   AND t2.user_group=1 "); // user group 1=Rlp Creator
+        $user_assign_rlp_chain = DB::table("rlp_access_chains as t1")
+                                ->select('t1.id')
+                                ->join('rlp_access_chain_users as t2','t2.chain_id','t1.id')
+                                ->where('t2.user_id',$emp_id)
+                                ->where('t2.user_group',1) // user group 1=Rlp Creator
+                                ->groupBy('t1.id')
+                                ->get();
+
+ 
     $rlp_ids = array();
     foreach($user_assign_rlp_chain as $key=>$val){
         array_push($rlp_ids,$val->id);

@@ -75,7 +75,9 @@
               <div class="form-group ">
                   <label>{!! __('label.organization') !!}:<span class="_required">*</span></label>
                   <select class="form-control _master_organization_id" name="organization_id" required >
-                    <option value="">{{__('label.select')}}</option>
+                    @if(sizeof($permited_organizations) > 0)
+       <option value="">{{__('label.select')}} {{__('label.organization')}}</option>
+@endif
                      @forelse($permited_organizations as $val )
                      <option value="{{$val->id}}" @if(isset($data->organization_id)) @if($data->organization_id == $val->id) selected @endif   @endif>{{ $val->id ?? '' }} - {{ $val->_name ?? '' }}</option>
                      @empty
@@ -85,9 +87,11 @@
               </div>
               <div class="col-xs-12 col-sm-12 col-md-2 ">
                   <div class="form-group ">
-                      <label>Branch:<span class="_required">*</span></label>
+                      <label>{{__('label.Branch')}}:<span class="_required">*</span></label>
                      <select class="form-control _master_branch_id" name="_branch_id" required >
-                        <option value="">{{__('label.select')}}</option>
+                       @if(sizeof($permited_branch) > 0)
+       <option value="">{{__('label.select')}} {{__('label.Branch')}}</option>
+@endif
                         @forelse($permited_branch as $branch )
                         <option value="{{$branch->id}}" @if(isset($data->_branch_id)) @if($data->_branch_id == $branch->id) selected @endif   @endif>{{ $branch->id ?? '' }} - {{ $branch->_name ?? '' }}</option>
                         @empty
@@ -99,7 +103,9 @@
                   <div class="form-group ">
                       <label>{{__('label.Cost center')}}:<span class="_required">*</span></label>
                      <select class="form-control _cost_center_id" name="_cost_center_id" required >
-                        <option value="">{{__('label.select')}}</option>
+                        @if(sizeof($permited_costcenters) > 0)
+       <option value="">{{__('label.select')}} {{__('label.Cost center')}}</option>
+@endif
                         @forelse($permited_costcenters as $cost_center )
                         <option value="{{$cost_center->id}}" @if(isset($data->_cost_center_id)) @if($data->_cost_center_id == $cost_center->id) selected @endif   @endif>{{ $cost_center->id ?? '' }} - {{ $cost_center->_name ?? '' }}</option>
                         @empty
@@ -836,9 +842,9 @@ $(document).on('click','._rlp_item_row_remove',function(){
                                                 <div class="search_box_item"></div>
                                                 <textarea style="margin-top:10px;" class="form-control _item_description" name="_item_description[]" placeholder="{{__('label.item_details')}}"></textarea>
                                               </td>
-                                              <td>
-                                                <input type="text" name="_search_supplier_ledger[]" class="form-control _search_supplier_ledger width_280_px" placeholder="{{__('label.supplier')}}">
-                                                <input type="hidden" name="_supplier_ledger_id[]" class="form-control _supplier_ledger_id width_200_px" value="0" >
+                                                 <td>
+                                                <input type="text" name="_search_supplier_ledger[]" class="form-control _search_supplier_ledger width_280_px" placeholder="{{__('label.supplier')}}" value="">
+                                                <input type="hidden" name="supplier_ledger_id[]" class="form-control supplier_ledger_id width_200_px" value="0">
                                                 <div class="search_box_supplier"></div>
                                               </td>
 

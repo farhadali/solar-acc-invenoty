@@ -1474,7 +1474,7 @@ function purchase_row_add(event){
                                               <td>
                                                 <select class="form-control  _main_branch_id_detail" name="_main_branch_id_detail[]"  required>
                                                   <?php $__empty_1 = true; $__currentLoopData = $permited_branch; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $branch): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                                                  <option value="<?php echo e($branch->id); ?>" <?php if(isset($request->_branch_id)): ?> <?php if($request->_branch_id == $branch->id): ?> selected <?php endif; ?>   <?php endif; ?>><?php echo e($branch->_name ?? ''); ?></option>
+                                                  <option value="<?php echo e($branch->id); ?>" ><?php echo e($branch->_name ?? ''); ?></option>
                                                   <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                                                   <?php endif; ?>
                                                 </select>
@@ -1483,7 +1483,7 @@ function purchase_row_add(event){
                                               <td class="display_none">
                                                 <select class="form-control  _main_branch_id_detail" name="_main_branch_id_detail[]"  required>
                                                   <?php $__empty_1 = true; $__currentLoopData = $permited_branch; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $branch): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                                                  <option value="<?php echo e($branch->id); ?>" <?php if(isset($request->_branch_id)): ?> <?php if($request->_branch_id == $branch->id): ?> selected <?php endif; ?>   <?php endif; ?>><?php echo e($branch->_name ?? ''); ?></option>
+                                                  <option value="<?php echo e($branch->id); ?>" ><?php echo e($branch->_name ?? ''); ?></option>
                                                   <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                                                   <?php endif; ?>
                                                 </select>
@@ -1494,7 +1494,7 @@ function purchase_row_add(event){
                                                  <select class="form-control  _main_cost_center" name="_main_cost_center[]" required >
                                             
                                                   <?php $__empty_1 = true; $__currentLoopData = $permited_costcenters; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $costcenter): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                                                  <option value="<?php echo e($costcenter->id); ?>" <?php if(isset($request->_main_cost_center)): ?> <?php if($request->_main_cost_center == $costcenter->id): ?> selected <?php endif; ?>   <?php endif; ?>> <?php echo e($costcenter->_name ?? ''); ?></option>
+                                                  <option value="<?php echo e($costcenter->id); ?>" > <?php echo e($costcenter->_name ?? ''); ?></option>
                                                   <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                                                   <?php endif; ?>
                                                 </select>
@@ -1550,6 +1550,11 @@ function purchase_row_add(event){
                                               </td>
                                               
                                             </tr>`);
+
+change_branch_cost_strore();
+
+
+
      
       
 

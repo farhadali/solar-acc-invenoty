@@ -125,7 +125,7 @@
                             <div class="col-xs-6 col-sm-6 col-md-6">
                               <div class="form-group">
                                   <label>Cash Group:</label>
-                                   <select class="form-control select2" name="_cash_group">
+                                   <select class="form-control " name="_cash_group">
                                     <?php $__empty_1 = true; $__currentLoopData = $all_groups; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $_group): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                                       <option value="<?php echo e($_group->id); ?>" <?php if($settings->_cash_group==$_group->id): ?> selected <?php endif; ?> ><?php echo e($_group->_name ?? ''); ?></option>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
@@ -137,7 +137,7 @@
                             <div class="col-xs-6 col-sm-6 col-md-6">
                                 <div class="form-group">
                                   <label>Bank Group:</label>
-                                   <select class="form-control select2" name="_bank_group">
+                                   <select class="form-control " name="_bank_group">
                                       <?php $__empty_1 = true; $__currentLoopData = $all_groups; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $_group): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                                       <option value="<?php echo e($_group->id); ?>" <?php if($settings->_bank_group==$_group->id): ?> selected <?php endif; ?> ><?php echo e($_group->_name ?? ''); ?></option>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
@@ -170,7 +170,7 @@ WHERE t3.id IN(5) ");
                             <div class="col-xs-6 col-sm-6 col-md-6">
                                 <div class="form-group">
                                   <label>Employee Group:</label>
-                                   <select class="form-control select2" name="_employee_group" >
+                                   <select class="form-control " name="_employee_group" >
                                       <?php $__empty_1 = true; $__currentLoopData = $all_groups; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $_group): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                                       <option value="<?php echo e($_group->id); ?>" 
                                         <?php if($_group->id==$_employee_group): ?> selected <?php endif; ?>

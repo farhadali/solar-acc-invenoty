@@ -125,7 +125,7 @@
                             <div class="col-xs-6 col-sm-6 col-md-6">
                               <div class="form-group">
                                   <label>Cash Group:</label>
-                                   <select class="form-control select2" name="_cash_group">
+                                   <select class="form-control " name="_cash_group">
                                     @forelse($all_groups as $_group)
                                       <option value="{{$_group->id}}" @if($settings->_cash_group==$_group->id) selected @endif >{{$_group->_name ?? ''}}</option>
                                     @empty
@@ -137,7 +137,7 @@
                             <div class="col-xs-6 col-sm-6 col-md-6">
                                 <div class="form-group">
                                   <label>Bank Group:</label>
-                                   <select class="form-control select2" name="_bank_group">
+                                   <select class="form-control " name="_bank_group">
                                       @forelse($all_groups as $_group)
                                       <option value="{{$_group->id}}" @if($settings->_bank_group==$_group->id) selected @endif >{{$_group->_name ?? ''}}</option>
                                     @empty
@@ -170,7 +170,7 @@ WHERE t3.id IN(5) ");
                             <div class="col-xs-6 col-sm-6 col-md-6">
                                 <div class="form-group">
                                   <label>Employee Group:</label>
-                                   <select class="form-control select2" name="_employee_group" >
+                                   <select class="form-control " name="_employee_group" >
                                       @forelse($all_groups as $_group)
                                       <option value="{{$_group->id}}" 
                                         @if($_group->id==$_employee_group) selected @endif

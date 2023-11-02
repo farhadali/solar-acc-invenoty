@@ -15,6 +15,13 @@ return [
 
 
 
+    'Cr. Amount' => 'Cr. Amount',
+    'Dr. Amount' => 'Dr. Amount',
+    'Short Narr.' => 'Short Narr.',
+    '_cost_center' => 'Cost Center/Project',
+    'note_sheet' => 'Note Sheet',
+    'rlp-chain' => 'RLP Chain',
+    'procurement' => 'Procurement',
     '_signature' => 'Signature',
     'rlp_user_office_id' => 'EMP ID',
     'submit' => 'Submit',
