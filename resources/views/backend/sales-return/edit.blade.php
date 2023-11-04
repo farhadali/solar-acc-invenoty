@@ -827,7 +827,9 @@ if(data.length > 0 ){
                                         }
 
             $(document).find("#area__purchase_details").html(_purchase_row_single);
+
               _purchase_total_calculation();
+              change_branch_cost_strore();
     })
 
 

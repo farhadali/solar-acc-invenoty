@@ -1,12 +1,12 @@
-@extends('backend.layouts.app')
-@section('title',$page_name)
 
-@section('content')
+<?php $__env->startSection('title',$page_name); ?>
+
+<?php $__env->startSection('content'); ?>
 <div class="content-header">
       <div class="container-fluid">
 
         <div class="col-sm-12" style="display: flex;">
-             <a class="m-0 _page_name" href="{{ route('approval-chain.index') }}"> {!! $page_name ?? '' !!} </a>
+             <a class="m-0 _page_name" href="<?php echo e(route('approval-chain.index')); ?>"> <?php echo $page_name ?? ''; ?> </a>
             
           </div>
 
@@ -14,7 +14,7 @@
       </div><!-- /.container-fluid -->
     </div>
     <div class="message-area">
-     @include('backend.message.message')
+     <?php echo $__env->make('backend.message.message', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     </div>
     <div class="content">
       <div class="container-fluid">
@@ -23,20 +23,20 @@
             <div class="card">
               
               <div class="card-body">
- {!! Form::model($data, ['method' => 'PATCH','route' => ['approval-chain.update', $data->id]]) !!}                  @csrf
+ <?php echo Form::model($data, ['method' => 'PATCH','route' => ['approval-chain.update', $data->id]]); ?>                  <?php echo csrf_field(); ?>
                     <div class="row">
                  
 
-@include('basic.org_edit')
+<?php echo $__env->make('basic.org_edit', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <div class="col-xs-12 col-sm-12 col-md-2 ">
     <div class="form-group ">
-        <label>{{__('label.chain_type')}}:<span class="_required">*</span></label>
+        <label><?php echo e(__('label.chain_type')); ?>:<span class="_required">*</span></label>
        <select class="form-control chain_type" name="chain_type" required >
           
-          @forelse(access_chain_types() as $key=> $val )
-          <option value="{{$key}}" @if($key==$data->chain_type) selected  @endif > {{ $val }}</option>
-          @empty
-          @endforelse
+          <?php $__empty_1 = true; $__currentLoopData = access_chain_types(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=> $val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+          <option value="<?php echo e($key); ?>" <?php if($key==$data->chain_type): ?> selected  <?php endif; ?> > <?php echo e($val); ?></option>
+          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+          <?php endif; ?>
         </select>
     </div>
 </div>
@@ -44,16 +44,16 @@
     <div class="form-group">
         <label>Status</label>
         <select class="form-control " name="_status">
-              <option value="1" @if($data->_status==1) selected @endif >Active</option>
-              <option value="0" @if($data->_status==0) selected @endif >In Active</option>
+              <option value="1" <?php if($data->_status==1): ?> selected <?php endif; ?> >Active</option>
+              <option value="0" <?php if($data->_status==0): ?> selected <?php endif; ?> >In Active</option>
             </select>
     </div>
 </div>
 
 <div class="col-xs-12 col-sm-12 col-md-12 ">
     <div class="form-group ">
-        <label>{{__('label.chain_name')}}:<span class="_required">*</span></label>
-      <input type="text" name="chain_name" class="form-control" required value="{!! old('chain_name',$data->chain_name) !!}" placeholder="{!! __('label.chain_name') !!}" />
+        <label><?php echo e(__('label.chain_name')); ?>:<span class="_required">*</span></label>
+      <input type="text" name="chain_name" class="form-control" required value="<?php echo old('chain_name',$data->chain_name); ?>" placeholder="<?php echo __('label.chain_name'); ?>" />
     </div>
 </div>
 <div class="col-md-12  ">
@@ -75,16 +75,16 @@
                                             
                                           </thead>
 
-                        @php
+                        <?php
                         $_chain_user = $data->_chain_user ?? [];
 
-                        @endphp
+                        ?>
                                           
-                        @forelse($rlp_user_groups as $key=>$group)
+                        <?php $__empty_1 = true; $__currentLoopData = $rlp_user_groups; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$group): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
 
 
 
-                        <tbody class="area__user_chain__{{$key}}" id="area__user_chain__{{$key}}" style="background:{!! $group->_color ?? '' !!} !important">
+                        <tbody class="area__user_chain__<?php echo e($key); ?>" id="area__user_chain__<?php echo e($key); ?>" style="background:<?php echo $group->_color ?? ''; ?> !important">
                           
                         <tr>
                           <td colspan="2"></td>
@@ -92,51 +92,51 @@
                           <td></td>
                           <td></td>
                         </tr>
-                        @php
+                        <?php
                           $running_index =0;
-                        @endphp
-                        @forelse($_chain_user as $u_key=> $_c_user)
+                        ?>
+                        <?php $__empty_2 = true; $__currentLoopData = $_chain_user; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $u_key=> $_c_user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_2 = false; ?>
                         
-                        @if($_c_user->user_group==$group->id)
+                        <?php if($_c_user->user_group==$group->id): ?>
 
                       
-                        <tr class="_purchase_row" style="background:{!! $group->_color ?? '' !!} !important">
+                        <tr class="_purchase_row" style="background:<?php echo $group->_color ?? ''; ?> !important">
                           <td>
                             <a  href="#none" class="btn btn-default _purchase_row_remove" >
                               <i class="fa fa-trash"></i></a>
-                            <input type="hidden" name="_row_id[]" value="{{$_c_user->id}}">
+                            <input type="hidden" name="_row_id[]" value="<?php echo e($_c_user->id); ?>">
                           </td>
                           <td>
-                            <input type="hidden" class="user_group" name="user_group[]" value="{{$group->id}}"  />
-                            <input type="text" class="form-control user_group_name" name="user_group_name[]" value="{{$group->_name}}" readonly />
+                            <input type="hidden" class="user_group" name="user_group[]" value="<?php echo e($group->id); ?>"  />
+                            <input type="text" class="form-control user_group_name" name="user_group_name[]" value="<?php echo e($group->_name); ?>" readonly />
                           </td>
                           <td>
-                              <input type="text" name="user_id_name[]" class="form-control user_id_name" placeholder="{{__('label.user')}}" value="{{$_c_user->_user_info->_code ?? '' }} {{$_c_user->_user_info->_name ?? '' }}">
+                              <input type="text" name="user_id_name[]" class="form-control user_id_name" placeholder="<?php echo e(__('label.user')); ?>" value="<?php echo e($_c_user->_user_info->_code ?? ''); ?> <?php echo e($_c_user->_user_info->_name ?? ''); ?>">
 
-                               <input type="hidden" class="user_row_id" name="user_row_id[]" value="{{$_c_user->_user_info->id ?? '' }}"  />
-                               <input type="hidden" class="user_id" name="user_id[]" value="{{$_c_user->_user_info->_code ?? '' }}"  />
+                               <input type="hidden" class="user_row_id" name="user_row_id[]" value="<?php echo e($_c_user->_user_info->id ?? ''); ?>"  />
+                               <input type="hidden" class="user_id" name="user_id[]" value="<?php echo e($_c_user->_user_info->_code ?? ''); ?>"  />
                                <div class="search_box_employee"> </div>
                                
                           </td>
                           <td>
-                              <input type="text" name="ack_order[]" class="form-control" value="{{$group->_order}}" readonly>
+                              <input type="text" name="ack_order[]" class="form-control" value="<?php echo e($group->_order); ?>" readonly>
                           </td>
                           <td>
-                            @if($running_index ==0)
-                            <a href="#none"  class="btn btn-default btn-sm" onclick="add_new_user({{$key}},{{$group}})"><i class="fa fa-plus"></i></a>
-                            @endif
+                            <?php if($running_index ==0): ?>
+                            <a href="#none"  class="btn btn-default btn-sm" onclick="add_new_user(<?php echo e($key); ?>,<?php echo e($group); ?>)"><i class="fa fa-plus"></i></a>
+                            <?php endif; ?>
                           </td>
                          
                         </tr> 
-                          @php
+                          <?php
                           $running_index++;
-                        @endphp
-                        @endif
-                        @empty
-                        @endforelse   
+                        ?>
+                        <?php endif; ?>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_2): ?>
+                        <?php endif; ?>   
                         </tbody>
-                         @empty
-                        @endforelse
+                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                        <?php endif; ?>
                                           
                                       </table>
                                 </div>
@@ -153,7 +153,8 @@
                         </div>
                         <br><br>
                     </div>
-                    {!! Form::close() !!}
+                    <?php echo Form::close(); ?>
+
                 
               </div>
             </div>
@@ -167,9 +168,9 @@
     </div>
 </div>
 
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('script')
+<?php $__env->startSection('script'); ?>
 <script type="text/javascript">
  $(document).on('click','._purchase_row_remove',function(event){
       event.preventDefault();
@@ -194,7 +195,7 @@
                       <input type="text" class="form-control user_group" name="user_group_name[]" value="${group_name}" readonly />
                     </td>
               <td>
-                    <input type="text" name="user_id_name[]" class="form-control user_id_name" placeholder="{{__('label.user')}}">
+                    <input type="text" name="user_id_name[]" class="form-control user_id_name" placeholder="<?php echo e(__('label.user')); ?>">
                      <input type="hidden" class="user_row_id" name="user_row_id[]" value="0"  />
                      <input type="hidden" class="user_id" name="user_id[]" value="0"  />
                       <div class="search_box_employee"> </div>
@@ -211,4 +212,5 @@
             
 </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('backend.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\xampp\htdocs\own\inv-acc-hrm\resources\views/rlp-module/approval-chain/edit.blade.php ENDPATH**/ ?>

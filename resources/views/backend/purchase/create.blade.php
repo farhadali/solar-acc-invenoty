@@ -1380,6 +1380,8 @@ if(_unique_barcode ==1){
   function voucher_row_add(event) {
       event.preventDefault();
       $(document).find("#area__voucher_details").append(single_row);
+
+      change_branch_cost_strore();
   }
 
 
