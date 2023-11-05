@@ -15,6 +15,7 @@ class CreateProductionFromSettingsTable extends Migration
     {
         Schema::create('production_from_settings', function (Blueprint $table) {
             $table->id();
+            $table->integer('organization_id')->default(0);
             $table->integer('_default_inventory')->default(0);
             $table->integer('_production_account')->default(0);
             $table->integer('_transit_account')->default(0);

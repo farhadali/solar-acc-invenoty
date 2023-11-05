@@ -15,6 +15,7 @@ class CreatePurchaseReturnFormSettingsTable extends Migration
     {
         Schema::create('purchase_return_form_settings', function (Blueprint $table) {
             $table->id();
+            $table->integer('organization_id')->default(0);
             $table->integer('_default_inventory')->default(0);
             $table->integer('_default_purchase')->default(0);
             $table->integer('_default_discount')->default(0);

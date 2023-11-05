@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateStoreHousesTable extends Migration
+class CreateProductionStatusesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,17 @@ class CreateStoreHousesTable extends Migration
      */
     public function up()
     {
-        Schema::create('store_houses', function (Blueprint $table) {
+        Schema::create('production_status', function (Blueprint $table) {
             $table->id();
             $table->string('_name');
-            $table->string('_code');
-            $table->integer('_branch_id');
-            $table->integer('_status')->default(1);
             $table->timestamps();
         });
 
-        \DB::table('store_houses')->insert([
-            array('_code' => 'store-1','_name' => 'Store Name','_status' => 1),
-            ]
+         \DB::table('production_status')->insert([
+            array('_name' => 'Transit'),
+            array('_name' => 'Work-in-progress'),
+            array('_name' => 'Complete'),
+        ]
         );
     }
 
@@ -35,6 +34,6 @@ class CreateStoreHousesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('store_houses');
+        Schema::dropIfExists('production_statuses');
     }
 }

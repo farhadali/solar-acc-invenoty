@@ -9,6 +9,7 @@ use DB;
 class FrontendController extends Controller
 {
     public function index(){
+        
      	return redirect('login');
     }
 

@@ -26,6 +26,11 @@ class CreateBranchesTable extends Migration
             $table->string('_updated_by',60)->nullable();
             $table->timestamps();
         });
+
+        \DB::table('branches')->insert([
+            array('_code' => 'Branch-1','_name' => 'Branch Name','_status' => 1),
+            ]
+        );
     }
 
  

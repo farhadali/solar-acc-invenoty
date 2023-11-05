@@ -22,6 +22,11 @@ class CreateCompaniesTable extends Migration
             $table->integer('_user');
             $table->timestamps();
         });
+
+        \DB::table('companies')->insert([
+            array('_code' => 'code-1','_name' => 'company Name','_status' => 1),
+            ]
+        );
     }
 
     /**

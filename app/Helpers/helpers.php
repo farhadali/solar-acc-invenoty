@@ -1372,6 +1372,21 @@ if (! function_exists('_show_amount_dr_cr')) {
         
     }
 }
+
+if (! function_exists('make_all_table_autoincrement')) {
+     function make_all_table_autoincrement(){
+             $DbName             = env('DB_DATABASE');
+            $get_all_table_query = "SHOW TABLES ";
+            $result = DB::select(DB::raw($get_all_table_query));
+
+            $prep = "Tables_in_$DbName";
+            foreach ($result as $res){
+                DB::statement("ALTER TABLE ".$res->$prep." AUTO_INCREMENT =1 ");
+            }
+     }
+}
+
+
 if (! function_exists('database_backup_info')) {
      function database_backup_info(){
             $DbName             = env('DB_DATABASE');

@@ -15,6 +15,7 @@ class CreateMaterialIssueReturnSettingsTable extends Migration
     {
         Schema::create('material_issue_return_settings', function (Blueprint $table) {
             $table->id();
+            $table->integer('organization_id')->default(0);
             $table->integer('_default_inventory')->default(0);
             $table->integer('_default_issue_ledger')->default(0);
             $table->integer('_default_cost_of_solds')->default(0);

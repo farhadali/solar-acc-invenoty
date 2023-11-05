@@ -29,7 +29,7 @@ class CreateSalesReturnDetailsTable extends Migration
             $table->double('_value',15,4)->default(0);
 
             $table->double('_expected_qty',15,4)->default(0);
- //For Export
+            //For Export
             $table->double('_sd',15,4)->default(0);
             $table->double('_sd_amount',15,4)->default(0);
             $table->double('_cd',15,4)->default(0);

@@ -76,6 +76,12 @@ use App\Http\Controllers\PM\ProjectManagementController;
 |
 */
 
+Route::get('make_all_table_autoincrement', function(){
+   make_all_table_autoincrement();
+   return "ok Done";
+});
+
+
 Route::get('/', 'App\Http\Controllers\FrontendController@index');
 
 

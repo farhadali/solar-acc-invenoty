@@ -1170,10 +1170,9 @@
           <a href="{{url('store-house')}}" class="dropdown-item">
            <i class="fa fa-adjust mr-2" aria-hidden="true"></i> {{ __('label.Store House') }} 
           </a>
-            <a   href="#None" 
-          class="dropdown-item text-right attr_base_create_url"
-            data-toggle="modal" data-target="#commonEntryModal_item" 
-            attr_base_create_url="{{route('store-house.create')}}"> 
+            <a   
+          class="dropdown-item text-right "
+            href="{{route('store-house.create')}}"> 
             <i class="nav-icon fas fa-plus"></i> </a>
         </div>
           

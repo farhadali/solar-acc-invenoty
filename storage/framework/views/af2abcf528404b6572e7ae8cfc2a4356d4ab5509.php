@@ -11,7 +11,7 @@ $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids
      <label><?php echo __('label.organization'); ?>:<span class="_required">*</span></label>
     <select class="form-control _master_organization_id" name="organization_id" required >
 
-<?php if(sizeof($permited_organizations) > 0): ?>
+<?php if(sizeof($permited_organizations) > 1): ?>
        <option value=""><?php echo e(__('label.select')); ?> <?php echo __('label.organization'); ?></option>
 <?php endif; ?>
        <?php $__empty_1 = true; $__currentLoopData = $permited_organizations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
@@ -25,7 +25,7 @@ $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids
  <div class="form-group ">
      <label><?php echo __('label.Branch'); ?>:<span class="_required">*</span></label>
     <select class="form-control _master_branch_id" name="_branch_id" required >
-      <?php if(sizeof($permited_branch) > 0): ?>
+      <?php if(sizeof($permited_branch) > 1): ?>
        <option value=""><?php echo e(__('label.select')); ?> <?php echo __('label.Branch'); ?></option>
        <?php endif; ?>
        <?php $__empty_1 = true; $__currentLoopData = $permited_branch; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $branch): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
@@ -39,7 +39,7 @@ $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids
  <div class="form-group ">
      <label><?php echo e(__('label.Cost center')); ?>:<span class="_required">*</span></label>
     <select class="form-control _cost_center_id" name="_cost_center_id" required >
-       <?php if(sizeof($permited_costcenters) > 0): ?>
+       <?php if(sizeof($permited_costcenters) > 1): ?>
        <option value=""><?php echo e(__('label.select')); ?> <?php echo e(__('label.Cost center')); ?></option>
        <?php endif; ?>
        <?php $__empty_1 = true; $__currentLoopData = $permited_costcenters; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cost_center): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>

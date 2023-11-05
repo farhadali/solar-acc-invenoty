@@ -116,9 +116,11 @@ class StoreHouseController extends Controller
      */
     public function update(Request $request)
     {
+
+       
         $request->validate([
                 '_name' => 'required|max:255|unique:store_houses,_name,'.$request->id,
-                '_branch_id' => 'required',
+                
             ]);
 
       

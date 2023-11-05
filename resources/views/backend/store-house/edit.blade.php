@@ -1,4 +1,6 @@
-
+@extends('backend.layouts.app')
+@section('title',$page_name ?? '')
+@section('content')
 <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
@@ -45,6 +47,7 @@
                                 <label>Name:</label>
                                 
                                 <input type="text" name="_name" class="form-control" required="true" value="{!! $data->_name ?? '' !!}">
+                                <input type="hidden" name="id" value="{{$data->id}}">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12">
@@ -76,3 +79,4 @@
     </div>
 </div>
 
+@endsection

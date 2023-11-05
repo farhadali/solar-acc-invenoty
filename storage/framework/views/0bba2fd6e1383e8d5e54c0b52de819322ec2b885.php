@@ -1259,10 +1259,9 @@
           <a href="<?php echo e(url('store-house')); ?>" class="dropdown-item">
            <i class="fa fa-adjust mr-2" aria-hidden="true"></i> <?php echo e(__('label.Store House')); ?> 
           </a>
-            <a   href="#None" 
-          class="dropdown-item text-right attr_base_create_url"
-            data-toggle="modal" data-target="#commonEntryModal_item" 
-            attr_base_create_url="<?php echo e(route('store-house.create')); ?>"> 
+            <a   
+          class="dropdown-item text-right "
+            href="<?php echo e(route('store-house.create')); ?>"> 
             <i class="nav-icon fas fa-plus"></i> </a>
         </div>
           

@@ -15,6 +15,7 @@ class CreateVoucherFormSettingsTable extends Migration
     {
         Schema::create('voucher_form_settings', function (Blueprint $table) {
             $table->id();
+            $table->integer('organization_id')->default(0);
             $table->integer('_cash_group')->nullable();
             $table->integer('_bank_group')->nullable();
             $table->timestamps();

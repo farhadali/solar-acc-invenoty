@@ -1,4 +1,6 @@
 
+<?php $__env->startSection('title',$page_name ?? ''); ?>
+<?php $__env->startSection('content'); ?>
 <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
@@ -45,6 +47,7 @@
                                 <label>Name:</label>
                                 
                                 <input type="text" name="_name" class="form-control" required="true" value="<?php echo $data->_name ?? ''; ?>">
+                                <input type="hidden" name="id" value="<?php echo e($data->id); ?>">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12">
@@ -76,4 +79,5 @@
     </div>
 </div>
 
-<?php /**PATH D:\xampp\htdocs\own\inv-acc-hrm\resources\views/backend/store-house/edit.blade.php ENDPATH**/ ?>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('backend.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\xampp\htdocs\own\inv-acc-hrm\resources\views/backend/store-house/edit.blade.php ENDPATH**/ ?>

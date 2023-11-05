@@ -15,6 +15,7 @@ class CreateServiceFromSettingsTable extends Migration
     {
         Schema::create('service_from_settings', function (Blueprint $table) {
             $table->id();
+            $table->integer('organization_id')->default(0);
             $table->integer('_default_service_income')->default(0);
             $table->integer('_default_discount')->default(0);
             $table->integer('_default_vat_account')->default(0);

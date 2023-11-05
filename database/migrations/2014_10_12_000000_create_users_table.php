@@ -41,10 +41,14 @@ class CreateUsersTable extends Migration
             'name' => 'Admin', 
             'user_type' => 'admin', 
             'email' => 'admin@gmail.com',
+            'organization_ids' => '1',
+            'branch_ids' => '1',
+            'cost_center_ids' => '1',
+            'store_ids' => '1',
             'password' => bcrypt('admin@1234')
         ]);
   
-        $role = Role::create(['name' => 'Admin']);
+        $role = Role::create(['name' => 'SA']);
    
         $permissions = Permission::pluck('id','id')->all();
   

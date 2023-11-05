@@ -61,9 +61,10 @@ $__user= Auth::user();
               </div>
                 <?php
     $_show_barcode = $form_settings->_show_barcode ?? 0;
+    $_show_short_note = $_show_short_note ?? 0;
     $_show_cost_rate =  $form_settings->_show_cost_rate ?? 0;
     $_show_vat =  $form_settings->_show_vat ?? 0;
-   $_inline_discount = $orm_settings->_inline_discount ?? 0;
+   $_inline_discount = $form_settings->_inline_discount ?? 0;
     $_show_self = $form_settings->_show_self ?? 0;
     $_show_unit = $form_settings->_show_unit ?? 0;
     ?>
@@ -160,8 +161,8 @@ $__user= Auth::user();
                                             <th class="text-left display_none" >Con. Qty</th>
                                             <th class="text-left <?php if(isset($_show_unit)): ?> <?php if($_show_unit==0): ?> display_none    <?php endif; ?> <?php endif; ?>" >Tran. Unit</th>
                                            
-                                            <th class="text-left <?php if(isset($form_settings->_show_barcode)): ?> <?php if($form_settings->_show_barcode==0): ?> display_none    <?php endif; ?> <?php endif; ?>" >Barcode</th>
-                                            <th class="text-left <?php if(isset($form_settings->_show_short_note)): ?> <?php if($form_settings->_show_short_note==0): ?> display_none    <?php endif; ?> <?php endif; ?>" >Note</th>
+                                            <th class="text-left <?php if($_show_barcode==0): ?> display_none    <?php endif; ?> " >Barcode</th>
+                                            <th class="text-left <?php if($_show_short_note==0): ?> display_none    <?php endif; ?> " >Note</th>
                                          
                                             <th class="text-left" >Qty</th>
                                             <th class="text-left" >Rate</th>
@@ -191,7 +192,7 @@ $__user= Auth::user();
                                              <th class="text-left display_none" >Store</th>
                                             <?php endif; ?>
                                             
-                                             <th class="text-left <?php if(isset($form_settings->_show_self)): ?> <?php if($form_settings->_show_self==0): ?> display_none <?php endif; ?>
+                                             <th class="text-left <?php if(isset($_show_self)): ?> <?php if($_show_self==0): ?> display_none <?php endif; ?>
                                             <?php endif; ?>" >Shelf</th>
                                              <th class="text-left <?php if(isset($form_settings->_show_manufacture_date)): ?> <?php if($form_settings->_show_manufacture_date==0): ?> display_none <?php endif; ?>
                                             <?php endif; ?>" >Manu. Date</th>
@@ -225,13 +226,13 @@ $__user= Auth::user();
                                                 </select>
                                               </td>
                                               
-                                              <td class="<?php if(isset($form_settings->_show_barcode)): ?> <?php if($form_settings->_show_barcode==0): ?> display_none   <?php endif; ?> <?php endif; ?>">
+                                              <td class="<?php if(isset($_show_short_note)): ?> <?php if($_show_short_note==0): ?> display_none   <?php endif; ?> <?php endif; ?>">
                                                 <input type="text" name="_barcode[]" class="form-control _barcode 1__barcode "  id="1__barcode">
 
                                                 <input type="hidden" name="_ref_counter[]" value="1" class="_ref_counter" id="1__ref_counter">
 
                                               </td>
-                                              <td class="<?php if(isset($form_settings->_show_short_note)): ?> <?php if($form_settings->_show_short_note==0): ?> display_none   <?php endif; ?> <?php endif; ?>">
+                                              <td class="<?php if(isset($_show_short_note)): ?> <?php if($_show_short_note==0): ?> display_none   <?php endif; ?> <?php endif; ?>">
                                                 <input type="text" name="_short_note[]" class="form-control _short_note 1__short_note "  >
                                               </td>
                                             
@@ -253,10 +254,10 @@ $__user= Auth::user();
                                                 <input type="number" name="_discount_amount[]" class="form-control  _discount_amount" >
                                               </td>
                                              
-                                              <td class="<?php if(isset($form_settings->_show_vat)): ?> <?php if($form_settings->_show_vat==0): ?> display_none  <?php endif; ?> <?php endif; ?> ">
+                                              <td class="<?php if(isset($_show_vat)): ?> <?php if($_show_vat==0): ?> display_none  <?php endif; ?> <?php endif; ?> ">
                                                 <input type="number" name="_vat[]" class="form-control  _vat _common_keyup" >
                                               </td>
-                                              <td class="<?php if(isset($form_settings->_show_vat)): ?> <?php if($form_settings->_show_vat==0): ?> display_none  <?php endif; ?> <?php endif; ?> ">
+                                              <td class="<?php if(isset($_show_vat)): ?> <?php if($_show_vat==0): ?> display_none  <?php endif; ?> <?php endif; ?> ">
                                                 <input type="number" name="_vat_amount[]" class="form-control  _vat_amount" >
                                               </td>
                                              
@@ -325,7 +326,7 @@ $__user= Auth::user();
                                               </td>
                                               <?php endif; ?>
                                               
-                                              <td class="<?php if(isset($form_settings->_show_self)): ?> <?php if($form_settings->_show_self==0): ?> display_none  <?php endif; ?> <?php endif; ?>">
+                                              <td class="<?php if(isset($_show_self)): ?> <?php if($_show_self==0): ?> display_none  <?php endif; ?> <?php endif; ?>">
                                                 <input type="text" name="_store_salves_id[]" class="form-control _store_salves_id " >
                                               </td>
                                               <td class="<?php if(isset($form_settings->_show_manufacture_date)): ?> <?php if($form_settings->_show_manufacture_date==0): ?> display_none  <?php endif; ?> <?php endif; ?>">
@@ -353,7 +354,7 @@ $__user= Auth::user();
                                                 <td  class="text-right display_none"></td>
                                              <?php endif; ?>
                                             <?php endif; ?>
-                                              <?php if(isset($form_settings->_show_short_note)): ?> <?php if($form_settings->_show_short_note==1): ?>
+                                              <?php if(isset($_show_short_note)): ?> <?php if($_show_short_note==1): ?>
                                               <td  class="text-right"></td>
                                               <?php else: ?>
                                                 <td  class="text-right display_none"></td>
@@ -369,8 +370,8 @@ $__user= Auth::user();
                                                 <input type="number" step="any" min="0" name="_total_discount_amount" class="form-control _total_discount_amount" value="0" readonly required>
                                               </td>
                                              
-                                              <td class="<?php if(isset($form_settings->_show_vat)): ?> <?php if($form_settings->_show_vat==0): ?> display_none   <?php endif; ?>  <?php endif; ?>"></td>
-                                              <td class="<?php if(isset($form_settings->_show_vat)): ?> <?php if($form_settings->_show_vat==0): ?> display_none   <?php endif; ?>  <?php endif; ?>">
+                                              <td class="<?php if(isset($_show_vat)): ?> <?php if($_show_vat==0): ?> display_none   <?php endif; ?>  <?php endif; ?>"></td>
+                                              <td class="<?php if(isset($_show_vat)): ?> <?php if($_show_vat==0): ?> display_none   <?php endif; ?>  <?php endif; ?>">
                                                 <input type="number" step="any" min="0" name="_total_vat_amount" class="form-control _total_vat_amount" value="0" readonly required>
                                               </td>
                                             
@@ -394,7 +395,7 @@ $__user= Auth::user();
                                               <?php endif; ?>
 
                                               
-                                              <td class="<?php if(isset($form_settings->_show_self)): ?> <?php if($form_settings->_show_self==0): ?> display_none  <?php endif; ?>  <?php endif; ?>"></td>
+                                              <td class="<?php if(isset($_show_self)): ?> <?php if($_show_self==0): ?> display_none  <?php endif; ?>  <?php endif; ?>"></td>
                                               <td class="<?php if(isset($form_settings->_show_manufacture_date)): ?> <?php if($form_settings->_show_manufacture_date==0): ?> display_none  <?php endif; ?>  <?php endif; ?>"></td>
 
                                               <td class="<?php if(isset($form_settings->_show_expire_date)): ?> <?php if($form_settings->_show_expire_date==0): ?> display_none  <?php endif; ?>  <?php endif; ?>"></td>
@@ -453,8 +454,8 @@ $__user= Auth::user();
                                 <input type="text" name="_total_discount" class="form-control width_200_px" id="_purchase_total_discount" readonly value="0">
                               </td>
                             </tr>
-                            <?php if(isset($form_settings->_show_vat)): ?> 
-                            <?php if($form_settings->_show_vat==1): ?>
+                            <?php if(isset($_show_vat)): ?> 
+                            <?php if($_show_vat==1): ?>
                             <tr>
                               <td style="width: 10%;border:0px;"><label for="_total_vat">Total VAT</label></td>
                               <td style="width: 70%;border:0px;">
@@ -587,16 +588,16 @@ $__user= Auth::user();
         <label for="_show_vat" class="col-sm-5 col-form-label">Show VAT</label>
         <select class="form-control col-sm-7" name="_show_vat">
          
-          <option value="0" <?php if(isset($form_settings->_show_vat)): ?><?php if($form_settings->_show_vat==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
-          <option value="1" <?php if(isset($form_settings->_show_vat)): ?><?php if($form_settings->_show_vat==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
+          <option value="0" <?php if(isset($_show_vat)): ?><?php if($_show_vat==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
+          <option value="1" <?php if(isset($_show_vat)): ?><?php if($_show_vat==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
         </select>
       </div>
       <div class="form-group row">
         <label for="_show_short_note" class="col-sm-5 col-form-label">Show Short Note</label>
         <select class="form-control col-sm-7" name="_show_short_note">
          
-          <option value="0" <?php if(isset($form_settings->_show_short_note)): ?><?php if($form_settings->_show_short_note==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
-          <option value="1" <?php if(isset($form_settings->_show_short_note)): ?><?php if($form_settings->_show_short_note==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
+          <option value="0" <?php if(isset($_show_short_note)): ?><?php if($_show_short_note==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
+          <option value="1" <?php if(isset($_show_short_note)): ?><?php if($_show_short_note==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
         </select>
       </div>
       <div class="form-group row">
@@ -616,8 +617,8 @@ $__user= Auth::user();
       <div class="form-group row">
         <label for="_show_self" class="col-sm-5 col-form-label">Show Shelf</label>
         <select class="form-control col-sm-7" name="_show_self">
-          <option value="0" <?php if(isset($form_settings->_show_self)): ?><?php if($form_settings->_show_self==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
-          <option value="1" <?php if(isset($form_settings->_show_self)): ?><?php if($form_settings->_show_self==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
+          <option value="0" <?php if(isset($_show_self)): ?><?php if($_show_self==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
+          <option value="1" <?php if(isset($_show_self)): ?><?php if($_show_self==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
         </select>
       </div>
       <div class="form-group row">
@@ -1159,7 +1160,7 @@ if(data.length > 0 ){
                                               <td class="<?php if($_inline_discount==0): ?> display_none <?php endif; ?>">
                                                 <input type="number" name="_discount_amount[]" class="form-control  _discount_amount _discount_amount__${_item_row_count}" value="0" >
                                               </td>
-                                               <?php if(isset($form_settings->_show_vat)): ?> <?php if($form_settings->_show_vat==1): ?>
+                                               <?php if(isset($_show_vat)): ?> <?php if($_show_vat==1): ?>
                                               <td>
                                                 <input type="number" name="_vat[]" class="form-control  _vat _common_keyup" >
                                               </td>
@@ -1239,7 +1240,7 @@ if(data.length > 0 ){
                                                 
                                               </td>
                                               <?php endif; ?>
-                                              <?php if(isset($form_settings->_show_self)): ?> <?php if($form_settings->_show_self==1): ?>
+                                              <?php if(isset($_show_self)): ?> <?php if($_show_self==1): ?>
                                               <td>
                                                 <input type="text" name="_store_salves_id[]" class="form-control _store_salves_id " >
                                               </td>
@@ -1426,7 +1427,7 @@ function purchase_row_add(event){
                                               </td>
                                               <?php endif; ?>
                                               <?php endif; ?>
-                                              <?php if(isset($form_settings->_show_short_note)): ?> <?php if($form_settings->_show_short_note==1): ?>
+                                              <?php if(isset($_show_short_note)): ?> <?php if($_show_short_note==1): ?>
                                               <td>
                                                 <input type="text" name="_short_note[]" class="form-control _short_note ${_item_row_count}__short_note " id="${_item_row_count}__short_note" >
                                               </td>
@@ -1454,7 +1455,7 @@ function purchase_row_add(event){
                                                 <input type="number" name="_discount_amount[]" class="form-control  _discount_amount _discount_amount__0" value="" >
                                               </td>
 
-                                               <?php if(isset($form_settings->_show_vat)): ?> <?php if($form_settings->_show_vat==1): ?>
+                                               <?php if(isset($_show_vat)): ?> <?php if($_show_vat==1): ?>
                                               <td>
                                                 <input type="number" name="_vat[]" class="form-control  _vat _common_keyup" >
                                               </td>
@@ -1534,7 +1535,7 @@ function purchase_row_add(event){
                                                 
                                               </td>
                                               <?php endif; ?>
-                                              <?php if(isset($form_settings->_show_self)): ?> <?php if($form_settings->_show_self==1): ?>
+                                              <?php if(isset($_show_self)): ?> <?php if($_show_self==1): ?>
                                               <td>
                                                 <input type="text" name="_store_salves_id[]" class="form-control _store_salves_id " >
                                               </td>
