@@ -291,9 +291,16 @@ $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids
 
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label><?php echo __('label.image'); ?>:<span class="_required">*</span></label>
+                                <label><?php echo __('label.image'); ?>:</label>
                                 <input type="file" accept="image/*" onchange="loadFile(event,1 )"  name="_photo" class="form-control">
                                <img id="output_1" class="banner_image_create" src="<?php echo e(asset($data->_photo)); ?>"  style="max-height:100px;max-width: 100px; " />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label><?php echo __('label._signature'); ?>:</label>
+                                <input type="file" accept="image/*" onchange="loadFile(event,2 )"  name="_signature" class="form-control">
+                               <img id="output_2" class="banner_image_create" src="<?php echo e(asset($data->_signature ?? '')); ?>"  style="max-height:100px;max-width: 100px; " />
                             </div>
                         </div>
                         <div class="col-md-3">

@@ -15,6 +15,16 @@ return [
 
 
 
+    'Cr. Amount' => 'Cr. Amount',
+    'Dr. Amount' => 'Dr. Amount',
+    'Short Narr.' => 'Short Narr.',
+    '_cost_center' => 'Cost Center/Project',
+    'note_sheet' => 'Note Sheet',
+    'rlp-chain' => 'RLP Chain',
+    'procurement' => 'Procurement',
+    '_signature' => 'Signature',
+    'rlp_user_office_id' => 'EMP ID',
+    'submit' => 'Submit',
     'trash' => 'Trash',
     'edit' => 'Edit',
     'ack_request_date' => 'Request Date',
@@ -56,7 +66,7 @@ return [
     '_group_name' => 'Group Name',
     'rlp' => 'RLP',
     'rlp-info' => 'RLP Information',
-    'rlp-chain' => 'RLP Chain',
+    'approval-chain' => 'Approval Chain',
     'issue_return_no' => 'Issue Return No',
     'material_issue_return' => 'Material Issue Return',
     '_vat' => 'Vat',

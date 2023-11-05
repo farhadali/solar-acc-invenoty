@@ -11,6 +11,11 @@
     color: #000;
     background-color: #fff; 
 }
+.footer{
+       position:relative;
+       top:-20px; 
+       height:10px;
+    }
 }
   </style>
 <div class="_report_button_header">
@@ -180,23 +185,30 @@
 @php
 
 $_rlp_acks =  $data->_rlp_ack_app ?? [];
-@endphp
-                        <tfoot>
-                          <tr>
-                            @forelse($_rlp_acks as $key=>$val)
-                            @if($val->ack_status==1 && $val->_is_approve==1)
-                              <td colspan="2" style="height: 60px;">
-                                
 
-                              </td>
-                            @endif
-                            @empty
-                            @endforelse
-                          </tr>
+@endphp
+                        <tfoot class="footer">
                           <tr>
+                            <td colspan="8">
+                              <table style="width:100%;">
+                                <tr>
+                                   @forelse($_rlp_acks as $key=>$val)
+                                @if($val->ack_status==1)
+                                  <td  style="height: 100px;">
+                                    <!-- <img src="{{asset($val->_signature)}}" style="width: 100px;height: 50px;margin:0px auto;"> -->
+                                    <div style="text-align: center;">
+                                      <img src="{{asset($val->_employee->_signature ?? '')}}" style="height: 80px;padding:10px 0px;">
+                                    </div>
+
+                                  </td>
+                                @endif
+                                @empty
+                                @endforelse
+                                </tr>
+                                <tr>
                             @forelse($_rlp_acks as $key=>$val)
-                            @if($val->ack_status==1 && $val->_is_approve==1)
-                              <td colspan="2" class="text-center">
+                            @if($val->ack_status==1 )
+                              <td  class="text-center">
                                 <b>{!! $val->_check_group->_display_name ?? '' !!}</b>
                                 <br>
                                 {!! $val->_employee->_name ?? '' !!}<br>
@@ -207,6 +219,12 @@ $_rlp_acks =  $data->_rlp_ack_app ?? [];
                             @empty
                             @endforelse
                           </tr>
+                              </table>
+                              
+                            </td>
+                           
+                          </tr>
+                          
                         </tfoot>
                         
 

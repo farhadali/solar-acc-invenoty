@@ -1380,6 +1380,8 @@ if(_unique_barcode ==1){
   function voucher_row_add(event) {
       event.preventDefault();
       $(document).find("#area__voucher_details").append(single_row);
+
+      change_branch_cost_strore();
   }
 
 
@@ -1473,7 +1475,7 @@ function purchase_row_add(event){
                                               <td>
                                                 <select class="form-control  _main_branch_id_detail" name="_main_branch_id_detail[]"  required>
                                                   @forelse($permited_branch as $branch )
-                                                  <option value="{{$branch->id}}" @if(isset($request->_branch_id)) @if($request->_branch_id == $branch->id) selected @endif   @endif>{{ $branch->_name ?? '' }}</option>
+                                                  <option value="{{$branch->id}}" >{{ $branch->_name ?? '' }}</option>
                                                   @empty
                                                   @endforelse
                                                 </select>
@@ -1482,7 +1484,7 @@ function purchase_row_add(event){
                                               <td class="display_none">
                                                 <select class="form-control  _main_branch_id_detail" name="_main_branch_id_detail[]"  required>
                                                   @forelse($permited_branch as $branch )
-                                                  <option value="{{$branch->id}}" @if(isset($request->_branch_id)) @if($request->_branch_id == $branch->id) selected @endif   @endif>{{ $branch->_name ?? '' }}</option>
+                                                  <option value="{{$branch->id}}" >{{ $branch->_name ?? '' }}</option>
                                                   @empty
                                                   @endforelse
                                                 </select>
@@ -1493,7 +1495,7 @@ function purchase_row_add(event){
                                                  <select class="form-control  _main_cost_center" name="_main_cost_center[]" required >
                                             
                                                   @forelse($permited_costcenters as $costcenter )
-                                                  <option value="{{$costcenter->id}}" @if(isset($request->_main_cost_center)) @if($request->_main_cost_center == $costcenter->id) selected @endif   @endif> {{ $costcenter->_name ?? '' }}</option>
+                                                  <option value="{{$costcenter->id}}" > {{ $costcenter->_name ?? '' }}</option>
                                                   @empty
                                                   @endforelse
                                                 </select>
@@ -1549,6 +1551,11 @@ function purchase_row_add(event){
                                               </td>
                                               
                                             </tr>`);
+
+change_branch_cost_strore();
+
+
+
      
       
 

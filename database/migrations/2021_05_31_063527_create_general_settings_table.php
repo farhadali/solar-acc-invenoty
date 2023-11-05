@@ -19,12 +19,16 @@ class CreateGeneralSettingsTable extends Migration
             $table->string('name')->nullable();
             $table->string('keywords')->nullable();
             $table->string('author')->nullable();
+            $table->string('_email')->nullable();
             $table->string('url')->nullable();
             $table->string('logo')->nullable();
             $table->string('_bin')->nullable();
             $table->string('_tin')->nullable();
             $table->string('bg_image')->nullable();
+            $table->text('_address')->nullable();
             $table->text('_sales_note')->nullable();
+            $table->text('_phone')->nullable();
+            $table->text('_top_title')->nullable();
             $table->text('_sales_return__note')->nullable();
             $table->text('_purchse_note')->nullable();
             $table->text('_purchase_return_note')->nullable();
@@ -39,11 +43,9 @@ class CreateGeneralSettingsTable extends Migration
             $table->integer('_bank_group')->default(0);
             $table->integer('_cash_group')->default(0);
             $table->integer('_pur_base_model_barcode')->default(0);
+            $table->integer('_opening_ledger')->default(0);
+            $table->integer('_employee_group')->default(0);
             $table->timestamps();
-
-            
-
-
 
         });
     }

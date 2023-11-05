@@ -14,9 +14,9 @@
 }
   </style>
 <div class="_report_button_header">
-    <a class="nav-link"  href="{{url('rlp-chain')}}" role="button"><i class="fa fa-arrow-left"></i></a>
- @can('rlp-chain-edit')
- <a  href="{{ route('rlp-chain.edit',$data->id) }}" 
+    <a class="nav-link"  href="{{url('approval-chain')}}" role="button"><i class="fa fa-arrow-left"></i></a>
+ @can('approval-chain-edit')
+ <a  href="{{ route('approval-chain.edit',$data->id) }}" 
     class="nav-link "  title="Edit"  >
     <i class="nav-icon fas fa-edit"></i>
      </a>
@@ -42,7 +42,7 @@
             {{$settings->_email ?? '' }}<br>
             
       
-            <b>{{__('label.rlp-chain')}}</b>
+            <b>{{__('label.approval-chain')}}</b>
                 </td>
               </tr>
       <tr>

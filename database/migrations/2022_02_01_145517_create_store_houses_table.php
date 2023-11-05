@@ -18,6 +18,7 @@ class CreateStoreHousesTable extends Migration
             $table->string('_name');
             $table->string('_code');
             $table->integer('_branch_id');
+            $table->integer('_status')->default(1);
             $table->timestamps();
         });
     }

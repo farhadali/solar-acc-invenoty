@@ -39,15 +39,169 @@ class RlpController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+     public function index(Request $request)
     {
-        $page_name=$this->page_name;
-          $datas =RlpMaster::with(['_item_detail','_account_detail','_rlp_remarks','_rlp_ack','_rlp_req_user','_emp_department','_emp_designation','_branch','_cost_center','_organization','_entry_by'])
-         ->where('is_delete',0)->get();
+       // return $request->all();
+        $auth_user = Auth::user();
+       if($request->has('limit')){
+            $limit = $request->limit ??  default_pagination();
+            session()->put('_rlp_list_limit', $request->limit);
+        }else{
+             $limit= \Session::get('_rlp_list_limit') ??  default_pagination();
+            
+        }
+        
+        $_asc_desc = $request->_asc_desc ?? 'DESC';
+        $asc_cloumn =  $request->asc_cloumn ?? 'id';
 
-        return view('rlp-module.rlp.index',compact('page_name','datas'));
+        $page_name=$this->page_name;
+        $rlp_ids = [];
+
+        $RlpAcknowledgements = RlpAcknowledgement::select('id','rlp_info_id')->where('user_office_id',$auth_user->user_name)
+        ->where('is_visible',1)
+        ->where('_is_approve',0)
+        ->get();
+
+        foreach($RlpAcknowledgements as $val){
+           $rlp_ids[]=$val->rlp_info_id;
+        }
+         //  $datas =RlpMaster::with(['_item_detail','_account_detail','_rlp_remarks','_rlp_req_user','_emp_department','_emp_designation','_branch','_cost_center','_organization','_entry_by'])->with('_rlp_ack')
+         // ->where('is_delete',0)->get();
+
+        $datas = RlpMaster::with(['_emp_department','_emp_designation','_branch','_cost_center','_organization','_entry_by','_item_detail','_account_detail'])
+         ->where('is_delete',0);
+        if($auth_user->user_type !='admin'){
+                $datas = $datas->whereIn('id',$rlp_ids);  
+        }
+         if($request->has('_user_date') && $request->_user_date=="yes" && $request->_datex !="" && $request->_datex !=""){
+            $_datex =  change_date_format($request->_datex);
+            $_datey=  change_date_format($request->_datey);
+
+             $datas = $datas->whereDate('request_date','>=', $_datex);
+            $datas = $datas->whereDate('request_date','<=', $_datey);
+        }
+
+        if($request->has('id') && $request->id !=""){
+             $ids =  array_map('intval', explode(',', $request->id ));
+            $datas = $datas->where('id', $ids); 
+        }
+        if($request->has('_lock') && $request->_lock !=''){
+            $datas = $datas->where('_lock','=',$request->_lock);
+        }
+        if($request->has('rlp_no') && $request->rlp_no !=''){
+            $datas = $datas->where('rlp_no','like',"%$request->rlp_no%");
+        }
+        if($request->has('rlp_user_office_id') && $request->rlp_user_office_id !=''){
+            $datas = $datas->where('rlp_user_office_id','like',"%$request->rlp_user_office_id%");
+        }
+        if($request->has('priority') && $request->priority !=''){
+            $datas = $datas->where('priority','like',"%$request->priority%");
+        }
+        if($request->has('request_department') && $request->request_department !=''){
+            $datas = $datas->where('request_department','=',$request->request_department);
+        }
+        if($request->has('organization_id') && $request->organization_id !=''){
+            $datas = $datas->where('organization_id','=',$request->organization_id);
+        }
+        if($request->has('_branch_id') && $request->_branch_id !=''){
+            $datas = $datas->where('_branch_id','=',$request->_branch_id);
+        }
+        if($request->has('_cost_center_id') && $request->_cost_center_id !=''){
+            $datas = $datas->where('_cost_center_id','=',$request->_cost_center_id);
+        }
+        $datas = $datas->orderBy($asc_cloumn,$_asc_desc)
+                        ->paginate($limit);
+
+        return view('rlp-module.rlp.index',compact('page_name','datas','limit','request'));
     }
 
+     public function reset(){
+        Session::flash('_rlp_list_limit');
+       return  \Redirect::to('rlp?limit='.default_pagination());
+    }
+
+
+    public function rlpApproveReject(Request $request)
+    {
+        $users = Auth::user();
+        $rlp_inserted_id = $request->rlp_id;
+        $rlp_remarks = $request->rlp_remarks ?? '';
+
+        $RlpRemarks = new RlpRemarks();
+        $RlpRemarks->rlp_info_id = $rlp_inserted_id;
+        $RlpRemarks->user_id = $users->id;
+        $RlpRemarks->user_office_id = $users->user_name;
+        $RlpRemarks->remarks = $rlp_remarks ?? '';
+        $RlpRemarks->remarks_date = date('Y-m-d h:i:s');
+        $RlpRemarks->_status = 1;
+        $RlpRemarks->save();
+
+        $rlp_action = $request->rlp_action ?? '';
+
+        
+        $oldAcknowledgements = RlpAcknowledgement::where('rlp_info_id',$rlp_inserted_id)->get();
+        foreach($oldAcknowledgements as $key=>$val){
+            if($rlp_action =='approve'){
+                if($users->user_name ==$val->user_office_id ){
+                    $next_group = ($val->ack_order+1);
+                    $ap_data = RlpAcknowledgement::where('id',$val->id)->first();
+                    $ap_data->ack_status = 1;
+                    $ap_data->_is_approve = 1;
+                    $ap_data->_status = 1;
+                    $ap_data->ack_updated_date = date('Y-m-d h:i:s');
+                    $ap_data->save();
+                    RlpAcknowledgement::where('rlp_info_id',$rlp_inserted_id)
+                    ->where('ack_order',$next_group)
+                    ->update(['is_visible'=>1,'ack_request_date'=>date('Y-m-d h:i:s')]);
+
+
+                    if($val->ack_order ==4){
+                        $_update_data=[ 'rlp_status'=>1,
+                                        'updated_at'=>date('Y-m-d h:i:s'),
+                                        'updated_by'=>$users->id,
+                                        '_lock'=>1
+                                         ];
+                        
+                    }else{
+                        $_update_data=['rlp_status'=>6,
+                                        'updated_at'=>date('Y-m-d h:i:s'),
+                                        'updated_by'=>$users->id,
+                                        '_lock'=>0
+                                         ];
+                    }
+                    RlpMaster::where('id',$rlp_inserted_id)->update($_update_data);
+
+
+
+                }
+            }
+            if($rlp_action =='revert'){
+                if($users->user_name ==$val->user_office_id){
+                    $previous = ($val->ack_order-1);
+                    $ap_data = RlpAcknowledgement::where('id',$val->id)->first();
+                    $ap_data->is_visible = 0;
+                    $ap_data->ack_status = 0;
+                    $ap_data->_is_approve = 0;
+                    $ap_data->_status = 1;
+                    $ap_data->save();
+                    RlpAcknowledgement::where('rlp_info_id',$rlp_inserted_id)
+                    ->where('ack_order',$previous)
+                    ->update(['is_visible'=>1,'ack_status'=>0,'_is_approve'=>0]);
+
+                }
+            }
+            
+        }
+
+        if($rlp_action =='reject'){
+            RlpMaster::where('id',$rlp_inserted_id)->update(['rlp_status'=>3,'updated_at'=>date('Y-m-d h:i:s'),'updated_by'=>$users->id]);
+        }
+
+        $data['status']=$rlp_action;
+        $data['message']="Information ".$rlp_action." successfully";
+        return $data;
+
+    }
 
     public function chainWiseDetail(Request $request)
     {
@@ -72,9 +226,15 @@ class RlpController extends Controller
         
         $emp_id = $users->user_name;
 
-        $user_assign_rlp_chain = \DB::select("SELECT DISTINCT t1.id FROM `rlp_access_chains` as t1
-                INNER JOIN rlp_access_chain_users as t2 ON t1.id=t2.chain_id
-                    WHERE t2.user_id='".$emp_id."'   AND t2.user_group=1 "); // user group 1=Rlp Creator
+        $user_assign_rlp_chain = DB::table("rlp_access_chains as t1")
+                                ->select('t1.id')
+                                ->join('rlp_access_chain_users as t2','t2.chain_id','t1.id')
+                                ->where('t2.user_id',$emp_id)
+                                ->where('t2.user_group',1) // user group 1=Rlp Creator
+                                ->groupBy('t1.id')
+                                ->get();
+
+ 
     $rlp_ids = array();
     foreach($user_assign_rlp_chain as $key=>$val){
         array_push($rlp_ids,$val->id);
@@ -129,15 +289,16 @@ class RlpController extends Controller
         $RlpMaster->designation = $request->designation;
         $RlpMaster->email = $request->email;
         $RlpMaster->contact_number = $request->contact_number;
+
         $RlpMaster->rlp_prefix = $request->rlp_prefix;
-        $RlpMaster->created_by = $users->id;
+        $RlpMaster->created_by = $users->id; //Taken From Auth user
 
         $RlpMaster->user_remarks = $request->user_remarks;
         $RlpMaster->_terms_condition = $request->_terms_condition ?? '';
         $RlpMaster->totalamount = $totalamount ?? 0;
-        $RlpMaster->is_viewed = $request->is_viewed ?? 0; //
-        $RlpMaster->rlp_status = $request->rlp_status ?? 0;//
-        $RlpMaster->is_ns = $request->is_ns ?? 0;//
+        $RlpMaster->is_viewed = $request->is_viewed ?? 1; //
+        $RlpMaster->rlp_status = $request->rlp_status ?? 5;//
+        $RlpMaster->is_ns = $request->is_ns ?? 0;// Notesheet create or not
         $RlpMaster->save();
         $rlp_inserted_id = $RlpMaster->id;
 
@@ -210,7 +371,7 @@ class RlpController extends Controller
                 $RlpRemarks->user_id = $users->id;
                 $RlpRemarks->user_office_id = $users->user_name;
                 $RlpRemarks->remarks = $request->user_remarks ?? '';
-                $RlpRemarks->remarks_date = date('Y-m-d');
+                $RlpRemarks->remarks_date = date('Y-m-d h:i:s');
                 $RlpRemarks->_status = 1;
                 $RlpRemarks->save();
             }
@@ -223,9 +384,25 @@ class RlpController extends Controller
                 $RlpAcknowledgement->user_id = $val->user_row_id ?? 0;
                 $RlpAcknowledgement->user_office_id = $val->user_id ?? '';
                 $RlpAcknowledgement->ack_order = $val->_order ?? 1;
-                $RlpAcknowledgement->ack_status = 0;
-                $RlpAcknowledgement->is_visible = 0;
+                
+
                 $RlpAcknowledgement->_status = 1;
+                if($users->user_name ==$val->user_id){
+                    $RlpAcknowledgement->ack_status = 1;
+                    $RlpAcknowledgement->is_visible = 1;
+                    $RlpAcknowledgement->ack_request_date = date('Y-m-d h:i:s');
+                    $RlpAcknowledgement->ack_updated_date = date('Y-m-d h:i:s');
+                }else{
+                    $RlpAcknowledgement->ack_status = 0;
+                    if($val->_order==2){
+                        $RlpAcknowledgement->is_visible = 1;
+                        $RlpAcknowledgement->ack_request_date = date('Y-m-d h:i:s');
+                    }else{
+                        $RlpAcknowledgement->is_visible = 0;
+                    }
+                }
+                $RlpAcknowledgement->_is_approve = 0; //Maker Always take _is_approve ==0;
+
                 $RlpAcknowledgement->save();
           }
 
@@ -246,11 +423,7 @@ class RlpController extends Controller
         DB::commit();
         $redirect_url = url("/rlp/".$rlp_inserted_id."/edit");
         return redirect($redirect_url)->with('success',$success_message);
-        // return redirect()
-        //         ->back()
-        //         ->with('success',$success_message)
-        //         ->with('_master_id',$rlp_inserted_id)
-        //         ->with('_print_value',$_print_value);
+        
 
        } catch (\Exception $e) {
            DB::rollback();
@@ -287,7 +460,8 @@ class RlpController extends Controller
    
 
     $rlp_chains = RlpAccessChain::whereIn('id',$rlp_ids)->get();
-      $data =RlpMaster::with(['_item_detail','_account_detail','_rlp_remarks','_rlp_ack_app','_rlp_req_user','_emp_department','_emp_designation','_branch','_cost_center','_organization'])->where('is_delete',0)->find($id);
+    $data =RlpMaster::with(['_item_detail','_account_detail','_rlp_remarks','_rlp_ack_app','_rlp_req_user','_emp_department','_emp_designation','_branch','_cost_center','_organization'])
+      ->where('is_delete',0)->find($id);
 
      
         $page_name = selected_access_chain_types($data->rlp_prefix ?? 'RLP');
@@ -304,6 +478,8 @@ class RlpController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id){
+        $data =  RlpMaster::where('_lock',0)->find($id);
+         if(!$data){ return redirect()->back()->with('danger','You have no permission to edit or update !'); }
         $page_name=$this->page_name;
         $users = \Auth::user();
         $permited_branch = permited_branch(explode(',',$users->branch_ids));
@@ -377,7 +553,7 @@ class RlpController extends Controller
         $RlpMaster->_terms_condition = $request->_terms_condition ?? '';
         $RlpMaster->totalamount = $totalamount ?? 0;
         $RlpMaster->is_viewed = $request->is_viewed ?? 0; //
-        $RlpMaster->rlp_status = $request->rlp_status ?? 0;//
+        $RlpMaster->rlp_status = $request->rlp_status ?? 6;//
         $RlpMaster->is_ns = $request->is_ns ?? 0;//
         $RlpMaster->save();
         $rlp_inserted_id = $RlpMaster->id;
@@ -462,19 +638,19 @@ class RlpController extends Controller
                 $RlpRemarks->save();
             }
 
-          $access_chains=  AccessChainUser::where('chain_id',$request->chain_id)->where('_status',1)->get();
-         // return dump($access_chains);
-          foreach($access_chains as $key=>$val){
-                $RlpAcknowledgement = new RlpAcknowledgement();
-                $RlpAcknowledgement->rlp_info_id = $rlp_inserted_id;
-                $RlpAcknowledgement->user_id = $val->user_row_id ?? 0;
-                $RlpAcknowledgement->user_office_id = $val->user_id ?? '';
-                $RlpAcknowledgement->ack_order = $val->_order ?? 1;
-                $RlpAcknowledgement->ack_status = 0;
-                $RlpAcknowledgement->is_visible = 0;
-                $RlpAcknowledgement->_status = 1;
-                $RlpAcknowledgement->save();
-          }
+         //  $access_chains=  AccessChainUser::where('chain_id',$request->chain_id)->where('_status',1)->get();
+         // // return dump($access_chains);
+         //  foreach($access_chains as $key=>$val){
+         //        $RlpAcknowledgement = new RlpAcknowledgement();
+         //        $RlpAcknowledgement->rlp_info_id = $rlp_inserted_id;
+         //        $RlpAcknowledgement->user_id = $val->user_row_id ?? 0;
+         //        $RlpAcknowledgement->user_office_id = $val->user_id ?? '';
+         //        $RlpAcknowledgement->ack_order = $val->_order ?? 1;
+         //        $RlpAcknowledgement->ack_status = 0;
+         //        $RlpAcknowledgement->is_visible = 0;
+         //        $RlpAcknowledgement->_status = 1;
+         //        $RlpAcknowledgement->save();
+         //  }
 
            // ack_request_date,ack_updated_date,is_visible,_status 
 

@@ -10,13 +10,11 @@
             <ol class="breadcrumb float-sm-right ml-2">
                @can('unit-create')
               <li class="breadcrumb-item active">
-                <button type="button" 
-               class="btn btn-sm btn-info active attr_base_create_url" 
-               data-toggle="modal" 
-               data-target="#commonEntryModal_item" 
-               attr_base_create_url="{{ route('unit.create') }}">
+                <a type="button" 
+               class="btn btn-sm btn-info active " 
+               href="{{ route('unit.create') }}">
                    <i class="nav-icon fas fa-plus"></i> Create New
-                </button>
+                </a>
                </li>
               @endcan
             </ol>
@@ -100,22 +98,18 @@
                         <tr>
                              <td style="display: flex;">
                            
-                                <button  type="button" 
-                                  attr_base_edit_url="{{ route('unit.show',$data->id) }}"
-                                  data-toggle="modal" 
-                                  data-target="#commonEntryModal_item" 
-                                  class="btn btn-sm btn-default attr_base_edit_url mr-1"><i class="fa fa-eye"></i></button>
+                                <a  
+                                  href="{{ route('unit.show',$data->id) }}"
+                                  class="btn btn-sm btn-default  mr-1"><i class="fa fa-eye"></i></a>
 
 
                                   @can('unit-edit')
-                                  <button  type="button" 
-                                  attr_base_edit_url="{{ route('unit.edit',$data->id) }}"
-                                  data-toggle="modal" 
-                                  data-target="#commonEntryModal_item" 
-                                  class="btn btn-sm btn-default attr_base_edit_url mr-1"><i class="fa fa-pen "></i></button>
-
-                                    
+                                  <a  
+                                  href="{{ route('unit.edit',$data->id) }}"
+                                  class="btn btn-sm btn-default  mr-1"><i class="fa fa-pen "></i>
+                                </a>
                                   @endcan
+                                  
                                 @can('unit-delete')
                                  {!! Form::open(['method' => 'DELETE','route' => ['unit.destroy', $data->id],'style'=>'display:inline']) !!}
                                       <button onclick="return confirm('Are you sure?')" type="submit" class="btn btn-sm btn-default"><i class="fa fa-trash _required"></i></button>

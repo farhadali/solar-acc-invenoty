@@ -22,6 +22,11 @@ class CreateProductPriceListsTable extends Migration
             $table->string('_barcode')->nullable();
             $table->date('_manufacture_date')->nullable();
             $table->date('_expire_date')->nullable();
+            $table->integer('_transection_unit')->default(0);
+            $table->integer('_base_unit')->default(0);
+            $table->double('_unit_conversion',15,4)->default(0);
+            $table->double('_base_rate',15,4)->default(0);
+
             $table->double('_qty',15,4)->default(0);
             $table->double('_sales_rate',15,4)->default(0);
             $table->double('_pur_rate',15,4)->default(0);
@@ -37,6 +42,7 @@ class CreateProductPriceListsTable extends Migration
             $table->foreign('_purchase_detail_id')->references('id')->on('purchase_details');
             $table->unsignedBigInteger('_branch_id');
             $table->foreign('_branch_id')->references('id')->on('branches');
+            $table->integer('organization_id')->default(1);
             $table->integer('_store_id')->default(1);
             $table->integer('_cost_center_id')->default(1);
             $table->integer('_warranty')->default(0);
@@ -50,6 +56,8 @@ class CreateProductPriceListsTable extends Migration
             
         });
     }
+
+
 
     /**
      * Reverse the migrations.

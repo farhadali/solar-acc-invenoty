@@ -19,13 +19,16 @@ class CreatePurchasesTable extends Migration
             $table->date('_date');
             $table->string('_time',60);
             $table->integer('_order_ref_id')->default(0);
+            $table->string('_po_number')->nullable();
+            $table->string('_rlp_no')->nullable();
+            $table->string('_note_sheet_no')->nullable();
             $table->string('_referance')->nullable();
             $table->unsignedBigInteger('_ledger_id');
             $table->foreign('_ledger_id')->references('id')->on('account_ledgers');
             $table->unsignedBigInteger('_user_id');
             $table->foreign('_user_id')->references('id')->on('users');
             $table->string('_user_name')->nullable();
-            $table->string('_note')->nullable();
+            $table->longText('_note')->nullable();
             $table->double('_sub_total',15,4)->default(0);
             $table->double('_discount_input',15,4)->default(0);
             $table->double('_total_discount',15,4)->default(0);
@@ -33,9 +36,13 @@ class CreatePurchasesTable extends Migration
             $table->double('_total',15,4)->default(0);
             $table->double('_p_balance',15,4)->default(0);
             $table->double('_l_balance',15,4)->default(0);
+            $table->integer('organization_id')->default(1);
+            $table->integer('_cost_center_id')->default(1);
+            $table->integer('_store_id')->default(1);
             $table->unsignedBigInteger('_branch_id');
             $table->foreign('_branch_id')->references('id')->on('branches');
             $table->tinyInteger('_status')->default(0);
+            $table->tinyInteger('_lock')->default(0);
             $table->string('_created_by',60)->nullable();
             $table->string('_updated_by',60)->nullable();
             $table->string('_address',100)->nullable();
@@ -43,6 +50,9 @@ class CreatePurchasesTable extends Migration
             $table->timestamps();
         });
     }
+
+
+  
 
     /**
      * Reverse the migrations.

@@ -68,46 +68,7 @@
                                 </select>
                             </div>
                         </div>
-                        <?php
-$users = \Auth::user();
-$permited_organizations = permited_organization(explode(',',$users->organization_ids));
-?> 
-
-
-<div class="col-xs-12 col-sm-12 col-md-2 <?php if(sizeof($permited_organizations)==1): ?> display_none <?php endif; ?>">
- <div class="form-group ">
-     <label><?php echo __('label.organization'); ?>:<span class="_required">*</span></label>
-    <select class="form-control _master_organization_id" name="organization_id" required >
-       <?php $__empty_1 = true; $__currentLoopData = $permited_organizations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-       <option value="<?php echo e($val->id); ?>" <?php if(isset($request->organization_id)): ?> <?php if($request->organization_id == $val->id): ?> selected <?php endif; ?>   <?php endif; ?>><?php echo e($val->id ?? ''); ?> - <?php echo e($val->_name ?? ''); ?></option>
-       <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-       <?php endif; ?>
-     </select>
- </div>
-</div>
-                        <div class="col-xs-12 col-sm-12 col-md-2  <?php if(sizeof($permited_branch)==1): ?> display_none <?php endif; ?> ">
-                            <div class="form-group ">
-                                <label>Branch:<span class="_required">*</span></label>
-                               <select class="form-control" name="_branch_id" required >
-                                  
-                                  <?php $__empty_1 = true; $__currentLoopData = $permited_branch; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $branch): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                                  <option value="<?php echo e($branch->id); ?>" <?php if(isset($request->_branch_id)): ?> <?php if($request->_branch_id == $branch->id): ?> selected <?php endif; ?>   <?php endif; ?>><?php echo e($branch->id ?? ''); ?> - <?php echo e($branch->_name ?? ''); ?></option>
-                                  <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-                                  <?php endif; ?>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-2 <?php if(sizeof($permited_costcenters)==1): ?> display_none <?php endif; ?> ">
-                            <div class="form-group ">
-                                <label>Cost Center:<span class="_required">*</span></label>
-                               <select class="form-control" name="_cost_center_id" required >
-                                   <?php $__empty_1 = true; $__currentLoopData = $permited_costcenters; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $costcenter): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                                                  <option value="<?php echo e($costcenter->id); ?>" <?php if(isset($request->_cost_center_id)): ?> <?php if($request->_cost_center_id == $costcenter->id): ?> selected <?php endif; ?>   <?php endif; ?>> <?php echo e($costcenter->_name ?? ''); ?></option>
-                                                  <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-                                                  <?php endif; ?>
-                                </select>
-                            </div>
-                        </div>
+                        <?php echo $__env->make('basic.org_create', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                         <div class="col-xs-12 col-sm-12 col-md-6 ">
                             <div class="form-group">
                               <label class="mr-2" for="_transection_ref">Reference:</label>
@@ -127,12 +88,12 @@ $permited_organizations = permited_organization(explode(',',$users->organization
                                       <table class="table table-bordered" >
                                           <thead>
                                             <th>&nbsp;</th>
-                                            <th>Ledger</th>
-                                            <th class="<?php if(sizeof($permited_branch)==1): ?> display_none <?php endif; ?>">Branch</th>
-                                            <th class="<?php if(sizeof($permited_costcenters)==1): ?> display_none <?php endif; ?>">Cost Center</th>
-                                            <th>Short Narr.</th>
-                                            <th>Dr. Amount</th>
-                                            <th>Cr. Amount</th>
+                                            <th><?php echo e(__('label._ledger_id')); ?></th>
+                                            <th><?php echo e(__('label.Branch')); ?></th>
+                                            <th><?php echo e(__('label._cost_center')); ?></th>
+                                            <th><?php echo e(__('label.Short Narr.')); ?></th>
+                                            <th><?php echo e(__('label.Dr. Amount')); ?></th>
+                                            <th><?php echo e(__('label.Cr. Amount')); ?></th>
                                           </thead>
                                           <tbody class="area__voucher_details" id="area__voucher_details">
                                             <tr class="_voucher_row">
@@ -146,20 +107,24 @@ $permited_organizations = permited_organization(explode(',',$users->organization
                                                   
                                                 </div>
                                               </td>
-                                              <td class="<?php if(sizeof($permited_branch)==1): ?> display_none <?php endif; ?>">
+                                              <td class="">
                                                 <select class="form-control width_150_px _branch_id_detail" name="_branch_id_detail[]"  required>
+                                                  <?php if(sizeof($permited_branch) > 1): ?>  
+                                                  <option value=""><?php echo e(__('label.select')); ?> <?php echo e(__('label.Branch')); ?></option>
+                                                  <?php endif; ?>
                                                   <?php $__empty_1 = true; $__currentLoopData = $permited_branch; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $branch): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                                                  <option value="<?php echo e($branch->id); ?>" <?php if(isset($request->_branch_id)): ?> <?php if($request->_branch_id == $branch->id): ?> selected <?php endif; ?>   <?php endif; ?>><?php echo e($branch->_name ?? ''); ?></option>
+                                                  <option value="<?php echo e($branch->id); ?>"><?php echo e($branch->_name ?? ''); ?></option>
                                                   <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                                                   <?php endif; ?>
                                                 </select>
                                               </td>
                                              
-                                                <td class="<?php if(sizeof($permited_costcenters)==1): ?> display_none <?php endif; ?>">
+                                                <td class="">
                                                  <select class="form-control width_150_px _cost_center" name="_cost_center[]" required >
-                                            
+                                            <?php if(sizeof($permited_costcenters) > 1): ?> 
+                                            <option value=""><?php echo e(__('label.select')); ?> <?php echo e(__('label._cost_center')); ?></option> <?php endif; ?>
                                                   <?php $__empty_1 = true; $__currentLoopData = $permited_costcenters; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $costcenter): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                                                  <option value="<?php echo e($costcenter->id); ?>" <?php if(isset($request->_cost_center)): ?> <?php if($request->_cost_center == $costcenter->id): ?> selected <?php endif; ?>   <?php endif; ?>> <?php echo e($costcenter->_name ?? ''); ?></option>
+                                                  <option value="<?php echo e($costcenter->id); ?>"> <?php echo e($costcenter->_name ?? ''); ?></option>
                                                   <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                                                   <?php endif; ?>
                                                 </select>
@@ -182,8 +147,8 @@ $permited_organizations = permited_organization(explode(',',$users->organization
                                                 <a href="#none"  class="btn btn-info" onclick="voucher_row_add(event)"><i class="fa fa-plus"></i></a>
                                               </td>
                                               <td colspan="2" class="text-right"><b>Total</b></td>
-                                              <td class="<?php if(sizeof($permited_branch)==1): ?> display_none <?php endif; ?>"></td>
-                                              <td class="<?php if(sizeof($permited_costcenters)==1): ?> display_none <?php endif; ?>"></td>
+                                              <td ></td>
+                                              <td ></td>
                                               <td>
                                                 <input type="number" step="any" min="0" name="_total_dr_amount" class="form-control _total_dr_amount" value="0" readonly required>
                                               </td>
@@ -276,18 +241,25 @@ $permited_organizations = permited_organization(explode(',',$users->organization
                       <div class="search_box">
                       </div>
                       </td>
-                      <td class="<?php if(sizeof($permited_branch)==1): ?> display_none <?php endif; ?>">
+                      <td class="">
                       <select class="form-control width_150_px _branch_id_detail" name="_branch_id_detail[]"  required >
+                      <?php if(sizeof($permited_branch) > 1): ?> 
+                          <option value=""><?php echo e(__('label.select')); ?> <?php echo e(__('label.branch')); ?></option>
+                      <?php endif; ?>
+
                         <?php $__empty_1 = true; $__currentLoopData = $permited_branch; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $branch): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                            <option value="<?php echo e($branch->id); ?>" <?php if(isset($request->_branch_id)): ?> <?php if($request->_branch_id == $branch->id): ?> selected <?php endif; ?>   <?php endif; ?>><?php echo e($branch->_name ?? ''); ?></option>
+                            <option value="<?php echo e($branch->id); ?>"><?php echo e($branch->_name ?? ''); ?></option>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                         <?php endif; ?>
                         </select>
                         </td>
-                        <td class="<?php if(sizeof($permited_costcenters)==1): ?> display_none <?php endif; ?>">
+                        <td class="">
                           <select class="form-control width_150_px _cost_center" name="_cost_center[]" required >
+                          <?php if(sizeof($permited_costcenters) > 1): ?> 
+                          <option value=""><?php echo e(__('label.select')); ?> <?php echo e(__('label._cost_center')); ?></option>
+                           <?php endif; ?>
                             <?php $__empty_1 = true; $__currentLoopData = $permited_costcenters; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $costcenter): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                              <option value="<?php echo e($costcenter->id); ?>" <?php if(isset($request->_cost_center)): ?> <?php if($request->_cost_center == $costcenter->id): ?> selected <?php endif; ?>   <?php endif; ?>> <?php echo e($costcenter->_name ?? ''); ?></option>
+                              <option value="<?php echo e($costcenter->id); ?>" > <?php echo e($costcenter->_name ?? ''); ?></option>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                             <?php endif; ?>
                             </select>
@@ -304,6 +276,7 @@ $permited_organizations = permited_organization(explode(',',$users->organization
   function voucher_row_add(event) {
       event.preventDefault();
       $("#area__voucher_details").append(single_row);
+      change_branch_cost_strore();
   }
 
   

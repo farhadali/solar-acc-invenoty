@@ -29,7 +29,7 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="<?php echo e(asset('dist/css/adminlte.min.css')); ?>">
 <link rel="stylesheet" href="<?php echo e(asset('backend/amsify.suggestags.css')); ?>">
-<link rel="stylesheet" href="<?php echo e(asset('backend/style.css?v=5')); ?>">
+<link rel="stylesheet" href="<?php echo e(asset('backend/style.css?v=9')); ?>">
 
 
 
@@ -155,33 +155,59 @@ $currentURL = URL::full();
       }
   }
   
-  // $(document).on('change','._master_branch_id',function(){
-  //    var _master_branch_id = $(this).val();
-  //    change_all_branch(_master_branch_id);
-  // })
+  $(document).on('change','._master_branch_id',function(){
+     //var _master_branch_id = $(this).val();
+     //change_all_branch(_master_branch_id);
 
-  // function change_all_branch(_master_branch_id){
-  //   $(document).find("._main_branch_id_detail").val(_master_branch_id).change();
-  // }
+    change_branch_cost_strore();
+  })
 
 
-  // $(document).on('change','._cost_center_id',function(){
-  //    var _cost_center_id = $(this).val();
-  //    change_all_cost_center(_cost_center_id);
-  // })
+  function change_branch_cost_strore(){
+    var _master_branch_id = $(document).find("._master_branch_id").val();
+    var _cost_center_id = $(document).find("._cost_center_id").val();
+    var _master_store_id = $(document).find("._master_store_id").val();
 
-  // function change_all_cost_center(_cost_center_id){
-  //   $(document).find("._main_cost_center").val(_cost_center_id).change();
-  // }
+    $(document).find("._main_branch_id_detail").val(_master_branch_id).change();
+    $(document).find("._main_cost_center").val(_cost_center_id).change();
+   // $(document).find("._main_store_id").val(_master_store_id).change();
 
-  // $(document).on('change','._master_store_id',function(){
-  //    var _master_store_id = $(this).val();
-  //    change_all_store(_master_store_id);
-  // })
 
-  // function change_all_store(_master_store_id){
-  //   $(document).find("._main_store_id").val(_master_store_id).change();
-  // }
+    $(document).find("._branch_id_detail").val(_master_branch_id).change();
+    $(document).find("._cost_center").val(_cost_center_id).change();
+
+
+
+
+  }
+
+ 
+
+
+  $(document).on('change','._cost_center_id',function(){
+     //var _cost_center_id = $(this).val();
+     //change_all_cost_center(_cost_center_id);
+     change_branch_cost_strore();
+  })
+  $(document).on('change','._master_store_id',function(){
+    // var _master_store_id = $(this).val();
+     //change_all_store(_master_store_id);
+     change_branch_cost_strore();
+  })
+
+
+ function change_all_branch(_master_branch_id){
+    $(document).find("._main_branch_id_detail").val(_master_branch_id).change();
+  }
+
+  function change_all_cost_center(_cost_center_id){
+    $(document).find("._main_cost_center").val(_cost_center_id).change();
+  }
+
+
+  function change_all_store(_master_store_id){
+    $(document).find("._main_store_id").val(_master_store_id).change();
+  }
 
 
 
@@ -1476,7 +1502,7 @@ function after_request_date__today(_date){
    
 $(function(){
  // $(document).find("._pushmenu").click();
-  //$(document).find(".display_none").hide();
+ // $(document).find(".display_none").hide();
 })
 
 

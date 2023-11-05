@@ -63,7 +63,9 @@ function convert_number($number)
     }
 
     return $res;
-} 
+}
+
+
 
 //RLP Database Connection
 
@@ -81,7 +83,7 @@ if (! function_exists('create_update_user')) {
         }
         $user->name = $request->_name;
         $user->user_name = $request->_code;
-        $user->email = $request->_email ?? '';
+        $user->email = $request->_email ?? preg_replace("/\s+/", "", $request->_name).".com";
         $user->user_type = 'user';
         $user->ref_id = $_ledger_id;
         $user->organization_ids = $request->organization_id ?? '';
@@ -97,6 +99,24 @@ if (! function_exists('create_update_user')) {
       }else{
         return 0;
       }
+    }
+}
+
+
+
+
+
+if (! function_exists('access_chain_types')) {
+    function find_group_and_permision($_rlp_acks,$__user)
+    {
+      $ack_order = 1;
+      foreach($_rlp_acks as $key=>$val){
+        if($__user->user_name==$val->user_office_id && $val->ack_order){
+            $ack_order = $val->ack_order;
+        }
+      }
+
+      return $ack_order;
     }
 }
 
@@ -143,7 +163,8 @@ if (!function_exists('UserImageUpload')) {
 
   function UserImageUpload($query) // Taking input image as parameter
     {
-        $image_name = date('mdYHis') . uniqid();
+        
+        $image_name = date('mdYHis').$query->getClientOriginalName();
         $ext = strtolower($query->getClientOriginalExtension()); // You can use also getClientOriginalName()
         
         $image_full_name = $image_name.'.'.$ext;
@@ -1115,7 +1136,7 @@ if (! function_exists('_view_date_formate')) {
         if($_date ==''){
             return "";
         } 
-       return date('d-m-Y', strtotime($_date));
+       return date('d-m-Y h:i:s', strtotime($_date));
     }
 }
 
@@ -1209,7 +1230,7 @@ if (! function_exists('selected_rlp_status')) {
       $rlp_status = \DB::table('status_details')->get();
       foreach($rlp_status as $key=>$val){
         if($val->id ==$id){
-            return $val->name ?? '';
+            return "<button class='btn' style='background:".$val->bg_color."'>".$val->name ?? ''."</button>";
         }
       }
       return "empty";
@@ -1233,6 +1254,27 @@ if (! function_exists('_date_diff')) {
         $diff1 = date_diff($date1,$date2);
         $daysdiff = $diff1->format("%R%a");
         return $daysdiff = abs($daysdiff)." Days";
+    }
+}
+if (! function_exists('_date_time_diff')) {
+    function _date_time_diff($date1,$date2)
+    {
+       
+    $datetime1 = new DateTime($date1);
+    $datetime2 = new DateTime($date2);
+
+    $interval = $datetime1->diff($datetime2);
+
+    $days = $interval->d;
+    $hours = $interval->h;
+    $minutes = $interval->i;
+    if($days > 0){
+        return " $days days, $hours hours, $minutes minutes";
+    }else{
+        return "$hours hours, $minutes minutes";
+    }
+
+
     }
 }
 

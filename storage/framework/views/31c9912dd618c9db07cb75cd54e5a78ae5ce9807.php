@@ -53,7 +53,7 @@ $__user= Auth::user();
 
                    ?>
                     <div class="col-md-4">
-                      
+                      <?php echo $__env->make('rlp-module.rlp.search', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                     </div>
                     <div class="col-md-8">
                       <div class="d-flex flex-row justify-content-end">
@@ -85,6 +85,7 @@ $__user= Auth::user();
                          <th class=""><b>##</b></th>
                          <th class=""><b><?php echo e(__('label.action')); ?></b></th>
                          <th class=""><b><?php echo e(__('label.id')); ?></b></th>
+                         <th class=""><b><?php echo e(__('label.priority')); ?></b></th>
                          <th class=""><b><?php echo e(__('label.organization_id')); ?></b></th>
                          <th class=""><b><?php echo e(__('label._branch_id')); ?></b></th>
                          <th class=""><b><?php echo e(__('label._cost_center_id')); ?></b></th>
@@ -93,12 +94,17 @@ $__user= Auth::user();
                          <th class=""><b><?php echo e(__('label._amount')); ?></b></th>
                          <th class=""><b><?php echo e(__('label._status')); ?></b></th>
                          <th class=""><b><?php echo e(__('label.user')); ?></b></th>
+                         <th class=""><b><?php echo e(__('label._lock')); ?></b></th>
                       </tr>
                      </thead>
                      <tbody>
                       
                         <?php $__currentLoopData = $datas; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        
+        <?php
+        $_rlp_acks = $data->_rlp_ack ?? [];
+         $find_group_and_permision=find_group_and_permision($_rlp_acks,$__user);
+        ?>
+
                         <tr>
                             
                              <td style="display: flex;">
@@ -117,6 +123,7 @@ $__user= Auth::user();
                                  
                                   class="btn btn-sm btn-default  mr-1"><i class="fa fa-pen "></i> <?php echo e(__('label.edit')); ?></a>
                               <?php endif; ?> 
+
                               <a target="__blank"  type="button" 
                                   href="<?php echo e(route('rlp.show',$data->id)); ?>"
                                   class="btn btn-sm btn-default  mr-1"><i class="fa fa-eye"> <?php echo e(__('label._details')); ?></i></a> 
@@ -124,6 +131,8 @@ $__user= Auth::user();
                             </td>
 
                             <td>
+
+    <?php if($find_group_and_permision ==2 || $find_group_and_permision ==3 || $find_group_and_permision ==4): ?>
                                <a  type="button" 
                                   href="#None"
                                   attr_rlp_id="<?php echo e($data->id); ?>"
@@ -157,18 +166,123 @@ $__user= Auth::user();
                                  data-toggle="modal" data-target="#ApproveModal" data-whatever="@mdo"
                                  
                                   class="btn btn-sm btn-info approve_reject_revert_button  mr-1"><i class="fa fa-undo "></i> <?php echo e(__('label.revert')); ?></a>
+<?php endif; ?>
+<a class="btn btn-sm btn-default _action_button" data-toggle="collapse" href="#collapseExample__<?php echo e($key); ?>" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                      <i class=" fas fa-angle-down"></i>
+                                    </a>
                             </td>
                             <td><?php echo e($data->id); ?></td>
+                            <td><?php echo e(selected_priority($data->priority ?? '')); ?></td>
                             <td><?php echo e($data->_organization->_name ?? ''); ?></td>
                             <td><?php echo e($data->_branch->_name ?? ''); ?></td>
                             <td><?php echo e($data->_cost_center->_name ?? ''); ?></td>
                             <td><?php echo e($data->rlp_no ?? ''); ?></td>
                             <td><?php echo e(_view_date_formate($data->request_date ?? '')); ?></td>
                             <td><?php echo e(_report_amount($data->totalamount ?? 0)); ?></td>
-                           <td><?php echo e(selected_rlp_status($data->rlp_status ?? 0)); ?></td>
+                           <td><?php echo selected_rlp_status($data->rlp_status ?? 0); ?></td>
                             <td><?php echo e($data->_entry_by->name ?? ''); ?></td>
+                             <td style="display: flex;">
+                              <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('lock-permission')): ?>
+                              <input class="form-control _invoice_lock" type="checkbox" name="_lock" _attr_invoice_id="<?php echo e($data->id); ?>" value="<?php echo e($data->_lock); ?>" <?php if($data->_lock==1): ?> checked <?php endif; ?>>
+                              <?php endif; ?>
+
+                              
+                              <?php if($data->_lock==1): ?>
+                              <i class="fa fa-lock _green ml-1 _icon_change__<?php echo e($data->id); ?>" aria-hidden="true"></i>
+                              <?php else: ?>
+                              <i class="fa fa-lock _required ml-1 _icon_change__<?php echo e($data->id); ?>" aria-hidden="true"></i>
+                              <?php endif; ?>
+                              
+
+                            </td>
                            
                         </tr>
+                        <tr>
+                          <td colspan="14" >
+                           <div class="collapse" id="collapseExample__<?php echo e($key); ?>">
+                           <?php
+                      $_item_detail = $data->_item_detail ?? [];
+                      $row_span= sizeof($_item_detail);
+                      $purpose =[];
+                      $suppliers =[];
+                      $item_total_qty=[];
+                      $item_total_amount=[];
+                      ?>
+                          <?php if(sizeof($_item_detail) > 0): ?>   
+                            <div class="card " >
+                              <table class="table">
+                                <thead >
+                                    <th class="text-left" >&nbsp;</th>
+                                    <th class="text-left" ><?php echo e(__('label.note_sheet')); ?></th>
+                                     <th class="text-left" ><?php echo e(__('label.supplier_details')); ?></th>
+                                    <th class="text-left" ><?php echo e(__('label._item')); ?></th>
+                                   
+                                    <th class="text-left" ><?php echo e(__('label.purpose')); ?></th>
+                                    <th class="text-left" ><?php echo e(__('label.Tran. Unit')); ?></th>
+                                    <th class="text-left" ><?php echo e(__('label._qty')); ?></th>
+                                    <th class="text-left" ><?php echo e(__('label._rate')); ?></th>
+                                    <th class="text-left" ><?php echo e(__('label._value')); ?></th>
+
+                                  </thead>
+
+                                <tbody>
+                   <?php
+                      $sl=1;
+                      $last_key = (sizeof($_item_detail)-1);
+                      ?>
+                      <?php $__empty_1 = true; $__currentLoopData = $_item_detail; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                       <?php
+                      
+                      $item_total_qty[]=$item->quantity ?? 0;
+                      $item_total_amount[]=$item->amount ?? 0;
+
+                      
+                      ?>
+                      <tr>
+                        <td><?php echo e($sl); ?></td>
+                        <td>
+                          <a href="<?php echo e(url('rlp-to-notesheet')); ?>?rlp_no=<?php echo e($data->rlp_no); ?>"></a>
+                        </td>
+                        <td>
+                         
+                           <?php echo $item->_supplier->_name ?? ''; ?>
+
+                          
+                          </td>
+                        <td><?php echo $item->_items->_item ?? ''; ?> <br>
+                          <?php echo $item->_item_description ?? ''; ?>
+
+                        </td>
+                       
+                        <td >
+                          <?php if(!in_array($item->purpose,$purpose)): ?>
+                          <?php
+                          array_push($purpose,$item->purpose);
+                          ?>
+                           <?php echo $item->purpose ?? ''; ?> 
+                           <?php endif; ?>
+                        </td>
+                       
+                        <td><?php echo _find_unit($item->_unit_id); ?></td>
+                        <td style="text-align:right;"><?php echo _report_amount($item->quantity ?? 0); ?></td>
+                        <td style="text-align:right;"><?php echo _report_amount($item->unit_price ?? 0); ?></td>
+                        <td style="text-align:right;"><?php echo _report_amount($item->amount ?? 0); ?></td>
+                        
+                      </tr>
+                      
+                      <?php
+                      $sl++;
+                      ?>
+                      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                      <?php endif; ?>
+                                </tbody>
+                              </table>
+                            </div>
+
+                            <?php endif; ?>
+                          </div>
+                        </td>
+                      </tr>
                         
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         
@@ -203,13 +317,23 @@ $__user= Auth::user();
           
           <div class="form-group">
             <label for="message-text" class="col-form-label"><?php echo e(__('label.rlp_remarks')); ?>:</label>
-            <textarea cols="6"  class="form-control" id="message-text"></textarea>
+            <textarea cols="6"  class="form-control" id="rlp_app_reject_remarks"></textarea>
+            <input type="hidden" name="rlp_id_app_reject" class="rlp_id_app_reject" >
+            <input type="hidden" name="rlp_no_app_reject" class="rlp_no_app_reject" >
+            <input type="hidden" name="attr_rlp_action_app_reject" class="attr_rlp_action_app_reject" >
+            <input type="hidden" name="attr_rlp_action_title_action_app_reject" class="attr_rlp_action_title_action_app_reject" >
+
+            
+
+
+
+
           </div>
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Send message</button>
+        <button type="button" class="btn  rlpApproveRejectSubmit" data-dismiss="modal"><?php echo e(__('label.submit')); ?></button>
       </div>
     </div>
   </div>
@@ -276,9 +400,73 @@ function after_request_date__today(_date){
   var rlp_no = $(this).attr('attr_rlp_no');
   var attr_rlp_action = $(this).attr('attr_rlp_action');
   var attr_rlp_action_title = $(this).attr('attr_rlp_action_title');
+  var success = $(this).hasClass("btn-success");
+  var warning = $(this).hasClass("btn-warning");
+  var btn_info = $(this).hasClass("btn-info");
+  var button_class="btn-primary";
+  if(success ==true){ button_class ="btn-success"; }
+  if(warning ==true){ button_class ="btn-warning"; }
+  if(btn_info ==true){ button_class ="btn-info"; }
 
+  console.log(button_class);
+  
+
+
+$(document).find(".rlp_id_app_reject").val(rlp_id);
+$(document).find(".rlp_no_app_reject").val(rlp_no);
+$(document).find(".attr_rlp_action_app_reject").val(attr_rlp_action);
+$(document).find(".attr_rlp_action_title_action_app_reject").val(attr_rlp_action_title);
+  
+
+
+
+  $(".rlpApproveRejectSubmit").removeClass("btn-success").removeClass("btn-warning").removeClass("btn-info");
   $("#ApproveModalLabel").html(attr_rlp_action_title);
+  $(".rlpApproveRejectSubmit").addClass(button_class);
+  $(".rlpApproveRejectSubmit").html(attr_rlp_action_title);
+
  })
+
+ $(document).on("click",".rlpApproveRejectSubmit",function(){
+  var rlp_id = $(document).find(".rlp_id_app_reject").val();
+  var rlp_no = $(document).find(".rlp_no_app_reject").val();
+  var rlp_action = $(document).find(".attr_rlp_action_app_reject").val();
+  var rlp_remarks = $(document).find("#rlp_app_reject_remarks").val();
+  
+
+
+   $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')} });
+        $.ajax({
+           type:'POST',
+           url:"<?php echo e(url('rlp-approve-reject')); ?>",
+           data:{rlp_id,rlp_no,rlp_action,rlp_remarks},
+           success:function(data){
+              console.log(data);
+           }
+        });
+  
+ })
+
+ 
+  $(document).on("click","._invoice_lock",function(){
+    var _id = $(this).attr('_attr_invoice_id');
+    console.log(_id)
+    var _table_name ="rlp_masters";
+      if($(this).is(':checked')){
+            $(this).prop("selected", "selected");
+          var _action = 1;
+          $('._icon_change__'+_id).addClass('_green').removeClass('_required');
+         
+         
+        } else {
+          $(this).removeAttr("selected");
+          var _action = 0;
+            $('._icon_change__'+_id).addClass('_required').removeClass('_green');
+           
+        }
+      _lock_action(_id,_action,_table_name)
+       
+  })
 
  
 

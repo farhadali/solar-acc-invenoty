@@ -24,6 +24,8 @@ class CreateSocialMediaTable extends Migration
         });
     }
 
+    
+
     /**
      * Reverse the migrations.
      *

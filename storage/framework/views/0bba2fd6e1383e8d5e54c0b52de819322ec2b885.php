@@ -27,18 +27,18 @@
        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('rlp-module')): ?> 
       <li class="nav-item dropdown remove_from_header">
         <a class="nav-link" data-toggle="dropdown" href="#">
-           <?php echo e(__('label.rlp')); ?> <i class="right fas fa-angle-down"></i>
+           <?php echo e(__('label.procurement')); ?> <i class="right fas fa-angle-down"></i>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
        <p style="padding-left: 20px;"><b><?php echo e(__('label.entry')); ?></b></p>
        <div class="dropdown-divider"></div>
-        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('rlp-chain-list')): ?>
+        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('approval-chain-list')): ?>
          <div style="display: flex;">
-         <a href="<?php echo e(route('rlp-chain.index')); ?>" class="dropdown-item">
-            <i class="fa fa-fax mr-2" aria-hidden="true"></i> <?php echo e(__('label.rlp-chain')); ?>
+         <a href="<?php echo e(route('approval-chain.index')); ?>" class="dropdown-item">
+            <i class="fa fa-fax mr-2" aria-hidden="true"></i> <?php echo e(__('label.approval-chain')); ?>
 
           </a>
-          <a  href="<?php echo e(route('rlp-chain.create')); ?>" class="dropdown-item text-right">
+          <a  href="<?php echo e(route('approval-chain.create')); ?>" class="dropdown-item text-right">
             <i class="nav-icon fas fa-plus"></i>
           </a>
         </div>
@@ -626,7 +626,7 @@
           </a>
         </div>
          <?php endif; ?> 
-       <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('actual-sales-report')): ?>
+       <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('actual-sales-report')): ?>wa
         <div style="display: flex;">
            <a href="<?php echo e(url('filter-actual-sales')); ?>" class="dropdown-item">
             <i class="fa fa-list-alt mr-2" aria-hidden="true"></i> <?php echo e(__('label.actual-sales-report')); ?>
@@ -974,11 +974,9 @@
             <i class="fa fa-laptop mr-2" aria-hidden="true"></i><?php echo e(__('label.Item Category')); ?>
 
           </a>
-           <a  href="#None" 
-           class="dropdown-item text-right attr_base_create_url" 
-               data-toggle="modal" 
-               data-target="#commonEntryModal_item" 
-               attr_base_create_url="<?php echo e(route('item-category.create')); ?>"
+           <a  
+           class="dropdown-item text-right " 
+               href="<?php echo e(route('item-category.create')); ?>"
                 >
             <i class="nav-icon fas fa-plus"></i>
           </a>
@@ -994,12 +992,9 @@
             <i class="fa fa-laptop mr-2" aria-hidden="true"></i><?php echo e(__('label.Unit Of Measurment')); ?>
 
           </a>
-          <a  href="#None" 
-           class="dropdown-item text-right attr_base_create_url" 
-               data-toggle="modal" 
-               data-target="#commonEntryModal_item" 
-               attr_base_create_url="<?php echo e(route('unit.create')); ?>"
-                >
+          <a   
+           class="dropdown-item text-right " 
+               href="<?php echo e(route('unit.create')); ?>" >
             <i class="nav-icon fas fa-plus"></i>
           </a>
 
@@ -1014,11 +1009,9 @@
             <i class="fa fa-laptop mr-2" aria-hidden="true"></i><?php echo e(__('label.Warranty')); ?>
 
           </a>
-           <a  href="#None" 
-           class="dropdown-item text-right attr_base_create_url" 
-               data-toggle="modal" 
-               data-target="#commonEntryModal_item" 
-               attr_base_create_url="<?php echo e(route('warranty.create')); ?>"
+           <a   
+           class="dropdown-item text-right " 
+               href="<?php echo e(route('warranty.create')); ?>"
                 >
             <i class="nav-icon fas fa-plus"></i>
           </a>
@@ -1034,12 +1027,9 @@
             <i class="fa fa-laptop mr-2" aria-hidden="true"></i><?php echo e(__('label.Transection Terms')); ?>
 
           </a>
-          <a  href="#None" 
-           class="dropdown-item text-right attr_base_create_url" 
-               data-toggle="modal" 
-               data-target="#commonEntryModal_item" 
-               attr_base_create_url="<?php echo e(route('transection_terms.create')); ?>"
-                >
+          <a   
+           class="dropdown-item text-right " 
+               href="<?php echo e(route('transection_terms.create')); ?>" >
             <i class="nav-icon fas fa-plus"></i>
           </a>
           
@@ -1055,12 +1045,9 @@
             <i class="fa fa-laptop mr-2" aria-hidden="true"></i><?php echo e(__('label.Vat Rules')); ?>
 
           </a>
-           <a  href="#None" 
-           class="dropdown-item text-right attr_base_create_url" 
-               data-toggle="modal" 
-               data-target="#commonEntryModal_item" 
-               attr_base_create_url="<?php echo e(route('vat-rules.create')); ?>"
-                >
+           <a  
+           class="dropdown-item text-right " 
+               href="<?php echo e(route('vat-rules.create')); ?>" >
             <i class="nav-icon fas fa-plus"></i>
           </a>
           
@@ -1075,11 +1062,10 @@
             <i class="fa fa-list-alt mr-2" aria-hidden="true"></i> <?php echo e(__('label.Item Information')); ?>
 
           </a>
-           <a  href="#None" 
-           class="dropdown-item text-right attr_base_create_url" 
-               data-toggle="modal" 
-               data-target="#commonEntryModal_item" 
-               attr_base_create_url="<?php echo e(route('item-information.create')); ?>"
+           <a  
+           class="dropdown-item text-right " 
+              
+               href="<?php echo e(route('item-information.create')); ?>"
                 >
             <i class="nav-icon fas fa-plus"></i>
           </a>

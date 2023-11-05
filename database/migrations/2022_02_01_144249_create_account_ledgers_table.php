@@ -27,16 +27,19 @@ class CreateAccountLedgersTable extends Migration
             $table->string('_email',60)->nullable();
             $table->string('_phone',60)->nullable();
             $table->string('_address',200)->nullable();
-            $table->string('_note',200)->nullable();
+            $table->longText('_note',200)->nullable();
             $table->double('_credit_limit',15,4)->default(0);
-            $table->integer('_branch_id')->nullable();
+            $table->integer('_branch_id')->default(1);
             $table->integer('_is_user')->default(0);
             $table->integer('_user_id')->nullable();
             $table->integer('_is_sales_form')->default(0);
             $table->integer('_is_purchase_form')->default(0);
             $table->integer('_is_all_branch')->default(0);
             $table->integer('_short')->default(0);
-            $table->integer('_show')->default(0);
+            $table->integer('_show')->default(0)->comment('0=not show,1 =income statement,2 = balance sheet');
+            $table->double('_balance')->default(0);
+            $table->double('opening_dr_amount')->default(0);
+            $table->double('opening_cr_amount')->default(0);
             $table->tinyInteger('_status')->default(0);
             $table->tinyInteger('_is_used')->default(0);
             $table->string('_created_by',60)->nullable();
@@ -44,6 +47,8 @@ class CreateAccountLedgersTable extends Migration
             $table->timestamps();
         });
     }
+
+
 
     /**
      * Reverse the migrations.

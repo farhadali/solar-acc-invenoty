@@ -1,5 +1,5 @@
 @extends('backend.layouts.app')
-@section('title',$settings->title)
+@section('title',$page_name ?? '')
 
 @section('content')
 <!-- Content Header (Page header) -->
@@ -10,13 +10,11 @@
             <ol class="breadcrumb float-sm-right ml-2">
                @can('user-create')
               <li class="breadcrumb-item active">
-                <button type="button" 
-               class="btn btn-sm btn-info active attr_base_create_url" 
-               data-toggle="modal" 
-               data-target="#commonEntryModal_item" 
-               attr_base_create_url="{{ route('users.create') }}">
+                <a type="button" 
+               class="btn btn-sm btn-info active " 
+               href="{{ route('users.create') }}">
                    <i class="nav-icon fas fa-plus"></i> Create New
-                </button>
+                </a>
                   
                </li>
               @endcan
@@ -61,19 +59,15 @@
                         <td>{{ $key+1 }}</td>
                          <td style="display: flex;">
                            
-                                <button  type="button" 
-                                  attr_base_edit_url="{{ route('users.show',$user->id) }}"
-                                  data-toggle="modal" 
-                                  data-target="#commonEntryModal_item" 
-                                  class="btn btn-sm btn-default attr_base_edit_url mr-1"><i class="fa fa-eye"></i></button>
+                                <a  type="a" 
+                                  href="{{ route('users.show',$user->id) }}"
+                                  class="btn btn-sm btn-default  mr-1"><i class="fa fa-eye"></i></a>
 
 
                                   @can('user-edit')
-                                  <button  type="button" 
-                                  attr_base_edit_url="{{ route('users.edit',$user->id) }}"
-                                  data-toggle="modal" 
-                                  data-target="#commonEntryModal_item" 
-                                  class="btn btn-sm btn-default attr_base_edit_url mr-1"><i class="fa fa-pen "></i></button>
+                                  <a  type="button" 
+                                  href="{{ route('users.edit',$user->id) }}"
+                                  class="btn btn-sm btn-default  mr-1"><i class="fa fa-pen "></i></a>
 
                                     
                                   @endcan

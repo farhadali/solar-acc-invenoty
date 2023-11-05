@@ -768,6 +768,7 @@ $(document).on("change","#_discount_input",function(){
   function voucher_row_add(event) {
       event.preventDefault();
       $(document).find("#area__voucher_details").append(single_row);
+      change_branch_cost_strore();
   }
 
 var _purchase_row_single =`<tr class="_purchase_row">
@@ -856,6 +857,7 @@ var _purchase_row_single =`<tr class="_purchase_row">
 function purchase_row_add(event){
    event.preventDefault();
       $(document).find("#area__purchase_details").append(_purchase_row_single);
+      change_branch_cost_strore();
 }
  $(document).on('click','._purchase_row_remove',function(event){
       event.preventDefault();

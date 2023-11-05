@@ -1,4 +1,6 @@
 
+<?php $__env->startSection('title',$page_name ?? 'User'); ?>
+<?php $__env->startSection('content'); ?>
 
 <div class="content-header">
       <div class="container-fluid">
@@ -71,11 +73,11 @@
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-6">
                             <div class="form-group">
-                                <label>Store:<span class="_required">*</span></label>
+                                <label>Store:</label>
                                 <?php
                                 $stores= \DB::table('store_houses')->where('_status',1)->get();
                                 ?>
-                                <select class="form-control" name="organization_ids[]" multiple="" required>
+                                <select class="form-control" name="organization_ids[]" multiple="" >
                                   <?php $__empty_1 = true; $__currentLoopData = $stores; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                                   <option value="<?php echo e($val->id); ?>"  ><?php echo e($val->_name ?? ''); ?></option>
                                   <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
@@ -88,6 +90,13 @@
                             <div class="form-group">
                                 <label>Name:</label>
                                 <?php echo Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')); ?>
+
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <div class="form-group">
+                                <label>User Name/EMP ID:</label>
+                                <?php echo Form::text('user_name', null, array('placeholder' => 'User Name/EMP ID','class' => 'form-control')); ?>
 
                             </div>
                         </div>
@@ -167,4 +176,6 @@
       </div>
       <!-- /.container-fluid -->
     </div>
-</div><?php /**PATH D:\xampp\htdocs\own\inv-acc-hrm\resources\views/users/create.blade.php ENDPATH**/ ?>
+</div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('backend.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\xampp\htdocs\own\inv-acc-hrm\resources\views/users/create.blade.php ENDPATH**/ ?>

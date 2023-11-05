@@ -26,9 +26,11 @@ class CreateSalesOrdersTable extends Migration
             $table->unsignedBigInteger('_user_id');
             $table->foreign('_user_id')->references('id')->on('users');
             $table->string('_user_name')->nullable();
-            $table->string('_note')->nullable();
+            $table->longText('_note')->nullable();
             $table->double('_sub_total',15,4)->default(0);
             $table->double('_total',15,4)->default(0);
+            $table->integer('organization_id');
+            $table->integer('_cost_center_id');
             $table->unsignedBigInteger('_branch_id');
             $table->foreign('_branch_id')->references('id')->on('branches');
             $table->tinyInteger('_status')->default(0);
@@ -37,6 +39,7 @@ class CreateSalesOrdersTable extends Migration
             $table->timestamps();
         });
     }
+
 
     /**
      * Reverse the migrations.

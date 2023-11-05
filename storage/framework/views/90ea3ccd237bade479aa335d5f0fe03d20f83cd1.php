@@ -75,7 +75,9 @@
               <div class="form-group ">
                   <label><?php echo __('label.organization'); ?>:<span class="_required">*</span></label>
                   <select class="form-control _master_organization_id" name="organization_id" required >
-                    <option value=""><?php echo e(__('label.select')); ?></option>
+                    <?php if(sizeof($permited_organizations) > 0): ?>
+       <option value=""><?php echo e(__('label.select')); ?> <?php echo e(__('label.organization')); ?></option>
+<?php endif; ?>
                      <?php $__empty_1 = true; $__currentLoopData = $permited_organizations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                      <option value="<?php echo e($val->id); ?>" <?php if(isset($data->organization_id)): ?> <?php if($data->organization_id == $val->id): ?> selected <?php endif; ?>   <?php endif; ?>><?php echo e($val->id ?? ''); ?> - <?php echo e($val->_name ?? ''); ?></option>
                      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
@@ -85,9 +87,11 @@
               </div>
               <div class="col-xs-12 col-sm-12 col-md-2 ">
                   <div class="form-group ">
-                      <label>Branch:<span class="_required">*</span></label>
+                      <label><?php echo e(__('label.Branch')); ?>:<span class="_required">*</span></label>
                      <select class="form-control _master_branch_id" name="_branch_id" required >
-                        <option value=""><?php echo e(__('label.select')); ?></option>
+                       <?php if(sizeof($permited_branch) > 0): ?>
+       <option value=""><?php echo e(__('label.select')); ?> <?php echo e(__('label.Branch')); ?></option>
+<?php endif; ?>
                         <?php $__empty_1 = true; $__currentLoopData = $permited_branch; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $branch): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                         <option value="<?php echo e($branch->id); ?>" <?php if(isset($data->_branch_id)): ?> <?php if($data->_branch_id == $branch->id): ?> selected <?php endif; ?>   <?php endif; ?>><?php echo e($branch->id ?? ''); ?> - <?php echo e($branch->_name ?? ''); ?></option>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
@@ -99,7 +103,9 @@
                   <div class="form-group ">
                       <label><?php echo e(__('label.Cost center')); ?>:<span class="_required">*</span></label>
                      <select class="form-control _cost_center_id" name="_cost_center_id" required >
-                        <option value=""><?php echo e(__('label.select')); ?></option>
+                        <?php if(sizeof($permited_costcenters) > 0): ?>
+       <option value=""><?php echo e(__('label.select')); ?> <?php echo e(__('label.Cost center')); ?></option>
+<?php endif; ?>
                         <?php $__empty_1 = true; $__currentLoopData = $permited_costcenters; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cost_center): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                         <option value="<?php echo e($cost_center->id); ?>" <?php if(isset($data->_cost_center_id)): ?> <?php if($data->_cost_center_id == $cost_center->id): ?> selected <?php endif; ?>   <?php endif; ?>><?php echo e($cost_center->id ?? ''); ?> - <?php echo e($cost_center->_name ?? ''); ?></option>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
@@ -159,6 +165,22 @@
                   
                 </div>
               </div>
+            <!--   <div class="col-md-2">
+                <div class="form-group">
+                  <label><?php echo e(__('label._status')); ?> <span class="_required">*</span></label>
+                  <?php
+                  $status_details  = \DB::table('status_details')->get();
+                  ?>
+                 
+                 <select class="form-control" name="rlp_status" required>
+                    <?php $__empty_1 = true; $__currentLoopData = $status_details; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $st_key=>$st_val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                   <option value="<?php echo e($st_val->id); ?>" <?php if($st_val->id==$data->rlp_status): ?> selected <?php endif; ?> ><?php echo $st_val->name ?? ''; ?></option>
+                   <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                   <?php endif; ?>
+                 </select>
+                  
+                </div>
+              </div> -->
 
     
               
@@ -413,8 +435,8 @@
                                          <td><?php echo _view_date_formate($ack_val->ack_updated_date ?? ''); ?></td>
                                         </tr>
                                         <tr>
-                                          <td><?php echo e(__('label.duration')); ?>:</td>
-                                         <td></td>
+                                          <td colspan="2"><?php echo e(__('label.duration')); ?>: <?php echo e(_date_time_diff($ack_val->ack_updated_date,$ack_val->ack_request_date)); ?> </td>
+                                        
                                         </tr>
                                         </tbody>
                                       </table>
@@ -821,9 +843,9 @@ $(document).on('click','._rlp_item_row_remove',function(){
                                                 <div class="search_box_item"></div>
                                                 <textarea style="margin-top:10px;" class="form-control _item_description" name="_item_description[]" placeholder="<?php echo e(__('label.item_details')); ?>"></textarea>
                                               </td>
-                                              <td>
-                                                <input type="text" name="_search_supplier_ledger[]" class="form-control _search_supplier_ledger width_280_px" placeholder="<?php echo e(__('label.supplier')); ?>">
-                                                <input type="hidden" name="_supplier_ledger_id[]" class="form-control _supplier_ledger_id width_200_px" value="0" >
+                                                 <td>
+                                                <input type="text" name="_search_supplier_ledger[]" class="form-control _search_supplier_ledger width_280_px" placeholder="<?php echo e(__('label.supplier')); ?>" value="">
+                                                <input type="hidden" name="supplier_ledger_id[]" class="form-control supplier_ledger_id width_200_px" value="0">
                                                 <div class="search_box_supplier"></div>
                                               </td>
 

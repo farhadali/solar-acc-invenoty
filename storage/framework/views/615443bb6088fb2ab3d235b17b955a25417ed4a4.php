@@ -90,13 +90,10 @@ $users = \Auth::user();
 $permited_organizations = permited_organization(explode(',',$users->organization_ids));
 ?> 
 
-
 <div class="col-xs-12 col-sm-12 col-md-2 <?php if(sizeof($permited_organizations)==1): ?> display_none <?php endif; ?>">
  <div class="form-group ">
      <label><?php echo __('label.organization'); ?>:<span class="_required">*</span></label>
     <select class="form-control _master_organization_id" name="organization_id" required >
-
-       
        <?php $__empty_1 = true; $__currentLoopData = $permited_organizations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
        <option value="<?php echo e($val->id); ?>" <?php if(isset($request->organization_id)): ?> <?php if($request->organization_id == $val->id): ?> selected <?php endif; ?>   <?php endif; ?>><?php echo e($val->id ?? ''); ?> - <?php echo e($val->_name ?? ''); ?></option>
        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
@@ -750,6 +747,7 @@ $(document).on("change","#_discount_input",function(){
   function voucher_row_add(event) {
       event.preventDefault();
       $(document).find("#area__voucher_details").append(single_row);
+      change_branch_cost_strore();
   }
 
 var _purchase_row_single =`<tr class="_purchase_row">
@@ -838,6 +836,7 @@ var _purchase_row_single =`<tr class="_purchase_row">
 function purchase_row_add(event){
    event.preventDefault();
       $(document).find("#area__purchase_details").append(_purchase_row_single);
+      change_branch_cost_strore();
 }
  $(document).on('click','._purchase_row_remove',function(event){
       event.preventDefault();

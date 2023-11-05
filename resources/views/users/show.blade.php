@@ -1,4 +1,6 @@
-
+@extends('backend.layouts.app')
+@section('title',$page_name ?? '')
+@section('content')
 <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
@@ -16,18 +18,7 @@
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
-    <div class="message-area">
-    @if (count($errors) > 0)
-           <div class="alert alert-danger">
-                <strong>Whoops!</strong> There were some problems with your input.<br><br>
-                <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-                </ul>
-            </div>
-        @endif
-    </div>
+   @include('backend.message.message')
     <div class="content">
       <div class="container-fluid">
         <div class="row">
@@ -71,3 +62,4 @@
       <!-- /.container-fluid -->
     </div>
 </div>
+@endsection

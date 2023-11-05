@@ -28,6 +28,7 @@ class CreateVoucherMasterDetailsTable extends Migration
             $table->double('_dr_amount',15,4)->default(0);
             $table->double('_cr_amount',15,4)->default(0);
             $table->string('_type',10)->nullable();
+            $table->integer('organization_id');
             $table->unsignedBigInteger('_branch_id');
             $table->foreign('_branch_id')->references('id')->on('branches');
             $table->integer('_cost_center')->nullable(0);
@@ -38,6 +39,8 @@ class CreateVoucherMasterDetailsTable extends Migration
             $table->timestamps();
         });
     }
+
+ 
 
     /**
      * Reverse the migrations.

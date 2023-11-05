@@ -25,7 +25,7 @@ class RlpMaster extends Model
         return $this->hasMany(RlpAcknowledgement::class,'rlp_info_id','id')->with(['_employee','_check_group'])->where('_status',1);
     }
     public function _rlp_ack_app(){
-        return $this->hasMany(RlpAcknowledgement::class,'rlp_info_id','id')->with(['_employee','_check_group'])->where('_status',1)->where('_is_approve',1);
+        return $this->hasMany(RlpAcknowledgement::class,'rlp_info_id','id')->with(['_employee','_check_group'])->where('_status',1)->where('ack_status',1);
     }
 
     public function _rlp_req_user(){
@@ -49,7 +49,7 @@ class RlpMaster extends Model
     }
 
     public function _entry_by(){
-        return $this->hasOne(\App\Models\User::class,'id','created_by')->select('name', 'user_name', 'email', 'image', 'user_type', 'organization_ids', 'branch_ids', 'cost_center_ids', 'store_ids', 'ref_id',  'status', '_ac_type');
+        return $this->hasOne(\App\Models\User::class,'id','created_by')->select('id','name', 'user_name', 'email', 'image', 'user_type', 'organization_ids', 'branch_ids', 'cost_center_ids', 'store_ids', 'ref_id',  'status', '_ac_type');
     }
 }
 

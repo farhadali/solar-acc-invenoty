@@ -140,6 +140,7 @@ $__user= Auth::user();
                             <td>{{ $data->_organization->_name ?? '' }}</td>
                             <td>{{ $data->_branch->_name ?? '' }}</td>
                             <td>{{ $data->_cost_center->_name ?? '' }}</td>
+                            <td>{{ $data->_emp_location->_name ?? '' }}</td>
                             <td>{{ selected_status($data->_status) }}</td>
                             <td>{{ $data->_entry_by->name ?? '' }}</td>
 
@@ -151,7 +152,7 @@ $__user= Auth::user();
                         <tfoot>
                           <tr>
                             <td colspan="16">
-                              <div class="d-flex flex-row justify-content-end">
+                              <div class="d-flex flex-row justify-content-start">
                                  {!! $datas->render() !!}
                                 </div>
                             </td>

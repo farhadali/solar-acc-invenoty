@@ -10,13 +10,12 @@
                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('account-group-create')): ?>
               <li class="breadcrumb-item active">
                   
-                  <button type="button" 
-               class="btn btn-sm btn-info active attr_base_create_url" 
-               data-toggle="modal" 
-               data-target="#commonEntryModal_item" 
-               attr_base_create_url="<?php echo e(route('account-group.create')); ?>">
+                  <a 
+               class="btn btn-sm btn-info active " 
+               
+               href="<?php echo e(route('account-group.create')); ?>">
                    <i class="nav-icon fas fa-plus"></i> Create New
-                </button>
+                </a>
                </li>
               <?php endif; ?>
             </ol>
@@ -83,7 +82,7 @@
                   </div>
               </div>
               <div class="card-body">
-                <div class="table-responsive">
+                <div class="">
                   <table class="table table-bordered _list_table">
                     <thead>
                       <tr>
@@ -103,20 +102,13 @@
                         <tr>
                           <td><?php echo e(($key+1)); ?></td>
                           <td style="display: flex;">
-                           
-                                <button  type="button" 
-                                  attr_base_edit_url="<?php echo e(route('account-group.show',$data->id)); ?>"
-                                  data-toggle="modal" 
-                                  data-target="#commonEntryModal_item" 
-                                  class="btn btn-sm btn-default attr_base_edit_url mr-1"><i class="fa fa-eye"></i></button>
-
-
+                                <a   href="<?php echo e(route('account-group.show',$data->id)); ?>"
+                                  class="btn btn-sm btn-default  mr-1"><i class="fa fa-eye"></i></a>
                                   <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('account-group-edit')): ?>
-                                  <button  type="button" 
-                                  attr_base_edit_url="<?php echo e(route('account-group.edit',$data->id)); ?>"
-                                  data-toggle="modal" 
-                                  data-target="#commonEntryModal_item" 
-                                  class="btn btn-sm btn-default attr_base_edit_url mr-1"><i class="fa fa-pen "></i></button>
+                                  <a   
+                                  href="<?php echo e(route('account-group.edit',$data->id)); ?>"
+                                  
+                                  class="btn btn-sm btn-default  mr-1"><i class="fa fa-pen "></i></a>
 
                                     
                                   <?php endif; ?>

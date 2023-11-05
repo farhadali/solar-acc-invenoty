@@ -1667,6 +1667,7 @@ $(document).on("change","#_discount_input",function(){
   function voucher_row_add(event) {
       event.preventDefault();
       $("#area__voucher_details").append(single_row);
+      change_branch_cost_strore();
   }
 
 
@@ -1789,6 +1790,9 @@ function purchase_row_add(event){
                                               
                                               
                                             </tr>`);
+
+
+change_branch_cost_strore();
 
 }
  $(document).on('click','._purchase_row_remove',function(event){

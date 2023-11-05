@@ -143,6 +143,7 @@ $__user= Auth::user();
                             <td><?php echo e($data->_organization->_name ?? ''); ?></td>
                             <td><?php echo e($data->_branch->_name ?? ''); ?></td>
                             <td><?php echo e($data->_cost_center->_name ?? ''); ?></td>
+                            <td><?php echo e($data->_emp_location->_name ?? ''); ?></td>
                             <td><?php echo e(selected_status($data->_status)); ?></td>
                             <td><?php echo e($data->_entry_by->name ?? ''); ?></td>
 
@@ -154,7 +155,7 @@ $__user= Auth::user();
                         <tfoot>
                           <tr>
                             <td colspan="16">
-                              <div class="d-flex flex-row justify-content-end">
+                              <div class="d-flex flex-row justify-content-start">
                                  <?php echo $datas->render(); ?>
 
                                 </div>

@@ -1,4 +1,6 @@
-
+@extends('backend.layouts.app')
+@section('title',$page_name ?? 'User')
+@section('content')
 
 <div class="content-header">
       <div class="container-fluid">
@@ -167,3 +169,4 @@
       <!-- /.container-fluid -->
     </div>
 </div>
+@endsection

@@ -65,46 +65,7 @@
                                 </select>
                             </div>
                         </div>
-                            @php
-              $users = \Auth::user();
-              $permited_organizations = permited_organization(explode(',',$users->organization_ids));
-              @endphp 
-
-
-              <div class="col-xs-12 col-sm-12 col-md-2 @if(sizeof($permited_organizations)==1) display_none @endif">
-              <div class="form-group ">
-              <label>{!! __('label.organization') !!}:<span class="_required">*</span></label>
-              <select class="form-control _master_organization_id" name="organization_id" required >
-               @forelse($permited_organizations as $val )
-               <option value="{{$val->id}}" @if(isset($data->organization_id)) @if($data->organization_id == $val->id) selected @endif   @endif>{{ $val->id ?? '' }} - {{ $val->_name ?? '' }}</option>
-               @empty
-               @endforelse
-              </select>
-              </div>
-              </div>
-                        <div class="col-xs-12 col-sm-12 col-md-2 @if(sizeof($permited_branch)==1) display_none @endif">
-                            <div class="form-group ">
-                                <label>Branch:<span class="_required">*</span></label>
-                               <select class="form-control" name="_branch_id" required >
-                                  
-                                  @forelse($permited_branch as $branch )
-                                  <option value="{{$branch->id}}" @if(isset($request->_branch_id)) @if($request->_branch_id == $branch->id) selected @endif   @endif>{{ $branch->id ?? '' }} - {{ $branch->_name ?? '' }}</option>
-                                  @empty
-                                  @endforelse
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-2 @if(sizeof($permited_costcenters)==1) display_none @endif ">
-                            <div class="form-group ">
-                                <label>Cost Center:<span class="_required">*</span></label>
-                               <select class="form-control" name="_cost_center_id" required >
-                                   @forelse($permited_costcenters as $costcenter )
-                                                  <option value="{{$costcenter->id}}" @if(isset($request->_cost_center_id)) @if($request->_cost_center_id == $costcenter->id) selected @endif   @endif> {{ $costcenter->_name ?? '' }}</option>
-                                                  @empty
-                                                  @endforelse
-                                </select>
-                            </div>
-                        </div>
+                           @include('basic.org_create')
                         <div class="col-xs-12 col-sm-12 col-md-6 ">
                             <div class="form-group">
                               <label class="mr-2" for="_transection_ref">Reference:</label>
@@ -312,6 +273,7 @@
   function voucher_row_add(event) {
       event.preventDefault();
       $("#area__voucher_details").append(single_row);
+      change_branch_cost_strore();
   }
 
   

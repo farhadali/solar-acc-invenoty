@@ -17,11 +17,13 @@ class CreateInventoriesTable extends Migration
             $table->id();
             $table->string('_item',200);
             $table->string('_code')->nullable();
+            $table->string('_generic_name')->nullable();
+            $table->string('_strength')->nullable();
             $table->string('_barcode')->nullable();
+            $table->string('_item_category')->nullable()->comment('Inventry or Item Type');
             $table->string('_image')->nullable();
             $table->unsignedBigInteger('_category_id');
             $table->foreign('_category_id')->references('id')->on('item_categories');
-            $table->string('_image',200)->nullable();
             $table->double('_discount',15,4)->default(0);
             $table->integer('_unit_id')->nullable();
             $table->double('_vat',15,4)->default(0);
@@ -29,16 +31,23 @@ class CreateInventoriesTable extends Migration
             $table->double('_sale_rate',15,4)->default(0);
             $table->double('_reorder',15,2)->default(0);
             $table->double('_order_qty',15,2)->default(0);
+            $table->double('_balance',15,2)->default(0);
+            $table->double('_opening_qty',15,2)->default(0);
+            $table->double('_serial',15,2)->default(0);
             $table->string('_manufacture_company')->nullable();
             $table->tinyInteger('_status')->default(0);
             $table->tinyInteger('_is_used')->default(0);
             $table->tinyInteger('_unique_barcode')->default(0);
             $table->tinyInteger('_kitchen_item')->default(0);//if 1 then this item will send to kitchen to cook/production and store deduct as per item ingredient wise
+            $table->integer('_warranty')->default(0);
             $table->string('_created_by',60)->nullable();
             $table->string('_updated_by',60)->nullable();
             $table->timestamps();
         });
     }
+
+
+
 
     /**
      * Reverse the migrations.

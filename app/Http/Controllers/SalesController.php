@@ -48,7 +48,7 @@ class SalesController extends Controller
          $this->middleware('permission:sales-create', ['only' => ['create','store']]);
          $this->middleware('permission:sales-edit', ['only' => ['edit','update']]);
          $this->middleware('permission:sales-delete', ['only' => ['destroy']]);
-         $this->page_name = "Material Issue";
+         $this->page_name = "Sales";
     }
 
 
@@ -776,7 +776,7 @@ return json_encode( $data);
             $datas = $datas->where('id', $ids); 
         }
         
-         if($request->has('_lock') && $request->_lock !=''){
+        if($request->has('_lock') && $request->_lock !=''){
             $datas = $datas->where('_lock','=',$request->_lock);
         }
         if($request->has('_order_ref_id') && $request->_order_ref_id !=''){
