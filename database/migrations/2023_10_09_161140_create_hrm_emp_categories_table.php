@@ -17,6 +17,7 @@ class CreateHrmEmpCategoriesTable extends Migration
             $table->id();
             $table->string('_name');
             $table->tinyInteger('_status')->default(1);
+            $table->integer('_user');
             $table->timestamps();
         });
     }

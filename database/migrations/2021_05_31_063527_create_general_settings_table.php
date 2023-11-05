@@ -4,6 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+use App\Models\GeneralSettings;
+
 class CreateGeneralSettingsTable extends Migration
 {
     /**
@@ -48,6 +50,14 @@ class CreateGeneralSettingsTable extends Migration
             $table->timestamps();
 
         });
+
+        GeneralSettings::create([
+            'title' => 'title', 
+            'name' => 'name', 
+            '_email' => 'email@gmail.com'
+        ]);
+
+       
     }
 
     /**

@@ -15,13 +15,13 @@ class CreateServiceFromSettingsTable extends Migration
     {
         Schema::create('service_from_settings', function (Blueprint $table) {
             $table->id();
-            $table->integer('_default_service_income');
-            $table->integer('_default_discount');
-            $table->integer('_default_vat_account');
-             $table->integer('_show_inline_note');
-             $table->integer('_show_service_name');
-             $table->integer('_show_vat');
-             $table->integer('_inline_discount');
+            $table->integer('_default_service_income')->default(0);
+            $table->integer('_default_discount')->default(0);
+            $table->integer('_default_vat_account')->default(0);
+             $table->integer('_show_inline_note')->default(0);
+             $table->integer('_show_service_name')->default(0);
+             $table->integer('_show_vat')->default(0);
+             $table->integer('_inline_discount')->default(0);
             $table->timestamps();
         });
     }

@@ -27,6 +27,22 @@ class CreateSalesReturnDetailsTable extends Migration
             $table->double('_discount',15,4)->default(0);
             $table->double('_vat',15,4)->default(0);
             $table->double('_value',15,4)->default(0);
+            $table->double('_expected_qty',15,4)->default(0);
+            //For Export
+            $table->double('_sd',15,4)->default(0);
+            $table->double('_sd_amount',15,4)->default(0);
+            $table->double('_cd',15,4)->default(0);
+            $table->double('_cd_amount',15,4)->default(0);
+            $table->double('_ait',15,4)->default(0);
+            $table->double('_ait_amount',15,4)->default(0);
+            $table->double('_rd',15,4)->default(0);
+            $table->double('_rd_amount',15,4)->default(0);
+            $table->double('_at',15,4)->default(0);
+            $table->double('_at_amount',15,4)->default(0);
+            $table->double('_tti',15,4)->default(0);
+            $table->double('_tti_amount',15,4)->default(0);
+            //for Export
+            
             $table->integer('_store_id')->default(0);
             $table->string('_warranty')->default(0);
             $table->integer('_cost_center_id')->default(0);

@@ -63,8 +63,9 @@ $__user= Auth::user();
     $_show_barcode = $form_settings->_show_barcode ?? 0;
     $_show_cost_rate =  $form_settings->_show_cost_rate ?? 0;
     $_show_vat =  $form_settings->_show_vat ?? 0;
-   $_inline_discount = $form_settings->_inline_discount ?? 0;
+   $_inline_discount = $orm_settings->_inline_discount ?? 0;
     $_show_self = $form_settings->_show_self ?? 0;
+    $_show_unit = $form_settings->_show_unit ?? 0;
     ?>
               <div class="card-body">
                <form action="<?php echo e(route('purchase.store')); ?>" method="POST" class="purchase_form" >
@@ -157,7 +158,7 @@ $__user= Auth::user();
                                             <th class="text-left" >Item</th>
                                             <th class="text-left display_none" >Base Unit</th>
                                             <th class="text-left display_none" >Con. Qty</th>
-                                            <th class="text-left <?php if(isset($form_settings->_show_unit)): ?> <?php if($form_settings->_show_unit==0): ?> display_none    <?php endif; ?> <?php endif; ?>" >Tran. Unit</th>
+                                            <th class="text-left <?php if(isset($_show_unit)): ?> <?php if($_show_unit==0): ?> display_none    <?php endif; ?> <?php endif; ?>" >Tran. Unit</th>
                                            
                                             <th class="text-left <?php if(isset($form_settings->_show_barcode)): ?> <?php if($form_settings->_show_barcode==0): ?> display_none    <?php endif; ?> <?php endif; ?>" >Barcode</th>
                                             <th class="text-left <?php if(isset($form_settings->_show_short_note)): ?> <?php if($form_settings->_show_short_note==0): ?> display_none    <?php endif; ?> <?php endif; ?>" >Note</th>
@@ -166,11 +167,11 @@ $__user= Auth::user();
                                             <th class="text-left" >Rate</th>
                                             <th class="text-left" >Sales Rate</th>
 
-                                            <th class="text-left <?php if($form_settings->_inline_discount  ==0): ?> display_none <?php endif; ?>" >Dis%</th>
-                                            <th class="text-left <?php if($form_settings->_inline_discount  ==0): ?> display_none <?php endif; ?>" >Discount</th>
+                                            <th class="text-left <?php if($_inline_discount  ==0): ?> display_none <?php endif; ?>" >Dis%</th>
+                                            <th class="text-left <?php if($_inline_discount  ==0): ?> display_none <?php endif; ?>" >Discount</th>
                                            
-                                            <th class="text-left <?php if(isset($form_settings->_show_vat)): ?> <?php if($form_settings->_show_vat==0): ?> display_none   <?php endif; ?> <?php endif; ?>" >VAT%</th>
-                                            <th class="text-left <?php if(isset($form_settings->_show_vat)): ?> <?php if($form_settings->_show_vat==0): ?> display_none   <?php endif; ?> <?php endif; ?>" >VAT Amount</th>
+                                            <th class="text-left <?php if(isset($_show_vat)): ?> <?php if($_show_vat==0): ?> display_none   <?php endif; ?> <?php endif; ?>" >VAT%</th>
+                                            <th class="text-left <?php if(isset($_show_vat)): ?> <?php if($_show_vat==0): ?> display_none   <?php endif; ?> <?php endif; ?>" >VAT Amount</th>
                                           
 
                                             <th class="text-left" >Value</th>
@@ -219,7 +220,7 @@ $__user= Auth::user();
                                               <td class="display_none">
                                                 <input type="number" name="conversion_qty[]" min="0" step="any" class="form-control conversion_qty " value="1" readonly>
                                               </td>
-                                              <td class="<?php if($form_settings->_show_unit==0): ?> display_none <?php endif; ?>">
+                                              <td class="<?php if($_show_unit==0): ?> display_none <?php endif; ?>">
                                                 <select class="form-control _transection_unit" name="_transection_unit[]">
                                                 </select>
                                               </td>
@@ -245,10 +246,10 @@ $__user= Auth::user();
                                                 <input type="number" name="_sales_rate[]" class="form-control _sales_rate " >
                                               </td>
 
-                                               <td class="<?php if($form_settings->_inline_discount ==0): ?> display_none <?php endif; ?> " >
+                                               <td class="<?php if($_inline_discount ==0): ?> display_none <?php endif; ?> " >
                                                 <input type="number" name="_discount[]" class="form-control  _discount _common_keyup" >
                                               </td>
-                                              <td class="<?php if($form_settings->_inline_discount ==0): ?> display_none <?php endif; ?>" >
+                                              <td class="<?php if($_inline_discount ==0): ?> display_none <?php endif; ?>" >
                                                 <input type="number" name="_discount_amount[]" class="form-control  _discount_amount" >
                                               </td>
                                              
@@ -345,7 +346,7 @@ $__user= Auth::user();
                                               <td  class="text-right"><b>Total</b></td>
                                               <td class="display_none"></td>
                                               <td class="display_none"></td>
-                                              <td class="<?php if($form_settings->_show_unit==0): ?> display_none <?php endif; ?>"></td>
+                                              <td class="<?php if($_show_unit==0): ?> display_none <?php endif; ?>"></td>
                                               <?php if(isset($form_settings->_show_barcode)): ?> <?php if($form_settings->_show_barcode==1): ?>
                                               <td  class="text-right"></td>
                                               <?php else: ?>
@@ -363,8 +364,8 @@ $__user= Auth::user();
                                               </td>
                                               <td></td>
                                               <td></td>
-                                              <td class="<?php if($form_settings->_inline_discount==0): ?> display_none <?php endif; ?>"></td>
-                                              <td class="<?php if($form_settings->_inline_discount==0): ?> display_none <?php endif; ?>">
+                                              <td class="<?php if($_inline_discount==0): ?> display_none <?php endif; ?>"></td>
+                                              <td class="<?php if($_inline_discount==0): ?> display_none <?php endif; ?>">
                                                 <input type="number" step="any" min="0" name="_total_discount_amount" class="form-control _total_discount_amount" value="0" readonly required>
                                               </td>
                                              
@@ -570,16 +571,16 @@ $__user= Auth::user();
         <label for="_inline_discount" class="col-sm-5 col-form-label">Show Inline Discount</label>
         <select class="form-control col-sm-7" name="_inline_discount">
          
-          <option value="0" <?php if(isset($form_settings->_inline_discount)): ?><?php if($form_settings->_inline_discount==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
-          <option value="1" <?php if(isset($form_settings->_inline_discount)): ?><?php if($form_settings->_inline_discount==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
+          <option value="0" <?php if(isset($_inline_discount)): ?><?php if($_inline_discount==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
+          <option value="1" <?php if(isset($_inline_discount)): ?><?php if($_inline_discount==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
         </select>
       </div>
       <div class="form-group row">
         <label for="_show_unit" class="col-sm-5 col-form-label">Show Unit</label>
         <select class="form-control col-sm-7" name="_show_unit">
          
-          <option value="0" <?php if(isset($form_settings->_show_unit)): ?><?php if($form_settings->_show_unit==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
-          <option value="1" <?php if(isset($form_settings->_show_unit)): ?><?php if($form_settings->_show_unit==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
+          <option value="0" <?php if(isset($_show_unit)): ?><?php if($_show_unit==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
+          <option value="1" <?php if(isset($_show_unit)): ?><?php if($_show_unit==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
         </select>
       </div>
       <div class="form-group row">
@@ -1126,7 +1127,7 @@ if(data.length > 0 ){
                                               <td class="display_none">
                                                 <input type="number" name="conversion_qty[]" min="0" step="any" class="form-control conversion_qty " value="1" readonly>
                                               </td>
-                                              <td class="<?php if($form_settings->_show_unit==0): ?> display_none <?php endif; ?>">
+                                              <td class="<?php if($_show_unit==0): ?> display_none <?php endif; ?>">
                                                 <select class="form-control _transection_unit" name="_transection_unit[]">
                                                 <option value="${_main_unit_id}">${_unit_name}</option>
                                                 </select>
@@ -1152,10 +1153,10 @@ if(data.length > 0 ){
                                               <td>
                                                 <input type="number" name="_sales_rate[]" class="form-control _sales_rate " value="${_sales_rate}">
                                               </td>
-                                              <td class="<?php if($form_settings->_inline_discount==0): ?> display_none <?php endif; ?>">
+                                              <td class="<?php if($_inline_discount==0): ?> display_none <?php endif; ?>">
                                                 <input type="number" name="_discount[]" class="form-control  _discount _discount__${_item_row_count} _common_keyup" value="0" >
                                               </td>
-                                              <td class="<?php if($form_settings->_inline_discount==0): ?> display_none <?php endif; ?>">
+                                              <td class="<?php if($_inline_discount==0): ?> display_none <?php endif; ?>">
                                                 <input type="number" name="_discount_amount[]" class="form-control  _discount_amount _discount_amount__${_item_row_count}" value="0" >
                                               </td>
                                                <?php if(isset($form_settings->_show_vat)): ?> <?php if($form_settings->_show_vat==1): ?>
@@ -1411,7 +1412,7 @@ function purchase_row_add(event){
                                               <td class="display_none">
                                                 <input type="number" name="conversion_qty[]" min="0" step="any" class="form-control conversion_qty " value="1" readonly>
                                               </td>
-                                              <td class="<?php if($form_settings->_show_unit==0): ?> display_none <?php endif; ?>">
+                                              <td class="<?php if($_show_unit==0): ?> display_none <?php endif; ?>">
                                                 <select class="form-control _transection_unit" name="_transection_unit[]">
                                                 </select>
                                               </td>
@@ -1446,10 +1447,10 @@ function purchase_row_add(event){
                                               <td>
                                                 <input type="number" name="_sales_rate[]" class="form-control _sales_rate " >
                                               </td>
-                                              <td class="<?php if($form_settings->_inline_discount==0): ?> display_none <?php endif; ?>">
+                                              <td class="<?php if($_inline_discount==0): ?> display_none <?php endif; ?>">
                                                 <input type="number" name="_discount[]" class="form-control  _discount _discount__0 _common_keyup" value="" >
                                               </td>
-                                              <td class="<?php if($form_settings->_inline_discount==0): ?> display_none <?php endif; ?>">
+                                              <td class="<?php if($_inline_discount==0): ?> display_none <?php endif; ?>">
                                                 <input type="number" name="_discount_amount[]" class="form-control  _discount_amount _discount_amount__0" value="" >
                                               </td>
 

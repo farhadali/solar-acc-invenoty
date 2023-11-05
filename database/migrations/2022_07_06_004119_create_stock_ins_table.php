@@ -57,3 +57,4 @@ class CreateStockInsTable extends Migration
         Schema::dropIfExists('stock_ins');
     }
 }
+// 871 388 0931

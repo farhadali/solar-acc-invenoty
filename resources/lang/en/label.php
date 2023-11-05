@@ -15,6 +15,7 @@ return [
 
 
 
+    'notesheet' => 'Notesheet',
     'Cr. Amount' => 'Cr. Amount',
     'Dr. Amount' => 'Dr. Amount',
     'Short Narr.' => 'Short Narr.',

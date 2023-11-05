@@ -21,7 +21,7 @@ class CreateSalesDetailsTable extends Migration
             $table->foreign('_p_p_l_id')->references('id')->on('product_price_lists');
             $table->integer('_transection_unit')->default(0);
             $table->integer('_base_unit')->default(0);
-            $table->double('_unit_conversion',15,4)->default(0);
+            $table->double('_unit_conversion',15,4)->default(1);
             $table->double('_base_rate',15,4)->default(0);
             $table->double('_qty',15,4)->default(0);
             $table->double('_rate',15,4)->default(0);
@@ -30,6 +30,22 @@ class CreateSalesDetailsTable extends Migration
             $table->double('_discount_amount',15,4)->default(0);
             $table->double('_vat',15,4)->default(0);
             $table->double('_vat_amount',15,4)->default(0);
+            $table->double('_expected_qty',15,4)->default(0);
+            //For Export
+            $table->double('_sd',15,4)->default(0);
+            $table->double('_sd_amount',15,4)->default(0);
+            $table->double('_cd',15,4)->default(0);
+            $table->double('_cd_amount',15,4)->default(0);
+            $table->double('_ait',15,4)->default(0);
+            $table->double('_ait_amount',15,4)->default(0);
+            $table->double('_rd',15,4)->default(0);
+            $table->double('_rd_amount',15,4)->default(0);
+            $table->double('_at',15,4)->default(0);
+            $table->double('_at_amount',15,4)->default(0);
+            $table->double('_tti',15,4)->default(0);
+            $table->double('_tti_amount',15,4)->default(0);
+            //for Export
+
             $table->double('_value',15,4)->default(0);
             $table->integer('_store_id')->nullable();
             $table->integer('_warranty')->default(0);

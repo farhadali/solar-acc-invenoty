@@ -19,7 +19,7 @@ class CreateVoucherFormSettingsTable extends Migration
             $table->integer('_bank_group')->nullable();
             $table->timestamps();
         });
-    }
+    }//871 388 0931
 
     /**
      * Reverse the migrations.

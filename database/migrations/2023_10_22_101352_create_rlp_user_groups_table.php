@@ -18,6 +18,8 @@ class CreateRlpUserGroupsTable extends Migration
             $table->string('_name');
             $table->integer('_order')->default(1);
             $table->tinyInteger('_status')->default(1);
+            $table->string('_display_name')->nullable();
+            $table->string('_color')->nullable();
             $table->timestamps();
         });
     }

@@ -17,6 +17,7 @@ class CreateDesignationsTable extends Migration
             $table->id();
             $table->string('name');
             $table->tinyInteger('_status')->default(1);
+            $table->integer('_user');
             $table->timestamps();
         });
     }

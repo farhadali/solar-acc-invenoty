@@ -15,19 +15,19 @@ class CreateSalesReturnFormSettingsTable extends Migration
     {
         Schema::create('sales_return_form_settings', function (Blueprint $table) {
             $table->id();
-            $table->integer('_default_inventory');
-            $table->integer('_default_sales');
-            $table->integer('_default_cost_of_solds');
-            $table->integer('_default_discount');
-            $table->integer('_default_vat_account');
-            $table->integer('_inline_discount');
-            $table->integer('_show_barcode');
-            $table->integer('_show_vat');
-            $table->integer('_show_store');
-            $table->integer('_show_self');
-            $table->integer('_show_delivery_man');
-            $table->integer('_show_sales_man');
-            $table->integer('_show_cost_rate');
+            $table->integer('_default_inventory')->default(0);
+            $table->integer('_default_sales')->default(0);
+            $table->integer('_default_cost_of_solds')->default(0);
+            $table->integer('_default_discount')->default(0);
+            $table->integer('_default_vat_account')->default(0);
+            $table->integer('_inline_discount')->default(0);
+            $table->integer('_show_barcode')->default(0);
+            $table->integer('_show_vat')->default(0);
+            $table->integer('_show_store')->default(0);
+            $table->integer('_show_self')->default(0);
+            $table->integer('_show_delivery_man')->default(0);
+            $table->integer('_show_sales_man')->default(0);
+            $table->integer('_show_cost_rate')->default(0);
             $table->timestamps();
         });
     }

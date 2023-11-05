@@ -20,7 +20,7 @@ use App\Http\Controllers\HrmDesignationController;
 //
 //#########
 
-
+Route::group(['middleware' => ['auth']], function() {
 Route::resource('hrm-employee',HrmEmployeesController::class);
 
 Route::get('employee-search','App\Http\Controllers\HrmEmployeesController@employeeSearch');
@@ -36,3 +36,6 @@ Route::resource('hrm-department',HrmDepartmentController::class);
 Route::resource('hrm-grade',HrmGradeController::class);
 Route::resource('hrm-emp-location',HrmEmpLocationController::class);
 Route::resource('hrm-emp-category',HrmEmpCategoryController::class);
+
+
+});

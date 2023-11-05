@@ -237,7 +237,9 @@ $__user= Auth::user();
                       <tr>
                         <td>{{$sl}}</td>
                         <td>
-                          <a href="{{url('rlp-to-notesheet')}}?rlp_no={{$data->rlp_no}}"></a>
+                          @if($data->rlp_status==1)
+                          <a target="__blank" class="btn btn-primary" href="{{url('rlp-to-notesheet')}}?rlp_no={{$data->rlp_no}}&rlp_id={{$data->id}}&supplier_id={{$data->_ledger_id ?? ''}}">{{__('label.notesheet')}}</a>
+                          @endif
                         </td>
                         <td>
                          

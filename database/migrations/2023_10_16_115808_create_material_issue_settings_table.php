@@ -17,13 +17,17 @@ class CreateMaterialIssueSettingsTable extends Migration
             $table->id();
             $table->integer('_default_inventory');
             $table->integer('_default_issue_ledger');
+            $table->integer('_default_sales');
             $table->integer('_default_cost_of_solds');
             $table->integer('_default_discount');
             $table->integer('_default_vat_account');
             $table->integer('_inline_discount');
             $table->integer('_show_barcode');
             $table->integer('_show_vat');
+            $table->integer('_show_unit');
             $table->integer('_show_store');
+            $table->integer('_show_branch');
+            $table->integer('_show_cost_center');
             $table->integer('_show_self');
             $table->integer('_show_delivery_man');
             $table->integer('_show_sales_man');

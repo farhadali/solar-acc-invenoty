@@ -230,6 +230,7 @@ class RlpController extends Controller
                                 ->select('t1.id')
                                 ->join('rlp_access_chain_users as t2','t2.chain_id','t1.id')
                                 ->where('t2.user_id',$emp_id)
+                                ->where('t1.chain_type','RLP')
                                 ->where('t2.user_group',1) // user group 1=Rlp Creator
                                 ->groupBy('t1.id')
                                 ->get();

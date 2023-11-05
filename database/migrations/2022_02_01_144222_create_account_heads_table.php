@@ -23,6 +23,9 @@ class CreateAccountHeadsTable extends Migration
             $table->string('_updated_by',60)->nullable();
             $table->timestamps();
         });
+
+
+        
     }
 
 

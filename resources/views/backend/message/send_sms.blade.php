@@ -1,4 +1,4 @@
-@if($settings->_sms_service ==1)
+@if(isset($settings->_sms_service) && $settings->_sms_service ==1)
 
 <tr style="border:0px;">
 	<td colspan="2" style="border:0px;">
@@ -24,7 +24,7 @@
 </tr>
 @endif
 
-@if($settings->_auto_lock ==1)
+@if(isset($settings->_auto_lock) && $settings->_auto_lock ==1)
 
 <tr style="border:0px;">
 	<td colspan="2" style="border:0px;">
