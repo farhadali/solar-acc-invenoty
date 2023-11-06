@@ -15,6 +15,7 @@ class CreateDamageFormSettingsTable extends Migration
     {
         Schema::create('damage_form_settings', function (Blueprint $table) {
             $table->id();
+            $table->integer('organization_id')->default(0);
             $table->integer('_default_inventory')->default(0);
             $table->integer('_default_discount')->default(0);
             $table->integer('_default_vat_account')->default(0);

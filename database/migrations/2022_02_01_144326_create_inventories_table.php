@@ -35,6 +35,15 @@ class CreateInventoriesTable extends Migration
             $table->double('_opening_qty',15,2)->default(0);
             $table->double('_serial',15,2)->default(0);
             $table->string('_manufacture_company')->nullable();
+
+            $table->double('_sd',15,4)->default(0);
+            $table->double('_cd',15,4)->default(0);
+            $table->double('_ait',15,4)->default(0);
+            $table->double('_rd',15,4)->default(0);
+            $table->double('_at',15,4)->default(0);
+            $table->double('_tti',15,4)->default(0);
+
+
             $table->tinyInteger('_status')->default(0);
             $table->tinyInteger('_is_used')->default(0);
             $table->tinyInteger('_unique_barcode')->default(0);

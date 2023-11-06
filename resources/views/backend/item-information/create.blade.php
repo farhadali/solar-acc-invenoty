@@ -1,4 +1,6 @@
-
+@extends('backend.layouts.app')
+@section('title',$page_name ?? '')
+@section('content')
 <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
@@ -238,22 +240,6 @@
 
 
 
-<script type="text/javascript">
-  
-  // $(document).on('click','.item_save',function(event){
-  //   event.preventDefault();
-  //   var _item_opening_qty = $(document).find('#_item_opening_qty').val();
-  //   var _item_pur_rate = $(document).find('#_item_pur_rate').val();
-  //   var _item_sale_rate = $(document).find('#_item_sale_rate').val();
 
-  //   if(_item_opening_qty > 0){
-
-  //   }
-
-
-
-
-
-  // })
-</script>
+@endsection
 

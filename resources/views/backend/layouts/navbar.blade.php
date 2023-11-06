@@ -52,6 +52,16 @@
           </a>
         </div>
         @endcan
+        @can('import-purchase-list')
+         <div style="display: flex;">
+         <a href="{{route('import-purchase.index')}}" class="dropdown-item">
+            <i class="fa fa-fax mr-2" aria-hidden="true"></i> {{ __('label.import-purchase') }}
+          </a>
+          <a  href="{{route('import-purchase.create')}}" class="dropdown-item text-right">
+            <i class="nav-icon fas fa-plus"></i>
+          </a>
+        </div>
+        @endcan
       </li>
     @endcan
         @can('hrm-module') 

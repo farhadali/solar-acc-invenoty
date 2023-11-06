@@ -22,6 +22,8 @@ use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\UnitsController;
 use App\Http\Controllers\PurchaseReturnController;
+use App\Http\Controllers\ImportPuchaseController;
+
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\SalesReturnController;
 use App\Http\Controllers\InventoryReportController;
@@ -48,6 +50,8 @@ use App\Http\Controllers\IndividualReplaceMasterController;
 use App\Http\Controllers\EasyVoucherController;
 use App\Http\Controllers\InterProjectVoucherController;
 use App\Http\Controllers\WItemReceiveFromSupplierController;
+
+use App\Http\Controllers\VesselInfoController;
 
 
 
@@ -92,7 +96,13 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::group(['middleware' => ['auth']], function() {
 
+Route::resource('import-purchase',ImportPuchaseController::class);
+Route::get('import-purchase-setting-modal',[ImportPuchaseController::class,'formSettingAjax']);
+Route::post('import-purchase-settings',[ImportPuchaseController::class,'Settings']);
+
+
 Route::resource('material-issue',MaterialIssueController::class);
+
 Route::post('material-issue-setting', 'App\Http\Controllers\MaterialIssueController@Settings');
 Route::get('material-issue-setting-modal', 'App\Http\Controllers\MaterialIssueController@formSettingAjax');
 Route::get('available-qty-check-for-materail-issue-update', 'App\Http\Controllers\MaterialIssueController@checkQtyUpdateFoMaterialIssue');

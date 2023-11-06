@@ -61,7 +61,7 @@ $__user= Auth::user();
               </div>
                 <?php
     $_show_barcode = $form_settings->_show_barcode ?? 0;
-    $_show_short_note = $_show_short_note ?? 0;
+    $_show_short_note = $form_settings->_show_short_note ?? 0;
     $_show_cost_rate =  $form_settings->_show_cost_rate ?? 0;
     $_show_vat =  $form_settings->_show_vat ?? 0;
    $_inline_discount = $form_settings->_inline_discount ?? 0;
@@ -226,7 +226,7 @@ $__user= Auth::user();
                                                 </select>
                                               </td>
                                               
-                                              <td class="<?php if(isset($_show_short_note)): ?> <?php if($_show_short_note==0): ?> display_none   <?php endif; ?> <?php endif; ?>">
+                                              <td class="<?php if(isset($_show_barcode)): ?> <?php if($_show_barcode==0): ?> display_none   <?php endif; ?> <?php endif; ?>">
                                                 <input type="text" name="_barcode[]" class="form-control _barcode 1__barcode "  id="1__barcode">
 
                                                 <input type="hidden" name="_ref_counter[]" value="1" class="_ref_counter" id="1__ref_counter">
@@ -1649,6 +1649,13 @@ $(document).on('click',".remove_duplicate_barcode",function(){
     var _voucher_type = $(document).find('._voucher_type').val();
     var _note = $(document).find('._note').val();
     var _main_ledger_id = $(document).find('._main_ledger_id').val();
+    if(check_select_org_branch_cost_center()==false){
+      return false;
+    }
+    // var _master_organization_id = $(document).find('._master_organization_id').val();
+    // var _master_branch_id = $(document).find('._master_branch_id').val();
+    // var _cost_center_id = $(document).find('._cost_center_id').val();
+
     if(_main_ledger_id  ==""){
        alert(" Please Add Ledger  ");
         $(document).find('._search_main_ledger_id').addClass('required_border').focus();

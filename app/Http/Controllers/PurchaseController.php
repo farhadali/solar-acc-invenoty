@@ -61,7 +61,7 @@ class PurchaseController extends Controller
         $_asc_desc = $request->_asc_desc ?? 'DESC';
         $asc_cloumn =  $request->asc_cloumn ?? 'id';
 
-        $datas = Purchase::with(['_organization','_master_branch','_ledger']);
+        $datas = Purchase::with(['_organization','_master_branch','_ledger'])->where('_purchase_type',1);
         $datas = $datas->whereIn('_branch_id',explode(',',$auth_user->branch_ids));
         $datas = $datas->whereIn('_cost_center_id',explode(',',$auth_user->cost_center_ids));
         $datas = $datas->whereIn('organization_id',explode(',',$auth_user->organization_ids));

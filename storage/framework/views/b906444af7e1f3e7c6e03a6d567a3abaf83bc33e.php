@@ -13,13 +13,12 @@
               <!-- <li class="breadcrumb-item"><a href="<?php echo e(url('home')); ?>">Home</a></li> -->
               <li class="breadcrumb-item active">
               <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('item-information-create')): ?>
-                <button type="button" 
-               class="btn btn-sm btn-info active attr_base_create_url" 
-               data-toggle="modal" 
-               data-target="#commonEntryModal_item" 
-               attr_base_create_url="<?php echo e(route('item-information.create')); ?>">
+                <a  
+               class="btn btn-sm btn-info active " 
+               
+               href="<?php echo e(route('item-information.create')); ?>">
                    <i class="nav-icon fas fa-plus"></i> Create New
-                </button>
+                </a>
               
               <?php endif; ?>
                </li>

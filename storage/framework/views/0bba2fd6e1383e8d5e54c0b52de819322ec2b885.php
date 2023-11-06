@@ -54,6 +54,17 @@
           </a>
         </div>
         <?php endif; ?>
+        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('import-purchase-list')): ?>
+         <div style="display: flex;">
+         <a href="<?php echo e(route('import-purchase.index')); ?>" class="dropdown-item">
+            <i class="fa fa-fax mr-2" aria-hidden="true"></i> <?php echo e(__('label.import-purchase')); ?>
+
+          </a>
+          <a  href="<?php echo e(route('import-purchase.create')); ?>" class="dropdown-item text-right">
+            <i class="nav-icon fas fa-plus"></i>
+          </a>
+        </div>
+        <?php endif; ?>
       </li>
     <?php endif; ?>
         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('hrm-module')): ?> 

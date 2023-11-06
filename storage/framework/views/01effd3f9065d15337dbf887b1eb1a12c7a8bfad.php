@@ -1,4 +1,6 @@
 
+<?php $__env->startSection('title',$page_name ?? ''); ?>
+<?php $__env->startSection('content'); ?>
 <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
@@ -240,23 +242,8 @@
 
 
 
-<script type="text/javascript">
-  
-  // $(document).on('click','.item_save',function(event){
-  //   event.preventDefault();
-  //   var _item_opening_qty = $(document).find('#_item_opening_qty').val();
-  //   var _item_pur_rate = $(document).find('#_item_pur_rate').val();
-  //   var _item_sale_rate = $(document).find('#_item_sale_rate').val();
 
-  //   if(_item_opening_qty > 0){
-
-  //   }
+<?php $__env->stopSection(); ?>
 
 
-
-
-
-  // })
-</script>
-
-<?php /**PATH D:\xampp\htdocs\own\inv-acc-hrm\resources\views/backend/item-information/create.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('backend.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\xampp\htdocs\own\inv-acc-hrm\resources\views/backend/item-information/create.blade.php ENDPATH**/ ?>
