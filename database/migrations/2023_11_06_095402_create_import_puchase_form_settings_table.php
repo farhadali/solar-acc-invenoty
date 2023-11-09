@@ -16,6 +16,7 @@ class CreateImportPuchaseFormSettingsTable extends Migration
         Schema::create('import_puchase_form_settings', function (Blueprint $table) {
             $table->id();
             $table->integer('organization_id')->default(0);
+            $table->integer('_user_id')->default(0);
             $table->integer('_default_inventory')->default(0);
             $table->integer('_default_purchase')->default(0);
             $table->integer('_default_discount')->default(0);
@@ -39,6 +40,13 @@ class CreateImportPuchaseFormSettingsTable extends Migration
             $table->integer('_show_at')->default(0);
             $table->integer('_show_tti')->default(0);
             $table->integer('_show_manufacture_date')->default(0);
+            $table->integer('_show_po')->default(0);
+            $table->integer('_show_rlp')->default(0);
+            $table->integer('_show_note_sheet')->default(0);
+            $table->integer('_show_wo')->default(0);
+            $table->integer('_show_lc')->default(0);
+            $table->integer('_show_vn')->default(0);
+
             $table->integer('_show_expire_date')->default(0);
             $table->integer('_invoice_template')->default(0);
             $table->timestamps();

@@ -118,13 +118,13 @@ $__user= Auth::user();
 <td style="display: flex;">
                            
                                 <a  
-                                  href="{{url('purchase/print')}}/{{$data->id}}"
+                                  href="{{url('import-purchase/print')}}/{{$data->id}}"
                                   class="btn btn-sm btn-default  mr-1"><i class="fa fa-eye"></i></a>
 
 
-                                  @can('purchase-edit')
+                                  @can('import-purchase-edit')
                                   
-                                  <a  href="{{ route('purchase.edit',$data->id) }}" 
+                                  <a  href="{{ route('import-purchase.edit',$data->id) }}" 
                                   
                                   class="btn btn-sm btn-default  mr-1"><i class="fa fa-pen "></i></a>
                                   @endcan
@@ -133,7 +133,7 @@ $__user= Auth::user();
                                    <i class="fa fa-print "></i>
                                   </button>
                                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                     <a class="dropdown-item " href="{{url('purchase/print')}}/{{$data->id}}" >
+                                     <a class="dropdown-item " href="{{url('import-purchase/print')}}/{{$data->id}}" >
                                          View & Print
                                       </a>
                                      
@@ -148,9 +148,7 @@ $__user= Auth::user();
                                 </div>
                                 
                                 
-                                <a class="btn btn-sm btn-default mr-2 _action_button _single_data_click" attr_invoice_id="{{$data->id}}" _attr_key="{{$key}}" data-toggle="collapse" href="#collapseExample__{{$key}}" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                      <i class=" fas fa-angle-down"></i>
-                                    </a>
+                                
                                     @can('labels-print')
                                     <a title="Model Barcode Print" target="__blank" class="btn btn-default" href="{{url('labels-print')}}?_id={{$data->id}}&_type=purchase"><i class=" fas fa-barcode"></i></a>
                                   @endcan
@@ -172,8 +170,8 @@ $__user= Auth::user();
                             <td>{{ _report_amount( $data->_total_vat ?? 0) }} </td>
                             <td>{{ _report_amount( $data->_total ?? 0) }} </td>
                             <td>{{ $data->_user_name ?? ''  }}</td>
-                             <td>{{ $data->created_at ?? ''  }}</td>
-                              <td>{{ $data->updated_at ?? ''  }}</td>
+                            <td>{{ $data->created_at ?? ''  }}</td>
+                            <td>{{ $data->updated_at ?? ''  }}</td>
                            <td style="display: flex;">
                               @can('lock-permission')
                               <input class="form-control _invoice_lock" type="checkbox" name="_lock" _attr_invoice_id="{{$data->id}}" value="{{$data->_lock}}" @if($data->_lock==1) checked @endif>
@@ -189,14 +187,7 @@ $__user= Auth::user();
                             
                            
                         </tr>
-                        <tr>
-                          <td colspan="14" class="collapse " id="collapseExample__{{$key}}">
-                            <div class="_single_data_display__{{$data->id}}">
-                              <h2 style="color: green">Loading..............</h2>
-                            </div>
-                            
-                          </td>
-                         <tr>
+                        
 
                        
                         @endforeach

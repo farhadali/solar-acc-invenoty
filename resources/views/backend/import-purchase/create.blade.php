@@ -14,7 +14,7 @@ $__user= Auth::user();
       <div class="container-fluid">
         <div class="row mb-2">
           <div class=" col-sm-6 ">
-              <a class="m-0 _page_name" href="{{ route('purchase.index') }}">{!! $page_name ?? '' !!} </a>
+              <a class="m-0 _page_name" href="{{ route('import-purchase.index') }}">{!! $page_name ?? '' !!} </a>
            
           </div><!-- /.col -->
           <div class=" col-sm-6 ">
@@ -75,16 +75,24 @@ $__user= Auth::user();
     $_show_tti  = $form_settings->_show_tti  ?? 0;
     $_show_expected_qty  = $form_settings->_show_expected_qty  ?? 0;
     $_show_sales_rate  = $form_settings->_show_sales_rate  ?? 0;
+    $_show_po  = $form_settings->_show_po  ?? 0;
+    $_show_rlp  = $form_settings->_show_rlp  ?? 0;
+    $_show_note_sheet  = $form_settings->_show_note_sheet  ?? 0;
+    $_show_wo  = $form_settings->_show_wo  ?? 0;
+    $_show_lc  = $form_settings->_show_lc  ?? 0;
+    $_show_vn  = $form_settings->_show_vn  ?? 0;
+
+
     @endphp
               <div class="card-body">
                <form action="{{route('import-purchase.store')}}" method="POST" class="purchase_form" >
                 @csrf
                                    <div class="row">
 
-                       <div class="col-xs-12 col-sm-12 col-md-3">
+                       <div class="col-xs-12 col-sm-12 col-md-2">
                         <input type="hidden" name="_form_name" class="_form_name" value="purchases">
                             <div class="form-group">
-                                <label>Date:</label>
+                                <label>{{__('label._date')}}:</label>
                                   <div class="input-group date" id="reservationdate" data-target-input="nearest">
                                       <input type="text" name="_date" class="form-control datetimepicker-input" data-target="#reservationdate"/>
                                       <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
@@ -97,56 +105,73 @@ $__user= Auth::user();
                         </div>
 
                         
-                        <div class="col-xs-12 col-sm-12 col-md-3 ">
+                        <div class="col-xs-12 col-sm-12 col-md-2 ">
                             <div class="form-group">
-                              <label class="mr-2" for="_order_number">Invoice No:</label>
+                              <label class="mr-2" for="_order_number">{{__('label._order_number')}}:</label>
                               <input type="text" id="_order_number" name="_order_number" class="form-control _order_number" value="{{old('_order_number')}}" placeholder="Invoice No" readonly >
                               <input type="hidden" name="_search_form_value" class="_search_form_value" value="2">
                                 
                             </div>
                         </div>
-                        @include('basic.org_create')
                         
-
-                        
-
-                          <div class="col-xs-12 col-sm-12 col-md-2 ">
+                        <div class="col-xs-12 col-sm-12 col-md-2 ">
                             <div class="form-group">
-                              <label class="mr-2" for="_order_ref_id">Purchase Order:</label>
-                              <input type="text" id="_search_order_ref_id" name="_search_order_ref_id" class="form-control _search_order_ref_id" value="{{old('_order_ref_id')}}" placeholder="Purchase Order" >
+                              <label class="mr-2" for="_purchase_type">{{__('label._purchase_type')}}:</label>
+                              <select class="form-control" name="_purchase_type" >
+                                <option value="2">Import</option>
+                              </select>
+                                
+                            </div>
+                        </div>
+                        @include('basic.org_create')
+
+                          <div class="col-xs-12 col-sm-12 col-md-2  @if($_show_po==0) display_none @endif">
+                            <div class="form-group">
+                              <label class="mr-2" for="_order_ref_id">{{__('label.purchase_order')}}:</label>
+                              <input type="text" id="_search_order_ref_id" name="_search_order_ref_id" class="form-control _search_order_ref_id" value="{{old('_order_ref_id')}}" placeholder="{{__('label.purchase_order')}}" >
                               <input type="hidden" id="_order_ref_id" name="_order_ref_id" class="form-control _order_ref_id" value="{{old('_order_ref_id')}}" placeholder="Purchase Order" >
                               <div class="search_box_purchase_order"></div>
                             </div>
                         </div>
 
-                        <div class="col-xs-12 col-sm-12 col-md-2 ">
+                        <div class="col-xs-12 col-sm-12 col-md-2 @if($_show_po==0) display_none @endif">
                             <div class="form-group">
                               <label class="mr-2" for="_rlp_no">{{__('label._rlp_no')}}:</label>
                               <input type="text" id="_rlp_no" name="_rlp_no" class="form-control _rlp_no" value="{{old('_rlp_no')}}" placeholder="{{__('label._rlp_no')}}" >
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-2 ">
+                        <div class="col-xs-12 col-sm-12 col-md-2 @if($_show_note_sheet==0) display_none @endif">
                             <div class="form-group">
                               <label class="mr-2" for="_note_sheet_no">{{__('label._note_sheet_no')}}:</label>
                               <input type="text" id="_note_sheet_no" name="_note_sheet_no" class="form-control _note_sheet_no" value="{{old('_note_sheet_no')}}" placeholder="{{__('label._note_sheet_no')}}" >
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-2 ">
+                        <div class="col-xs-12 col-sm-12 col-md-2 @if($_show_wo==0) display_none @endif ">
                             <div class="form-group">
                               <label class="mr-2" for="_workorder_no">{{__('label._workorder_no')}}:</label>
                               <input type="text" id="_workorder_no" name="_workorder_no" class="form-control _workorder_no" value="{{old('_workorder_no')}}" placeholder="{{__('label._workorder_no')}}" >
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-2 ">
+                        <div class="col-xs-12 col-sm-12 col-md-2 @if($_show_lc==0) display_none @endif">
                             <div class="form-group">
                               <label class="mr-2" for="_lc_no">{{__('label._lc_no')}}:</label>
                               <input type="text" id="_lc_no" name="_lc_no" class="form-control _lc_no" value="{{old('_lc_no')}}" placeholder="{{__('label._lc_no')}}" >
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-2 ">
+                        @php
+                        $vessels = \DB::table('vessel_infos')->get();
+                        @endphp
+                        <div class="col-xs-12 col-sm-12 col-md-2   @if($_show_vn==0) display_none @endif">
                             <div class="form-group">
                               <label class="mr-2" for="_vessel_no">{{__('label._vessel_no')}}:</label>
-                              <input type="text" id="_vessel_no" name="_vessel_no" class="form-control _vessel_no" value="{{old('_vessel_no')}}" placeholder="{{__('label._vessel_no')}}" >
+                             
+                              <select class="form-control select2" name="_vessel_no">
+                                <option value="">{{__('label.select')}}</option>
+                                @forelse($vessels as $key=>$val)
+                                <option value="{{$val->id}}">{{ $val->_name ?? '' }}</option>
+                                @empty
+                                @endforelse
+                              </select>
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-2 ">
@@ -173,7 +198,7 @@ $__user= Auth::user();
                                 
                             </div>
                         </div>
-                         <div class="col-xs-12 col-sm-12 col-md-3 ">
+                         <div class="col-xs-12 col-sm-12 col-md-2 ">
                             <div class="form-group">
                               <label class="mr-2" for="_phone">Phone:</label>
                               <input type="text" id="_phone" name="_phone" class="form-control _phone" value="{{old('_phone')}}" placeholder="Phone" >
@@ -207,13 +232,13 @@ $__user= Auth::user();
                                       <table class="table table-bordered" >
                                           <thead >
                                             <th class="text-left" >&nbsp;</th>
-                                            <th class="text-left" >Item</th>
-                                            <th class="text-left display_none" >Base Unit</th>
-                                            <th class="text-left display_none" >Con. Qty</th>
-                                            <th class="text-left @if(isset($_show_unit)) @if($_show_unit==0) display_none    @endif @endif" >Tran. Unit</th>
+                                            <th class="text-left" >{{__('label._item_id')}}</th>
+                                            <th class="text-left display_none" >{{__('label._base_unit')}}</th>
+                                            <th class="text-left display_none" >{{__('label.conversion_qty')}}</th>
+                                            <th class="text-left @if(isset($_show_unit)) @if($_show_unit==0) display_none    @endif @endif" >{{__('label._transection_unit')}}</th>
                                            
-                                            <th class="text-left @if($_show_barcode==0) display_none    @endif " >Barcode</th>
-                                            <th class="text-left @if($_show_short_note==0) display_none    @endif " >Note</th>
+                                            <th class="text-left @if($_show_barcode==0) display_none    @endif " >{{__('_barcode')}}</th>
+                                            <th class="text-left @if($_show_short_note==0) display_none    @endif " >{{__('label._note')}}</th>
                                          
                                             <th class="text-left @if($_show_expected_qty==0) display_none @endif" >{{__('label._expected_qty')}}</th>
                                             <th class="text-left" >{{__('label._qty')}}</th>
@@ -225,30 +250,8 @@ $__user= Auth::user();
                                            
                                             <th class="text-left @if(isset($_show_vat)) @if($_show_vat==0) display_none   @endif @endif" >{{__('label._vat')}}%</th>
                                             <th class="text-left @if(isset($_show_vat)) @if($_show_vat==0) display_none   @endif @endif" >{{__('label._vat_amount')}}</th>
-
-                                            <th class="text-left @if(isset($_show_sd)) @if($_show_sd==0) display_none   @endif @endif" >{{__('label._sd')}}%</th>
-                                            <th class="text-left @if(isset($_show_sd)) @if($_show_sd==0) display_none   @endif @endif" >{{__('label._sd_amount')}}</th>
-
-                                            <th class="text-left @if(isset($_show_cd)) @if($_show_cd==0) display_none   @endif @endif" >{{__('label._cd')}}%</th>
-                                            <th class="text-left @if(isset($_show_cd)) @if($_show_cd==0) display_none   @endif @endif" >{{__('label._cd_amount')}}</th>
-
-                                            <th class="text-left @if(isset($_show_ait)) @if($_show_ait==0) display_none   @endif @endif" >{{__('label._ait')}}%</th>
-                                            <th class="text-left @if(isset($_show_ait)) @if($_show_ait==0) display_none   @endif @endif" >{{__('label._ait_amount')}}</th>
-
-                                            <th class="text-left @if(isset($_show_rd)) @if($_show_rd==0) display_none   @endif @endif" >{{__('label._rd')}}%</th>
-                                            <th class="text-left @if(isset($_show_rd)) @if($_show_rd==0) display_none   @endif @endif" >{{__('label._rd_amount')}}</th>
-
-                                            <th class="text-left @if(isset($_show_at)) @if($_show_at==0) display_none   @endif @endif" >{{__('label._at')}}%</th>
-                                            <th class="text-left @if(isset($_show_at)) @if($_show_at==0) display_none   @endif @endif" >{{__('label._at_amount')}}</th>
-
-                                            <th class="text-left @if(isset($_show_tti)) @if($_show_tti==0) display_none   @endif @endif" >{{__('label._tti')}}%</th>
-                                            <th class="text-left @if(isset($_show_tti)) @if($_show_tti==0) display_none   @endif @endif" >{{__('label._tti_amount')}}</th>
-                                          
-
+                                            
                                             <th class="text-left" >{{__('label._value')}}</th>
-                                             
-                                            
-                                            
                                             <th class="text-left  @if(sizeof($store_houses) == 1) display_none @endif">{{__('label._store_id')}}</th>
                                              <th class="text-left @if(isset($_show_self)) @if($_show_self==0) display_none @endif
                                             @endif" >{{__('label._shelf')}}</th>
@@ -321,56 +324,10 @@ $__user= Auth::user();
                                               <td class="@if(isset($_show_vat)) @if($_show_vat==0) display_none  @endif @endif ">
                                                 <input type="number" name="_vat_amount[]" class="form-control  _vat_amount" >
                                               </td>
-
-                                              <td class="@if(isset($_show_sd)) @if($_show_sd==0) display_none  @endif @endif ">
-                                                <input type="number" name="_sd[]" class="form-control  _sd _common_keyup" >
-                                              </td>
-
-                                              <td class="@if(isset($_show_sd)) @if($_show_sd==0) display_none  @endif @endif ">
-                                                <input type="number" name="_sd_amount[]" class="form-control  _sd_amount" >
-                                              </td>
-
-                                              <td class="@if(isset($_show_cd)) @if($_show_cd==0) display_none  @endif @endif ">
-                                                <input type="number" name="_cd[]" class="form-control  _cd _common_keyup" >
-                                              </td>
-                                              <td class="@if(isset($_show_cd)) @if($_show_cd==0) display_none  @endif @endif ">
-                                                <input type="number" name="_cd_amount[]" class="form-control  _cd_amount" >
-                                              </td>
-
-                                              <td class="@if(isset($_show_ait)) @if($_show_ait==0) display_none  @endif @endif ">
-                                                <input type="number" name="_ait[]" class="form-control  _ait _common_keyup" >
-                                              </td>
-                                              <td class="@if(isset($_show_ait)) @if($_show_ait==0) display_none  @endif @endif ">
-                                                <input type="number" name="_ait_amount[]" class="form-control  _ait_amount" >
-                                              </td>
-                                              <td class="@if(isset($_show_rd)) @if($_show_rd==0) display_none  @endif @endif ">
-                                                <input type="number" name="_rd[]" class="form-control  _rd _common_keyup" >
-                                              </td>
-                                              <td class="@if(isset($_show_rd)) @if($_show_rd==0) display_none  @endif @endif ">
-                                                <input type="number" name="_rd_amount[]" class="form-control  _rd_amount" >
-                                              </td>
-
-                                              <td class="@if(isset($_show_at)) @if($_show_at==0) display_none  @endif @endif ">
-                                                <input type="number" name="_at[]" class="form-control  _at _common_keyup" >
-                                              </td>
-                                              <td class="@if(isset($_show_at)) @if($_show_at==0) display_none  @endif @endif ">
-                                                <input type="number" name="_at_amount[]" class="form-control  _at_amount" >
-                                              </td>
-
-                                              <td class="@if(isset($_show_tti)) @if($_show_tti==0) display_none  @endif @endif ">
-                                                <input type="number" name="_tti[]" class="form-control  _tti _common_keyup" >
-                                              </td>
-                                              <td class="@if(isset($_show_tti)) @if($_show_tti==0) display_none  @endif @endif ">
-                                                <input type="number" name="_tti_amount[]" class="form-control  _tti_amount" >
-                                              </td>
-
                                               <td>
-                                                <input type="number" name="_value[]" class="form-control _value " readonly >
+                                                <input type="number" name="_value[]" class="form-control _value "  >
                                               </td>
                                             
-                                              
-                                              
-                                              
                                               <td class="@if(sizeof($store_houses)== 1) display_none @endif">
                                                 <select class="form-control  _main_store_id" name="_main_store_id[]">
                                                   @forelse($store_houses as $store)
@@ -428,42 +385,13 @@ $__user= Auth::user();
                                                 <input type="number" step="any" min="0" name="_total_vat_amount" class="form-control _total_vat_amount" value="0" readonly required>
                                               </td>
 
-                                              <td class="@if(isset($_show_sd)) @if($_show_sd==0) display_none   @endif  @endif"></td>
-                                              <td class="@if(isset($_show_sd)) @if($_show_sd==0) display_none   @endif  @endif">
-                                                <input type="number" step="any" min="0" name="_total_sd_amount" class="form-control _total_sd_amount" value="0" readonly required>
-                                              </td>
-                                              <td class="@if(isset($_show_cd)) @if($_show_cd==0) display_none   @endif  @endif"></td>
-                                              <td class="@if(isset($_show_cd)) @if($_show_cd==0) display_none   @endif  @endif">
-                                                <input type="number" step="any" min="0" name="_total_cd_amount" class="form-control _total_cd_amount" value="0" readonly required>
-                                              </td>
-                                              <td class="@if($_show_ait==0) display_none   @endif"></td>
-                                              <td class="@if($_show_ait==0) display_none   @endif ">
-                                                <input type="number" step="any" min="0" name="_total_ait_amount" class="form-control _total_ait_amount" value="0" readonly required>
-                                              </td>
-                                              <td class="@if($_show_rd==0) display_none   @endif"></td>
-                                              <td class="@if($_show_rd==0) display_none   @endif ">
-                                                <input type="number" step="any" min="0" name="_total_rd_amount" class="form-control _total_rd_amount" value="0" readonly required>
-                                              </td>
-                                              <td class="@if($_show_at==0) display_none   @endif"></td>
-                                              <td class="@if($_show_at==0) display_none   @endif ">
-                                                <input type="number" step="any" min="0" name="_total_at_amount" class="form-control _total_at_amount" value="0" readonly required>
-                                              </td>
-                                              <td class="@if($_show_tti==0) display_none   @endif"></td>
-                                              <td class="@if($_show_tti==0) display_none   @endif ">
-                                                <input type="number" step="any" min="0" name="_total_tti_amount" class="form-control _total_tti_amount" value="0" readonly required>
-                                              </td>
+                                              
                                             
                                               <td>
                                                 <input type="number" step="any" min="0" name="_total_value_amount" class="form-control _total_value_amount" value="0" readonly required>
                                               </td>
                                               
-                                               
-                                              
-                                              
                                                <td class="@if(sizeof($store_houses) == 1) display_none @endif"></td>
-                                              
-
-                                              
                                               <td class="@if(isset($_show_self)) @if($_show_self==0) display_none  @endif  @endif"></td>
                                               <td class="@if(isset($form_settings->_show_manufacture_date)) @if($form_settings->_show_manufacture_date==0) display_none  @endif  @endif"></td>
 
@@ -531,90 +459,7 @@ $__user= Auth::user();
                               </td>
                             </tr>
 
-                            <tr class="@if($_show_ait==0) display_none @endif">
-                              <td style="width: 10%;border:0px;"><label for="_total_vat">{{__('label._ait')}}%</label></td>
-                              <td style="width: 70%;border:0px;">
-                                <input type="text" name="_inv_ait_per" class=" width_200_px" id="_purchase_inv_ait_per"  value="0"  placeholder="{{__('label._ait')}}%">
-                                <input type="text" name="_inv_ait_amount" class="width_200_px" id="_purchase_inv_ait_amount"  value="0" placeholder="{{__('label._ait_amount')}}">
-                              </td>
-                            </tr>
-                            <tr class="@if($_show_ait==0) display_none @endif">
-                              <td style="width: 10%;border:0px;"><label for="_total_vat">{{__('label._total_ait_amount')}}%</label></td>
-                              <td style="width: 70%;border:0px;">
-                                <input type="text" name="_total_ait_amount" class="form-control width_200_px" id="_purchase_total_ait_amount"  value="0"  placeholder="{{__('label._total_ait_amount')}}" readonly>
-                                
-                              </td>
-                            </tr>
-                            <tr class="@if($_show_sd==0) display_none @endif">
-                              <td style="width: 10%;border:0px;"><label for="_total_vat">{{__('label._sd')}}%</label></td>
-                              <td style="width: 70%;border:0px;">
-                                <input type="text" name="_inv_sd_per" class=" width_200_px" id="_purchase_inv_sd_per"  value="0"  placeholder="{{__('label._sd')}}%">
-                                <input type="text" name="_inv_sd_amount" class="width_200_px" id="_purchase_inv_sd_amount"  value="0" placeholder="{{__('label._sd_amount')}}">
-                              </td>
-                            </tr>
-                            <tr class="@if($_show_sd==0) display_none @endif">
-                              <td style="width: 10%;border:0px;"><label for="_total_vat">{{__('label._total_sd_amount')}}%</label></td>
-                              <td style="width: 70%;border:0px;">
-                                <input type="text" name="_total_sd_amount" class="form-control width_200_px" id="_purchase_total_sd_amount"  value="0"  placeholder="{{__('label._total_sd_amount')}}" readonly>
-                                
-                              </td>
-                            </tr>
-                            <tr class="@if($_show_cd==0) display_none @endif">
-                              <td style="width: 10%;border:0px;"><label for="_total_vat">{{__('label._cd')}}%</label></td>
-                              <td style="width: 70%;border:0px;">
-                                <input type="text" name="_inv_cd_per" class=" width_200_px" id="_purchase_inv_cd_per"  value="0"  placeholder="{{__('label._cd')}}%">
-                                <input type="text" name="_inv_cd_amount" class="width_200_px" id="_purchase_inv_cd_amount"  value="0" placeholder="{{__('label._cd_amount')}}">
-                              </td>
-                            </tr>
-                            <tr class="@if($_show_cd==0) display_none @endif">
-                              <td style="width: 10%;border:0px;"><label for="_total_vat">{{__('label._total_cd_amount')}}%</label></td>
-                              <td style="width: 70%;border:0px;">
-                                <input type="text" name="_total_cd_amount" class="form-control width_200_px" id="_purchase_total_cd_amount"  value="0"  placeholder="{{__('label._total_cd_amount')}}" readonly>
-                                
-                              </td>
-                            </tr>
-                            <tr class="@if($_show_rd==0) display_none @endif">
-                              <td style="width: 10%;border:0px;"><label for="_total_vat">{{__('label._rd')}}%</label></td>
-                              <td style="width: 70%;border:0px;">
-                                <input type="text" name="_inv_rd_per" class=" width_200_px" id="_purchase_inv_rd_per"  value="0"  placeholder="{{__('label._rd')}}%">
-                                <input type="text" name="_inv_rd_amount" class="width_200_px" id="_purchase_inv_rd_amount"  value="0" placeholder="{{__('label._rd_amount')}}">
-                              </td>
-                            </tr>
-                            <tr class="@if($_show_rd==0) display_none @endif">
-                              <td style="width: 10%;border:0px;"><label for="_total_vat">{{__('label._total_rd_amount')}}%</label></td>
-                              <td style="width: 70%;border:0px;">
-                                <input type="text" name="_total_rd_amount" class="form-control width_200_px" id="_purchase_total_rd_amount"  value="0"  placeholder="{{__('label._total_rd_amount')}}" readonly>
-                                
-                              </td>
-                            </tr>
-                            <tr class="@if($_show_at==0) display_none @endif">
-                              <td style="width: 10%;border:0px;"><label for="_total_vat">{{__('label._at')}}%</label></td>
-                              <td style="width: 70%;border:0px;">
-                                <input type="text" name="_inv_at_per" class=" width_200_px" id="_purchase_inv_at_per"  value="0"  placeholder="{{__('label._at')}}%">
-                                <input type="text" name="_inv_at_amount" class="width_200_px" id="_purchase_inv_at_amount"  value="0" placeholder="{{__('label._at_amount')}}">
-                              </td>
-                            </tr>
-                            <tr class="@if($_show_at==0) display_none @endif">
-                              <td style="width: 10%;border:0px;"><label for="_total_vat">{{__('label._total_at_amount')}}%</label></td>
-                              <td style="width: 70%;border:0px;">
-                                <input type="text" name="_total_at_amount" class="form-control width_200_px" id="_purchase_total_at_amount"  value="0"  placeholder="{{__('label._total_at_amount')}}" readonly>
-                                
-                              </td>
-                            </tr>
-                            <tr class="@if($_show_tti==0) display_none @endif">
-                              <td style="width: 10%;border:0px;"><label for="_total_vat">{{__('label._tti')}}%</label></td>
-                              <td style="width: 70%;border:0px;">
-                                <input type="text" name="_inv_tti_per" class=" width_200_px" id="_purchase_inv_tti_per"  value="0"  placeholder="{{__('label._tti')}}%">
-                                <input type="text" name="_inv_tti_amount" class="width_200_px" id="_purchase_inv_tti_amount"  value="0" placeholder="{{__('label._tti_amount')}}">
-                              </td>
-                            </tr>
-                            <tr class="@if($_show_tti==0) display_none @endif">
-                              <td style="width: 10%;border:0px;"><label for="_total_vat">{{__('label._total_tti_amount')}}%</label></td>
-                              <td style="width: 70%;border:0px;">
-                                <input type="text" name="_total_tti_amount" class="form-control width_200_px" id="_purchase_total_tti_amount"  value="0"  placeholder="{{__('label._total_tti_amount')}}" readonly>
-                                
-                              </td>
-                            </tr>
+                           
                             
                             <tr>
                               <td style="width: 10%;border:0px;"><label for="_total">NET Total </label></td>
@@ -756,6 +601,7 @@ var duplicate_barcode_status=0;
     });
      
     request.done(function( result ) {
+      console.log(result.data)
 
       var search_html =``;
       var data = result.data; 
@@ -771,7 +617,15 @@ var duplicate_barcode_status=0;
                                         </td><td>${data[i]._name}
                                         <input type="hidden" name="_name_item" class="_name_item" value="${data[i]._name}">
                                   <input type="hidden" name="_item_barcode" class="_item_barcode" value="${data[i]._barcode}">
-                                  <input type="hidden" name="_item_rate" class="_item_rate" value="${data[i]._pur_rate}">
+                                  <input type="hidden" name="_item_rate" class="_item_rate" value="${data[i]?._pur_rate}">
+
+                                  <input type="hidden" name="_item_sd" class="_item__sd" value="${data[i]?._sd}">
+                                  <input type="hidden" name="_item_cd" class="_item__cd" value="${data[i]?._cd}">
+                                  <input type="hidden" name="_item_ait" class="_item__ait" value="${data[i]?._ait}">
+                                  <input type="hidden" name="_item_rd" class="_item__rd" value="${data[i]?._rd}">
+                                  <input type="hidden" name="_item_at" class="_item__at" value="${data[i]?._at}">
+                                  <input type="hidden" name="_item_tti" class="_item__tti" value="${data[i]?._tti}">
+
                                   <input type="hidden" name="_unique_barcode" class="_unique_barcode" value="${data[i]._unique_barcode}">
                                   <input type="hidden" name="_item_sales_rate" class="_item_sales_rate" value="${data[i]._sale_rate}">
                                   <input type="hidden" name="_item_vat" class="_item_vat" value="${data[i]._vat}">
@@ -811,6 +665,12 @@ $(document).on('click','.search_row_item',function(){
   var _item_sales_rate = $(this).find('._item_sales_rate').val();
   var _item_vat = parseFloat($(this).find('._item_vat').val());
   var _unique_barcode = parseFloat($(this).find('._unique_barcode').val());
+  var _item_sd = parseFloat($(this).find('._item_sd').val());
+  var _item_cd = parseFloat($(this).find('._item_cd').val());
+  var _item_ait = parseFloat($(this).find('._item_ait').val());
+  var _item_rd = parseFloat($(this).find('._item_rd').val());
+  var _item_at = parseFloat($(this).find('._item_at').val());
+  var _item_tti = parseFloat($(this).find('._item_tti').val());
 
   var _main_unit_id = $(this).children('td').find('._main_unit_id').val();
   var _main_unit_val = $(this).children('td').find('._main_unit_text').val();
@@ -822,6 +682,20 @@ $(document).on('click','.search_row_item',function(){
   
   if(isNaN(_item_vat)){ _item_vat=0 }
   _vat_amount = ((_item_rate*_item_vat)/100);
+  if(isNaN(_item_sd)){ _item_sd=0 }
+  _sd_amount = ((_item_rate*_item_sd)/100);
+  if(isNaN(_item_cd)){ _item_cd=0 }
+  _cd_amount = ((_item_rate*_item_cd)/100);
+  if(isNaN(_item_ait)){ _item_ait=0 }
+  _ait_amount = ((_item_rate*_item_ait)/100);
+  if(isNaN(_item_rd)){ _item_rd=0 }
+  _rd_amount = ((_item_rate*_item_rd)/100);
+  if(isNaN(_item_at)){ _item_at=0 }
+  _at_amount = ((_item_rate*_item_at)/100);
+  if(isNaN(_item_tti)){ _item_tti=0 }
+  _tti_amount = ((_item_rate*_item_tti)/100);
+
+
 
 var self = $(this);
 
@@ -851,6 +725,8 @@ var self = $(this);
   $(this).parent().parent().parent().parent().parent().parent().find('._sales_rate').val(_item_sales_rate);
   $(this).parent().parent().parent().parent().parent().parent().find('._vat').val(_item_vat);
   $(this).parent().parent().parent().parent().parent().parent().find('._vat_amount').val(_vat_amount);
+
+  
   $(this).parent().parent().parent().parent().parent().parent().find('._qty').val(1);
   if(_unique_barcode ==1){
     $(this).parent().parent().parent().parent().parent().parent().find('._qty').val(0);
@@ -945,6 +821,41 @@ $(document).on('click',function(){
     }
 })
 
+$(document).on('keyup','._value',function(){
+
+  var _vat_amount =0;
+  var _value = parseFloat($(this).closest('tr').find('._value').val());
+  var _qty = parseFloat($(this).closest('tr').find('._qty').val());
+  if(isNaN(_value)){_value=1}
+  if(isNaN(_qty)){_qty=1}
+  var _rate = parseFloat(_value)/parseFloat(_qty);
+  if(isNaN(_rate)){_rate=0}
+  $(this).closest('tr').find('._rate').val(_rate);
+
+
+  var _rate =parseFloat( $(this).closest('tr').find('._rate').val());
+  var _sales_rate =parseFloat( $(this).closest('tr').find('._sales_rate').val());
+  var _item_vat = parseFloat($(this).closest('tr').find('._vat').val());
+  var _item_discount = parseFloat($(this).closest('tr').find('._discount').val());
+ 
+
+
+   if(isNaN(_item_vat)){ _item_vat   = 0 }
+   if(isNaN(_qty)){ _qty   = 0 }
+   if(isNaN(_rate)){ _rate =0 }
+   if(isNaN(_sales_rate)){ _sales_rate =0 }
+   if(isNaN(_item_discount)){ _item_discount =0 }
+   _vat_amount = Math.ceil(((_qty*_rate)*_item_vat)/100)
+   _discount_amount = Math.ceil(((_qty*_rate)*_item_discount)/100)
+   _value = parseFloat((_qty*_rate)).toFixed(2);
+
+  $(this).closest('tr').find('._value').val(_value);
+  $(this).closest('tr').find('._vat_amount').val(_vat_amount);
+  $(this).closest('tr').find('._discount_amount').val(_discount_amount);
+    _purchase_total_calculation();
+
+})
+
 $(document).on('keyup','._common_keyup',function(){
   var _vat_amount =0;
   var _qty = parseFloat($(this).closest('tr').find('._qty').val());
@@ -952,6 +863,18 @@ $(document).on('keyup','._common_keyup',function(){
   var _sales_rate =parseFloat( $(this).closest('tr').find('._sales_rate').val());
   var _item_vat = parseFloat($(this).closest('tr').find('._vat').val());
   var _item_discount = parseFloat($(this).closest('tr').find('._discount').val());
+  var _sd = parseFloat($(this).closest('tr').find('._sd').val());
+  var _cd = parseFloat($(this).closest('tr').find('._cd').val());
+  var _ait = parseFloat($(this).closest('tr').find('._ait').val());
+  var _rd = parseFloat($(this).closest('tr').find('._rd').val());
+  var _at = parseFloat($(this).closest('tr').find('._at').val());
+  var _tti = parseFloat($(this).closest('tr').find('._tti').val());
+
+
+
+
+
+
 
    if(isNaN(_item_vat)){ _item_vat   = 0 }
    if(isNaN(_qty)){ _qty   = 0 }
@@ -1041,6 +964,7 @@ $(document).on('keyup','._search_order_ref_id',delay(function(e){
             search_html +=`<div class="card"><table table-bordered style="width: 100%;">
                             <thead>
                               <th style="border:1px solid #ccc;text-align:center;">ID</th>
+                              <th style="border:1px solid #ccc;text-align:center;">PO NO</th>
                               <th style="border:1px solid #ccc;text-align:center;">Supplier</th>
                               <th style="border:1px solid #ccc;text-align:center;">Date</th>
                             </thead>
@@ -1050,8 +974,11 @@ $(document).on('keyup','._search_order_ref_id',delay(function(e){
                                         <td style="border:1px solid #ccc;">${data[i].id}
                                         <input type="hidden" name="_id_main_ledger" class="_id_main_ledger" value="${data[i]._ledger_id}">
                                         <input type="hidden" name="_purchase_main_id" class="_purchase_main_id" value="${data[i].id}">
+                                        <input type="hidden" name="_purchase_order_number" class="_purchase_order_number" value="${data[i]._order_number}">
                                         <input type="hidden" name="_purchase_main_date" class="_purchase_main_date" value="${after_request_date__today(data[i]._date)}">
-                                        </td><td style="border:1px solid #ccc;">${data[i]._ledger._name}
+                                        </td>
+                                        <td>${data[i]?._order_number}</td>
+                                        <td style="border:1px solid #ccc;">${data[i]._ledger._name}
                                         <input type="hidden" name="_name_main_ledger" class="_name_main_ledger" value="${data[i]._ledger._name}">
                                         <input type="hidden" name="_address_main_ledger" class="_address_main_ledger" value="${data[i]._address}">
                                         <input type="hidden" name="_phone_main_ledger" class="_phone_main_ledger" value="${data[i]._phone}">
@@ -1081,6 +1008,7 @@ $(document).on("click",'.search_row_purchase_order',function(){
     var _id = $(this).children('td').find('._id_main_ledger').val();
     var _name = $(this).find('._name_main_ledger').val();
     var _purchase_main_id = $(this).find('._purchase_main_id').val();
+    var _purchase_order_number = $(this).find('._purchase_order_number').val();
     var _purchase_main_date = $(this).find('._purchase_main_date').val();
     var _main_branch_id = $(this).find('._main_branch_id').val();
     var _date_main_ledger = $(this).find('._date_main_ledger').val();
@@ -1100,7 +1028,7 @@ $(document).on("click",'.search_row_purchase_order',function(){
 
 
 
-    $(document).find("._search_order_ref_id").val(_purchase_main_id+","+_date_main_ledger);
+    $(document).find("._search_order_ref_id").val(_purchase_order_number);
 
     $.ajaxSetup({ headers: {'X-CSRF-TOKEN': $(document).find('meta[name="csrf-token"]').attr('content') } });
 
@@ -1194,49 +1122,9 @@ if(data.length > 0 ){
                                                 <input type="number" name="_vat_amount[]" class="form-control  _vat_amount" >
                                               </td>
                                               
-                                               <td class=" @if($_show_sd==0) display_none  @endif ">
-                                                <input type="number" name="_sd[]" class="form-control  _sd _common_keyup" >
-                                              </td>
-
-                                              <td class=" @if($_show_sd==0) display_none  @endif  ">
-                                                <input type="number" name="_sd_amount[]" class="form-control  _sd_amount" >
-                                              </td>
-
-                                              <td class=" @if($_show_cd==0) display_none  @endif  ">
-                                                <input type="number" name="_cd[]" class="form-control  _cd _common_keyup" >
-                                              </td>
-                                              <td class=" @if($_show_cd==0) display_none  @endif ">
-                                                <input type="number" name="_cd_amount[]" class="form-control  _cd_amount" >
-                                              </td>
-
-                                              <td class=" @if($_show_ait==0) display_none  @endif  ">
-                                                <input type="number" name="_ait[]" class="form-control  _ait _common_keyup" >
-                                              </td>
-                                              <td class=" @if($_show_ait==0) display_none  @endif ">
-                                                <input type="number" name="_ait_amount[]" class="form-control  _ait_amount" >
-                                              </td>
-                                              <td class=" @if($_show_rd==0) display_none  @endif  ">
-                                                <input type="number" name="_rd[]" class="form-control  _rd _common_keyup" >
-                                              </td>
-                                              <td class=" @if($_show_rd==0) display_none  @endif  ">
-                                                <input type="number" name="_rd_amount[]" class="form-control  _rd_amount" >
-                                              </td>
-
-                                              <td class=" @if($_show_at==0) display_none  @endif  ">
-                                                <input type="number" name="_at[]" class="form-control  _at _common_keyup" >
-                                              </td>
-                                              <td class="@if($_show_at==0) display_none  @endif  ">
-                                                <input type="number" name="_at_amount[]" class="form-control  _at_amount" >
-                                              </td>
-
-                                              <td class="@if($_show_tti==0) display_none  @endif  ">
-                                                <input type="number" name="_tti[]" class="form-control  _tti _common_keyup" >
-                                              </td>
-                                              <td class="@if($_show_tti==0) display_none  @endif  ">
-                                                <input type="number" name="_tti_amount[]" class="form-control  _tti_amount" >
-                                              </td>
+                                              
                                               <td>
-                                                <input type="number" name="_value[]" class="form-control _value " readonly value="${_value}">
+                                                <input type="number" name="_value[]" class="form-control _value "  value="${_value}">
                                               </td>
                                              
                                               <td class="@if(sizeof($store_houses) == 1) display_none @endif">
@@ -1458,49 +1346,9 @@ function purchase_row_add(event){
                                                 <input type="number" name="_vat_amount[]" class="form-control  _vat_amount" >
                                               </td>
                                               
-                                               <td class=" @if($_show_sd==0) display_none  @endif ">
-                                                <input type="number" name="_sd[]" class="form-control  _sd _common_keyup" >
-                                              </td>
-
-                                              <td class=" @if($_show_sd==0) display_none  @endif  ">
-                                                <input type="number" name="_sd_amount[]" class="form-control  _sd_amount" >
-                                              </td>
-
-                                              <td class=" @if($_show_cd==0) display_none  @endif  ">
-                                                <input type="number" name="_cd[]" class="form-control  _cd _common_keyup" >
-                                              </td>
-                                              <td class=" @if($_show_cd==0) display_none  @endif ">
-                                                <input type="number" name="_cd_amount[]" class="form-control  _cd_amount" >
-                                              </td>
-
-                                              <td class=" @if($_show_ait==0) display_none  @endif  ">
-                                                <input type="number" name="_ait[]" class="form-control  _ait _common_keyup" >
-                                              </td>
-                                              <td class=" @if($_show_ait==0) display_none  @endif ">
-                                                <input type="number" name="_ait_amount[]" class="form-control  _ait_amount" >
-                                              </td>
-                                              <td class=" @if($_show_rd==0) display_none  @endif  ">
-                                                <input type="number" name="_rd[]" class="form-control  _rd _common_keyup" >
-                                              </td>
-                                              <td class=" @if($_show_rd==0) display_none  @endif  ">
-                                                <input type="number" name="_rd_amount[]" class="form-control  _rd_amount" >
-                                              </td>
-
-                                              <td class=" @if($_show_at==0) display_none  @endif  ">
-                                                <input type="number" name="_at[]" class="form-control  _at _common_keyup" >
-                                              </td>
-                                              <td class="@if($_show_at==0) display_none  @endif  ">
-                                                <input type="number" name="_at_amount[]" class="form-control  _at_amount" >
-                                              </td>
-
-                                              <td class="@if($_show_tti==0) display_none  @endif  ">
-                                                <input type="number" name="_tti[]" class="form-control  _tti _common_keyup" >
-                                              </td>
-                                              <td class="@if($_show_tti==0) display_none  @endif  ">
-                                                <input type="number" name="_tti_amount[]" class="form-control  _tti_amount" >
-                                              </td>
+                                              
                                               <td>
-                                                <input type="number" name="_value[]" class="form-control _value " readonly >
+                                                <input type="number" name="_value[]" class="form-control _value "  >
                                               </td>
                                               
                                              

@@ -166,9 +166,12 @@ class PurchaseOrderController extends Controller
         $asc_cloumn =  $request->asc_cloumn ?? '_date';
         $text_val = $request->_text_val;
         $_branch_id = $request->_branch_id;
-        $datas = PurchaseOrder::with(['_ledger'])->where('_status',1)->where('_branch_id',$_branch_id);
+        $datas = PurchaseOrder::with(['_ledger'])
+        ->where('_status',1)
+        ->where('_branch_id',$_branch_id);
          if($request->has('_text_val') && $request->_text_val !=''){
             $datas = $datas->where('_date','like',"%$request->_text_val%")
+            ->orWhere('_order_number','like',"%$request->_text_val%")
             ->orWhere('id','like',"%$request->_text_val%");
         }
         $datas = $datas->orderBy($asc_cloumn,$_asc_desc)->paginate($limit);

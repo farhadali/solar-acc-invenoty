@@ -1,56 +1,56 @@
-@extends('backend.layouts.app')
-@section('title',$page_name)
 
-@section('css')
-<link rel="stylesheet" href="{{asset('backend/new_style.css')}}">
-@endsection
+<?php $__env->startSection('title',$page_name); ?>
 
-@section('content')
-@php
+<?php $__env->startSection('css'); ?>
+<link rel="stylesheet" href="<?php echo e(asset('backend/new_style.css')); ?>">
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+<?php
 $__user= Auth::user();
-@endphp
+?>
 <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
           <div class=" col-sm-6 ">
-           <a class="m-0 _page_name" href="{{ route('purchase.index') }}">{!! $page_name ?? '' !!} </a>
+           <a class="m-0 _page_name" href="<?php echo e(route('purchase.index')); ?>"><?php echo $page_name ?? ''; ?> </a>
            
           </div><!-- /.col -->
           <div class=" col-sm-6 ">
             <ol class="breadcrumb float-sm-right">
 
-               @can('item-information-create')
+               <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('item-information-create')): ?>
              <li class="breadcrumb-item ">
-                 <a target="__blank" href="{{url('purchase/print')}}/{{$data->id}}" class="btn btn-sm btn-warning"> <i class="nav-icon fas fa-print"></i> </a>
+                 <a target="__blank" href="<?php echo e(url('purchase/print')); ?>/<?php echo e($data->id); ?>" class="btn btn-sm btn-warning"> <i class="nav-icon fas fa-print"></i> </a>
                   
                 
                </li>
-               @endcan
-               @can('item-information-create')
+               <?php endif; ?>
+               <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('item-information-create')): ?>
              <li class="breadcrumb-item ">
                  <button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#exampleModalLong_item" title="Create New Item (Inventory) ">
                    <i class="nav-icon fas fa-ship"></i> 
                 </button>
                </li>
-               @endcan
+               <?php endif; ?>
               
-               @can('account-ledger-create')
+               <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('account-ledger-create')): ?>
              <li class="breadcrumb-item ">
                  <button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#exampleModalLong" title="Create Ledger">
                    <i class="nav-icon fas fa-users"></i> 
                 </button>
                </li>
-               @endcan
-                @can('purchase-form-settings')
+               <?php endif; ?>
+                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('purchase-form-settings')): ?>
              <li class="breadcrumb-item ">
                  <button type="button" id="form_settings" class="btn btn-sm btn-default" data-toggle="modal" data-target="#exampleModal">
                    <i class="nav-icon fas fa-cog"></i> 
                 </button>
                </li>
-              @endcan
+              <?php endif; ?>
               
               <li class="breadcrumb-item ">
-                 <a class="btn btn-sm btn-success" title="List" href="{{ route('purchase.index') }}"> <i class="nav-icon fas fa-list"></i> </a>
+                 <a class="btn btn-sm btn-success" title="List" href="<?php echo e(route('purchase.index')); ?>"> <i class="nav-icon fas fa-list"></i> </a>
                </li>
             </ol>
           </div><!-- /.col -->
@@ -65,8 +65,8 @@ $__user= Auth::user();
             <div class="card">
               <div class="card-header">
                  
-                   @include('backend.message.message')
-    @php
+                   <?php echo $__env->make('backend.message.message', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <?php
     $_show_barcode = $form_settings->_show_barcode ?? 0;
     $_show_short_note = $form_settings->_show_short_note ?? 0;
     $_show_cost_rate =  $form_settings->_show_cost_rate ?? 0;
@@ -90,117 +90,117 @@ $__user= Auth::user();
     $_show_vn  = $form_settings->_show_vn  ?? 0;
 
 
-    @endphp
+    ?>
                     
               </div>
              
               <div class="card-body">
-               <form action="{{url('purchase/update')}}" method="POST" class="purchase_form" >
-                @csrf
+               <form action="<?php echo e(url('purchase/update')); ?>" method="POST" class="purchase_form" >
+                <?php echo csrf_field(); ?>
                       <div class="row">
 
                        <div class="col-xs-12 col-sm-12 col-md-2">
                         <input type="hidden" name="_form_name" class="_form_name"  value="purchases">
                             <div class="form-group">
-                                <label>{{__('label._date')}}:</label>
+                                <label><?php echo e(__('label._date')); ?>:</label>
                                   <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                                      <input type="text" name="_date" class="form-control datetimepicker-input" data-target="#reservationdate" value="{{_view_date_formate($data->_date)}}"  />
+                                      <input type="text" name="_date" class="form-control datetimepicker-input" data-target="#reservationdate" value="<?php echo e(_view_date_formate($data->_date)); ?>"  />
                                       <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
                                           <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                       </div>
                                   </div>
                               </div>
-                              <input type="hidden" name="_purchase_id" value="{{$data->id}}">
+                              <input type="hidden" name="_purchase_id" value="<?php echo e($data->id); ?>">
                               <input type="hidden" id="_search_form_value" name="_search_form_value" class="_search_form_value" value="1" >
                         </div>
 
                         
                         <div class="col-xs-12 col-sm-12 col-md-2 ">
                             <div class="form-group">
-                              <label class="mr-2" for="_order_number">{{__('label._order_number')}}:</label>
-                              <input type="text" id="_order_number" name="_order_number" class="form-control _order_number" value="{{old('_order_number',$data->_order_number)}}" placeholder="Invoice No" readonly>
+                              <label class="mr-2" for="_order_number"><?php echo e(__('label._order_number')); ?>:</label>
+                              <input type="text" id="_order_number" name="_order_number" class="form-control _order_number" value="<?php echo e(old('_order_number',$data->_order_number)); ?>" placeholder="Invoice No" readonly>
                                 
                             </div>
                         </div>
                          <div class="col-xs-12 col-sm-12 col-md-2 ">
                             <div class="form-group">
-                              <label class="mr-2" for="_purchase_type">{{__('label._purchase_type')}}:</label>
+                              <label class="mr-2" for="_purchase_type"><?php echo e(__('label._purchase_type')); ?>:</label>
                               <select class="form-control" name="_purchase_type" >
                                 <option value="2">Import</option>
                               </select>
                                 
                             </div>
                         </div>
-                        @include('basic.org_edit')
+                        <?php echo $__env->make('basic.org_edit', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                         
                         
-                        <div class="col-xs-12 col-sm-12 col-md-2  @if($_show_po==0) display_none @endif">
+                        <div class="col-xs-12 col-sm-12 col-md-2  <?php if($_show_po==0): ?> display_none <?php endif; ?>">
                             <div class="form-group">
-                              <label class="mr-2" for="_order_ref_id">{{__('label.purchase_order')}}:</label>
-                              <input type="text" id="_search_order_ref_id" name="_search_order_ref_id" class="form-control _search_order_ref_id" value="{{old('_order_ref_id',$data->_order_ref_id)}}" placeholder="{{__('label.purchase_order')}}" >
-                              <input type="hidden" id="_order_ref_id" name="_order_ref_id" class="form-control _order_ref_id" value="{{old('_order_ref_id')}}" placeholder="Purchase Order" >
+                              <label class="mr-2" for="_order_ref_id"><?php echo e(__('label.purchase_order')); ?>:</label>
+                              <input type="text" id="_search_order_ref_id" name="_search_order_ref_id" class="form-control _search_order_ref_id" value="<?php echo e(old('_order_ref_id',$data->_order_ref_id)); ?>" placeholder="<?php echo e(__('label.purchase_order')); ?>" >
+                              <input type="hidden" id="_order_ref_id" name="_order_ref_id" class="form-control _order_ref_id" value="<?php echo e(old('_order_ref_id')); ?>" placeholder="Purchase Order" >
                               <div class="search_box_purchase_order"></div>
                             </div>
                         </div>
 
-                        <div class="col-xs-12 col-sm-12 col-md-2 @if($_show_po==0) display_none @endif">
+                        <div class="col-xs-12 col-sm-12 col-md-2 <?php if($_show_po==0): ?> display_none <?php endif; ?>">
                             <div class="form-group">
-                              <label class="mr-2" for="_rlp_no">{{__('label._rlp_no')}}:</label>
-                              <input type="text" id="_rlp_no" name="_rlp_no" class="form-control _rlp_no" value="{{old('_rlp_no',$data->_rlp_no)}}" placeholder="{{__('label._rlp_no')}}" >
+                              <label class="mr-2" for="_rlp_no"><?php echo e(__('label._rlp_no')); ?>:</label>
+                              <input type="text" id="_rlp_no" name="_rlp_no" class="form-control _rlp_no" value="<?php echo e(old('_rlp_no',$data->_rlp_no)); ?>" placeholder="<?php echo e(__('label._rlp_no')); ?>" >
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-2 @if($_show_note_sheet==0) display_none @endif">
+                        <div class="col-xs-12 col-sm-12 col-md-2 <?php if($_show_note_sheet==0): ?> display_none <?php endif; ?>">
                             <div class="form-group">
-                              <label class="mr-2" for="_note_sheet_no">{{__('label._note_sheet_no')}}:</label>
-                              <input type="text" id="_note_sheet_no" name="_note_sheet_no" class="form-control _note_sheet_no" value="{{old('_note_sheet_no',$data->_note_sheet_no)}}" placeholder="{{__('label._note_sheet_no')}}" >
+                              <label class="mr-2" for="_note_sheet_no"><?php echo e(__('label._note_sheet_no')); ?>:</label>
+                              <input type="text" id="_note_sheet_no" name="_note_sheet_no" class="form-control _note_sheet_no" value="<?php echo e(old('_note_sheet_no',$data->_note_sheet_no)); ?>" placeholder="<?php echo e(__('label._note_sheet_no')); ?>" >
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-2 @if($_show_wo==0) display_none @endif ">
+                        <div class="col-xs-12 col-sm-12 col-md-2 <?php if($_show_wo==0): ?> display_none <?php endif; ?> ">
                             <div class="form-group">
-                              <label class="mr-2" for="_workorder_no">{{__('label._workorder_no')}}:</label>
-                              <input type="text" id="_workorder_no" name="_workorder_no" class="form-control _workorder_no" value="{{old('_workorder_no',$data->_workorder_no)}}" placeholder="{{__('label._workorder_no')}}" >
+                              <label class="mr-2" for="_workorder_no"><?php echo e(__('label._workorder_no')); ?>:</label>
+                              <input type="text" id="_workorder_no" name="_workorder_no" class="form-control _workorder_no" value="<?php echo e(old('_workorder_no',$data->_workorder_no)); ?>" placeholder="<?php echo e(__('label._workorder_no')); ?>" >
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-2 @if($_show_lc==0) display_none @endif">
+                        <div class="col-xs-12 col-sm-12 col-md-2 <?php if($_show_lc==0): ?> display_none <?php endif; ?>">
                             <div class="form-group">
-                              <label class="mr-2" for="_lc_no">{{__('label._lc_no')}}:</label>
-                              <input type="text" id="_lc_no" name="_lc_no" class="form-control _lc_no" value="{{old('_lc_no',$data->_lc_no)}}" placeholder="{{__('label._lc_no')}}" >
+                              <label class="mr-2" for="_lc_no"><?php echo e(__('label._lc_no')); ?>:</label>
+                              <input type="text" id="_lc_no" name="_lc_no" class="form-control _lc_no" value="<?php echo e(old('_lc_no',$data->_lc_no)); ?>" placeholder="<?php echo e(__('label._lc_no')); ?>" >
                             </div>
                         </div>
-                        @php
+                        <?php
                         $vessels = \DB::table('vessel_infos')->get();
-                        @endphp
-                        <div class="col-xs-12 col-sm-12 col-md-2   @if($_show_vn==0) display_none @endif">
+                        ?>
+                        <div class="col-xs-12 col-sm-12 col-md-2   <?php if($_show_vn==0): ?> display_none <?php endif; ?>">
                             <div class="form-group">
-                              <label class="mr-2" for="_vessel_no">{{__('label._vessel_no')}}:</label>
+                              <label class="mr-2" for="_vessel_no"><?php echo e(__('label._vessel_no')); ?>:</label>
                              
                               <select class="form-control select2" name="_vessel_no">
-                                <option value="">{{__('label.select')}}</option>
-                                @forelse($vessels as $key=>$val)
-                                <option value="{{$val->id}}" @if($val->id==$data->_vessel_no) selected @endif >{{ $val->_name ?? '' }}</option>
-                                @empty
-                                @endforelse
+                                <option value=""><?php echo e(__('label.select')); ?></option>
+                                <?php $__empty_1 = true; $__currentLoopData = $vessels; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                                <option value="<?php echo e($val->id); ?>" <?php if($val->id==$data->_vessel_no): ?> selected <?php endif; ?> ><?php echo e($val->_name ?? ''); ?></option>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                                <?php endif; ?>
                               </select>
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-2 ">
                             <div class="form-group">
-                              <label class="mr-2" for="_arrival_date_time">{{__('label._arrival_date_time')}}:</label>
-                              <input type="datetime-local" id="_arrival_date_time" name="_arrival_date_time" class="form-control _arrival_date_time" value="{{old('_arrival_date_time',$data->_arrival_date_time)}}" placeholder="{{__('label._arrival_date_time')}}" >
+                              <label class="mr-2" for="_arrival_date_time"><?php echo e(__('label._arrival_date_time')); ?>:</label>
+                              <input type="datetime-local" id="_arrival_date_time" name="_arrival_date_time" class="form-control _arrival_date_time" value="<?php echo e(old('_arrival_date_time',$data->_arrival_date_time)); ?>" placeholder="<?php echo e(__('label._arrival_date_time')); ?>" >
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-2 ">
                             <div class="form-group">
-                              <label class="mr-2" for="_discharge_date_time">{{__('label._discharge_date_time')}}:</label>
-                              <input type="datetime-local" id="_discharge_date_time" name="_discharge_date_time" class="form-control _discharge_date_time" value="{{old('_discharge_date_time',$data->_discharge_date_time)}}" placeholder="{{__('label._discharge_date_time')}}" >
+                              <label class="mr-2" for="_discharge_date_time"><?php echo e(__('label._discharge_date_time')); ?>:</label>
+                              <input type="datetime-local" id="_discharge_date_time" name="_discharge_date_time" class="form-control _discharge_date_time" value="<?php echo e(old('_discharge_date_time',$data->_discharge_date_time)); ?>" placeholder="<?php echo e(__('label._discharge_date_time')); ?>" >
                             </div>
                         </div>
                          <div class="col-xs-12 col-sm-12 col-md-3 ">
                             <div class="form-group">
                               <label class="mr-2" for="_main_ledger_id">Supplier:<span class="_required">*</span></label>
-                            <input type="text" id="_search_main_ledger_id" name="_search_main_ledger_id" class="form-control _search_main_ledger_id" value="{{old('_search_main_ledger_id',$data->_ledger->_name ?? '' )}}" placeholder="Supplier" required>
+                            <input type="text" id="_search_main_ledger_id" name="_search_main_ledger_id" class="form-control _search_main_ledger_id" value="<?php echo e(old('_search_main_ledger_id',$data->_ledger->_name ?? '' )); ?>" placeholder="Supplier" required>
 
-                            <input type="hidden" id="_main_ledger_id" name="_main_ledger_id" class="form-control _main_ledger_id" value="{{old('_main_ledger_id',$data->_ledger_id)}}" placeholder="Supplier" required>
+                            <input type="hidden" id="_main_ledger_id" name="_main_ledger_id" class="form-control _main_ledger_id" value="<?php echo e(old('_main_ledger_id',$data->_ledger_id)); ?>" placeholder="Supplier" required>
                             <div class="search_box_main_ledger"> </div>
 
                                 
@@ -209,7 +209,7 @@ $__user= Auth::user();
                          <div class="col-xs-12 col-sm-12 col-md-3 ">
                             <div class="form-group">
                               <label class="mr-2" for="_phone">Phone:</label>
-                              <input type="text" id="_phone" name="_phone" class="form-control _phone" value="{{old('_phone',$data->_phone)}}" placeholder="Phone" >
+                              <input type="text" id="_phone" name="_phone" class="form-control _phone" value="<?php echo e(old('_phone',$data->_phone)); ?>" placeholder="Phone" >
                                 
                             </div>
                         </div>
@@ -217,14 +217,14 @@ $__user= Auth::user();
                         <div class="col-xs-12 col-sm-12 col-md-3 ">
                             <div class="form-group">
                               <label class="mr-2" for="_address">Address:</label>
-                              <input type="text" id="_address" name="_address" class="form-control _address" value="{{old('_address',$data->_address)}}" placeholder="Address" >
+                              <input type="text" id="_address" name="_address" class="form-control _address" value="<?php echo e(old('_address',$data->_address)); ?>" placeholder="Address" >
                                 
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-3 ">
                             <div class="form-group">
                               <label class="mr-2" for="_referance">Referance:</label>
-                              <input type="text" id="_referance" name="_referance" class="form-control _referance" value="{{old('_referance',$data->_referance)}}" placeholder="Referance" >
+                              <input type="text" id="_referance" name="_referance" class="form-control _referance" value="<?php echo e(old('_referance',$data->_referance)); ?>" placeholder="Referance" >
                                 
                             </div>
                         </div>
@@ -244,119 +244,119 @@ $__user= Auth::user();
                                       <table class="table table-bordered" >
                                          <thead >
                                             <th class="text-left" >&nbsp;</th>
-                                            <th class="text-left" >{{__('label._item_id')}}</th>
-                                            <th class="text-left display_none" >{{__('label._base_unit')}}</th>
-                                            <th class="text-left display_none" >{{__('label.conversion_qty')}}</th>
-                                            <th class="text-left @if(isset($_show_unit)) @if($_show_unit==0) display_none    @endif @endif" >{{__('label._transection_unit')}}</th>
+                                            <th class="text-left" ><?php echo e(__('label._item_id')); ?></th>
+                                            <th class="text-left display_none" ><?php echo e(__('label._base_unit')); ?></th>
+                                            <th class="text-left display_none" ><?php echo e(__('label.conversion_qty')); ?></th>
+                                            <th class="text-left <?php if(isset($_show_unit)): ?> <?php if($_show_unit==0): ?> display_none    <?php endif; ?> <?php endif; ?>" ><?php echo e(__('label._transection_unit')); ?></th>
                                            
-                                            <th class="text-left @if($_show_barcode==0) display_none    @endif " >{{__('_barcode')}}</th>
-                                            <th class="text-left @if($_show_short_note==0) display_none    @endif " >{{__('label._note')}}</th>
+                                            <th class="text-left <?php if($_show_barcode==0): ?> display_none    <?php endif; ?> " ><?php echo e(__('_barcode')); ?></th>
+                                            <th class="text-left <?php if($_show_short_note==0): ?> display_none    <?php endif; ?> " ><?php echo e(__('label._note')); ?></th>
                                          
-                                            <th class="text-left @if($_show_expected_qty==0) display_none @endif" >{{__('label._expected_qty')}}</th>
-                                            <th class="text-left" >{{__('label._qty')}}</th>
-                                            <th class="text-left" >{{__('label._rate')}}</th>
-                                            <th class="text-left @if($_show_sales_rate==0) display_none @endif" >{{__('label._sales_rate')}}</th>
+                                            <th class="text-left <?php if($_show_expected_qty==0): ?> display_none <?php endif; ?>" ><?php echo e(__('label._expected_qty')); ?></th>
+                                            <th class="text-left" ><?php echo e(__('label._qty')); ?></th>
+                                            <th class="text-left" ><?php echo e(__('label._rate')); ?></th>
+                                            <th class="text-left <?php if($_show_sales_rate==0): ?> display_none <?php endif; ?>" ><?php echo e(__('label._sales_rate')); ?></th>
 
-                                            <th class="text-left @if($_inline_discount  ==0) display_none @endif" >{{__('label._discount')}}%</th>
-                                            <th class="text-left @if($_inline_discount  ==0) display_none @endif" >{{__('label._discount_value')}}</th>
+                                            <th class="text-left <?php if($_inline_discount  ==0): ?> display_none <?php endif; ?>" ><?php echo e(__('label._discount')); ?>%</th>
+                                            <th class="text-left <?php if($_inline_discount  ==0): ?> display_none <?php endif; ?>" ><?php echo e(__('label._discount_value')); ?></th>
                                            
-                                            <th class="text-left @if(isset($_show_vat)) @if($_show_vat==0) display_none   @endif @endif" >{{__('label._vat')}}%</th>
-                                            <th class="text-left @if(isset($_show_vat)) @if($_show_vat==0) display_none   @endif @endif" >{{__('label._vat_amount')}}</th>
+                                            <th class="text-left <?php if(isset($_show_vat)): ?> <?php if($_show_vat==0): ?> display_none   <?php endif; ?> <?php endif; ?>" ><?php echo e(__('label._vat')); ?>%</th>
+                                            <th class="text-left <?php if(isset($_show_vat)): ?> <?php if($_show_vat==0): ?> display_none   <?php endif; ?> <?php endif; ?>" ><?php echo e(__('label._vat_amount')); ?></th>
                                             
-                                            <th class="text-left" >{{__('label._value')}}</th>
-                                            <th class="text-left  @if(sizeof($store_houses) == 1) display_none @endif">{{__('label._store_id')}}</th>
-                                             <th class="text-left @if(isset($_show_self)) @if($_show_self==0) display_none @endif
-                                            @endif" >{{__('label._shelf')}}</th>
-                                             <th class="text-left @if(isset($form_settings->_show_manufacture_date)) @if($form_settings->_show_manufacture_date==0) display_none @endif
-                                            @endif" >{{__('label._manufacture_date')}}</th>
-                                             <th class="text-left @if(isset($form_settings->_show_expire_date)) @if($form_settings->_show_expire_date==0) display_none @endif
-                                            @endif"> {{__('label._expire_date')}} </th>
+                                            <th class="text-left" ><?php echo e(__('label._value')); ?></th>
+                                            <th class="text-left  <?php if(sizeof($store_houses) == 1): ?> display_none <?php endif; ?>"><?php echo e(__('label._store_id')); ?></th>
+                                             <th class="text-left <?php if(isset($_show_self)): ?> <?php if($_show_self==0): ?> display_none <?php endif; ?>
+                                            <?php endif; ?>" ><?php echo e(__('label._shelf')); ?></th>
+                                             <th class="text-left <?php if(isset($form_settings->_show_manufacture_date)): ?> <?php if($form_settings->_show_manufacture_date==0): ?> display_none <?php endif; ?>
+                                            <?php endif; ?>" ><?php echo e(__('label._manufacture_date')); ?></th>
+                                             <th class="text-left <?php if(isset($form_settings->_show_expire_date)): ?> <?php if($form_settings->_show_expire_date==0): ?> display_none <?php endif; ?>
+                                            <?php endif; ?>"> <?php echo e(__('label._expire_date')); ?> </th>
                                             
                                            
                                           </thead>
-                                          @php
+                                          <?php
                                           $_total_qty_amount = 0;
                                           $_total_vat_amount =0;
                                           $_total_value_amount =0;
                                           $_total_discount_amount=0;
                                           $__master_details = $data->_master_details;
-                                          @endphp
+                                          ?>
                                           <tbody class="area__purchase_details" id="area__purchase_details">
-                                            @if(sizeof($__master_details) > 0)
-                                            @forelse($data->_master_details as $m_key=> $detail)
-                                             @php
+                                            <?php if(sizeof($__master_details) > 0): ?>
+                                            <?php $__empty_1 = true; $__currentLoopData = $data->_master_details; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $m_key=> $detail): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                                             <?php
                                               $_total_qty_amount += $detail->_qty ??  0;
                                               $_total_vat_amount += $detail->_vat_amount ??  0;
                                               $_total_value_amount += $detail->_value ??  0;
                                               $_total_discount_amount=$detail->_discount_amount ??  0;
-                                              @endphp
+                                              ?>
                                             <tr class="_purchase_row">
                                               <td>
                                                 <a  href="#none" class="btn btn-default _purchase_row_remove" ><i class="fa fa-trash"></i></a>
                                               </td>
                                               <td>
                                                 
-                                                <input type="hidden" name="purchase_detail_id[]" value="{{ $detail->id }}" class="form-control purchase_detail_id" >
+                                                <input type="hidden" name="purchase_detail_id[]" value="<?php echo e($detail->id); ?>" class="form-control purchase_detail_id" >
                                                 
                                               
-                                                <input type="text" name="_search_item_id[]" class="form-control _search_item_id width_280_px" placeholder="Item" value="{{$detail->_items->_name ?? '' }}">
-                                                <input type="hidden" name="_item_id[]" class="form-control _item_id width_200_px" value="{{$detail->_item_id}}">
+                                                <input type="text" name="_search_item_id[]" class="form-control _search_item_id width_280_px" placeholder="Item" value="<?php echo e($detail->_items->_name ?? ''); ?>">
+                                                <input type="hidden" name="_item_id[]" class="form-control _item_id width_200_px" value="<?php echo e($detail->_item_id); ?>">
                                                 <div class="search_box_item">
                                                   
                                                 </div>
                                               </td>
                                               <td class="display_none">
-                                                <input type="hidden" class="form-control _base_unit_id width_100_px" name="_base_unit_id[]" value="{!! $detail->_base_unit !!}" />
-                                                <input type="text" class="form-control _main_unit_val width_100_px" readonly name="_main_unit_val[]" value="{!! $detail->_items->_units->_name ?? '' !!}" />
+                                                <input type="hidden" class="form-control _base_unit_id width_100_px" name="_base_unit_id[]" value="<?php echo $detail->_base_unit; ?>" />
+                                                <input type="text" class="form-control _main_unit_val width_100_px" readonly name="_main_unit_val[]" value="<?php echo $detail->_items->_units->_name ?? ''; ?>" />
                                               </td>
                                               <td class="display_none">
-                                                <input type="text" name="conversion_qty[]"  class="form-control conversion_qty " value="{!! $detail->_unit_conversion ?? 1 !!}" readonly>
-                                                <input type="hidden" name="_base_rate[]" class="form-control _base_rate _common_keyup" value="{!! $detail->_items->_pur_rate ?? 0 !!}" >
+                                                <input type="text" name="conversion_qty[]"  class="form-control conversion_qty " value="<?php echo $detail->_unit_conversion ?? 1; ?>" readonly>
+                                                <input type="hidden" name="_base_rate[]" class="form-control _base_rate _common_keyup" value="<?php echo $detail->_items->_pur_rate ?? 0; ?>" >
                                               </td>
-                                              <td class="@if($_show_unit==0) display_none @endif">
+                                              <td class="<?php if($_show_unit==0): ?> display_none <?php endif; ?>">
                                                 <select class="form-control _transection_unit" name="_transection_unit[]">
-                                                  @forelse($detail->_items->unit_conversion as $conversion_units )
+                                                  <?php $__empty_2 = true; $__currentLoopData = $detail->_items->unit_conversion; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $conversion_units): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_2 = false; ?>
                                                     <option 
-                                                    value="{{$conversion_units->_conversion_unit}}" 
-                                                    attr_base_unit_id="{{$conversion_units->_base_unit_id}}" 
-        attr_conversion_qty="{{$conversion_units->_conversion_qty}}" 
-        attr_conversion_unit="{{$conversion_units->_conversion_unit}}" 
-        attr_item_id="{{$conversion_units->_item_id}}"
+                                                    value="<?php echo e($conversion_units->_conversion_unit); ?>" 
+                                                    attr_base_unit_id="<?php echo e($conversion_units->_base_unit_id); ?>" 
+        attr_conversion_qty="<?php echo e($conversion_units->_conversion_qty); ?>" 
+        attr_conversion_unit="<?php echo e($conversion_units->_conversion_unit); ?>" 
+        attr_item_id="<?php echo e($conversion_units->_item_id); ?>"
 
-                                                    @if($conversion_units->_conversion_unit==$detail->_transection_unit) selected @endif >{!! $conversion_units->_conversion_unit_name ?? '' !!}</option>
-                                                  @empty
-                                                  @endforelse
+                                                    <?php if($conversion_units->_conversion_unit==$detail->_transection_unit): ?> selected <?php endif; ?> ><?php echo $conversion_units->_conversion_unit_name ?? ''; ?></option>
+                                                  <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_2): ?>
+                                                  <?php endif; ?>
                                                 </select>
                                               </td>
 
-                                              @if(isset($_show_barcode)) @if($_show_barcode==1)
+                                              <?php if(isset($_show_barcode)): ?> <?php if($_show_barcode==1): ?>
                                               <td>
-                                                <input type="text" name="{{($m_key+1)}}__barcode__{{$detail->_item_id}}" class="form-control _barcode {{($m_key+1)}}__barcode"  value="{{$detail->_barcode ?? '' }} " id="{{($m_key+1)}}__barcode" >
+                                                <input type="text" name="<?php echo e(($m_key+1)); ?>__barcode__<?php echo e($detail->_item_id); ?>" class="form-control _barcode <?php echo e(($m_key+1)); ?>__barcode"  value="<?php echo e($detail->_barcode ?? ''); ?> " id="<?php echo e(($m_key+1)); ?>__barcode" >
                                                
 
-                                                <input type="hidden" name="_ref_counter[]" value="{{($m_key+1)}}" class="_ref_counter" id="{{($m_key+1)}}__ref_counter">
+                                                <input type="hidden" name="_ref_counter[]" value="<?php echo e(($m_key+1)); ?>" class="_ref_counter" id="<?php echo e(($m_key+1)); ?>__ref_counter">
                                               </td>
-                                              @else
+                                              <?php else: ?>
                                               <td class="display_none">
-                                                <input type="text" name="{{($m_key+1)}}__barcode__{{$detail->_item_id}}" class="form-control _barcode {{($m_key+1)}}__barcode"  value="{{$detail->_barcode ?? '' }} " id="{{($m_key+1)}}__barcode" >
+                                                <input type="text" name="<?php echo e(($m_key+1)); ?>__barcode__<?php echo e($detail->_item_id); ?>" class="form-control _barcode <?php echo e(($m_key+1)); ?>__barcode"  value="<?php echo e($detail->_barcode ?? ''); ?> " id="<?php echo e(($m_key+1)); ?>__barcode" >
                                                
 
-                                                <input type="hidden" name="_ref_counter[]" value="{{($m_key+1)}}" class="_ref_counter" id="{{($m_key+1)}}__ref_counter">
+                                                <input type="hidden" name="_ref_counter[]" value="<?php echo e(($m_key+1)); ?>" class="_ref_counter" id="<?php echo e(($m_key+1)); ?>__ref_counter">
 
 
                                               </td>
-                                              @endif
-                                            @endif
+                                              <?php endif; ?>
+                                            <?php endif; ?>
 
-                                             <td class="@if(isset($_show_short_note)) @if($_show_short_note==0) display_none   @endif @endif">
-                                                <input type="text" name="_short_note[]" class="form-control _short_note {{($m_key+1)}}__short_note "  value="{{$detail->_short_note ?? '' }}">
+                                             <td class="<?php if(isset($_show_short_note)): ?> <?php if($_show_short_note==0): ?> display_none   <?php endif; ?> <?php endif; ?>">
+                                                <input type="text" name="_short_note[]" class="form-control _short_note <?php echo e(($m_key+1)); ?>__short_note "  value="<?php echo e($detail->_short_note ?? ''); ?>">
                                               </td>
-                                              <td class="@if($_show_expected_qty==0) display_none @endif">
-                                                <input type="number" name="_expected_qty[]" class="form-control _expected_qty _common_keyup" value="{{ $detail->_expected_qty ?? 0 }}">
+                                              <td class="<?php if($_show_expected_qty==0): ?> display_none <?php endif; ?>">
+                                                <input type="number" name="_expected_qty[]" class="form-control _expected_qty _common_keyup" value="<?php echo e($detail->_expected_qty ?? 0); ?>">
                                               </td>
 
                                               <td>
-                                                 @if($detail->_items->_unique_barcode==1)
+                                                 <?php if($detail->_items->_unique_barcode==1): ?>
  <script type="text/javascript">
   $('#<?php echo ($m_key+1);?>__barcode').amsifySuggestags({
       trimValue: true,
@@ -364,74 +364,74 @@ $__user= Auth::user();
       showPlusAfter: 1,
       });
                                             </script>
-                                            @endif
-                                                <input type="number" name="_qty[]" class="form-control _qty _common_keyup"  value="{{$detail->_qty ?? 0 }}" @if($detail->_items->_unique_barcode==1) readonly @endif >
+                                            <?php endif; ?>
+                                                <input type="number" name="_qty[]" class="form-control _qty _common_keyup"  value="<?php echo e($detail->_qty ?? 0); ?>" <?php if($detail->_items->_unique_barcode==1): ?> readonly <?php endif; ?> >
                                               </td>
                                               <td>
-                                                <input type="number" name="_rate[]" class="form-control _rate _common_keyup" value="{{$detail->_rate ?? 0 }}" >
+                                                <input type="number" name="_rate[]" class="form-control _rate _common_keyup" value="<?php echo e($detail->_rate ?? 0); ?>" >
                                               </td>
                                               <td>
-                                                <input type="number" name="_sales_rate[]" class="form-control _sales_rate " value="{{$detail->_sales_rate ?? 0 }}" >
+                                                <input type="number" name="_sales_rate[]" class="form-control _sales_rate " value="<?php echo e($detail->_sales_rate ?? 0); ?>" >
                                               </td>
 
-                                               <td class="@if($_inline_discount == 0) display_none @endif">
-                                                <input type="number" name="_discount[]" class="form-control  _discount _common_keyup" value="{{$detail->_discount}}">
+                                               <td class="<?php if($_inline_discount == 0): ?> display_none <?php endif; ?>">
+                                                <input type="number" name="_discount[]" class="form-control  _discount _common_keyup" value="<?php echo e($detail->_discount); ?>">
                                               </td>
-                                              <td class="@if($_inline_discount == 0) display_none @endif">
-                                                <input type="number" name="_discount_amount[]" class="form-control  _discount_amount  " value="{{$detail->_discount_amount}}">
+                                              <td class="<?php if($_inline_discount == 0): ?> display_none <?php endif; ?>">
+                                                <input type="number" name="_discount_amount[]" class="form-control  _discount_amount  " value="<?php echo e($detail->_discount_amount); ?>">
                                               </td>
-                                              @if(isset($_show_vat)) @if($_show_vat==1)
+                                              <?php if(isset($_show_vat)): ?> <?php if($_show_vat==1): ?>
                                               <td>
-                                                <input type="text" name="_vat[]" class="form-control  _vat _common_keyup" value="{{$detail->_vat ?? 0 }}">
+                                                <input type="text" name="_vat[]" class="form-control  _vat _common_keyup" value="<?php echo e($detail->_vat ?? 0); ?>">
                                               </td>
                                               <td>
-                                                <input type="text" name="_vat_amount[]" class="form-control  _vat_amount" value="{{$detail->_vat_amount ?? 0 }}">
+                                                <input type="text" name="_vat_amount[]" class="form-control  _vat_amount" value="<?php echo e($detail->_vat_amount ?? 0); ?>">
                                               </td>
-                                              @else
+                                              <?php else: ?>
                                               <td class="display_none">
-                                                <input type="text" name="_vat[]" class="form-control  _vat _common_keyup" value="{{$detail->_vat ?? 0 }}">
+                                                <input type="text" name="_vat[]" class="form-control  _vat _common_keyup" value="<?php echo e($detail->_vat ?? 0); ?>">
                                               </td>
                                               <td class="display_none">
-                                                <input type="text" name="_vat_amount[]" class="form-control  _vat_amount" value="{{$detail->_vat_amount ?? 0 }}" >
+                                                <input type="text" name="_vat_amount[]" class="form-control  _vat_amount" value="<?php echo e($detail->_vat_amount ?? 0); ?>" >
                                               </td>
-                                              @endif
-                                              @endif
+                                              <?php endif; ?>
+                                              <?php endif; ?>
                                               <td>
-                                                <input type="number" name="_value[]" class="form-control _value " readonly value="{{ $detail->_value ?? 0 }}" >
+                                                <input type="number" name="_value[]" class="form-control _value " readonly value="<?php echo e($detail->_value ?? 0); ?>" >
                                               </td>
                                             
                                              
                                               
-                                              <td class=" @if(sizeof($store_houses) == 1) display_none @endif">
+                                              <td class=" <?php if(sizeof($store_houses) == 1): ?> display_none <?php endif; ?>">
                                                 <select class="form-control  _main_store_id" name="_main_store_id[]">
-                                                  @forelse($store_houses as $store)
-                                                  <option value="{{$store->id}}"   @if(isset($detail->_store_id)) @if($detail->_store_id == $store->id) selected @endif   @endif  >{{$store->_name ?? '' }}</option>
-                                                  @empty
-                                                  @endforelse
+                                                  <?php $__empty_2 = true; $__currentLoopData = $store_houses; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $store): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_2 = false; ?>
+                                                  <option value="<?php echo e($store->id); ?>"   <?php if(isset($detail->_store_id)): ?> <?php if($detail->_store_id == $store->id): ?> selected <?php endif; ?>   <?php endif; ?>  ><?php echo e($store->_name ?? ''); ?></option>
+                                                  <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_2): ?>
+                                                  <?php endif; ?>
                                                 </select>
                                                 
                                               </td>
                                             
                                              
                                               
-                                              <td class=" @if(isset($_show_self)) @if($_show_self==0) display_none @endif  @endif">
-                                                <input type="text" name="_store_salves_id[]" class="form-control _store_salves_id " value="{{$detail->_store_salves_id ?? '' }}" >
+                                              <td class=" <?php if(isset($_show_self)): ?> <?php if($_show_self==0): ?> display_none <?php endif; ?>  <?php endif; ?>">
+                                                <input type="text" name="_store_salves_id[]" class="form-control _store_salves_id " value="<?php echo e($detail->_store_salves_id ?? ''); ?>" >
                                               </td>
                                              
                                               
 
-                                              <td class="@if(isset($form_settings->_show_manufacture_date)) @if($form_settings->_show_manufacture_date==0) display_none  @endif @endif">
-                                                <input type="date" name="_manufacture_date[]" class="form-control _manufacture_date "  value="{{$detail->_manufacture_date ?? '' }}">
+                                              <td class="<?php if(isset($form_settings->_show_manufacture_date)): ?> <?php if($form_settings->_show_manufacture_date==0): ?> display_none  <?php endif; ?> <?php endif; ?>">
+                                                <input type="date" name="_manufacture_date[]" class="form-control _manufacture_date "  value="<?php echo e($detail->_manufacture_date ?? ''); ?>">
                                               </td>
-                                              <td class="@if(isset($form_settings->_show_expire_date)) @if($form_settings->_show_expire_date==0) display_none  @endif @endif">
-                                                <input type="date" name="_expire_date[]" class="form-control _expire_date " value="{{$detail->_expire_date ?? '' }}" >
+                                              <td class="<?php if(isset($form_settings->_show_expire_date)): ?> <?php if($form_settings->_show_expire_date==0): ?> display_none  <?php endif; ?> <?php endif; ?>">
+                                                <input type="date" name="_expire_date[]" class="form-control _expire_date " value="<?php echo e($detail->_expire_date ?? ''); ?>" >
                                               </td>
                                               
                                             </tr>
                                            
-                                            @empty
-                                            @endforelse
-                                            @endif
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                                            <?php endif; ?>
+                                            <?php endif; ?>
                                           </tbody>
                                           <tfoot>
                                             <tr>
@@ -441,28 +441,28 @@ $__user= Auth::user();
                                               <td  class="text-right"><b>Total</b></td>
                                               <td class="display_none"></td>
                                               <td class="display_none"></td>
-                                              <td class="@if($_show_unit==0) display_none @endif"></td>
+                                              <td class="<?php if($_show_unit==0): ?> display_none <?php endif; ?>"></td>
                                               
-                                                <td  class="text-right @if($_show_barcode==0) display_none @endif"></td>
+                                                <td  class="text-right <?php if($_show_barcode==0): ?> display_none <?php endif; ?>"></td>
                                              
                                               
-                                                <td  class="text-right @if($_show_short_note==0) display_none @endif"></td>
+                                                <td  class="text-right <?php if($_show_short_note==0): ?> display_none <?php endif; ?>"></td>
                                              
-                                              <td class="@if($_show_expected_qty==0) display_none @endif">
+                                              <td class="<?php if($_show_expected_qty==0): ?> display_none <?php endif; ?>">
                                                 <input type="number" step="any" min="0" name="_total_expected_qty_amount" class="form-control _total_expected_qty_amount" value="0" readonly required>
                                               </td>
                                               <td>
                                                 <input type="number" step="any" min="0" name="_total_qty_amount" class="form-control _total_qty_amount" value="0" readonly required>
                                               </td>
                                               <td></td>
-                                              <td class="@if($_show_sales_rate==0) display_none @endif"></td>
-                                              <td class="@if($_inline_discount==0) display_none @endif"></td>
-                                              <td class="@if($_inline_discount==0) display_none @endif">
+                                              <td class="<?php if($_show_sales_rate==0): ?> display_none <?php endif; ?>"></td>
+                                              <td class="<?php if($_inline_discount==0): ?> display_none <?php endif; ?>"></td>
+                                              <td class="<?php if($_inline_discount==0): ?> display_none <?php endif; ?>">
                                                 <input type="number" step="any" min="0" name="_total_discount_amount" class="form-control _total_discount_amount" value="0" readonly required>
                                               </td>
                                              
-                                              <td class="@if(isset($_show_vat)) @if($_show_vat==0) display_none   @endif  @endif"></td>
-                                              <td class="@if(isset($_show_vat)) @if($_show_vat==0) display_none   @endif  @endif">
+                                              <td class="<?php if(isset($_show_vat)): ?> <?php if($_show_vat==0): ?> display_none   <?php endif; ?>  <?php endif; ?>"></td>
+                                              <td class="<?php if(isset($_show_vat)): ?> <?php if($_show_vat==0): ?> display_none   <?php endif; ?>  <?php endif; ?>">
                                                 <input type="number" step="any" min="0" name="_total_vat_amount" class="form-control _total_vat_amount" value="0" readonly required>
                                               </td>
 
@@ -472,11 +472,11 @@ $__user= Auth::user();
                                                 <input type="number" step="any" min="0" name="_total_value_amount" class="form-control _total_value_amount" value="0" readonly required>
                                               </td>
                                               
-                                               <td class="@if(sizeof($store_houses) == 1) display_none @endif"></td>
-                                              <td class="@if(isset($_show_self)) @if($_show_self==0) display_none  @endif  @endif"></td>
-                                              <td class="@if(isset($form_settings->_show_manufacture_date)) @if($form_settings->_show_manufacture_date==0) display_none  @endif  @endif"></td>
+                                               <td class="<?php if(sizeof($store_houses) == 1): ?> display_none <?php endif; ?>"></td>
+                                              <td class="<?php if(isset($_show_self)): ?> <?php if($_show_self==0): ?> display_none  <?php endif; ?>  <?php endif; ?>"></td>
+                                              <td class="<?php if(isset($form_settings->_show_manufacture_date)): ?> <?php if($form_settings->_show_manufacture_date==0): ?> display_none  <?php endif; ?>  <?php endif; ?>"></td>
 
-                                              <td class="@if(isset($form_settings->_show_expire_date)) @if($form_settings->_show_expire_date==0) display_none  @endif  @endif"></td>
+                                              <td class="<?php if(isset($form_settings->_show_expire_date)): ?> <?php if($form_settings->_show_expire_date==0): ?> display_none  <?php endif; ?>  <?php endif; ?>"></td>
                                               
                                             </tr>
                                           </tfoot>
@@ -486,12 +486,12 @@ $__user= Auth::user();
                           </div>
                         </div>
                         
-                          @if($__user->_ac_type==1)
-                      @include('backend.purchase.edit_ac_cb')
+                          <?php if($__user->_ac_type==1): ?>
+                      <?php echo $__env->make('backend.purchase.edit_ac_cb', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                          
-                      @else
-                       @include('backend.purchase.edit_ac_detail')
-                      @endif
+                      <?php else: ?>
+                       <?php echo $__env->make('backend.purchase.edit_ac_detail', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                      <?php endif; ?>
                           
 
                         <div class="col-xs-12 col-sm-12 col-md-12 mb-10">
@@ -499,85 +499,86 @@ $__user= Auth::user();
                             <tr>
                               <td style="width: 10%;border:0px;"><label for="_note">Note</label></td>
                               <td style="width: 70%;border:0px;">
-                                @if ($_print = Session::get('_print_value'))
-                                     <input type="hidden" name="_after_print" value="{{$_print}}" class="_after_print" >
-                                    @else
+                                <?php if($_print = Session::get('_print_value')): ?>
+                                     <input type="hidden" name="_after_print" value="<?php echo e($_print); ?>" class="_after_print" >
+                                    <?php else: ?>
                                     <input type="hidden" name="_after_print" value="0" class="_after_print" >
-                                    @endif
-                                    @if ($_master_id = Session::get('_master_id'))
-                                     <input type="hidden" name="_master_id" value="{{url('purchase/print')}}/{{$_master_id}}" class="_master_id">
+                                    <?php endif; ?>
+                                    <?php if($_master_id = Session::get('_master_id')): ?>
+                                     <input type="hidden" name="_master_id" value="<?php echo e(url('purchase/print')); ?>/<?php echo e($_master_id); ?>" class="_master_id">
                                     
-                                    @endif
+                                    <?php endif; ?>
                                    
                                        <input type="hidden" name="_print" value="0" class="_save_and_print_value">
 
-                                    <input type="text" id="_note"  name="_note" class="form-control _note" value="{{old('_note',$data->_note ?? '' )}}" placeholder="Note" required >
+                                    <input type="text" id="_note"  name="_note" class="form-control _note" value="<?php echo e(old('_note',$data->_note ?? '' )); ?>" placeholder="Note" required >
                               </td>
                             </tr>
                             <tr>
                               <td style="width: 10%;border:0px;"><label for="_sub_total">Sub Total</label></td>
                               <td style="width: 70%;border:0px;">
-                                <input type="text" name="_sub_total" class="form-control width_200_px" id="_purchase_sub_total" readonly value="{{ _php_round($data->_sub_total ?? 0) }}">
+                                <input type="text" name="_sub_total" class="form-control width_200_px" id="_purchase_sub_total" readonly value="<?php echo e(_php_round($data->_sub_total ?? 0)); ?>">
                               </td>
                             </tr>
                             <tr>
                               <td style="width: 10%;border:0px;"><label for="_discount_input">Invoice Discount</label></td>
                               <td style="width: 70%;border:0px;">
-                                <input type="text" name="_discount_input" class="form-control width_200_px" id="_purchase_discount_input" value="{{$data->_discount_input ?? 0}}" >
+                                <input type="text" name="_discount_input" class="form-control width_200_px" id="_purchase_discount_input" value="<?php echo e($data->_discount_input ?? 0); ?>" >
                               </td>
                             </tr>
                             <tr>
                               <td style="width: 10%;border:0px;"><label for="_total_discount">Total Discount</label></td>
                               <td style="width: 70%;border:0px;">
-                                <input type="text" name="_total_discount" class="form-control width_200_px" id="_purchase_total_discount" readonly value="{{$data->_total_discount ?? 0}}">
+                                <input type="text" name="_total_discount" class="form-control width_200_px" id="_purchase_total_discount" readonly value="<?php echo e($data->_total_discount ?? 0); ?>">
                               </td>
                             </tr>
-                            @if(isset($_show_vat)) 
-                            @if($_show_vat==1)
+                            <?php if(isset($_show_vat)): ?> 
+                            <?php if($_show_vat==1): ?>
                             <tr>
                               <td style="width: 10%;border:0px;"><label for="_total_vat">Total VAT</label></td>
                               <td style="width: 70%;border:0px;">
-                                <input type="text" name="_total_vat" class="form-control width_200_px" id="_purchase_total_vat" readonly value="{{$data->_total_vat ?? 0}}">
+                                <input type="text" name="_total_vat" class="form-control width_200_px" id="_purchase_total_vat" readonly value="<?php echo e($data->_total_vat ?? 0); ?>">
                               </td>
                             </tr>
-                            @else
+                            <?php else: ?>
                             <tr class="display_none">
                               <td style="width: 10%;border:0px;"><label for="_total_vat">Total VAT</label></td>
                               <td style="width: 70%;border:0px;">
-                                <input type="text" name="_total_vat" class="form-control width_200_px" id="_purchase_total_vat" readonly value="{{$data->_total_vat ?? 0}}">
+                                <input type="text" name="_total_vat" class="form-control width_200_px" id="_purchase_total_vat" readonly value="<?php echo e($data->_total_vat ?? 0); ?>">
                               </td>
                             </tr>
-                            @endif
-                            @endif
+                            <?php endif; ?>
+                            <?php endif; ?>
                             <tr>
                               <td style="width: 10%;border:0px;"><label for="_total">NET Total </label></td>
                               <td style="width: 70%;border:0px;">
-                          <input type="text" name="_total" class="form-control width_200_px" id="_total" readonly value="{{ _php_round($data->_total ?? 0)}}">
-                          <input type="hidden" name="_item_row_count" value="{{sizeof($__master_details)}}" class="_item_row_count">
+                          <input type="text" name="_total" class="form-control width_200_px" id="_total" readonly value="<?php echo e(_php_round($data->_total ?? 0)); ?>">
+                          <input type="hidden" name="_item_row_count" value="<?php echo e(sizeof($__master_details)); ?>" class="_item_row_count">
                               </td>
                             </tr>
-                             @include('backend.message.send_sms')
+                             <?php echo $__env->make('backend.message.send_sms', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                           </table>
                         </div>
                          <div class="col-xs-12 col-sm-12 col-md-12 " style="height: 50px;">
                          </div>
 
                         <div class="col-xs-12 col-sm-12 col-md-12 bottom_save_section text-middle">
-                          @if($sales_number > 0 )
+                          <?php if($sales_number > 0 ): ?>
                           <p class="text-center _required">This invoice Item already sold. Please don't Change any item information.
                             </p>
                             <p>
                             <button type="submit" class="btn btn-success submit-button ml-5"><i class="fa fa-credit-card mr-2" aria-hidden="true"></i> Save</button></p>
-                          @else
+                          <?php else: ?>
                             <button type="submit" class="btn btn-success submit-button ml-5"><i class="fa fa-credit-card mr-2" aria-hidden="true"></i> Save</button>
                             <button type="submit" class="btn btn-warning submit-button _save_and_print"><i class="fa fa-print mr-2" aria-hidden="true"></i> Save & Print</button>
-                          @endif
+                          <?php endif; ?>
                             
                         </div>
                         <br><br>
                         
                     </div>
-                    {!! Form::close() !!}
+                    <?php echo Form::close(); ?>
+
                 
               </div>
             </div>
@@ -593,8 +594,8 @@ $__user= Auth::user();
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
-    <form action="{{ url('purchase-settings')}}" method="POST">
-        @csrf
+    <form action="<?php echo e(url('purchase-settings')); ?>" method="POST">
+        <?php echo csrf_field(); ?>
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Purchase Form Settings</h5>
@@ -607,116 +608,116 @@ $__user= Auth::user();
         <div class="form-group row">
         <label for="_default_inventory" class="col-sm-5 col-form-label">Default Inventory</label>
         <select class="form-control col-sm-7" name="_default_inventory">
-          @foreach($inv_accounts as $account)
-          <option value="{{$account->id}}" @if(isset($form_settings->_default_inventory))@if($form_settings->_default_inventory==$account->id) selected @endif @endif>{{ $account->_name ?? '' }}</option>
-          @endforeach
+          <?php $__currentLoopData = $inv_accounts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $account): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+          <option value="<?php echo e($account->id); ?>" <?php if(isset($form_settings->_default_inventory)): ?><?php if($form_settings->_default_inventory==$account->id): ?> selected <?php endif; ?> <?php endif; ?>><?php echo e($account->_name ?? ''); ?></option>
+          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </select>
       </div>
       <div class="form-group row">
         <label for="_default_purchase" class="col-sm-5 col-form-label">Default Purchase Account</label>
         <select class="form-control col-sm-7" name="_default_purchase">
-          @foreach($p_accounts as $account)
-          <option value="{{$account->id}}" @if(isset($form_settings->_default_purchase))@if($form_settings->_default_purchase==$account->id) selected @endif @endif>{{ $account->_name ?? '' }}</option>
-          @endforeach
+          <?php $__currentLoopData = $p_accounts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $account): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+          <option value="<?php echo e($account->id); ?>" <?php if(isset($form_settings->_default_purchase)): ?><?php if($form_settings->_default_purchase==$account->id): ?> selected <?php endif; ?> <?php endif; ?>><?php echo e($account->_name ?? ''); ?></option>
+          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </select>
       </div>
       <div class="form-group row">
         <label for="_default_discount" class="col-sm-5 col-form-label">Default Discount Account</label>
         <select class="form-control col-md-7" name="_default_discount">
-          @foreach($dis_accounts as $account)
-          <option value="{{$account->id}}" @if(isset($form_settings->_default_discount))@if($form_settings->_default_discount==$account->id) selected @endif @endif>{{ $account->_name ?? '' }}</option>
-          @endforeach
+          <?php $__currentLoopData = $dis_accounts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $account): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+          <option value="<?php echo e($account->id); ?>" <?php if(isset($form_settings->_default_discount)): ?><?php if($form_settings->_default_discount==$account->id): ?> selected <?php endif; ?> <?php endif; ?>><?php echo e($account->_name ?? ''); ?></option>
+          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </select>
       </div>
       <div class="form-group row">
         <label for="_default_vat_account" class="col-sm-5 col-form-label">Default VAT Account</label>
         <select class="form-control col-md-7" name="_default_vat_account">
-          @foreach($p_accounts as $account)
-          <option value="{{$account->id}}" @if(isset($form_settings->_default_vat_account))@if($form_settings->_default_vat_account==$account->id) selected @endif @endif>{{ $account->_name ?? '' }}</option>
-          @endforeach
+          <?php $__currentLoopData = $p_accounts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $account): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+          <option value="<?php echo e($account->id); ?>" <?php if(isset($form_settings->_default_vat_account)): ?><?php if($form_settings->_default_vat_account==$account->id): ?> selected <?php endif; ?> <?php endif; ?>><?php echo e($account->_name ?? ''); ?></option>
+          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </select>
       </div>
        <div class="form-group row">
         <label for="_show_unit" class="col-sm-5 col-form-label">Show Unit</label>
         <select class="form-control col-sm-7" name="_show_unit">
          
-          <option value="0" @if(isset($_show_unit))@if($_show_unit==0) selected @endif @endif>NO</option>
-          <option value="1" @if(isset($_show_unit))@if($_show_unit==1) selected @endif @endif>YES</option>
+          <option value="0" <?php if(isset($_show_unit)): ?><?php if($_show_unit==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
+          <option value="1" <?php if(isset($_show_unit)): ?><?php if($_show_unit==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
         </select>
       </div>
       <div class="form-group row">
         <label for="_inline_discount" class="col-sm-5 col-form-label">Show Inline Discount</label>
         <select class="form-control col-sm-7" name="_inline_discount">
          
-          <option value="0" @if(isset($_inline_discount))@if($_inline_discount==0) selected @endif @endif>NO</option>
-          <option value="1" @if(isset($_inline_discount))@if($_inline_discount==1) selected @endif @endif>YES</option>
+          <option value="0" <?php if(isset($_inline_discount)): ?><?php if($_inline_discount==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
+          <option value="1" <?php if(isset($_inline_discount)): ?><?php if($_inline_discount==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
         </select>
       </div>
       <div class="form-group row">
         <label for="_show_vat" class="col-sm-5 col-form-label">Show VAT</label>
         <select class="form-control col-sm-7" name="_show_vat">
          
-          <option value="0" @if(isset($_show_vat))@if($_show_vat==0) selected @endif @endif>NO</option>
-          <option value="1" @if(isset($_show_vat))@if($_show_vat==1) selected @endif @endif>YES</option>
+          <option value="0" <?php if(isset($_show_vat)): ?><?php if($_show_vat==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
+          <option value="1" <?php if(isset($_show_vat)): ?><?php if($_show_vat==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
         </select>
       </div>
       <div class="form-group row">
         <label for="_show_barcode" class="col-sm-5 col-form-label">Show Barcode</label>
         <select class="form-control col-sm-7" name="_show_barcode">
-          <option value="0" @if(isset($_show_barcode))@if($_show_barcode==0) selected @endif @endif>NO</option>
-          <option value="1" @if(isset($_show_barcode))@if($_show_barcode==1) selected @endif @endif>YES</option>
+          <option value="0" <?php if(isset($_show_barcode)): ?><?php if($_show_barcode==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
+          <option value="1" <?php if(isset($_show_barcode)): ?><?php if($_show_barcode==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
         </select>
       </div>
       <div class="form-group row">
         <label for="_show_short_note" class="col-sm-5 col-form-label">Show Short Note</label>
         <select class="form-control col-sm-7" name="_show_short_note">
          
-          <option value="0" @if(isset($_show_short_note))@if($_show_short_note==0) selected @endif @endif>NO</option>
-          <option value="1" @if(isset($_show_short_note))@if($_show_short_note==1) selected @endif @endif>YES</option>
+          <option value="0" <?php if(isset($_show_short_note)): ?><?php if($_show_short_note==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
+          <option value="1" <?php if(isset($_show_short_note)): ?><?php if($_show_short_note==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
         </select>
       </div>
       <div class="form-group row">
         <label for="_show_store" class="col-sm-5 col-form-label">Show Store</label>
         <select class="form-control col-sm-7" name="_show_store">
-          <option value="0" @if(isset($form_settings->_show_store))@if($form_settings->_show_store==0) selected @endif @endif>NO</option>
-          <option value="1" @if(isset($form_settings->_show_store))@if($form_settings->_show_store==1) selected @endif @endif>YES</option>
+          <option value="0" <?php if(isset($form_settings->_show_store)): ?><?php if($form_settings->_show_store==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
+          <option value="1" <?php if(isset($form_settings->_show_store)): ?><?php if($form_settings->_show_store==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
         </select>
       </div>
       <div class="form-group row">
         <label for="_show_self" class="col-sm-5 col-form-label">Show Shelf</label>
         <select class="form-control col-sm-7" name="_show_self">
-          <option value="0" @if(isset($_show_self))@if($_show_self==0) selected @endif @endif>NO</option>
-          <option value="1" @if(isset($_show_self))@if($_show_self==1) selected @endif @endif>YES</option>
+          <option value="0" <?php if(isset($_show_self)): ?><?php if($_show_self==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
+          <option value="1" <?php if(isset($_show_self)): ?><?php if($_show_self==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
         </select>
       </div>
        <div class="form-group row">
         <label for="_show_manufacture_date" class="col-sm-5 col-form-label">Use Manufacture Date</label>
         <select class="form-control col-sm-7" name="_show_manufacture_date">
-          <option value="0" @if(isset($form_settings->_show_manufacture_date))@if($form_settings->_show_manufacture_date==0) selected @endif @endif>NO</option>
-          <option value="1" @if(isset($form_settings->_show_manufacture_date))@if($form_settings->_show_manufacture_date==1) selected @endif @endif>YES</option>
+          <option value="0" <?php if(isset($form_settings->_show_manufacture_date)): ?><?php if($form_settings->_show_manufacture_date==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
+          <option value="1" <?php if(isset($form_settings->_show_manufacture_date)): ?><?php if($form_settings->_show_manufacture_date==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
         </select>
       </div>
       <div class="form-group row">
         <label for="_show_expire_date" class="col-sm-5 col-form-label">Use Expired Date</label>
         <select class="form-control col-sm-7" name="_show_expire_date">
-          <option value="0" @if(isset($form_settings->_show_expire_date))@if($form_settings->_show_expire_date==0) selected @endif @endif>NO</option>
-          <option value="1" @if(isset($form_settings->_show_expire_date))@if($form_settings->_show_expire_date==1) selected @endif @endif>YES</option>
+          <option value="0" <?php if(isset($form_settings->_show_expire_date)): ?><?php if($form_settings->_show_expire_date==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
+          <option value="1" <?php if(isset($form_settings->_show_expire_date)): ?><?php if($form_settings->_show_expire_date==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
         </select>
       </div>
       <div class="form-group row">
         <label for="_show_p_balance" class="col-sm-5 col-form-label">Invoice Show Previous Balance</label>
         <select class="form-control col-sm-7" name="_show_p_balance">
-          <option value="0" @if(isset($form_settings->_show_p_balance))@if($form_settings->_show_p_balance==0) selected @endif @endif>NO</option>
-          <option value="1" @if(isset($form_settings->_show_p_balance))@if($form_settings->_show_p_balance==1) selected @endif @endif>YES</option>
+          <option value="0" <?php if(isset($form_settings->_show_p_balance)): ?><?php if($form_settings->_show_p_balance==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
+          <option value="1" <?php if(isset($form_settings->_show_p_balance)): ?><?php if($form_settings->_show_p_balance==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
         </select>
       </div>
        <div class="form-group row">
         <label for="_invoice_template" class="col-sm-5 col-form-label">Invoice Template</label>
         <select class="form-control col-sm-7" name="_invoice_template">
-          <option value="1" @if(isset($form_settings->_invoice_template))@if($form_settings->_invoice_template==1) selected @endif @endif>Template A</option>
-          <option value="2" @if(isset($form_settings->_invoice_template))@if($form_settings->_invoice_template==2) selected @endif @endif>Template B</option>
-          <option value="3" @if(isset($form_settings->_invoice_template))@if($form_settings->_invoice_template==3) selected @endif @endif>Template C</option>
-          <option value="4" @if(isset($form_settings->_invoice_template))@if($form_settings->_invoice_template==4) selected @endif @endif>Template D</option>
+          <option value="1" <?php if(isset($form_settings->_invoice_template)): ?><?php if($form_settings->_invoice_template==1): ?> selected <?php endif; ?> <?php endif; ?>>Template A</option>
+          <option value="2" <?php if(isset($form_settings->_invoice_template)): ?><?php if($form_settings->_invoice_template==2): ?> selected <?php endif; ?> <?php endif; ?>>Template B</option>
+          <option value="3" <?php if(isset($form_settings->_invoice_template)): ?><?php if($form_settings->_invoice_template==3): ?> selected <?php endif; ?> <?php endif; ?>>Template C</option>
+          <option value="4" <?php if(isset($form_settings->_invoice_template)): ?><?php if($form_settings->_invoice_template==4): ?> selected <?php endif; ?> <?php endif; ?>>Template D</option>
         </select>
       </div>
          
@@ -733,17 +734,17 @@ $__user= Auth::user();
 
 
 </div>
-@include('backend.common-modal.item_ledger_modal')
+<?php echo $__env->make('backend.common-modal.item_ledger_modal', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('script')
+<?php $__env->startSection('script'); ?>
 
 <script type="text/javascript">
-  @if(empty($form_settings))
+  <?php if(empty($form_settings)): ?>
     $(document).find("#form_settings").click();
-  @endif
-  var default_date_formate = `{{default_date_formate()}}`;
+  <?php endif; ?>
+  var default_date_formate = `<?php echo e(default_date_formate()); ?>`;
   var _after_print = $(document).find("._after_print").val();
   var _master_id = $(document).find("._master_id").val();
   var _item_row_count = parseFloat($(document).find('._item_row_count').val());
@@ -771,7 +772,7 @@ $__user= Auth::user();
 
 
   var request = $.ajax({
-      url: "{{url('item-purchase-search')}}",
+      url: "<?php echo e(url('item-purchase-search')); ?>",
       method: "GET",
       data: { _text_val : _text_val },
       dataType: "JSON"
@@ -849,7 +850,7 @@ $(document).on('click','.search_row_item',function(){
 var self = $(this);
 
     var request = $.ajax({
-      url: "{{url('item-wise-units')}}",
+      url: "<?php echo e(url('item-wise-units')); ?>",
       method: "GET",
       data: { item_id:_id },
        dataType: "html"
@@ -1086,57 +1087,57 @@ $(document).on("change","#_purchase_discount_input",function(){
                       <td>
                       <input type="hidden" name="purchase_account_id[]" class="form-control purchase_account_id" value="0"  />
                       </td>
-                      <td><input type="text" name="_search_ledger_id[]" class="form-control _search_ledger_id width_280_px" placeholder="Ledger" @if($__user->_ac_type==1) attr_account_head_no="1" @endif >
+                      <td><input type="text" name="_search_ledger_id[]" class="form-control _search_ledger_id width_280_px" placeholder="Ledger" <?php if($__user->_ac_type==1): ?> attr_account_head_no="1" <?php endif; ?> >
                       <input type="hidden" name="_ledger_id[]" class="form-control _ledger_id" >
                       <div class="search_box">
                       </div>
                       </td>
 
-                       @if(sizeof($permited_branch)>1)
+                       <?php if(sizeof($permited_branch)>1): ?>
                       <td>
                       <select class="form-control width_150_px _branch_id_detail" name="_branch_id_detail[]"  required >
-                        @forelse($permited_branch as $branch )
-                            <option value="{{$branch->id}}" @if(isset($request->_branch_id)) @if($request->_branch_id == $branch->id) selected @endif   @endif>{{ $branch->_name ?? '' }}</option>
-                        @empty
-                        @endforelse
+                        <?php $__empty_1 = true; $__currentLoopData = $permited_branch; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $branch): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                            <option value="<?php echo e($branch->id); ?>" <?php if(isset($request->_branch_id)): ?> <?php if($request->_branch_id == $branch->id): ?> selected <?php endif; ?>   <?php endif; ?>><?php echo e($branch->_name ?? ''); ?></option>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                        <?php endif; ?>
                         </select>
                         </td>
-                        @else
+                        <?php else: ?>
                           <td class="display_none">
                       <select class="form-control width_150_px _branch_id_detail" name="_branch_id_detail[]"  required >
-                        @forelse($permited_branch as $branch )
-                            <option value="{{$branch->id}}" @if(isset($request->_branch_id)) @if($request->_branch_id == $branch->id) selected @endif   @endif>{{ $branch->_name ?? '' }}</option>
-                        @empty
-                        @endforelse
+                        <?php $__empty_1 = true; $__currentLoopData = $permited_branch; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $branch): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                            <option value="<?php echo e($branch->id); ?>" <?php if(isset($request->_branch_id)): ?> <?php if($request->_branch_id == $branch->id): ?> selected <?php endif; ?>   <?php endif; ?>><?php echo e($branch->_name ?? ''); ?></option>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                        <?php endif; ?>
                         </select>
                         </td>
-                        @endif
+                        <?php endif; ?>
 
-                         @if(sizeof($permited_costcenters)>1)
+                         <?php if(sizeof($permited_costcenters)>1): ?>
                         <td>
                           <select class="form-control width_150_px _cost_center" name="_cost_center[]" required >
-                            @forelse($permited_costcenters as $costcenter )
-                              <option value="{{$costcenter->id}}" @if(isset($request->_cost_center)) @if($request->_cost_center == $costcenter->id) selected @endif   @endif> {{ $costcenter->_name ?? '' }}</option>
-                            @empty
-                            @endforelse
+                            <?php $__empty_1 = true; $__currentLoopData = $permited_costcenters; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $costcenter): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                              <option value="<?php echo e($costcenter->id); ?>" <?php if(isset($request->_cost_center)): ?> <?php if($request->_cost_center == $costcenter->id): ?> selected <?php endif; ?>   <?php endif; ?>> <?php echo e($costcenter->_name ?? ''); ?></option>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                            <?php endif; ?>
                             </select>
                             </td>
-                        @else
+                        <?php else: ?>
                         <td class="display_none">
                           <select class="form-control width_150_px _cost_center" name="_cost_center[]" required >
-                            @forelse($permited_costcenters as $costcenter )
-                              <option value="{{$costcenter->id}}" @if(isset($request->_cost_center)) @if($request->_cost_center == $costcenter->id) selected @endif   @endif> {{ $costcenter->_name ?? '' }}</option>
-                            @empty
-                            @endforelse
+                            <?php $__empty_1 = true; $__currentLoopData = $permited_costcenters; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $costcenter): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                              <option value="<?php echo e($costcenter->id); ?>" <?php if(isset($request->_cost_center)): ?> <?php if($request->_cost_center == $costcenter->id): ?> selected <?php endif; ?>   <?php endif; ?>> <?php echo e($costcenter->_name ?? ''); ?></option>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                            <?php endif; ?>
                             </select>
                             </td>
-                        @endif
+                        <?php endif; ?>
                             <td><input type="text" name="_short_narr[]" class="form-control width_250_px" placeholder="Short Narr"></td>
                             <td>
-                              <input type="number" name="_dr_amount[]" class="form-control  _dr_amount" placeholder="Dr. Amount" value="{{old('_dr_amount',0)}}">
+                              <input type="number" name="_dr_amount[]" class="form-control  _dr_amount" placeholder="Dr. Amount" value="<?php echo e(old('_dr_amount',0)); ?>">
                             </td>
-                            <td class=" @if($__user->_ac_type==1) display_none @endif ">
-                              <input type="number" name="_cr_amount[]" class="form-control  _cr_amount" placeholder="Cr. Amount" value="{{old('_cr_amount',0)}}">
+                            <td class=" <?php if($__user->_ac_type==1): ?> display_none <?php endif; ?> ">
+                              <input type="number" name="_cr_amount[]" class="form-control  _cr_amount" placeholder="Cr. Amount" value="<?php echo e(old('_cr_amount',0)); ?>">
                               </td>
                             </tr>`;
 
@@ -1169,31 +1170,31 @@ function purchase_row_add(event){
                                                 <input type="text" name="conversion_qty[]"  class="form-control conversion_qty " value="1" readonly>
                                                 <input type="hidden" name="_base_rate[]" class="form-control _base_rate _common_keyup" value="0" >
                                               </td>
-                                              <td class="@if($_show_unit==0) display_none @endif">
+                                              <td class="<?php if($_show_unit==0): ?> display_none <?php endif; ?>">
                                                 <select class="form-control _transection_unit" name="_transection_unit[]">
                                                 </select>
                                               </td>
-                                             @if(isset($_show_barcode)) @if($_show_barcode==1)
+                                             <?php if(isset($_show_barcode)): ?> <?php if($_show_barcode==1): ?>
                                               <td>
                                                 <input type="text" name="_barcode[]" class="form-control _barcode ${_item_row_count}__barcode " id="${_item_row_count}__barcode" >
                                               </td>
-                                              @else
+                                              <?php else: ?>
                                               <td class="display_none">
                                                 <input type="text" name="_barcode[]" class="form-control _barcode  ${_item_row_count}__barcode " id="${_item_row_count}__barcode"  >
                                               </td>
-                                              @endif
-                                              @endif
-                                              @if(isset($_show_short_note)) @if($_show_short_note==1)
+                                              <?php endif; ?>
+                                              <?php endif; ?>
+                                              <?php if(isset($_show_short_note)): ?> <?php if($_show_short_note==1): ?>
                                               <td>
                                                 <input type="text" name="_short_note[]" class="form-control _short_note ${_item_row_count}__short_note " id="${_item_row_count}__short_note" >
                                               </td>
-                                              @else
+                                              <?php else: ?>
                                               <td class="display_none">
                                                 <input type="text" name="_short_note[]" class="form-control _short_note  ${_item_row_count}__short_note " id="${_item_row_count}__short_note"  >
                                               </td>
-                                              @endif
-                                              @endif
-                                              <td class="@if($_show_expected_qty==0) display_none @endif">
+                                              <?php endif; ?>
+                                              <?php endif; ?>
+                                              <td class="<?php if($_show_expected_qty==0): ?> display_none <?php endif; ?>">
                                                 <input type="number" name="_expected_qty[]" class="form-control _expected_qty _common_keyup" value="0">
                                               </td>
 
@@ -1208,58 +1209,58 @@ function purchase_row_add(event){
                                               <td>
                                                 <input type="number" name="_sales_rate[]" class="form-control _sales_rate " >
                                               </td>
-                                              <td class="@if($_inline_discount==0) display_none @endif">
+                                              <td class="<?php if($_inline_discount==0): ?> display_none <?php endif; ?>">
                                                 <input type="number" name="_discount[]" class="form-control  _discount _discount__${_item_row_count} _common_keyup" value="" >
                                               </td>
-                                              <td class="@if($_inline_discount==0) display_none @endif">
+                                              <td class="<?php if($_inline_discount==0): ?> display_none <?php endif; ?>">
                                                 <input type="number" name="_discount_amount[]" class="form-control  _discount_amount _discount_amount__${_item_row_count}" value="" >
                                               </td>
-                                               @if(isset($_show_vat)) @if($_show_vat==1)
+                                               <?php if(isset($_show_vat)): ?> <?php if($_show_vat==1): ?>
                                               <td>
                                                 <input type="text" name="_vat[]" class="form-control  _vat _common_keyup" >
                                               </td>
                                               <td>
                                                 <input type="text" name="_vat_amount[]" class="form-control  _vat_amount" >
                                               </td>
-                                              @else
+                                              <?php else: ?>
                                                 <td class="display_none">
                                                 <input type="text" name="_vat[]" class="form-control  _vat _common_keyup" >
                                               </td>
                                               <td class="display_none">
                                                 <input type="text" name="_vat_amount[]" class="form-control  _vat_amount" >
                                               </td>
-                                              @endif
-                                              @endif
+                                              <?php endif; ?>
+                                              <?php endif; ?>
                                               <td>
                                                 <input type="number" name="_value[]" class="form-control _value "  >
                                               </td>
                                               
                                              
-                                              <td class=" @if(sizeof($store_houses) == 0) display_none @endif">
+                                              <td class=" <?php if(sizeof($store_houses) == 0): ?> display_none <?php endif; ?>">
                                                 <select class="form-control  _main_store_id" name="_main_store_id[]">
-                                                  @forelse($store_houses as $store)
-                                                  <option value="{{$store->id}}">{{$store->_name ?? '' }}</option>
-                                                  @empty
-                                                  @endforelse
+                                                  <?php $__empty_1 = true; $__currentLoopData = $store_houses; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $store): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                                                  <option value="<?php echo e($store->id); ?>"><?php echo e($store->_name ?? ''); ?></option>
+                                                  <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                                                  <?php endif; ?>
                                                 </select>
                                                 
                                               </td>
                                               
-                                              @if(isset($_show_self)) @if($_show_self==1)
+                                              <?php if(isset($_show_self)): ?> <?php if($_show_self==1): ?>
                                               <td>
                                                 <input type="text" name="_store_salves_id[]" class="form-control _store_salves_id " >
                                               </td>
-                                              @else
+                                              <?php else: ?>
                                               <td class="display_none">
                                                 <input type="text" name="_store_salves_id[]" class="form-control _store_salves_id " >
                                               </td>
-                                              @endif
+                                              <?php endif; ?>
 
-                                              @endif
-                                                <td class="@if(isset($form_settings->_show_manufacture_date)) @if($form_settings->_show_manufacture_date==0) display_none  @endif @endif">
+                                              <?php endif; ?>
+                                                <td class="<?php if(isset($form_settings->_show_manufacture_date)): ?> <?php if($form_settings->_show_manufacture_date==0): ?> display_none  <?php endif; ?> <?php endif; ?>">
                                                 <input type="date" name="_manufacture_date[]" class="form-control _manufacture_date " >
                                               </td>
-                                              <td class="@if(isset($form_settings->_show_expire_date)) @if($form_settings->_show_expire_date==0) display_none  @endif @endif">
+                                              <td class="<?php if(isset($form_settings->_show_expire_date)): ?> <?php if($form_settings->_show_expire_date==0): ?> display_none  <?php endif; ?> <?php endif; ?>">
                                                 <input type="date" name="_expire_date[]" class="form-control _expire_date " >
                                               </td>
                                               
@@ -1336,7 +1337,7 @@ change_branch_cost_strore();
     }
     
 
-@if($__user->_ac_type==0)
+<?php if($__user->_ac_type==0): ?>
     if( parseFloat(_total_dr_amount) !=parseFloat(_total_cr_amount)){
       $(document).find("._total_dr_amount").addClass('required_border').focus();
       $(document).find("._total_cr_amount").addClass('required_border').focus();
@@ -1344,7 +1345,7 @@ change_branch_cost_strore();
       return false;
 
     }
-@endif
+<?php endif; ?>
 
      if(_note ==""){
        
@@ -1367,7 +1368,7 @@ $(document).on('keyup','._search_order_ref_id',delay(function(e){
     var _branch_id = $(document).find('._master_branch_id').val();
 
   var request = $.ajax({
-      url: "{{url('purchase-pre-order-search')}}",
+      url: "<?php echo e(url('purchase-pre-order-search')); ?>",
       method: "GET",
       data: { _text_val,_branch_id },
       dataType: "JSON"
@@ -1444,7 +1445,7 @@ $(document).on("click",'.search_row_purchase_order',function(){
     $.ajaxSetup({ headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
 
     var request = $.ajax({
-      url: "{{url('purchase-pre-order-details')}}",
+      url: "<?php echo e(url('purchase-pre-order-details')); ?>",
       method: "POST",
       data: { _purchase_main_id,_main_branch_id },
       dataType: "JSON"
@@ -1484,21 +1485,21 @@ $(document).find("._item_row_count").val(_item_row_count)
                                                 <input type="text" name="conversion_qty[]"  class="form-control conversion_qty " value="1" readonly>
                                                 <input type="hidden" name="_base_rate[]" class="form-control _base_rate _common_keyup" value="0" >
                                               </td>
-                                              <td class="@if($_show_unit==0) display_none @endif">
+                                              <td class="<?php if($_show_unit==0): ?> display_none <?php endif; ?>">
                                                 <select class="form-control _transection_unit" name="_transection_unit[]">
                                                 </select>
                                               </td>
-                                             @if(isset($_show_barcode)) @if($_show_barcode==1)
+                                             <?php if(isset($_show_barcode)): ?> <?php if($_show_barcode==1): ?>
                                               <td>
                                                 <input type="text" name="_barcode[]" class="form-control _barcode ${_item_row_count}__barcode " id="${_item_row_count}__barcode" >
                                               </td>
-                                              @else
+                                              <?php else: ?>
                                               <td class="display_none">
                                                 <input type="text" name="_barcode[]" class="form-control _barcode ${_item_row_count}__barcode " id="${_item_row_count}__barcode"  >
                                               </td>
-                                              @endif
-                                              @endif
-                                              <td class="@if($_show_expected_qty==0) display_none @endif">
+                                              <?php endif; ?>
+                                              <?php endif; ?>
+                                              <td class="<?php if($_show_expected_qty==0): ?> display_none <?php endif; ?>">
                                                 <input type="number" name="_expected_qty[]" class="form-control _expected_qty _common_keyup" value="0">
                                               </td>
 
@@ -1513,52 +1514,52 @@ $(document).find("._item_row_count").val(_item_row_count)
                                               <td>
                                                 <input type="number" name="_sales_rate[]" class="form-control _sales_rate " value="${_sales_rate}">
                                               </td>
-                                               @if(isset($_show_vat)) @if($_show_vat==1)
+                                               <?php if(isset($_show_vat)): ?> <?php if($_show_vat==1): ?>
                                               <td>
                                                 <input type="text" name="_vat[]" class="form-control  _vat _common_keyup" >
                                               </td>
                                               <td>
                                                 <input type="text" name="_vat_amount[]" class="form-control  _vat_amount" >
                                               </td>
-                                              @else
+                                              <?php else: ?>
                                                 <td class="display_none">
                                                 <input type="text" name="_vat[]" class="form-control  _vat _common_keyup" >
                                               </td>
                                               <td class="display_none">
                                                 <input type="text" name="_vat_amount[]" class="form-control  _vat_amount" >
                                               </td>
-                                              @endif
-                                              @endif
+                                              <?php endif; ?>
+                                              <?php endif; ?>
                                               <td>
                                                 <input type="number" name="_value[]" class="form-control _value "  value="${_value}">
                                               </td>
                                               
                                               
-                                              <td class="@if(sizeof($store_houses) == 0) display_none @endif">
+                                              <td class="<?php if(sizeof($store_houses) == 0): ?> display_none <?php endif; ?>">
                                                 <select class="form-control  _main_store_id" name="_main_store_id[]">
-                                                  @forelse($store_houses as $store)
-                                                  <option value="{{$store->id}}">{{$store->_name ?? '' }}</option>
-                                                  @empty
-                                                  @endforelse
+                                                  <?php $__empty_1 = true; $__currentLoopData = $store_houses; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $store): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                                                  <option value="<?php echo e($store->id); ?>"><?php echo e($store->_name ?? ''); ?></option>
+                                                  <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                                                  <?php endif; ?>
                                                 </select>
                                                 
                                               </td>
                                               
-                                              @if(isset($_show_self)) @if($_show_self==1)
+                                              <?php if(isset($_show_self)): ?> <?php if($_show_self==1): ?>
                                               <td>
                                                 <input type="text" name="_store_salves_id[]" class="form-control _store_salves_id " >
                                               </td>
-                                              @else
+                                              <?php else: ?>
                                               <td class="display_none">
                                                 <input type="text" name="_store_salves_id[]" class="form-control _store_salves_id " >
                                               </td>
-                                              @endif
+                                              <?php endif; ?>
 
-                                              @endif
-                                               <td class="@if(isset($form_settings->_show_manufacture_date)) @if($form_settings->_show_manufacture_date==0) display_none  @endif @endif">
+                                              <?php endif; ?>
+                                               <td class="<?php if(isset($form_settings->_show_manufacture_date)): ?> <?php if($form_settings->_show_manufacture_date==0): ?> display_none  <?php endif; ?> <?php endif; ?>">
                                                 <input type="date" name="_manufacture_date[]" class="form-control _manufacture_date " >
                                               </td>
-                                              <td class="@if(isset($form_settings->_show_expire_date)) @if($form_settings->_show_expire_date==0) display_none  @endif @endif">
+                                              <td class="<?php if(isset($form_settings->_show_expire_date)): ?> <?php if($form_settings->_show_expire_date==0): ?> display_none  <?php endif; ?> <?php endif; ?>">
                                                 <input type="date" name="_expire_date[]" class="form-control _expire_date " >
                                               </td>
                                               
@@ -1589,4 +1590,5 @@ _new_barcode_function(_item_row_count);
 </script>
 
 
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('backend.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\xampp\htdocs\own\inv-acc-hrm\resources\views/backend/import-purchase/edit.blade.php ENDPATH**/ ?>

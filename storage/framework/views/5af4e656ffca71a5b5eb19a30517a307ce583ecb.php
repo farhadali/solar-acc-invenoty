@@ -71,51 +71,8 @@
           <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </select>
       </div>
-       <div class="form-group row">
-        <label for="_default_sd_account" class="col-sm-5 col-form-label"><?php echo e(__('label._default_sd_account')); ?></label>
-        <select class="form-control col-sm-7" name="_default_sd_account">
-          <option value="0"><?php echo e(__('label.select')); ?></option>
-          <?php $__currentLoopData = $capital_accounts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $account): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-          <option value="<?php echo e($account->id); ?>" <?php if(isset($form_settings->_default_sd_account)): ?><?php if($form_settings->_default_sd_account==$account->id): ?> selected <?php endif; ?> <?php endif; ?>><?php echo e($account->_name ?? ''); ?></option>
-          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-        </select>
-      </div>
-       <div class="form-group row">
-        <label for="_default_cd_account" class="col-sm-5 col-form-label"><?php echo e(__('label._default_cd_account')); ?></label>
-        <select class="form-control col-sm-7" name="_default_cd_account">
-          <option value="0"><?php echo e(__('label.select')); ?></option>
-          <?php $__currentLoopData = $capital_accounts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $account): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-          <option value="<?php echo e($account->id); ?>" <?php if(isset($form_settings->_default_cd_account)): ?><?php if($form_settings->_default_cd_account==$account->id): ?> selected <?php endif; ?> <?php endif; ?>><?php echo e($account->_name ?? ''); ?></option>
-          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-        </select>
-      </div>
-       <div class="form-group row">
-        <label for="_default_ait_account" class="col-sm-5 col-form-label"><?php echo e(__('label._default_ait_account')); ?></label>
-        <select class="form-control col-sm-7" name="_default_ait_account">
-          <option value="0"><?php echo e(__('label.select')); ?></option>
-          <?php $__currentLoopData = $capital_accounts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $account): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-          <option value="<?php echo e($account->id); ?>" <?php if(isset($form_settings->_default_ait_account)): ?><?php if($form_settings->_default_ait_account==$account->id): ?> selected <?php endif; ?> <?php endif; ?>><?php echo e($account->_name ?? ''); ?></option>
-          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-        </select>
-      </div>
-       <div class="form-group row">
-        <label for="_default_rd_account" class="col-sm-5 col-form-label"><?php echo e(__('label._default_rd_account')); ?></label>
-        <select class="form-control col-sm-7" name="_default_rd_account">
-          <option value="0"><?php echo e(__('label.select')); ?></option>
-          <?php $__currentLoopData = $capital_accounts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $account): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-          <option value="<?php echo e($account->id); ?>" <?php if(isset($form_settings->_default_rd_account)): ?><?php if($form_settings->_default_rd_account==$account->id): ?> selected <?php endif; ?> <?php endif; ?>><?php echo e($account->_name ?? ''); ?></option>
-          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-        </select>
-      </div>
-       <div class="form-group row">
-        <label for="_default_tti_account" class="col-sm-5 col-form-label"><?php echo e(__('label._default_tti_account')); ?></label>
-        <select class="form-control col-sm-7" name="_default_tti_account">
-          <option value="0"><?php echo e(__('label.select')); ?></option>
-          <?php $__currentLoopData = $capital_accounts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $account): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-          <option value="<?php echo e($account->id); ?>" <?php if(isset($form_settings->_default_tti_account)): ?><?php if($form_settings->_default_tti_account==$account->id): ?> selected <?php endif; ?> <?php endif; ?>><?php echo e($account->_name ?? ''); ?></option>
-          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-        </select>
-      </div>
+
+      
       <div class="form-group row">
         <label for="_inline_discount" class="col-sm-5 col-form-label">Show Inline Discount</label>
         <select class="form-control col-sm-7" name="_inline_discount">
@@ -148,52 +105,58 @@
           <option value="1" <?php if(isset($_show_sales_rate)): ?><?php if($_show_sales_rate==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
         </select>
       </div>
-      <div class="form-group row">
-        <label for="_show_sd" class="col-sm-5 col-form-label"><?php echo e(__('label._show_sd')); ?></label>
-        <select class="form-control col-sm-7" name="_show_sd">
+ 
+      <div class="form-group row ">
+        <label for="_show_po" class="col-sm-5 col-form-label"><?php echo e(__('label.purchase_order')); ?></label>
+        <select class="form-control col-sm-7" name="_show_po">
          
-          <option value="0" <?php if(isset($_show_sd)): ?><?php if($_show_sd==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
-          <option value="1" <?php if(isset($_show_sd)): ?><?php if($_show_sd==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
+          <option value="0" <?php if(isset($_show_po)): ?><?php if($_show_po==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
+          <option value="1" <?php if(isset($_show_po)): ?><?php if($_show_po==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
         </select>
       </div>
-      <div class="form-group row">
-        <label for="_show_cd" class="col-sm-5 col-form-label"><?php echo e(__('label._show_cd')); ?></label>
-        <select class="form-control col-sm-7" name="_show_cd">
+      
+
+
+
+
+      <div class="form-group row ">
+        <label for="_show_rlp" class="col-sm-5 col-form-label"><?php echo e(__('label._rlp_no')); ?></label>
+        <select class="form-control col-sm-7" name="_show_rlp">
          
-          <option value="0" <?php if(isset($_show_cd)): ?><?php if($_show_cd==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
-          <option value="1" <?php if(isset($_show_cd)): ?><?php if($_show_cd==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
+          <option value="0" <?php if(isset($_show_rlp)): ?><?php if($_show_rlp==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
+          <option value="1" <?php if(isset($_show_rlp)): ?><?php if($_show_rlp==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
         </select>
       </div>
-      <div class="form-group row">
-        <label for="_show_ait" class="col-sm-5 col-form-label"><?php echo e(__('label._show_ait')); ?></label>
-        <select class="form-control col-sm-7" name="_show_ait">
+      <div class="form-group row ">
+        <label for="_show_note_sheet" class="col-sm-5 col-form-label"><?php echo e(__('label._note_sheet_no')); ?></label>
+        <select class="form-control col-sm-7" name="_show_note_sheet">
          
-          <option value="0" <?php if(isset($_show_ait)): ?><?php if($_show_ait==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
-          <option value="1" <?php if(isset($_show_ait)): ?><?php if($_show_ait==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
+          <option value="0" <?php if(isset($_show_note_sheet)): ?><?php if($_show_note_sheet==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
+          <option value="1" <?php if(isset($_show_note_sheet)): ?><?php if($_show_note_sheet==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
         </select>
       </div>
-      <div class="form-group row">
-        <label for="_show_rd" class="col-sm-5 col-form-label"><?php echo e(__('label._show_rd')); ?></label>
-        <select class="form-control col-sm-7" name="_show_rd">
+      <div class="form-group row ">
+        <label for="_show_wo" class="col-sm-5 col-form-label"><?php echo e(__('label._workorder_no')); ?></label>
+        <select class="form-control col-sm-7" name="_show_wo">
          
-          <option value="0" <?php if(isset($_show_rd)): ?><?php if($_show_rd==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
-          <option value="1" <?php if(isset($_show_rd)): ?><?php if($_show_rd==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
+          <option value="0" <?php if(isset($_show_wo)): ?><?php if($_show_wo==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
+          <option value="1" <?php if(isset($_show_wo)): ?><?php if($_show_wo==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
         </select>
       </div>
-      <div class="form-group row">
-        <label for="_show_at" class="col-sm-5 col-form-label"><?php echo e(__('label._show_at')); ?></label>
-        <select class="form-control col-sm-7" name="_show_at">
+      <div class="form-group row ">
+        <label for="_show_lc" class="col-sm-5 col-form-label"><?php echo e(__('label._lc_no')); ?></label>
+        <select class="form-control col-sm-7" name="_show_lc">
          
-          <option value="0" <?php if(isset($_show_at)): ?><?php if($_show_at==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
-          <option value="1" <?php if(isset($_show_at)): ?><?php if($_show_at==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
+          <option value="0" <?php if(isset($_show_lc)): ?><?php if($_show_lc==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
+          <option value="1" <?php if(isset($_show_lc)): ?><?php if($_show_lc==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
         </select>
       </div>
-      <div class="form-group row">
-        <label for="_show_tti" class="col-sm-5 col-form-label"><?php echo e(__('label._show_tti')); ?></label>
-        <select class="form-control col-sm-7" name="_show_tti">
+      <div class="form-group row ">
+        <label for="_show_vn" class="col-sm-5 col-form-label"><?php echo e(__('label._vessel_no')); ?></label>
+        <select class="form-control col-sm-7" name="_show_vn">
          
-          <option value="0" <?php if(isset($_show_tti)): ?><?php if($_show_tti==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
-          <option value="1" <?php if(isset($_show_tti)): ?><?php if($_show_tti==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
+          <option value="0" <?php if(isset($_show_vn)): ?><?php if($_show_vn==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
+          <option value="1" <?php if(isset($_show_vn)): ?><?php if($_show_vn==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
         </select>
       </div>
       <div class="form-group row">

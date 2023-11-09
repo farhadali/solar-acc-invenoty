@@ -71,51 +71,8 @@
           @endforeach
         </select>
       </div>
-       <div class="form-group row">
-        <label for="_default_sd_account" class="col-sm-5 col-form-label">{{__('label._default_sd_account')}}</label>
-        <select class="form-control col-sm-7" name="_default_sd_account">
-          <option value="0">{{__('label.select')}}</option>
-          @foreach($capital_accounts as $account)
-          <option value="{{$account->id}}" @if(isset($form_settings->_default_sd_account))@if($form_settings->_default_sd_account==$account->id) selected @endif @endif>{{ $account->_name ?? '' }}</option>
-          @endforeach
-        </select>
-      </div>
-       <div class="form-group row">
-        <label for="_default_cd_account" class="col-sm-5 col-form-label">{{__('label._default_cd_account')}}</label>
-        <select class="form-control col-sm-7" name="_default_cd_account">
-          <option value="0">{{__('label.select')}}</option>
-          @foreach($capital_accounts as $account)
-          <option value="{{$account->id}}" @if(isset($form_settings->_default_cd_account))@if($form_settings->_default_cd_account==$account->id) selected @endif @endif>{{ $account->_name ?? '' }}</option>
-          @endforeach
-        </select>
-      </div>
-       <div class="form-group row">
-        <label for="_default_ait_account" class="col-sm-5 col-form-label">{{__('label._default_ait_account')}}</label>
-        <select class="form-control col-sm-7" name="_default_ait_account">
-          <option value="0">{{__('label.select')}}</option>
-          @foreach($capital_accounts as $account)
-          <option value="{{$account->id}}" @if(isset($form_settings->_default_ait_account))@if($form_settings->_default_ait_account==$account->id) selected @endif @endif>{{ $account->_name ?? '' }}</option>
-          @endforeach
-        </select>
-      </div>
-       <div class="form-group row">
-        <label for="_default_rd_account" class="col-sm-5 col-form-label">{{__('label._default_rd_account')}}</label>
-        <select class="form-control col-sm-7" name="_default_rd_account">
-          <option value="0">{{__('label.select')}}</option>
-          @foreach($capital_accounts as $account)
-          <option value="{{$account->id}}" @if(isset($form_settings->_default_rd_account))@if($form_settings->_default_rd_account==$account->id) selected @endif @endif>{{ $account->_name ?? '' }}</option>
-          @endforeach
-        </select>
-      </div>
-       <div class="form-group row">
-        <label for="_default_tti_account" class="col-sm-5 col-form-label">{{__('label._default_tti_account')}}</label>
-        <select class="form-control col-sm-7" name="_default_tti_account">
-          <option value="0">{{__('label.select')}}</option>
-          @foreach($capital_accounts as $account)
-          <option value="{{$account->id}}" @if(isset($form_settings->_default_tti_account))@if($form_settings->_default_tti_account==$account->id) selected @endif @endif>{{ $account->_name ?? '' }}</option>
-          @endforeach
-        </select>
-      </div>
+
+      
       <div class="form-group row">
         <label for="_inline_discount" class="col-sm-5 col-form-label">Show Inline Discount</label>
         <select class="form-control col-sm-7" name="_inline_discount">
@@ -148,52 +105,58 @@
           <option value="1" @if(isset($_show_sales_rate))@if($_show_sales_rate==1) selected @endif @endif>YES</option>
         </select>
       </div>
-      <div class="form-group row">
-        <label for="_show_sd" class="col-sm-5 col-form-label">{{__('label._show_sd')}}</label>
-        <select class="form-control col-sm-7" name="_show_sd">
+ 
+      <div class="form-group row ">
+        <label for="_show_po" class="col-sm-5 col-form-label">{{__('label.purchase_order')}}</label>
+        <select class="form-control col-sm-7" name="_show_po">
          
-          <option value="0" @if(isset($_show_sd))@if($_show_sd==0) selected @endif @endif>NO</option>
-          <option value="1" @if(isset($_show_sd))@if($_show_sd==1) selected @endif @endif>YES</option>
+          <option value="0" @if(isset($_show_po))@if($_show_po==0) selected @endif @endif>NO</option>
+          <option value="1" @if(isset($_show_po))@if($_show_po==1) selected @endif @endif>YES</option>
         </select>
       </div>
-      <div class="form-group row">
-        <label for="_show_cd" class="col-sm-5 col-form-label">{{__('label._show_cd')}}</label>
-        <select class="form-control col-sm-7" name="_show_cd">
+      
+
+
+
+
+      <div class="form-group row ">
+        <label for="_show_rlp" class="col-sm-5 col-form-label">{{__('label._rlp_no')}}</label>
+        <select class="form-control col-sm-7" name="_show_rlp">
          
-          <option value="0" @if(isset($_show_cd))@if($_show_cd==0) selected @endif @endif>NO</option>
-          <option value="1" @if(isset($_show_cd))@if($_show_cd==1) selected @endif @endif>YES</option>
+          <option value="0" @if(isset($_show_rlp))@if($_show_rlp==0) selected @endif @endif>NO</option>
+          <option value="1" @if(isset($_show_rlp))@if($_show_rlp==1) selected @endif @endif>YES</option>
         </select>
       </div>
-      <div class="form-group row">
-        <label for="_show_ait" class="col-sm-5 col-form-label">{{__('label._show_ait')}}</label>
-        <select class="form-control col-sm-7" name="_show_ait">
+      <div class="form-group row ">
+        <label for="_show_note_sheet" class="col-sm-5 col-form-label">{{__('label._note_sheet_no')}}</label>
+        <select class="form-control col-sm-7" name="_show_note_sheet">
          
-          <option value="0" @if(isset($_show_ait))@if($_show_ait==0) selected @endif @endif>NO</option>
-          <option value="1" @if(isset($_show_ait))@if($_show_ait==1) selected @endif @endif>YES</option>
+          <option value="0" @if(isset($_show_note_sheet))@if($_show_note_sheet==0) selected @endif @endif>NO</option>
+          <option value="1" @if(isset($_show_note_sheet))@if($_show_note_sheet==1) selected @endif @endif>YES</option>
         </select>
       </div>
-      <div class="form-group row">
-        <label for="_show_rd" class="col-sm-5 col-form-label">{{__('label._show_rd')}}</label>
-        <select class="form-control col-sm-7" name="_show_rd">
+      <div class="form-group row ">
+        <label for="_show_wo" class="col-sm-5 col-form-label">{{__('label._workorder_no')}}</label>
+        <select class="form-control col-sm-7" name="_show_wo">
          
-          <option value="0" @if(isset($_show_rd))@if($_show_rd==0) selected @endif @endif>NO</option>
-          <option value="1" @if(isset($_show_rd))@if($_show_rd==1) selected @endif @endif>YES</option>
+          <option value="0" @if(isset($_show_wo))@if($_show_wo==0) selected @endif @endif>NO</option>
+          <option value="1" @if(isset($_show_wo))@if($_show_wo==1) selected @endif @endif>YES</option>
         </select>
       </div>
-      <div class="form-group row">
-        <label for="_show_at" class="col-sm-5 col-form-label">{{__('label._show_at')}}</label>
-        <select class="form-control col-sm-7" name="_show_at">
+      <div class="form-group row ">
+        <label for="_show_lc" class="col-sm-5 col-form-label">{{__('label._lc_no')}}</label>
+        <select class="form-control col-sm-7" name="_show_lc">
          
-          <option value="0" @if(isset($_show_at))@if($_show_at==0) selected @endif @endif>NO</option>
-          <option value="1" @if(isset($_show_at))@if($_show_at==1) selected @endif @endif>YES</option>
+          <option value="0" @if(isset($_show_lc))@if($_show_lc==0) selected @endif @endif>NO</option>
+          <option value="1" @if(isset($_show_lc))@if($_show_lc==1) selected @endif @endif>YES</option>
         </select>
       </div>
-      <div class="form-group row">
-        <label for="_show_tti" class="col-sm-5 col-form-label">{{__('label._show_tti')}}</label>
-        <select class="form-control col-sm-7" name="_show_tti">
+      <div class="form-group row ">
+        <label for="_show_vn" class="col-sm-5 col-form-label">{{__('label._vessel_no')}}</label>
+        <select class="form-control col-sm-7" name="_show_vn">
          
-          <option value="0" @if(isset($_show_tti))@if($_show_tti==0) selected @endif @endif>NO</option>
-          <option value="1" @if(isset($_show_tti))@if($_show_tti==1) selected @endif @endif>YES</option>
+          <option value="0" @if(isset($_show_vn))@if($_show_vn==0) selected @endif @endif>NO</option>
+          <option value="1" @if(isset($_show_vn))@if($_show_vn==1) selected @endif @endif>YES</option>
         </select>
       </div>
       <div class="form-group row">

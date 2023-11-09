@@ -196,7 +196,7 @@
                           
                               <div class="form-group ml-2">
                                     <button type="button" class="btn btn-sm btn-warning mr-3" data-toggle="modal" data-target="#modal-default" title="Advance Search"><i class="fa fa-search mr-2"></i> </button>
-                                     <a href="<?php echo e(url('import-purchase-reset')); ?>" class="btn btn-sm btn-danger" title="Search Reset"><i class="fa fa-retweet mr-2"></i> </a>
+                                     <a href="<?php echo e(url('import-purchase')); ?>" class="btn btn-sm btn-danger" title="Search Reset"><i class="fa fa-retweet mr-2"></i> </a>
                               </div>
 
                               

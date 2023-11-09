@@ -66,6 +66,32 @@ function convert_number($number)
 }
 
 
+function _vessel_types(){
+    return [1=>'Local',2=>'Foreign',3=>'Join'];
+}
+
+function selected_vessel_type($id){
+    foreach(_vessel_types() as $key=>$val){
+        if($id==$key){
+            return $val;
+        }
+    }
+    return 1;
+}
+function _purchase_types(){
+    return [1=>'Local',2=>'Import'];
+}
+
+function selected__purchase_type($id){
+    foreach(_purchase_types() as $key=>$val){
+        if($id==$key){
+            return $val;
+        }
+    }
+    return 1;
+}
+
+
 
 //RLP Database Connection
 

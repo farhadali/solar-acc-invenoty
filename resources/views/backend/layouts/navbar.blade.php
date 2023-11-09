@@ -1019,6 +1019,15 @@
            
         </div>
          @endcan
+        @can('vessel-info-list')
+         <div class="dropdown-divider"></div> 
+        <div style="display: flex;">
+           <a href="{{url('vessel-info')}}" class="dropdown-item">
+            <i class="fa fa-list-alt mr-2" aria-hidden="true"></i>{{ __('label.vessel-info') }}
+          </a>
+           
+        </div>
+         @endcan
           @can('restaurant-module') 
           <p style="text-align: center;margin-bottom: 1px solid #000;"><b>Resturant Module</b></p>
       @can('table-info-menu')

@@ -119,13 +119,13 @@ $__user= Auth::user();
 <td style="display: flex;">
                            
                                 <a  
-                                  href="<?php echo e(url('purchase/print')); ?>/<?php echo e($data->id); ?>"
+                                  href="<?php echo e(url('import-purchase/print')); ?>/<?php echo e($data->id); ?>"
                                   class="btn btn-sm btn-default  mr-1"><i class="fa fa-eye"></i></a>
 
 
-                                  <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('purchase-edit')): ?>
+                                  <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('import-purchase-edit')): ?>
                                   
-                                  <a  href="<?php echo e(route('purchase.edit',$data->id)); ?>" 
+                                  <a  href="<?php echo e(route('import-purchase.edit',$data->id)); ?>" 
                                   
                                   class="btn btn-sm btn-default  mr-1"><i class="fa fa-pen "></i></a>
                                   <?php endif; ?>
@@ -134,7 +134,7 @@ $__user= Auth::user();
                                    <i class="fa fa-print "></i>
                                   </button>
                                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                     <a class="dropdown-item " href="<?php echo e(url('purchase/print')); ?>/<?php echo e($data->id); ?>" >
+                                     <a class="dropdown-item " href="<?php echo e(url('import-purchase/print')); ?>/<?php echo e($data->id); ?>" >
                                          View & Print
                                       </a>
                                      
@@ -149,9 +149,7 @@ $__user= Auth::user();
                                 </div>
                                 
                                 
-                                <a class="btn btn-sm btn-default mr-2 _action_button _single_data_click" attr_invoice_id="<?php echo e($data->id); ?>" _attr_key="<?php echo e($key); ?>" data-toggle="collapse" href="#collapseExample__<?php echo e($key); ?>" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                      <i class=" fas fa-angle-down"></i>
-                                    </a>
+                                
                                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('labels-print')): ?>
                                     <a title="Model Barcode Print" target="__blank" class="btn btn-default" href="<?php echo e(url('labels-print')); ?>?_id=<?php echo e($data->id); ?>&_type=purchase"><i class=" fas fa-barcode"></i></a>
                                   <?php endif; ?>
@@ -173,8 +171,8 @@ $__user= Auth::user();
                             <td><?php echo e(_report_amount( $data->_total_vat ?? 0)); ?> </td>
                             <td><?php echo e(_report_amount( $data->_total ?? 0)); ?> </td>
                             <td><?php echo e($data->_user_name ?? ''); ?></td>
-                             <td><?php echo e($data->created_at ?? ''); ?></td>
-                              <td><?php echo e($data->updated_at ?? ''); ?></td>
+                            <td><?php echo e($data->created_at ?? ''); ?></td>
+                            <td><?php echo e($data->updated_at ?? ''); ?></td>
                            <td style="display: flex;">
                               <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('lock-permission')): ?>
                               <input class="form-control _invoice_lock" type="checkbox" name="_lock" _attr_invoice_id="<?php echo e($data->id); ?>" value="<?php echo e($data->_lock); ?>" <?php if($data->_lock==1): ?> checked <?php endif; ?>>
@@ -190,14 +188,7 @@ $__user= Auth::user();
                             
                            
                         </tr>
-                        <tr>
-                          <td colspan="14" class="collapse " id="collapseExample__<?php echo e($key); ?>">
-                            <div class="_single_data_display__<?php echo e($data->id); ?>">
-                              <h2 style="color: green">Loading..............</h2>
-                            </div>
-                            
-                          </td>
-                         <tr>
+                        
 
                        
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

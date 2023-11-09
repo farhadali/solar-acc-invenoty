@@ -15,6 +15,22 @@ return [
 
 
 
+    '_item_id' => 'Item Information',
+    '_transection_unit' => 'Unit',
+    'purchase_order' => 'Purchase Order',
+    '_purchase_type' => 'Purchase Type',
+    '_order_number' => 'Invoice No',
+    'vessel-info' => 'Vessel Information',
+    '_capacity' => 'Capacity',
+    '_contact_three' => 'Contact 3',
+    '_contact_two' => 'Contact 2',
+    '_contact_one' => 'Contact 1',
+    '_owner_name' => 'Owner Name',
+    '_country_name' => 'Country',
+    'order_by' => 'Order BY',
+    '_route' => 'Route',
+    '_license_no' => 'License No',
+    '_action' => 'Action',
     '_discharge_date_time' => 'Discharge Date & Time',
     '_arrival_date_time' => 'Arrival Date & Time',
     '_vessel_no' => 'Vessel No',

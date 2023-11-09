@@ -97,6 +97,8 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::group(['middleware' => ['auth']], function() {
 
 Route::resource('import-purchase',ImportPuchaseController::class);
+Route::resource('vessel-info',VesselInfoController::class);
+
 Route::get('import-purchase-setting-modal',[ImportPuchaseController::class,'formSettingAjax']);
 Route::post('import-purchase-settings',[ImportPuchaseController::class,'Settings']);
 

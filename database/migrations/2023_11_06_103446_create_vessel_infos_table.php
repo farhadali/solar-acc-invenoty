@@ -18,6 +18,7 @@ class CreateVesselInfosTable extends Migration
             $table->string('_name');
             $table->string('_code')->nullable();
             $table->string('_license_no')->nullable();
+            $table->string('_country_name')->nullable();
             $table->string('_type')->nullable()->comment('Local,foreign');
             $table->string('_route')->nullable()->comment('Air,Sea,Road');
             $table->string('_owner_name')->nullable();

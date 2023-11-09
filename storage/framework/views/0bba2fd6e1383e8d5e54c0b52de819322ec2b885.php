@@ -1103,6 +1103,16 @@
            
         </div>
          <?php endif; ?>
+        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('vessel-info-list')): ?>
+         <div class="dropdown-divider"></div> 
+        <div style="display: flex;">
+           <a href="<?php echo e(url('vessel-info')); ?>" class="dropdown-item">
+            <i class="fa fa-list-alt mr-2" aria-hidden="true"></i><?php echo e(__('label.vessel-info')); ?>
+
+          </a>
+           
+        </div>
+         <?php endif; ?>
           <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('restaurant-module')): ?> 
           <p style="text-align: center;margin-bottom: 1px solid #000;"><b>Resturant Module</b></p>
       <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('table-info-menu')): ?>

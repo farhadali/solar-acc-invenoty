@@ -1,47 +1,47 @@
+@extends('backend.layouts.app')
+@section('title',$page_name)
 
-<?php $__env->startSection('title',$page_name); ?>
+@section('css')
+<link rel="stylesheet" href="{{asset('backend/new_style.css')}}">
+@endsection
 
-<?php $__env->startSection('css'); ?>
-<link rel="stylesheet" href="<?php echo e(asset('backend/new_style.css')); ?>">
-<?php $__env->stopSection(); ?>
-
-<?php $__env->startSection('content'); ?>
-<?php
+@section('content')
+@php
 $__user= Auth::user();
-?>
+@endphp
 
 <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
           <div class=" col-sm-6 ">
-              <a class="m-0 _page_name" href="<?php echo e(route('import-purchase.index')); ?>"><?php echo $page_name ?? ''; ?> </a>
+              <a class="m-0 _page_name" href="{{ route('purchase.index') }}">{!! $page_name ?? '' !!} </a>
            
           </div><!-- /.col -->
           <div class=" col-sm-6 ">
             <ol class="breadcrumb float-sm-right">
-               <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('item-information-create')): ?>
+               @can('item-information-create')
              <li class="breadcrumb-item ">
                  <button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#exampleModalLong_item" title="Create New Item (Inventory) ">
                    <i class="nav-icon fas fa-ship"></i> 
                 </button>
                </li>
-               <?php endif; ?>
-               <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('account-ledger-create')): ?>
+               @endcan
+               @can('account-ledger-create')
              <li class="breadcrumb-item ">
                  <button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#exampleModalLong" title="Create Ledger">
                    <i class="nav-icon fas fa-users"></i> 
                 </button>
                </li>
-               <?php endif; ?>
-                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('purchase-form-settings')): ?>
+               @endcan
+                @can('purchase-form-settings')
              <li class="breadcrumb-item ">
                  <button type="button" id="form_settings" class="btn btn-sm btn-default" data-toggle="modal" data-target="#exampleModal">
                    <i class="nav-icon fas fa-cog"></i> 
                 </button>
                </li>
-              <?php endif; ?>
+              @endcan
               <li class="breadcrumb-item ">
-                 <a class="btn btn-sm btn-success" title="List" href="<?php echo e(route('purchase.index')); ?>"> <i class="nav-icon fas fa-list"></i> </a>
+                 <a class="btn btn-sm btn-success" title="List" href="{{ route('purchase.index') }}"> <i class="nav-icon fas fa-list"></i> </a>
                </li>
             </ol>
           </div><!-- /.col -->
@@ -56,10 +56,10 @@ $__user= Auth::user();
             <div class="card">
               <div class="card-header">
                  
-                   <?php echo $__env->make('backend.message.message', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                   @include('backend.message.message')
                     
               </div>
-  <?php
+  @php
     $_show_barcode = $form_settings->_show_barcode ?? 0;
     $_show_short_note = $form_settings->_show_short_note ?? 0;
     $_show_cost_rate =  $form_settings->_show_cost_rate ?? 0;
@@ -75,24 +75,16 @@ $__user= Auth::user();
     $_show_tti  = $form_settings->_show_tti  ?? 0;
     $_show_expected_qty  = $form_settings->_show_expected_qty  ?? 0;
     $_show_sales_rate  = $form_settings->_show_sales_rate  ?? 0;
-    $_show_po  = $form_settings->_show_po  ?? 0;
-    $_show_rlp  = $form_settings->_show_rlp  ?? 0;
-    $_show_note_sheet  = $form_settings->_show_note_sheet  ?? 0;
-    $_show_wo  = $form_settings->_show_wo  ?? 0;
-    $_show_lc  = $form_settings->_show_lc  ?? 0;
-    $_show_vn  = $form_settings->_show_vn  ?? 0;
-
-
-    ?>
+    @endphp
               <div class="card-body">
-               <form action="<?php echo e(route('import-purchase.store')); ?>" method="POST" class="purchase_form" >
-                <?php echo csrf_field(); ?>
+               <form action="{{route('import-purchase.store')}}" method="POST" class="purchase_form" >
+                @csrf
                                    <div class="row">
 
-                       <div class="col-xs-12 col-sm-12 col-md-2">
+                       <div class="col-xs-12 col-sm-12 col-md-3">
                         <input type="hidden" name="_form_name" class="_form_name" value="purchases">
                             <div class="form-group">
-                                <label><?php echo e(__('label._date')); ?>:</label>
+                                <label>Date:</label>
                                   <div class="input-group date" id="reservationdate" data-target-input="nearest">
                                       <input type="text" name="_date" class="form-control datetimepicker-input" data-target="#reservationdate"/>
                                       <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
@@ -105,103 +97,86 @@ $__user= Auth::user();
                         </div>
 
                         
-                        <div class="col-xs-12 col-sm-12 col-md-2 ">
+                        <div class="col-xs-12 col-sm-12 col-md-3 ">
                             <div class="form-group">
-                              <label class="mr-2" for="_order_number"><?php echo e(__('label._order_number')); ?>:</label>
-                              <input type="text" id="_order_number" name="_order_number" class="form-control _order_number" value="<?php echo e(old('_order_number')); ?>" placeholder="Invoice No" readonly >
+                              <label class="mr-2" for="_order_number">Invoice No:</label>
+                              <input type="text" id="_order_number" name="_order_number" class="form-control _order_number" value="{{old('_order_number')}}" placeholder="Invoice No" readonly >
                               <input type="hidden" name="_search_form_value" class="_search_form_value" value="2">
                                 
                             </div>
                         </div>
+                        @include('basic.org_create')
                         
-                        <div class="col-xs-12 col-sm-12 col-md-2 ">
-                            <div class="form-group">
-                              <label class="mr-2" for="_purchase_type"><?php echo e(__('label._purchase_type')); ?>:</label>
-                              <select class="form-control" name="_purchase_type" >
-                                <option value="2">Import</option>
-                              </select>
-                                
-                            </div>
-                        </div>
-                        <?php echo $__env->make('basic.org_create', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
-                          <div class="col-xs-12 col-sm-12 col-md-2  <?php if($_show_po==0): ?> display_none <?php endif; ?>">
+                        
+
+                          <div class="col-xs-12 col-sm-12 col-md-2 ">
                             <div class="form-group">
-                              <label class="mr-2" for="_order_ref_id"><?php echo e(__('label.purchase_order')); ?>:</label>
-                              <input type="text" id="_search_order_ref_id" name="_search_order_ref_id" class="form-control _search_order_ref_id" value="<?php echo e(old('_order_ref_id')); ?>" placeholder="<?php echo e(__('label.purchase_order')); ?>" >
-                              <input type="hidden" id="_order_ref_id" name="_order_ref_id" class="form-control _order_ref_id" value="<?php echo e(old('_order_ref_id')); ?>" placeholder="Purchase Order" >
+                              <label class="mr-2" for="_order_ref_id">Purchase Order:</label>
+                              <input type="text" id="_search_order_ref_id" name="_search_order_ref_id" class="form-control _search_order_ref_id" value="{{old('_order_ref_id')}}" placeholder="Purchase Order" >
+                              <input type="hidden" id="_order_ref_id" name="_order_ref_id" class="form-control _order_ref_id" value="{{old('_order_ref_id')}}" placeholder="Purchase Order" >
                               <div class="search_box_purchase_order"></div>
                             </div>
                         </div>
 
-                        <div class="col-xs-12 col-sm-12 col-md-2 <?php if($_show_po==0): ?> display_none <?php endif; ?>">
+                        <div class="col-xs-12 col-sm-12 col-md-2 ">
                             <div class="form-group">
-                              <label class="mr-2" for="_rlp_no"><?php echo e(__('label._rlp_no')); ?>:</label>
-                              <input type="text" id="_rlp_no" name="_rlp_no" class="form-control _rlp_no" value="<?php echo e(old('_rlp_no')); ?>" placeholder="<?php echo e(__('label._rlp_no')); ?>" >
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-2 <?php if($_show_note_sheet==0): ?> display_none <?php endif; ?>">
-                            <div class="form-group">
-                              <label class="mr-2" for="_note_sheet_no"><?php echo e(__('label._note_sheet_no')); ?>:</label>
-                              <input type="text" id="_note_sheet_no" name="_note_sheet_no" class="form-control _note_sheet_no" value="<?php echo e(old('_note_sheet_no')); ?>" placeholder="<?php echo e(__('label._note_sheet_no')); ?>" >
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-2 <?php if($_show_wo==0): ?> display_none <?php endif; ?> ">
-                            <div class="form-group">
-                              <label class="mr-2" for="_workorder_no"><?php echo e(__('label._workorder_no')); ?>:</label>
-                              <input type="text" id="_workorder_no" name="_workorder_no" class="form-control _workorder_no" value="<?php echo e(old('_workorder_no')); ?>" placeholder="<?php echo e(__('label._workorder_no')); ?>" >
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-2 <?php if($_show_lc==0): ?> display_none <?php endif; ?>">
-                            <div class="form-group">
-                              <label class="mr-2" for="_lc_no"><?php echo e(__('label._lc_no')); ?>:</label>
-                              <input type="text" id="_lc_no" name="_lc_no" class="form-control _lc_no" value="<?php echo e(old('_lc_no')); ?>" placeholder="<?php echo e(__('label._lc_no')); ?>" >
-                            </div>
-                        </div>
-                        <?php
-                        $vessels = \DB::table('vessel_infos')->get();
-                        ?>
-                        <div class="col-xs-12 col-sm-12 col-md-2   <?php if($_show_vn==0): ?> display_none <?php endif; ?>">
-                            <div class="form-group">
-                              <label class="mr-2" for="_vessel_no"><?php echo e(__('label._vessel_no')); ?>:</label>
-                             
-                              <select class="form-control select2" name="_vessel_no">
-                                <option value=""><?php echo e(__('label.select')); ?></option>
-                                <?php $__empty_1 = true; $__currentLoopData = $vessels; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                                <option value="<?php echo e($val->id); ?>"><?php echo e($val->_name ?? ''); ?></option>
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-                                <?php endif; ?>
-                              </select>
+                              <label class="mr-2" for="_rlp_no">{{__('label._rlp_no')}}:</label>
+                              <input type="text" id="_rlp_no" name="_rlp_no" class="form-control _rlp_no" value="{{old('_rlp_no')}}" placeholder="{{__('label._rlp_no')}}" >
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-2 ">
                             <div class="form-group">
-                              <label class="mr-2" for="_arrival_date_time"><?php echo e(__('label._arrival_date_time')); ?>:</label>
-                              <input type="datetime-local" id="_arrival_date_time" name="_arrival_date_time" class="form-control _arrival_date_time" value="<?php echo e(old('_arrival_date_time')); ?>" placeholder="<?php echo e(__('label._arrival_date_time')); ?>" >
+                              <label class="mr-2" for="_note_sheet_no">{{__('label._note_sheet_no')}}:</label>
+                              <input type="text" id="_note_sheet_no" name="_note_sheet_no" class="form-control _note_sheet_no" value="{{old('_note_sheet_no')}}" placeholder="{{__('label._note_sheet_no')}}" >
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-2 ">
                             <div class="form-group">
-                              <label class="mr-2" for="_discharge_date_time"><?php echo e(__('label._discharge_date_time')); ?>:</label>
-                              <input type="datetime-local" id="_discharge_date_time" name="_discharge_date_time" class="form-control _discharge_date_time" value="<?php echo e(old('_discharge_date_time')); ?>" placeholder="<?php echo e(__('label._discharge_date_time')); ?>" >
+                              <label class="mr-2" for="_workorder_no">{{__('label._workorder_no')}}:</label>
+                              <input type="text" id="_workorder_no" name="_workorder_no" class="form-control _workorder_no" value="{{old('_workorder_no')}}" placeholder="{{__('label._workorder_no')}}" >
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2 ">
+                            <div class="form-group">
+                              <label class="mr-2" for="_lc_no">{{__('label._lc_no')}}:</label>
+                              <input type="text" id="_lc_no" name="_lc_no" class="form-control _lc_no" value="{{old('_lc_no')}}" placeholder="{{__('label._lc_no')}}" >
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2 ">
+                            <div class="form-group">
+                              <label class="mr-2" for="_vessel_no">{{__('label._vessel_no')}}:</label>
+                              <input type="text" id="_vessel_no" name="_vessel_no" class="form-control _vessel_no" value="{{old('_vessel_no')}}" placeholder="{{__('label._vessel_no')}}" >
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2 ">
+                            <div class="form-group">
+                              <label class="mr-2" for="_arrival_date_time">{{__('label._arrival_date_time')}}:</label>
+                              <input type="datetime-local" id="_arrival_date_time" name="_arrival_date_time" class="form-control _arrival_date_time" value="{{old('_arrival_date_time')}}" placeholder="{{__('label._arrival_date_time')}}" >
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2 ">
+                            <div class="form-group">
+                              <label class="mr-2" for="_discharge_date_time">{{__('label._discharge_date_time')}}:</label>
+                              <input type="datetime-local" id="_discharge_date_time" name="_discharge_date_time" class="form-control _discharge_date_time" value="{{old('_discharge_date_time')}}" placeholder="{{__('label._discharge_date_time')}}" >
                             </div>
                         </div>
 
                          <div class="col-xs-12 col-sm-12 col-md-3 ">
                             <div class="form-group">
                               <label class="mr-2" for="_main_ledger_id">Supplier:<span class="_required">*</span></label>
-                            <input type="text" id="_search_main_ledger_id" name="_search_main_ledger_id" class="form-control _search_main_ledger_id" value="<?php echo e(old('_search_main_ledger_id')); ?>" placeholder="Supplier" required>
+                            <input type="text" id="_search_main_ledger_id" name="_search_main_ledger_id" class="form-control _search_main_ledger_id" value="{{old('_search_main_ledger_id')}}" placeholder="Supplier" required>
 
-                            <input type="hidden" id="_main_ledger_id" name="_main_ledger_id" class="form-control _main_ledger_id" value="<?php echo e(old('_main_ledger_id')); ?>" placeholder="Supplier" required>
+                            <input type="hidden" id="_main_ledger_id" name="_main_ledger_id" class="form-control _main_ledger_id" value="{{old('_main_ledger_id')}}" placeholder="Supplier" required>
                             <div class="search_box_main_ledger"> </div>
 
                                 
                             </div>
                         </div>
-                         <div class="col-xs-12 col-sm-12 col-md-2 ">
+                         <div class="col-xs-12 col-sm-12 col-md-3 ">
                             <div class="form-group">
                               <label class="mr-2" for="_phone">Phone:</label>
-                              <input type="text" id="_phone" name="_phone" class="form-control _phone" value="<?php echo e(old('_phone')); ?>" placeholder="Phone" >
+                              <input type="text" id="_phone" name="_phone" class="form-control _phone" value="{{old('_phone')}}" placeholder="Phone" >
                                 
                             </div>
                         </div>
@@ -209,14 +184,14 @@ $__user= Auth::user();
                         <div class="col-xs-12 col-sm-12 col-md-3 ">
                             <div class="form-group">
                               <label class="mr-2" for="_address">Address:</label>
-                              <input type="text" id="_address" name="_address" class="form-control _address" value="<?php echo e(old('_address')); ?>" placeholder="Address" >
+                              <input type="text" id="_address" name="_address" class="form-control _address" value="{{old('_address')}}" placeholder="Address" >
                                 
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-3 ">
                             <div class="form-group">
                               <label class="mr-2" for="_referance">Referance:</label>
-                              <input type="text" id="_referance" name="_referance" class="form-control _referance" value="<?php echo e(old('_referance')); ?>" placeholder="Referance" >
+                              <input type="text" id="_referance" name="_referance" class="form-control _referance" value="{{old('_referance')}}" placeholder="Referance" >
                                 
                             </div>
                         </div>
@@ -232,33 +207,55 @@ $__user= Auth::user();
                                       <table class="table table-bordered" >
                                           <thead >
                                             <th class="text-left" >&nbsp;</th>
-                                            <th class="text-left" ><?php echo e(__('label._item_id')); ?></th>
-                                            <th class="text-left display_none" ><?php echo e(__('label._base_unit')); ?></th>
-                                            <th class="text-left display_none" ><?php echo e(__('label.conversion_qty')); ?></th>
-                                            <th class="text-left <?php if(isset($_show_unit)): ?> <?php if($_show_unit==0): ?> display_none    <?php endif; ?> <?php endif; ?>" ><?php echo e(__('label._transection_unit')); ?></th>
+                                            <th class="text-left" >Item</th>
+                                            <th class="text-left display_none" >Base Unit</th>
+                                            <th class="text-left display_none" >Con. Qty</th>
+                                            <th class="text-left @if(isset($_show_unit)) @if($_show_unit==0) display_none    @endif @endif" >Tran. Unit</th>
                                            
-                                            <th class="text-left <?php if($_show_barcode==0): ?> display_none    <?php endif; ?> " ><?php echo e(__('_barcode')); ?></th>
-                                            <th class="text-left <?php if($_show_short_note==0): ?> display_none    <?php endif; ?> " ><?php echo e(__('label._note')); ?></th>
+                                            <th class="text-left @if($_show_barcode==0) display_none    @endif " >Barcode</th>
+                                            <th class="text-left @if($_show_short_note==0) display_none    @endif " >Note</th>
                                          
-                                            <th class="text-left <?php if($_show_expected_qty==0): ?> display_none <?php endif; ?>" ><?php echo e(__('label._expected_qty')); ?></th>
-                                            <th class="text-left" ><?php echo e(__('label._qty')); ?></th>
-                                            <th class="text-left" ><?php echo e(__('label._rate')); ?></th>
-                                            <th class="text-left <?php if($_show_sales_rate==0): ?> display_none <?php endif; ?>" ><?php echo e(__('label._sales_rate')); ?></th>
+                                            <th class="text-left @if($_show_expected_qty==0) display_none @endif" >{{__('label._expected_qty')}}</th>
+                                            <th class="text-left" >{{__('label._qty')}}</th>
+                                            <th class="text-left" >{{__('label._rate')}}</th>
+                                            <th class="text-left @if($_show_sales_rate==0) display_none @endif" >{{__('label._sales_rate')}}</th>
 
-                                            <th class="text-left <?php if($_inline_discount  ==0): ?> display_none <?php endif; ?>" ><?php echo e(__('label._discount')); ?>%</th>
-                                            <th class="text-left <?php if($_inline_discount  ==0): ?> display_none <?php endif; ?>" ><?php echo e(__('label._discount_value')); ?></th>
+                                            <th class="text-left @if($_inline_discount  ==0) display_none @endif" >{{__('label._discount')}}%</th>
+                                            <th class="text-left @if($_inline_discount  ==0) display_none @endif" >{{__('label._discount_value')}}</th>
                                            
-                                            <th class="text-left <?php if(isset($_show_vat)): ?> <?php if($_show_vat==0): ?> display_none   <?php endif; ?> <?php endif; ?>" ><?php echo e(__('label._vat')); ?>%</th>
-                                            <th class="text-left <?php if(isset($_show_vat)): ?> <?php if($_show_vat==0): ?> display_none   <?php endif; ?> <?php endif; ?>" ><?php echo e(__('label._vat_amount')); ?></th>
+                                            <th class="text-left @if(isset($_show_vat)) @if($_show_vat==0) display_none   @endif @endif" >{{__('label._vat')}}%</th>
+                                            <th class="text-left @if(isset($_show_vat)) @if($_show_vat==0) display_none   @endif @endif" >{{__('label._vat_amount')}}</th>
+
+                                            <th class="text-left @if(isset($_show_sd)) @if($_show_sd==0) display_none   @endif @endif" >{{__('label._sd')}}%</th>
+                                            <th class="text-left @if(isset($_show_sd)) @if($_show_sd==0) display_none   @endif @endif" >{{__('label._sd_amount')}}</th>
+
+                                            <th class="text-left @if(isset($_show_cd)) @if($_show_cd==0) display_none   @endif @endif" >{{__('label._cd')}}%</th>
+                                            <th class="text-left @if(isset($_show_cd)) @if($_show_cd==0) display_none   @endif @endif" >{{__('label._cd_amount')}}</th>
+
+                                            <th class="text-left @if(isset($_show_ait)) @if($_show_ait==0) display_none   @endif @endif" >{{__('label._ait')}}%</th>
+                                            <th class="text-left @if(isset($_show_ait)) @if($_show_ait==0) display_none   @endif @endif" >{{__('label._ait_amount')}}</th>
+
+                                            <th class="text-left @if(isset($_show_rd)) @if($_show_rd==0) display_none   @endif @endif" >{{__('label._rd')}}%</th>
+                                            <th class="text-left @if(isset($_show_rd)) @if($_show_rd==0) display_none   @endif @endif" >{{__('label._rd_amount')}}</th>
+
+                                            <th class="text-left @if(isset($_show_at)) @if($_show_at==0) display_none   @endif @endif" >{{__('label._at')}}%</th>
+                                            <th class="text-left @if(isset($_show_at)) @if($_show_at==0) display_none   @endif @endif" >{{__('label._at_amount')}}</th>
+
+                                            <th class="text-left @if(isset($_show_tti)) @if($_show_tti==0) display_none   @endif @endif" >{{__('label._tti')}}%</th>
+                                            <th class="text-left @if(isset($_show_tti)) @if($_show_tti==0) display_none   @endif @endif" >{{__('label._tti_amount')}}</th>
+                                          
+
+                                            <th class="text-left" >{{__('label._value')}}</th>
+                                             
                                             
-                                            <th class="text-left" ><?php echo e(__('label._value')); ?></th>
-                                            <th class="text-left  <?php if(sizeof($store_houses) == 1): ?> display_none <?php endif; ?>"><?php echo e(__('label._store_id')); ?></th>
-                                             <th class="text-left <?php if(isset($_show_self)): ?> <?php if($_show_self==0): ?> display_none <?php endif; ?>
-                                            <?php endif; ?>" ><?php echo e(__('label._shelf')); ?></th>
-                                             <th class="text-left <?php if(isset($form_settings->_show_manufacture_date)): ?> <?php if($form_settings->_show_manufacture_date==0): ?> display_none <?php endif; ?>
-                                            <?php endif; ?>" ><?php echo e(__('label._manufacture_date')); ?></th>
-                                             <th class="text-left <?php if(isset($form_settings->_show_expire_date)): ?> <?php if($form_settings->_show_expire_date==0): ?> display_none <?php endif; ?>
-                                            <?php endif; ?>"> <?php echo e(__('label._expire_date')); ?> </th>
+                                            
+                                            <th class="text-left  @if(sizeof($store_houses) == 1) display_none @endif">{{__('label._store_id')}}</th>
+                                             <th class="text-left @if(isset($_show_self)) @if($_show_self==0) display_none @endif
+                                            @endif" >{{__('label._shelf')}}</th>
+                                             <th class="text-left @if(isset($form_settings->_show_manufacture_date)) @if($form_settings->_show_manufacture_date==0) display_none @endif
+                                            @endif" >{{__('label._manufacture_date')}}</th>
+                                             <th class="text-left @if(isset($form_settings->_show_expire_date)) @if($form_settings->_show_expire_date==0) display_none @endif
+                                            @endif"> {{__('label._expire_date')}} </th>
                                             
                                            
                                           </thead>
@@ -282,22 +279,22 @@ $__user= Auth::user();
                                               <td class="display_none">
                                                 <input type="number" name="conversion_qty[]" min="0" step="any" class="form-control conversion_qty " value="1" readonly>
                                               </td>
-                                              <td class="<?php if($_show_unit==0): ?> display_none <?php endif; ?>">
+                                              <td class="@if($_show_unit==0) display_none @endif">
                                                 <select class="form-control _transection_unit" name="_transection_unit[]">
                                                 </select>
                                               </td>
                                               
-                                              <td class="<?php if(isset($_show_barcode)): ?> <?php if($_show_barcode==0): ?> display_none   <?php endif; ?> <?php endif; ?>">
+                                              <td class="@if(isset($_show_barcode)) @if($_show_barcode==0) display_none   @endif @endif">
                                                 <input type="text" name="_barcode[]" class="form-control _barcode 1__barcode "  id="1__barcode">
 
                                                 <input type="hidden" name="_ref_counter[]" value="1" class="_ref_counter" id="1__ref_counter">
 
                                               </td>
-                                              <td class="<?php if(isset($_show_short_note)): ?> <?php if($_show_short_note==0): ?> display_none   <?php endif; ?> <?php endif; ?>">
+                                              <td class="@if(isset($_show_short_note)) @if($_show_short_note==0) display_none   @endif @endif">
                                                 <input type="text" name="_short_note[]" class="form-control _short_note 1__short_note "  >
                                               </td>
                                             
-                                              <td class="<?php if($_show_expected_qty==0): ?> display_none <?php endif; ?>">
+                                              <td class="@if($_show_expected_qty==0) display_none @endif">
                                                 <input type="number" name="_expected_qty[]" class="form-control _expected_qty _common_keyup" >
                                               </td>
                                               <td>
@@ -307,45 +304,91 @@ $__user= Auth::user();
                                                 <input type="number" name="_rate[]" class="form-control _rate _common_keyup" >
                                                 <input type="hidden" name="_base_rate[]" class="form-control _base_rate _common_keyup" >
                                               </td>
-                                              <td class="<?php if($_show_sales_rate==0): ?> display_none <?php endif; ?>">
+                                              <td class="@if($_show_sales_rate==0) display_none @endif">
                                                 <input type="number" name="_sales_rate[]" class="form-control _sales_rate " >
                                               </td>
 
-                                               <td class="<?php if($_inline_discount ==0): ?> display_none <?php endif; ?> " >
+                                               <td class="@if($_inline_discount ==0) display_none @endif " >
                                                 <input type="number" name="_discount[]" class="form-control  _discount _common_keyup" >
                                               </td>
-                                              <td class="<?php if($_inline_discount ==0): ?> display_none <?php endif; ?>" >
+                                              <td class="@if($_inline_discount ==0) display_none @endif" >
                                                 <input type="number" name="_discount_amount[]" class="form-control  _discount_amount" >
                                               </td>
                                              
-                                              <td class="<?php if(isset($_show_vat)): ?> <?php if($_show_vat==0): ?> display_none  <?php endif; ?> <?php endif; ?> ">
+                                              <td class="@if(isset($_show_vat)) @if($_show_vat==0) display_none  @endif @endif ">
                                                 <input type="number" name="_vat[]" class="form-control  _vat _common_keyup" >
                                               </td>
-                                              <td class="<?php if(isset($_show_vat)): ?> <?php if($_show_vat==0): ?> display_none  <?php endif; ?> <?php endif; ?> ">
+                                              <td class="@if(isset($_show_vat)) @if($_show_vat==0) display_none  @endif @endif ">
                                                 <input type="number" name="_vat_amount[]" class="form-control  _vat_amount" >
                                               </td>
+
+                                              <td class="@if(isset($_show_sd)) @if($_show_sd==0) display_none  @endif @endif ">
+                                                <input type="number" name="_sd[]" class="form-control  _sd _common_keyup" >
+                                              </td>
+
+                                              <td class="@if(isset($_show_sd)) @if($_show_sd==0) display_none  @endif @endif ">
+                                                <input type="number" name="_sd_amount[]" class="form-control  _sd_amount" >
+                                              </td>
+
+                                              <td class="@if(isset($_show_cd)) @if($_show_cd==0) display_none  @endif @endif ">
+                                                <input type="number" name="_cd[]" class="form-control  _cd _common_keyup" >
+                                              </td>
+                                              <td class="@if(isset($_show_cd)) @if($_show_cd==0) display_none  @endif @endif ">
+                                                <input type="number" name="_cd_amount[]" class="form-control  _cd_amount" >
+                                              </td>
+
+                                              <td class="@if(isset($_show_ait)) @if($_show_ait==0) display_none  @endif @endif ">
+                                                <input type="number" name="_ait[]" class="form-control  _ait _common_keyup" >
+                                              </td>
+                                              <td class="@if(isset($_show_ait)) @if($_show_ait==0) display_none  @endif @endif ">
+                                                <input type="number" name="_ait_amount[]" class="form-control  _ait_amount" >
+                                              </td>
+                                              <td class="@if(isset($_show_rd)) @if($_show_rd==0) display_none  @endif @endif ">
+                                                <input type="number" name="_rd[]" class="form-control  _rd _common_keyup" >
+                                              </td>
+                                              <td class="@if(isset($_show_rd)) @if($_show_rd==0) display_none  @endif @endif ">
+                                                <input type="number" name="_rd_amount[]" class="form-control  _rd_amount" >
+                                              </td>
+
+                                              <td class="@if(isset($_show_at)) @if($_show_at==0) display_none  @endif @endif ">
+                                                <input type="number" name="_at[]" class="form-control  _at _common_keyup" >
+                                              </td>
+                                              <td class="@if(isset($_show_at)) @if($_show_at==0) display_none  @endif @endif ">
+                                                <input type="number" name="_at_amount[]" class="form-control  _at_amount" >
+                                              </td>
+
+                                              <td class="@if(isset($_show_tti)) @if($_show_tti==0) display_none  @endif @endif ">
+                                                <input type="number" name="_tti[]" class="form-control  _tti _common_keyup" >
+                                              </td>
+                                              <td class="@if(isset($_show_tti)) @if($_show_tti==0) display_none  @endif @endif ">
+                                                <input type="number" name="_tti_amount[]" class="form-control  _tti_amount" >
+                                              </td>
+
                                               <td>
-                                                <input type="number" name="_value[]" class="form-control _value "  >
+                                                <input type="number" name="_value[]" class="form-control _value " readonly >
                                               </td>
                                             
-                                              <td class="<?php if(sizeof($store_houses)== 1): ?> display_none <?php endif; ?>">
+                                              
+                                              
+                                              
+                                              <td class="@if(sizeof($store_houses)== 1) display_none @endif">
                                                 <select class="form-control  _main_store_id" name="_main_store_id[]">
-                                                  <?php $__empty_1 = true; $__currentLoopData = $store_houses; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $store): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                                                  <option value="<?php echo e($store->id); ?>"><?php echo e($store->_name ?? ''); ?></option>
-                                                  <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-                                                  <?php endif; ?>
+                                                  @forelse($store_houses as $store)
+                                                  <option value="{{$store->id}}">{{$store->_name ?? '' }}</option>
+                                                  @empty
+                                                  @endforelse
                                                 </select>
                                                 
                                               </td>
                                               
                                               
-                                              <td class="<?php if(isset($_show_self)): ?> <?php if($_show_self==0): ?> display_none  <?php endif; ?> <?php endif; ?>">
+                                              <td class="@if(isset($_show_self)) @if($_show_self==0) display_none  @endif @endif">
                                                 <input type="text" name="_store_salves_id[]" class="form-control _store_salves_id " >
                                               </td>
-                                              <td class="<?php if(isset($form_settings->_show_manufacture_date)): ?> <?php if($form_settings->_show_manufacture_date==0): ?> display_none  <?php endif; ?> <?php endif; ?>">
+                                              <td class="@if(isset($form_settings->_show_manufacture_date)) @if($form_settings->_show_manufacture_date==0) display_none  @endif @endif">
                                                 <input type="date" name="_manufacture_date[]" class="form-control _manufacture_date " >
                                               </td>
-                                              <td class="<?php if(isset($form_settings->_show_expire_date)): ?> <?php if($form_settings->_show_expire_date==0): ?> display_none  <?php endif; ?> <?php endif; ?>">
+                                              <td class="@if(isset($form_settings->_show_expire_date)) @if($form_settings->_show_expire_date==0) display_none  @endif @endif">
                                                 <input type="date" name="_expire_date[]" class="form-control _expire_date " >
                                               </td>
                                              
@@ -360,42 +403,71 @@ $__user= Auth::user();
                                               <td  class="text-right"><b>Total</b></td>
                                               <td class="display_none"></td>
                                               <td class="display_none"></td>
-                                              <td class="<?php if($_show_unit==0): ?> display_none <?php endif; ?>"></td>
+                                              <td class="@if($_show_unit==0) display_none @endif"></td>
                                               
-                                                <td  class="text-right <?php if($_show_barcode==0): ?> display_none <?php endif; ?>"></td>
+                                                <td  class="text-right @if($_show_barcode==0) display_none @endif"></td>
                                              
                                               
-                                                <td  class="text-right <?php if($_show_short_note==0): ?> display_none <?php endif; ?>"></td>
+                                                <td  class="text-right @if($_show_short_note==0) display_none @endif"></td>
                                              
-                                              <td class="<?php if($_show_expected_qty==0): ?> display_none <?php endif; ?>">
+                                              <td class="@if($_show_expected_qty==0) display_none @endif">
                                                 <input type="number" step="any" min="0" name="_total_expected_qty_amount" class="form-control _total_expected_qty_amount" value="0" readonly required>
                                               </td>
                                               <td>
                                                 <input type="number" step="any" min="0" name="_total_qty_amount" class="form-control _total_qty_amount" value="0" readonly required>
                                               </td>
                                               <td></td>
-                                              <td class="<?php if($_show_sales_rate==0): ?> display_none <?php endif; ?>"></td>
-                                              <td class="<?php if($_inline_discount==0): ?> display_none <?php endif; ?>"></td>
-                                              <td class="<?php if($_inline_discount==0): ?> display_none <?php endif; ?>">
+                                              <td class="@if($_show_sales_rate==0) display_none @endif"></td>
+                                              <td class="@if($_inline_discount==0) display_none @endif"></td>
+                                              <td class="@if($_inline_discount==0) display_none @endif">
                                                 <input type="number" step="any" min="0" name="_total_discount_amount" class="form-control _total_discount_amount" value="0" readonly required>
                                               </td>
                                              
-                                              <td class="<?php if(isset($_show_vat)): ?> <?php if($_show_vat==0): ?> display_none   <?php endif; ?>  <?php endif; ?>"></td>
-                                              <td class="<?php if(isset($_show_vat)): ?> <?php if($_show_vat==0): ?> display_none   <?php endif; ?>  <?php endif; ?>">
+                                              <td class="@if(isset($_show_vat)) @if($_show_vat==0) display_none   @endif  @endif"></td>
+                                              <td class="@if(isset($_show_vat)) @if($_show_vat==0) display_none   @endif  @endif">
                                                 <input type="number" step="any" min="0" name="_total_vat_amount" class="form-control _total_vat_amount" value="0" readonly required>
                                               </td>
 
-                                              
+                                              <td class="@if(isset($_show_sd)) @if($_show_sd==0) display_none   @endif  @endif"></td>
+                                              <td class="@if(isset($_show_sd)) @if($_show_sd==0) display_none   @endif  @endif">
+                                                <input type="number" step="any" min="0" name="_total_sd_amount" class="form-control _total_sd_amount" value="0" readonly required>
+                                              </td>
+                                              <td class="@if(isset($_show_cd)) @if($_show_cd==0) display_none   @endif  @endif"></td>
+                                              <td class="@if(isset($_show_cd)) @if($_show_cd==0) display_none   @endif  @endif">
+                                                <input type="number" step="any" min="0" name="_total_cd_amount" class="form-control _total_cd_amount" value="0" readonly required>
+                                              </td>
+                                              <td class="@if($_show_ait==0) display_none   @endif"></td>
+                                              <td class="@if($_show_ait==0) display_none   @endif ">
+                                                <input type="number" step="any" min="0" name="_total_ait_amount" class="form-control _total_ait_amount" value="0" readonly required>
+                                              </td>
+                                              <td class="@if($_show_rd==0) display_none   @endif"></td>
+                                              <td class="@if($_show_rd==0) display_none   @endif ">
+                                                <input type="number" step="any" min="0" name="_total_rd_amount" class="form-control _total_rd_amount" value="0" readonly required>
+                                              </td>
+                                              <td class="@if($_show_at==0) display_none   @endif"></td>
+                                              <td class="@if($_show_at==0) display_none   @endif ">
+                                                <input type="number" step="any" min="0" name="_total_at_amount" class="form-control _total_at_amount" value="0" readonly required>
+                                              </td>
+                                              <td class="@if($_show_tti==0) display_none   @endif"></td>
+                                              <td class="@if($_show_tti==0) display_none   @endif ">
+                                                <input type="number" step="any" min="0" name="_total_tti_amount" class="form-control _total_tti_amount" value="0" readonly required>
+                                              </td>
                                             
                                               <td>
                                                 <input type="number" step="any" min="0" name="_total_value_amount" class="form-control _total_value_amount" value="0" readonly required>
                                               </td>
                                               
-                                               <td class="<?php if(sizeof($store_houses) == 1): ?> display_none <?php endif; ?>"></td>
-                                              <td class="<?php if(isset($_show_self)): ?> <?php if($_show_self==0): ?> display_none  <?php endif; ?>  <?php endif; ?>"></td>
-                                              <td class="<?php if(isset($form_settings->_show_manufacture_date)): ?> <?php if($form_settings->_show_manufacture_date==0): ?> display_none  <?php endif; ?>  <?php endif; ?>"></td>
+                                               
+                                              
+                                              
+                                               <td class="@if(sizeof($store_houses) == 1) display_none @endif"></td>
+                                              
 
-                                              <td class="<?php if(isset($form_settings->_show_expire_date)): ?> <?php if($form_settings->_show_expire_date==0): ?> display_none  <?php endif; ?>  <?php endif; ?>"></td>
+                                              
+                                              <td class="@if(isset($_show_self)) @if($_show_self==0) display_none  @endif  @endif"></td>
+                                              <td class="@if(isset($form_settings->_show_manufacture_date)) @if($form_settings->_show_manufacture_date==0) display_none  @endif  @endif"></td>
+
+                                              <td class="@if(isset($form_settings->_show_expire_date)) @if($form_settings->_show_expire_date==0) display_none  @endif  @endif"></td>
                                               
                                             </tr>
                                           </tfoot>
@@ -404,12 +476,12 @@ $__user= Auth::user();
                             </div>
                           </div>
                         </div>
-                      <?php if($__user->_ac_type==1): ?>
-                      <?php echo $__env->make('backend.purchase.create_ac_cb', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                      @if($__user->_ac_type==1)
+                      @include('backend.purchase.create_ac_cb')
                          
-                      <?php else: ?>
-                       <?php echo $__env->make('backend.purchase.create_ac_detail', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-                      <?php endif; ?>
+                      @else
+                       @include('backend.purchase.create_ac_detail')
+                      @endif
                        
                           
 
@@ -418,19 +490,19 @@ $__user= Auth::user();
                             <tr>
                               <td style="width: 10%;border:0px;"><label for="_note">Note<span class="_required">*</span></label></td>
                               <td style="width: 70%;border:0px;">
-                                <?php if($_print = Session::get('_print_value')): ?>
-                                     <input type="hidden" name="_after_print" value="<?php echo e($_print); ?>" class="_after_print" >
-                                    <?php else: ?>
+                                @if ($_print = Session::get('_print_value'))
+                                     <input type="hidden" name="_after_print" value="{{$_print}}" class="_after_print" >
+                                    @else
                                     <input type="hidden" name="_after_print" value="0" class="_after_print" >
-                                    <?php endif; ?>
-                                    <?php if($_master_id = Session::get('_master_id')): ?>
-                                     <input type="hidden" name="_master_id" value="<?php echo e(url('purchase/print')); ?>/<?php echo e($_master_id); ?>" class="_master_id">
+                                    @endif
+                                    @if ($_master_id = Session::get('_master_id'))
+                                     <input type="hidden" name="_master_id" value="{{url('purchase/print')}}/{{$_master_id}}" class="_master_id">
                                     
-                                    <?php endif; ?>
+                                    @endif
                                    
                                        <input type="hidden" name="_print" value="0" class="_save_and_print_value">
 
-                                    <input type="text" id="_note"  name="_note" class="form-control _note" value="<?php echo e(old('_note')); ?>" placeholder="Note" required >
+                                    <input type="text" id="_note"  name="_note" class="form-control _note" value="{{old('_note')}}" placeholder="Note" required >
                               </td>
                             </tr>
                             <tr>
@@ -452,14 +524,97 @@ $__user= Auth::user();
                               </td>
                             </tr>
                            
-                            <tr class="<?php if($_show_vat==0): ?> display_none <?php endif; ?>">
+                            <tr class="@if($_show_vat==0) display_none @endif">
                               <td style="width: 10%;border:0px;"><label for="_total_vat">Total VAT</label></td>
                               <td style="width: 70%;border:0px;">
                                 <input type="text" name="_total_vat" class="form-control width_200_px" id="_purchase_total_vat" readonly value="0">
                               </td>
                             </tr>
 
-                           
+                            <tr class="@if($_show_ait==0) display_none @endif">
+                              <td style="width: 10%;border:0px;"><label for="_total_vat">{{__('label._ait')}}%</label></td>
+                              <td style="width: 70%;border:0px;">
+                                <input type="text" name="_inv_ait_per" class=" width_200_px" id="_purchase_inv_ait_per"  value="0"  placeholder="{{__('label._ait')}}%">
+                                <input type="text" name="_inv_ait_amount" class="width_200_px" id="_purchase_inv_ait_amount"  value="0" placeholder="{{__('label._ait_amount')}}">
+                              </td>
+                            </tr>
+                            <tr class="@if($_show_ait==0) display_none @endif">
+                              <td style="width: 10%;border:0px;"><label for="_total_vat">{{__('label._total_ait_amount')}}%</label></td>
+                              <td style="width: 70%;border:0px;">
+                                <input type="text" name="_total_ait_amount" class="form-control width_200_px" id="_purchase_total_ait_amount"  value="0"  placeholder="{{__('label._total_ait_amount')}}" readonly>
+                                
+                              </td>
+                            </tr>
+                            <tr class="@if($_show_sd==0) display_none @endif">
+                              <td style="width: 10%;border:0px;"><label for="_total_vat">{{__('label._sd')}}%</label></td>
+                              <td style="width: 70%;border:0px;">
+                                <input type="text" name="_inv_sd_per" class=" width_200_px" id="_purchase_inv_sd_per"  value="0"  placeholder="{{__('label._sd')}}%">
+                                <input type="text" name="_inv_sd_amount" class="width_200_px" id="_purchase_inv_sd_amount"  value="0" placeholder="{{__('label._sd_amount')}}">
+                              </td>
+                            </tr>
+                            <tr class="@if($_show_sd==0) display_none @endif">
+                              <td style="width: 10%;border:0px;"><label for="_total_vat">{{__('label._total_sd_amount')}}%</label></td>
+                              <td style="width: 70%;border:0px;">
+                                <input type="text" name="_total_sd_amount" class="form-control width_200_px" id="_purchase_total_sd_amount"  value="0"  placeholder="{{__('label._total_sd_amount')}}" readonly>
+                                
+                              </td>
+                            </tr>
+                            <tr class="@if($_show_cd==0) display_none @endif">
+                              <td style="width: 10%;border:0px;"><label for="_total_vat">{{__('label._cd')}}%</label></td>
+                              <td style="width: 70%;border:0px;">
+                                <input type="text" name="_inv_cd_per" class=" width_200_px" id="_purchase_inv_cd_per"  value="0"  placeholder="{{__('label._cd')}}%">
+                                <input type="text" name="_inv_cd_amount" class="width_200_px" id="_purchase_inv_cd_amount"  value="0" placeholder="{{__('label._cd_amount')}}">
+                              </td>
+                            </tr>
+                            <tr class="@if($_show_cd==0) display_none @endif">
+                              <td style="width: 10%;border:0px;"><label for="_total_vat">{{__('label._total_cd_amount')}}%</label></td>
+                              <td style="width: 70%;border:0px;">
+                                <input type="text" name="_total_cd_amount" class="form-control width_200_px" id="_purchase_total_cd_amount"  value="0"  placeholder="{{__('label._total_cd_amount')}}" readonly>
+                                
+                              </td>
+                            </tr>
+                            <tr class="@if($_show_rd==0) display_none @endif">
+                              <td style="width: 10%;border:0px;"><label for="_total_vat">{{__('label._rd')}}%</label></td>
+                              <td style="width: 70%;border:0px;">
+                                <input type="text" name="_inv_rd_per" class=" width_200_px" id="_purchase_inv_rd_per"  value="0"  placeholder="{{__('label._rd')}}%">
+                                <input type="text" name="_inv_rd_amount" class="width_200_px" id="_purchase_inv_rd_amount"  value="0" placeholder="{{__('label._rd_amount')}}">
+                              </td>
+                            </tr>
+                            <tr class="@if($_show_rd==0) display_none @endif">
+                              <td style="width: 10%;border:0px;"><label for="_total_vat">{{__('label._total_rd_amount')}}%</label></td>
+                              <td style="width: 70%;border:0px;">
+                                <input type="text" name="_total_rd_amount" class="form-control width_200_px" id="_purchase_total_rd_amount"  value="0"  placeholder="{{__('label._total_rd_amount')}}" readonly>
+                                
+                              </td>
+                            </tr>
+                            <tr class="@if($_show_at==0) display_none @endif">
+                              <td style="width: 10%;border:0px;"><label for="_total_vat">{{__('label._at')}}%</label></td>
+                              <td style="width: 70%;border:0px;">
+                                <input type="text" name="_inv_at_per" class=" width_200_px" id="_purchase_inv_at_per"  value="0"  placeholder="{{__('label._at')}}%">
+                                <input type="text" name="_inv_at_amount" class="width_200_px" id="_purchase_inv_at_amount"  value="0" placeholder="{{__('label._at_amount')}}">
+                              </td>
+                            </tr>
+                            <tr class="@if($_show_at==0) display_none @endif">
+                              <td style="width: 10%;border:0px;"><label for="_total_vat">{{__('label._total_at_amount')}}%</label></td>
+                              <td style="width: 70%;border:0px;">
+                                <input type="text" name="_total_at_amount" class="form-control width_200_px" id="_purchase_total_at_amount"  value="0"  placeholder="{{__('label._total_at_amount')}}" readonly>
+                                
+                              </td>
+                            </tr>
+                            <tr class="@if($_show_tti==0) display_none @endif">
+                              <td style="width: 10%;border:0px;"><label for="_total_vat">{{__('label._tti')}}%</label></td>
+                              <td style="width: 70%;border:0px;">
+                                <input type="text" name="_inv_tti_per" class=" width_200_px" id="_purchase_inv_tti_per"  value="0"  placeholder="{{__('label._tti')}}%">
+                                <input type="text" name="_inv_tti_amount" class="width_200_px" id="_purchase_inv_tti_amount"  value="0" placeholder="{{__('label._tti_amount')}}">
+                              </td>
+                            </tr>
+                            <tr class="@if($_show_tti==0) display_none @endif">
+                              <td style="width: 10%;border:0px;"><label for="_total_vat">{{__('label._total_tti_amount')}}%</label></td>
+                              <td style="width: 70%;border:0px;">
+                                <input type="text" name="_total_tti_amount" class="form-control width_200_px" id="_purchase_total_tti_amount"  value="0"  placeholder="{{__('label._total_tti_amount')}}" readonly>
+                                
+                              </td>
+                            </tr>
                             
                             <tr>
                               <td style="width: 10%;border:0px;"><label for="_total">NET Total </label></td>
@@ -467,14 +622,14 @@ $__user= Auth::user();
                           <input type="text" name="_total" class="form-control width_200_px" id="_purchase_total" readonly value="0">
                               </td>
                             </tr>
-                             <?php echo $__env->make('backend.message.send_sms', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                             @include('backend.message.send_sms')
                           </table>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12 bottom_save_section text-middle">
 
-                          <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('duplicate-barcode-entry-check')): ?>
+                          @can('duplicate-barcode-entry-check')
                             <button type="button" data-toggle="modal" data-target="#duplicateBarcodeModal" class="btn btn-info buttonCheckDuplicateBarcode "><i class="fa fa-credit-card mr-2" aria-hidden="true"></i> Check Duplicate Barcode</button>
-                          <?php endif; ?>
+                          @endcan
 
                             <button type="submit" class="btn btn-success submit-button ml-5"><i class="fa fa-credit-card mr-2" aria-hidden="true"></i> Save</button>
                             <button type="submit" class="btn btn-warning submit-button _save_and_print"><i class="fa fa-print mr-2" aria-hidden="true"></i> Save & Print</button>
@@ -482,8 +637,7 @@ $__user= Auth::user();
                         <br><br>
                         
                     </div>
-                    <?php echo Form::close(); ?>
-
+                    {!! Form::close() !!}
                 
               </div>
             </div>
@@ -498,8 +652,8 @@ $__user= Auth::user();
 </div>
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
-    <form action="<?php echo e(url('import-purchase-settings')); ?>" method="POST">
-        <?php echo csrf_field(); ?>
+    <form action="{{ url('import-purchase-settings')}}" method="POST">
+        @csrf
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Purchase Form Settings</h5>
@@ -544,19 +698,19 @@ $__user= Auth::user();
     </div>
   </div>
 </div>
-<?php echo $__env->make('backend.common-modal.item_ledger_modal', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+@include('backend.common-modal.item_ledger_modal')
 
-<?php $__env->stopSection(); ?>
+@endsection
 
-<?php $__env->startSection('script'); ?>
+@section('script')
 
 <script type="text/javascript">
 
-  <?php if(empty($form_settings)): ?>
+  @if(empty($form_settings))
     $(document).find("#form_settings").click();
     setting_data_fetch();
-  <?php endif; ?>
-  var default_date_formate = `<?php echo e(default_date_formate()); ?>`;
+  @endif
+  var default_date_formate = `{{default_date_formate()}}`;
   var _after_print = $(document).find("._after_print").val();
   var _master_id = $(document).find("._master_id").val();
   var _item_row_count =1;
@@ -576,7 +730,7 @@ $(document).on("click","#form_settings",function(){
 
   function setting_data_fetch(){
       var request = $.ajax({
-            url: "<?php echo e(url('import-purchase-setting-modal')); ?>",
+            url: "{{url('import-purchase-setting-modal')}}",
             method: "GET",
             dataType: "html"
           });
@@ -595,7 +749,7 @@ var duplicate_barcode_status=0;
 
 
   var request = $.ajax({
-      url: "<?php echo e(url('item-purchase-search')); ?>",
+      url: "{{url('item-purchase-search')}}",
       method: "GET",
       data: { _text_val : _text_val },
       dataType: "JSON"
@@ -701,7 +855,7 @@ $(document).on('click','.search_row_item',function(){
 var self = $(this);
 
     var request = $.ajax({
-      url: "<?php echo e(url('item-wise-units')); ?>",
+      url: "{{url('item-wise-units')}}",
       method: "GET",
       data: { item_id:_id },
        dataType: "html"
@@ -727,7 +881,24 @@ var self = $(this);
   $(this).parent().parent().parent().parent().parent().parent().find('._vat').val(_item_vat);
   $(this).parent().parent().parent().parent().parent().parent().find('._vat_amount').val(_vat_amount);
 
+  $(this).parent().parent().parent().parent().parent().parent().find('._sd').val(_item_sd);
+  $(this).parent().parent().parent().parent().parent().parent().find('._sd_amount').val(_sd_amount);
+
+  $(this).parent().parent().parent().parent().parent().parent().find('._cd').val(_item_cd);
+  $(this).parent().parent().parent().parent().parent().parent().find('._cd_amount').val(_cd_amount);
   
+  $(this).parent().parent().parent().parent().parent().parent().find('._ait').val(_item_ait);
+  $(this).parent().parent().parent().parent().parent().parent().find('._ait_amount').val(_ait_amount);
+  
+  $(this).parent().parent().parent().parent().parent().parent().find('._rd').val(_item_rd);
+  $(this).parent().parent().parent().parent().parent().parent().find('._rd_amount').val(_rd_amount);
+  
+  $(this).parent().parent().parent().parent().parent().parent().find('._at').val(_item_at);
+  $(this).parent().parent().parent().parent().parent().parent().find('._at_amount').val(_at_amount);
+  
+  $(this).parent().parent().parent().parent().parent().parent().find('._tti').val(_item_tti);
+  $(this).parent().parent().parent().parent().parent().parent().find('._tti_amount').val(_tti_amount);
+
   $(this).parent().parent().parent().parent().parent().parent().find('._qty').val(1);
   if(_unique_barcode ==1){
     $(this).parent().parent().parent().parent().parent().parent().find('._qty').val(0);
@@ -820,41 +991,6 @@ $(document).on('click',function(){
     if(search_box_purchase_order ==true){
       $(document).find('.search_box_purchase_order').removeClass('search_box_show').hide();
     }
-})
-
-$(document).on('keyup','._value',function(){
-
-  var _vat_amount =0;
-  var _value = parseFloat($(this).closest('tr').find('._value').val());
-  var _qty = parseFloat($(this).closest('tr').find('._qty').val());
-  if(isNaN(_value)){_value=1}
-  if(isNaN(_qty)){_qty=1}
-  var _rate = parseFloat(_value)/parseFloat(_qty);
-  if(isNaN(_rate)){_rate=0}
-  $(this).closest('tr').find('._rate').val(_rate);
-
-
-  var _rate =parseFloat( $(this).closest('tr').find('._rate').val());
-  var _sales_rate =parseFloat( $(this).closest('tr').find('._sales_rate').val());
-  var _item_vat = parseFloat($(this).closest('tr').find('._vat').val());
-  var _item_discount = parseFloat($(this).closest('tr').find('._discount').val());
- 
-
-
-   if(isNaN(_item_vat)){ _item_vat   = 0 }
-   if(isNaN(_qty)){ _qty   = 0 }
-   if(isNaN(_rate)){ _rate =0 }
-   if(isNaN(_sales_rate)){ _sales_rate =0 }
-   if(isNaN(_item_discount)){ _item_discount =0 }
-   _vat_amount = Math.ceil(((_qty*_rate)*_item_vat)/100)
-   _discount_amount = Math.ceil(((_qty*_rate)*_item_discount)/100)
-   _value = parseFloat((_qty*_rate)).toFixed(2);
-
-  $(this).closest('tr').find('._value').val(_value);
-  $(this).closest('tr').find('._vat_amount').val(_vat_amount);
-  $(this).closest('tr').find('._discount_amount').val(_discount_amount);
-    _purchase_total_calculation();
-
 })
 
 $(document).on('keyup','._common_keyup',function(){
@@ -951,7 +1087,7 @@ $(document).on('keyup','._search_order_ref_id',delay(function(e){
     var _branch_id = $(document).find('._master_branch_id').val();
 
   var request = $.ajax({
-      url: "<?php echo e(url('purchase-pre-order-search')); ?>",
+      url: "{{url('purchase-pre-order-search')}}",
       method: "GET",
       data: { _text_val,_branch_id },
       dataType: "JSON"
@@ -965,7 +1101,6 @@ $(document).on('keyup','._search_order_ref_id',delay(function(e){
             search_html +=`<div class="card"><table table-bordered style="width: 100%;">
                             <thead>
                               <th style="border:1px solid #ccc;text-align:center;">ID</th>
-                              <th style="border:1px solid #ccc;text-align:center;">PO NO</th>
                               <th style="border:1px solid #ccc;text-align:center;">Supplier</th>
                               <th style="border:1px solid #ccc;text-align:center;">Date</th>
                             </thead>
@@ -975,11 +1110,8 @@ $(document).on('keyup','._search_order_ref_id',delay(function(e){
                                         <td style="border:1px solid #ccc;">${data[i].id}
                                         <input type="hidden" name="_id_main_ledger" class="_id_main_ledger" value="${data[i]._ledger_id}">
                                         <input type="hidden" name="_purchase_main_id" class="_purchase_main_id" value="${data[i].id}">
-                                        <input type="hidden" name="_purchase_order_number" class="_purchase_order_number" value="${data[i]._order_number}">
                                         <input type="hidden" name="_purchase_main_date" class="_purchase_main_date" value="${after_request_date__today(data[i]._date)}">
-                                        </td>
-                                        <td>${data[i]?._order_number}</td>
-                                        <td style="border:1px solid #ccc;">${data[i]._ledger._name}
+                                        </td><td style="border:1px solid #ccc;">${data[i]._ledger._name}
                                         <input type="hidden" name="_name_main_ledger" class="_name_main_ledger" value="${data[i]._ledger._name}">
                                         <input type="hidden" name="_address_main_ledger" class="_address_main_ledger" value="${data[i]._address}">
                                         <input type="hidden" name="_phone_main_ledger" class="_phone_main_ledger" value="${data[i]._phone}">
@@ -1009,7 +1141,6 @@ $(document).on("click",'.search_row_purchase_order',function(){
     var _id = $(this).children('td').find('._id_main_ledger').val();
     var _name = $(this).find('._name_main_ledger').val();
     var _purchase_main_id = $(this).find('._purchase_main_id').val();
-    var _purchase_order_number = $(this).find('._purchase_order_number').val();
     var _purchase_main_date = $(this).find('._purchase_main_date').val();
     var _main_branch_id = $(this).find('._main_branch_id').val();
     var _date_main_ledger = $(this).find('._date_main_ledger').val();
@@ -1029,12 +1160,12 @@ $(document).on("click",'.search_row_purchase_order',function(){
 
 
 
-    $(document).find("._search_order_ref_id").val(_purchase_order_number);
+    $(document).find("._search_order_ref_id").val(_purchase_main_id+","+_date_main_ledger);
 
     $.ajaxSetup({ headers: {'X-CSRF-TOKEN': $(document).find('meta[name="csrf-token"]').attr('content') } });
 
     var request = $.ajax({
-      url: "<?php echo e(url('purchase-pre-order-details')); ?>",
+      url: "{{url('purchase-pre-order-details')}}",
       method: "POST",
       data: { _purchase_main_id,_main_branch_id },
       dataType: "JSON"
@@ -1083,17 +1214,17 @@ if(data.length > 0 ){
                                               <td class="display_none">
                                                 <input type="number" name="conversion_qty[]" min="0" step="any" class="form-control conversion_qty " value="1" readonly>
                                               </td>
-                                              <td class="<?php if($_show_unit==0): ?> display_none <?php endif; ?>">
+                                              <td class="@if($_show_unit==0) display_none @endif">
                                                 <select class="form-control _transection_unit" name="_transection_unit[]">
                                                 <option value="${_main_unit_id}">${_unit_name}</option>
                                                 </select>
                                               </td>
                                               
-                                              <td class="<?php if($_show_barcode==0): ?> display_none <?php endif; ?>">
+                                              <td class="@if($_show_barcode==0) display_none @endif">
                                                 <input type="text" name="${_item_row_count}_barcode__${_item_id}" class="form-control _barcode ${_item_row_count}__barcode " id="${_item_row_count}__barcode"  >
                                               </td>
                                              
-                                              <td class="<?php if($_show_expected_qty==0): ?> display_none <?php endif; ?>">
+                                              <td class="@if($_show_expected_qty==0) display_none @endif">
                                                 <input type="number" name="_expected_qty[]" class="form-control _expected_qty _common_keyup" fdprocessedid="io4gi">
                                               </td>
 
@@ -1105,48 +1236,88 @@ if(data.length > 0 ){
                                                 <input type="number" name="_rate[]" class="form-control _rate _common_keyup" value="${_rate}">
                                                 <input type="hidden" name="_base_rate[]" class="form-control _base_rate _common_keyup" value="${_rate}" >
                                               </td>
-                                              <td class="<?php if($_show_sales_rate==0): ?> display_none <?php endif; ?>">
+                                              <td class="@if($_show_sales_rate==0) display_none @endif">
                                                 <input type="number" name="_sales_rate[]" class="form-control _sales_rate " value="${_sales_rate}">
                                               </td>
-                                              <td class="<?php if($_inline_discount==0): ?> display_none <?php endif; ?>">
+                                              <td class="@if($_inline_discount==0) display_none @endif">
                                                 <input type="number" name="_discount[]" class="form-control  _discount _discount__${_item_row_count} _common_keyup" value="0" >
                                               </td>
-                                              <td class="<?php if($_inline_discount==0): ?> display_none <?php endif; ?>">
+                                              <td class="@if($_inline_discount==0) display_none @endif">
                                                 <input type="number" name="_discount_amount[]" class="form-control  _discount_amount _discount_amount__${_item_row_count}" value="0" >
                                               </td>
                                                
                                               
-                                              <td class=" <?php if($_show_vat==0): ?> display_none <?php endif; ?>">
+                                              <td class=" @if($_show_vat==0) display_none @endif">
                                                 <input type="number" name="_vat[]" class="form-control  _vat _common_keyup" >
                                               </td>
-                                              <td class=" <?php if($_show_vat==0): ?> display_none <?php endif; ?>">
+                                              <td class=" @if($_show_vat==0) display_none @endif">
                                                 <input type="number" name="_vat_amount[]" class="form-control  _vat_amount" >
                                               </td>
                                               
-                                              
+                                               <td class=" @if($_show_sd==0) display_none  @endif ">
+                                                <input type="number" name="_sd[]" class="form-control  _sd _common_keyup" >
+                                              </td>
+
+                                              <td class=" @if($_show_sd==0) display_none  @endif  ">
+                                                <input type="number" name="_sd_amount[]" class="form-control  _sd_amount" >
+                                              </td>
+
+                                              <td class=" @if($_show_cd==0) display_none  @endif  ">
+                                                <input type="number" name="_cd[]" class="form-control  _cd _common_keyup" >
+                                              </td>
+                                              <td class=" @if($_show_cd==0) display_none  @endif ">
+                                                <input type="number" name="_cd_amount[]" class="form-control  _cd_amount" >
+                                              </td>
+
+                                              <td class=" @if($_show_ait==0) display_none  @endif  ">
+                                                <input type="number" name="_ait[]" class="form-control  _ait _common_keyup" >
+                                              </td>
+                                              <td class=" @if($_show_ait==0) display_none  @endif ">
+                                                <input type="number" name="_ait_amount[]" class="form-control  _ait_amount" >
+                                              </td>
+                                              <td class=" @if($_show_rd==0) display_none  @endif  ">
+                                                <input type="number" name="_rd[]" class="form-control  _rd _common_keyup" >
+                                              </td>
+                                              <td class=" @if($_show_rd==0) display_none  @endif  ">
+                                                <input type="number" name="_rd_amount[]" class="form-control  _rd_amount" >
+                                              </td>
+
+                                              <td class=" @if($_show_at==0) display_none  @endif  ">
+                                                <input type="number" name="_at[]" class="form-control  _at _common_keyup" >
+                                              </td>
+                                              <td class="@if($_show_at==0) display_none  @endif  ">
+                                                <input type="number" name="_at_amount[]" class="form-control  _at_amount" >
+                                              </td>
+
+                                              <td class="@if($_show_tti==0) display_none  @endif  ">
+                                                <input type="number" name="_tti[]" class="form-control  _tti _common_keyup" >
+                                              </td>
+                                              <td class="@if($_show_tti==0) display_none  @endif  ">
+                                                <input type="number" name="_tti_amount[]" class="form-control  _tti_amount" >
+                                              </td>
                                               <td>
-                                                <input type="number" name="_value[]" class="form-control _value "  value="${_value}">
+                                                <input type="number" name="_value[]" class="form-control _value " readonly value="${_value}">
                                               </td>
                                              
-                                              <td class="<?php if(sizeof($store_houses) == 1): ?> display_none <?php endif; ?>">
+                                              <td class="@if(sizeof($store_houses) == 1) display_none @endif">
                                                 <select class="form-control  _main_store_id" name="_main_store_id[]">
-                                                  <?php $__empty_1 = true; $__currentLoopData = $store_houses; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $store): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                                                  <option value="<?php echo e($store->id); ?>"><?php echo e($store->_name ?? ''); ?></option>
-                                                  <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-                                                  <?php endif; ?>
+                                                  @forelse($store_houses as $store)
+                                                  <option value="{{$store->id}}">{{$store->_name ?? '' }}</option>
+                                                  @empty
+                                                  @endforelse
                                                 </select>
                                                 
                                               </td>
                                               
                                              
-                                              <td class="<?php if($_show_self==0): ?> display_none <?php endif; ?>">
+                                              <td class="@if($_show_self==0) display_none @endif">
                                                 <input type="text" name="_store_salves_id[]" class="form-control _store_salves_id " >
                                               </td>
                                               
-                                               <td class="<?php if(isset($form_settings->_show_manufacture_date)): ?> <?php if($form_settings->_show_manufacture_date==0): ?> display_none  <?php endif; ?> <?php endif; ?>">
+                                               <td class="@if(isset($form_settings->_show_manufacture_date)) @if($form_settings->_show_manufacture_date==0) display_none  @endif @endif">
                                                 <input type="date" name="_manufacture_date[]" class="form-control _manufacture_date " >
                                               </td>
-                                              <td class="<?php if(isset($form_settings->_show_expire_date)): ?> <?php if($form_settings->_show_expire_date==0): ?> display_none  <?php endif; ?> <?php endif; ?>">
+                                              <td class="@if(isset($form_settings->_show_expire_date)) @if($form_settings->_show_expire_date==0) display_none  @endif @endif">
                                                 <input type="date" name="_expire_date[]" class="form-control _expire_date " >
                                               </td>
                                               
@@ -1219,56 +1390,56 @@ if(_unique_barcode ==1){
 
  var single_row =  `<tr class="_voucher_row">
                       <td><a  href="" class="btn btn-sm btn-default _voucher_row_remove" ><i class="fa fa-trash"></i></a></td>
-                      <td><input type="text" name="_search_ledger_id[]" class="form-control _search_ledger_id width_280_px" placeholder="Ledger" <?php if($__user->_ac_type==1): ?> attr_account_head_no="1" <?php endif; ?> >
+                      <td><input type="text" name="_search_ledger_id[]" class="form-control _search_ledger_id width_280_px" placeholder="Ledger" @if($__user->_ac_type==1) attr_account_head_no="1" @endif >
                       <input type="hidden" name="_ledger_id[]" class="form-control _ledger_id" >
                       <div class="search_box">
                       </div>
                       </td>
-                       <?php if(sizeof($permited_branch)>1): ?>
+                       @if(sizeof($permited_branch)>1)
                       <td>
                       <select class="form-control width_150_px _branch_id_detail" name="_branch_id_detail[]"  required >
-                        <?php $__empty_1 = true; $__currentLoopData = $permited_branch; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $branch): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                            <option value="<?php echo e($branch->id); ?>" <?php if(isset($request->_branch_id)): ?> <?php if($request->_branch_id == $branch->id): ?> selected <?php endif; ?>   <?php endif; ?>><?php echo e($branch->_name ?? ''); ?></option>
-                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-                        <?php endif; ?>
+                        @forelse($permited_branch as $branch )
+                            <option value="{{$branch->id}}" @if(isset($request->_branch_id)) @if($request->_branch_id == $branch->id) selected @endif   @endif>{{ $branch->_name ?? '' }}</option>
+                        @empty
+                        @endforelse
                         </select>
                         </td>
-                        <?php else: ?>
+                        @else
                           <td class="display_none">
                       <select class="form-control width_150_px _branch_id_detail" name="_branch_id_detail[]"  required >
-                        <?php $__empty_1 = true; $__currentLoopData = $permited_branch; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $branch): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                            <option value="<?php echo e($branch->id); ?>" <?php if(isset($request->_branch_id)): ?> <?php if($request->_branch_id == $branch->id): ?> selected <?php endif; ?>   <?php endif; ?>><?php echo e($branch->_name ?? ''); ?></option>
-                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-                        <?php endif; ?>
+                        @forelse($permited_branch as $branch )
+                            <option value="{{$branch->id}}" @if(isset($request->_branch_id)) @if($request->_branch_id == $branch->id) selected @endif   @endif>{{ $branch->_name ?? '' }}</option>
+                        @empty
+                        @endforelse
                         </select>
                         </td>
-                        <?php endif; ?>
+                        @endif
 
-                         <?php if(sizeof($permited_costcenters)>1): ?>
+                         @if(sizeof($permited_costcenters)>1)
                         <td>
                           <select class="form-control width_150_px _cost_center" name="_cost_center[]" required >
-                            <?php $__empty_1 = true; $__currentLoopData = $permited_costcenters; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $costcenter): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                              <option value="<?php echo e($costcenter->id); ?>" <?php if(isset($request->_cost_center)): ?> <?php if($request->_cost_center == $costcenter->id): ?> selected <?php endif; ?>   <?php endif; ?>> <?php echo e($costcenter->_name ?? ''); ?></option>
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-                            <?php endif; ?>
+                            @forelse($permited_costcenters as $costcenter )
+                              <option value="{{$costcenter->id}}" @if(isset($request->_cost_center)) @if($request->_cost_center == $costcenter->id) selected @endif   @endif> {{ $costcenter->_name ?? '' }}</option>
+                            @empty
+                            @endforelse
                             </select>
                             </td>
-                        <?php else: ?>
+                        @else
                         <td class="display_none">
                           <select class="form-control width_150_px _cost_center" name="_cost_center[]" required >
-                            <?php $__empty_1 = true; $__currentLoopData = $permited_costcenters; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $costcenter): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                              <option value="<?php echo e($costcenter->id); ?>" <?php if(isset($request->_cost_center)): ?> <?php if($request->_cost_center == $costcenter->id): ?> selected <?php endif; ?>   <?php endif; ?>> <?php echo e($costcenter->_name ?? ''); ?></option>
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-                            <?php endif; ?>
+                            @forelse($permited_costcenters as $costcenter )
+                              <option value="{{$costcenter->id}}" @if(isset($request->_cost_center)) @if($request->_cost_center == $costcenter->id) selected @endif   @endif> {{ $costcenter->_name ?? '' }}</option>
+                            @empty
+                            @endforelse
                             </select>
                             </td>
-                        <?php endif; ?>
+                        @endif
                             <td><input type="text" name="_short_narr[]" class="form-control width_250_px" placeholder="Short Narr"></td>
-                            <td class=" <?php if($__user->_ac_type==1): ?> display_none <?php endif; ?> ">
-                              <input type="number" name="_dr_amount[]" class="form-control  _dr_amount" placeholder="Dr. Amount" value="<?php echo e(old('_dr_amount',0)); ?>">
+                            <td class=" @if($__user->_ac_type==1) display_none @endif ">
+                              <input type="number" name="_dr_amount[]" class="form-control  _dr_amount" placeholder="Dr. Amount" value="{{old('_dr_amount',0)}}">
                             </td>
                             <td>
-                              <input type="number" name="_cr_amount[]" class="form-control  _cr_amount" placeholder="Cr. Amount" value="<?php echo e(old('_cr_amount',0)); ?>">
+                              <input type="number" name="_cr_amount[]" class="form-control  _cr_amount" placeholder="Cr. Amount" value="{{old('_cr_amount',0)}}">
                               </td>
                             </tr>`;
 
@@ -1305,21 +1476,21 @@ function purchase_row_add(event){
                                               <td class="display_none">
                                                 <input type="number" name="conversion_qty[]" min="0" step="any" class="form-control conversion_qty " value="1" readonly>
                                               </td>
-                                              <td class="<?php if($_show_unit==0): ?> display_none <?php endif; ?>">
+                                              <td class="@if($_show_unit==0) display_none @endif">
                                                 <select class="form-control _transection_unit" name="_transection_unit[]">
                                                 </select>
                                               </td>
                                               
-                                              <td class="<?php if($_show_barcode==0): ?>display_none <?php endif; ?>">
+                                              <td class="@if($_show_barcode==0)display_none @endif">
                                                 <input type="text" name="_barcode[]" class="form-control _barcode  ${_item_row_count}__barcode " id="${_item_row_count}__barcode"  >
                                               </td>
                                               
                                             
-                                              <td class="<?php if($_show_short_note==0): ?> display_none <?php endif; ?>">
+                                              <td class="@if($_show_short_note==0) display_none @endif">
                                                 <input type="text" name="_short_note[]" class="form-control _short_note  ${_item_row_count}__short_note " id="${_item_row_count}__short_note"  >
                                               </td>
                                               
-                                               <td class="<?php if($_show_expected_qty==0): ?> display_none <?php endif; ?>">
+                                               <td class="@if($_show_expected_qty==0) display_none @endif">
                                                 <input type="number" name="_expected_qty[]" class="form-control _expected_qty _common_keyup" >
                                               </td>
                                               <td>
@@ -1330,48 +1501,88 @@ function purchase_row_add(event){
                                                 <input type="number" name="_rate[]" class="form-control _rate _common_keyup" >
                                                 <input type="hidden" name="_base_rate[]" class="form-control _base_rate _common_keyup"  >
                                               </td>
-                                              <td class="<?php if($_show_sales_rate==0): ?> display_none <?php endif; ?>">
+                                              <td class="@if($_show_sales_rate==0) display_none @endif">
                                                 <input type="number" name="_sales_rate[]" class="form-control _sales_rate " >
                                               </td>
-                                              <td class="<?php if($_inline_discount==0): ?> display_none <?php endif; ?>">
+                                              <td class="@if($_inline_discount==0) display_none @endif">
                                                 <input type="number" name="_discount[]" class="form-control  _discount _discount__0 _common_keyup" value="" >
                                               </td>
-                                              <td class="<?php if($_inline_discount==0): ?> display_none <?php endif; ?>">
+                                              <td class="@if($_inline_discount==0) display_none @endif">
                                                 <input type="number" name="_discount_amount[]" class="form-control  _discount_amount _discount_amount__0" value="" >
                                               </td>
 
-                                               <td class=" <?php if($_show_vat==0): ?> display_none <?php endif; ?>">
+                                               <td class=" @if($_show_vat==0) display_none @endif">
                                                 <input type="number" name="_vat[]" class="form-control  _vat _common_keyup" >
                                               </td>
-                                              <td class=" <?php if($_show_vat==0): ?> display_none <?php endif; ?>">
+                                              <td class=" @if($_show_vat==0) display_none @endif">
                                                 <input type="number" name="_vat_amount[]" class="form-control  _vat_amount" >
                                               </td>
                                               
-                                              
+                                               <td class=" @if($_show_sd==0) display_none  @endif ">
+                                                <input type="number" name="_sd[]" class="form-control  _sd _common_keyup" >
+                                              </td>
+
+                                              <td class=" @if($_show_sd==0) display_none  @endif  ">
+                                                <input type="number" name="_sd_amount[]" class="form-control  _sd_amount" >
+                                              </td>
+
+                                              <td class=" @if($_show_cd==0) display_none  @endif  ">
+                                                <input type="number" name="_cd[]" class="form-control  _cd _common_keyup" >
+                                              </td>
+                                              <td class=" @if($_show_cd==0) display_none  @endif ">
+                                                <input type="number" name="_cd_amount[]" class="form-control  _cd_amount" >
+                                              </td>
+
+                                              <td class=" @if($_show_ait==0) display_none  @endif  ">
+                                                <input type="number" name="_ait[]" class="form-control  _ait _common_keyup" >
+                                              </td>
+                                              <td class=" @if($_show_ait==0) display_none  @endif ">
+                                                <input type="number" name="_ait_amount[]" class="form-control  _ait_amount" >
+                                              </td>
+                                              <td class=" @if($_show_rd==0) display_none  @endif  ">
+                                                <input type="number" name="_rd[]" class="form-control  _rd _common_keyup" >
+                                              </td>
+                                              <td class=" @if($_show_rd==0) display_none  @endif  ">
+                                                <input type="number" name="_rd_amount[]" class="form-control  _rd_amount" >
+                                              </td>
+
+                                              <td class=" @if($_show_at==0) display_none  @endif  ">
+                                                <input type="number" name="_at[]" class="form-control  _at _common_keyup" >
+                                              </td>
+                                              <td class="@if($_show_at==0) display_none  @endif  ">
+                                                <input type="number" name="_at_amount[]" class="form-control  _at_amount" >
+                                              </td>
+
+                                              <td class="@if($_show_tti==0) display_none  @endif  ">
+                                                <input type="number" name="_tti[]" class="form-control  _tti _common_keyup" >
+                                              </td>
+                                              <td class="@if($_show_tti==0) display_none  @endif  ">
+                                                <input type="number" name="_tti_amount[]" class="form-control  _tti_amount" >
+                                              </td>
                                               <td>
-                                                <input type="number" name="_value[]" class="form-control _value "  >
+                                                <input type="number" name="_value[]" class="form-control _value " readonly >
                                               </td>
                                               
                                              
-                                              <td class="<?php if(sizeof($store_houses) == 1): ?> display_none <?php endif; ?>">
+                                              <td class="@if(sizeof($store_houses) == 1) display_none @endif">
                                                 <select class="form-control  _main_store_id" name="_main_store_id[]">
-                                                  <?php $__empty_1 = true; $__currentLoopData = $store_houses; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $store): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                                                  <option value="<?php echo e($store->id); ?>"><?php echo e($store->_name ?? ''); ?></option>
-                                                  <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-                                                  <?php endif; ?>
+                                                  @forelse($store_houses as $store)
+                                                  <option value="{{$store->id}}">{{$store->_name ?? '' }}</option>
+                                                  @empty
+                                                  @endforelse
                                                 </select>
                                                 
                                               </td>
                                               
                                              
-                                              <td class="<?php if($_show_self==0): ?> display_none <?php endif; ?>">
+                                              <td class="@if($_show_self==0) display_none @endif">
                                                 <input type="text" name="_store_salves_id[]" class="form-control _store_salves_id " >
                                               </td>
                                               
-                                               <td class="<?php if(isset($form_settings->_show_manufacture_date)): ?> <?php if($form_settings->_show_manufacture_date==0): ?> display_none  <?php endif; ?> <?php endif; ?>">
+                                               <td class="@if(isset($form_settings->_show_manufacture_date)) @if($form_settings->_show_manufacture_date==0) display_none  @endif @endif">
                                                 <input type="date" name="_manufacture_date[]" class="form-control _manufacture_date " >
                                               </td>
-                                              <td class="<?php if(isset($form_settings->_show_expire_date)): ?> <?php if($form_settings->_show_expire_date==0): ?> display_none  <?php endif; ?> <?php endif; ?>">
+                                              <td class="@if(isset($form_settings->_show_expire_date)) @if($form_settings->_show_expire_date==0) display_none  @endif @endif">
                                                 <input type="date" name="_expire_date[]" class="form-control _expire_date " >
                                               </td>
                                               
@@ -1419,7 +1630,7 @@ change_branch_cost_strore();
 
       if(all_barcodes?.length > 0){
             var request = $.ajax({
-            url: "<?php echo e(url('item-purchase-barcode-check')); ?>",
+            url: "{{url('item-purchase-barcode-check')}}",
             method: "GET",
             data: { all_barcodes : all_barcodes },
             dataType: "JSON",
@@ -1509,7 +1720,7 @@ $(document).on('click',".remove_duplicate_barcode",function(){
     
 
 
-<?php if($__user->_ac_type==0): ?>
+@if($__user->_ac_type==0)
     if( parseFloat(_total_dr_amount) !=parseFloat(_total_cr_amount)){
       $(document).find("._total_dr_amount").addClass('required_border').focus();
       $(document).find("._total_cr_amount").addClass('required_border').focus();
@@ -1517,7 +1728,7 @@ $(document).on('click',".remove_duplicate_barcode",function(){
       return false;
 
     }
-<?php endif; ?>
+@endif
 
 
 
@@ -1572,5 +1783,4 @@ $(document).find(".datetimepicker-input").val(date__today())
 
 </script>
 
-<?php $__env->stopSection(); ?>
-<?php echo $__env->make('backend.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\xampp\htdocs\own\inv-acc-hrm\resources\views/backend/import-purchase/create.blade.php ENDPATH**/ ?>
+@endsection
