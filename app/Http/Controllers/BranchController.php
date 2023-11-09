@@ -16,7 +16,7 @@ class BranchController extends Controller
          $this->middleware('permission:branch-create', ['only' => ['create','store']]);
          $this->middleware('permission:branch-edit', ['only' => ['edit','update']]);
          $this->middleware('permission:branch-delete', ['only' => ['destroy']]);
-         $this->page_name = "Branch";
+         $this->page_name = __('label._branch_id');
     }
     
       /**

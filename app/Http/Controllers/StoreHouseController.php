@@ -16,7 +16,7 @@ class StoreHouseController extends Controller
          $this->middleware('permission:store-house-create', ['only' => ['create','store']]);
          $this->middleware('permission:store-house-edit', ['only' => ['edit','update']]);
          $this->middleware('permission:store-house-delete', ['only' => ['destroy']]);
-         $this->page_name = "Store";
+         $this->page_name = __('label._store_id');
     }
     /**
      * Display a listing of the resource.
@@ -74,6 +74,9 @@ class StoreHouseController extends Controller
          $data = new StoreHouse();
         $data->_name       = $request->_name ?? '';
         $data->_code       = $request->_code ?? '';
+        $data->_address       = $request->_address ?? '';
+        $data->_authorised_person       = $request->_authorised_person ?? '';
+        $data->_contact_info       = $request->_contact_info ?? '';
         //$data->_created_by     = Auth::user()->id."-".Auth::user()->name;
         $data->save();
 
@@ -127,6 +130,9 @@ class StoreHouseController extends Controller
         $data = StoreHouse::find($request->id);
         $data->_name       = $request->_name ?? '';
         $data->_code       = $request->_code ?? '';
+        $data->_address       = $request->_address ?? '';
+        $data->_authorised_person       = $request->_authorised_person ?? '';
+        $data->_contact_info       = $request->_contact_info ?? '';
         //$data->_updated_by     = Auth::user()->id."-".Auth::user()->name;
         $data->save();
 

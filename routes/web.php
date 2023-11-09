@@ -101,6 +101,8 @@ Route::resource('vessel-info',VesselInfoController::class);
 
 Route::get('import-purchase-setting-modal',[ImportPuchaseController::class,'formSettingAjax']);
 Route::post('import-purchase-settings',[ImportPuchaseController::class,'Settings']);
+Route::get('import-purchase/print/{id}', 'App\Http\Controllers\ImportPuchaseController@purchasePrint');
+Route::get('import-purchase-money-receipt/{id}', 'App\Http\Controllers\ImportPuchaseController@moneyReceipt');
 
 
 Route::resource('material-issue',MaterialIssueController::class);

@@ -57,6 +57,24 @@
                                 {!! Form::text('_code', null, array('placeholder' => 'Code','class' => 'form-control')) !!}
                             </div>
                         </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <div class="form-group">
+                                <label>{{__('label._address')}}:</label>
+                                {!! Form::text('_address', null, array('placeholder' => __('label._address'),'class' => 'form-control')) !!}
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <div class="form-group">
+                                <label>{{__('label._authorised_person')}}:</label>
+                                {!! Form::text('_authorised_person', null, array('placeholder' => __('label._authorised_person'),'class' => 'form-control')) !!}
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <div class="form-group">
+                                <label>{{__('label._contact_info')}}:</label>
+                                {!! Form::text('_contact_info', null, array('placeholder' => __('label._contact_info'),'class' => 'form-control')) !!}
+                            </div>
+                        </div>
                        
                         
                        

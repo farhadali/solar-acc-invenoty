@@ -1332,6 +1332,7 @@ where  t1._status = 1 and  (t1._barcode like '%$text_val%' OR t2._item like '%$t
         $data->_default_sales = $request->_default_sales;
         $data->_default_discount = $request->_default_discount;
         $data->_default_cost_of_solds = $request->_default_cost_of_solds;
+        $data->_default_sd_account = $request->_default_sd_account;
         $data->_show_barcode = $request->_show_barcode;
         $data->_show_vat = $request->_show_vat;
         $data->_show_store = $request->_show_store;
@@ -1351,6 +1352,17 @@ where  t1._status = 1 and  (t1._barcode like '%$text_val%' OR t2._item like '%$t
         $data->_show_unit =$request->_show_unit ?? 0;
         $data->_defaut_customer =$request->_defaut_customer ?? 0;
         $data->_show_due_history =$request->_show_due_history ?? 0;
+        $data->_show_ar_date =$request->_show_ar_date ?? 0;
+        $data->_show_dis_date =$request->_show_dis_date ?? 0;
+        $data->_show_vn =$request->_show_vn ?? 0;
+        $data->_show_expected_qty =$request->_show_expected_qty ?? 0;
+        $data->_show_sd =$request->_show_sd ?? 0;
+
+
+
+
+
+
         $data->_is_header =$request->_is_header ?? 1;
         $data->_is_footer =$request->_is_footer ?? 1;
         $data->_margin_top =$request->_margin_top ?? "0px";
@@ -1379,7 +1391,7 @@ where  t1._status = 1 and  (t1._barcode like '%$text_val%' OR t2._item like '%$t
     public function store(Request $request)
     {
         
-        // return dump($request->all());
+        //return dump($request->all());
          $all_req= $request->all();
          $this->validate($request, [
             '_date' => 'required',
@@ -1426,6 +1438,7 @@ where  t1._status = 1 and  (t1._barcode like '%$text_val%' OR t2._item like '%$t
         $_base_unit_ids = $request->_base_unit_id ?? [];
         $conversion_qtys = $request->conversion_qty ?? [];
         $_transection_units = $request->_transection_unit ?? [];
+        $_expected_qtys = $request->_expected_qty ?? [];
 
       DB::beginTransaction();
         try {
@@ -1467,8 +1480,17 @@ where  t1._status = 1 and  (t1._barcode like '%$text_val%' OR t2._item like '%$t
         $Sales->_cost_center_id = $request->_cost_center_id;
         $Sales->_address = $request->_address;
         $Sales->_phone = $request->_phone;
+
+        $Sales->_vessel_no = $request->_vessel_no ?? 0;
+        $Sales->_arrival_date_time = $request->_arrival_date_time;
+        $Sales->_discharge_date_time = $request->_discharge_date_time;
+        $Sales->_sd_input = $request->_sd_input ?? 0;
+        $Sales->_total_sd_amount = $request->total_sd_amount ?? 0;
+
+
         $Sales->_delivery_man_id = $request->_delivery_man_id ?? 0;
         $Sales->_sales_man_id = $request->_sales_man_id ?? 0;
+       
         $Sales->_sales_type = $request->_sales_type ?? 'sales';
         $Sales->_status = 1;
         $Sales->_lock = $request->_lock ?? 0;
@@ -1503,6 +1525,7 @@ where  t1._status = 1 and  (t1._barcode like '%$text_val%' OR t2._item like '%$t
                 $SalesDetail->_purchase_invoice_no = $_purchase_invoice_nos[$i];
                 $SalesDetail->_purchase_detail_id = $_purchase_detail_ids[$i];
                 $SalesDetail->_qty = $_qtys[$i];
+                $SalesDetail->_expected_qty = $_expected_qtys[$i] ?? 0;
 
                 $SalesDetail->_transection_unit = $_transection_units[$i] ?? 1;
                 $SalesDetail->_unit_conversion = $conversion_qtys[$i] ?? 1;
@@ -2098,6 +2121,8 @@ $store_houses = permited_stores(explode(',',$users->store_ids));
         $_base_unit_ids = $request->_base_unit_id ?? [];
         $conversion_qtys = $request->conversion_qty ?? [];
         $_transection_units = $request->_transection_unit ?? [];
+        $_expected_qtys = $request->_expected_qty ?? [];
+
 
  //====
         // Product Price list table update with previous sales details item
@@ -2263,6 +2288,14 @@ $over_qtys = array();
         $Sales->_delivery_man_id = $request->_delivery_man_id ?? 0;
         $Sales->_sales_man_id = $request->_sales_man_id ?? 0;
         $Sales->_sales_type = $request->_sales_type ?? 'sales';
+
+        $Sales->_vessel_no = $request->_vessel_no ?? 0;
+        $Sales->_arrival_date_time = $request->_arrival_date_time;
+        $Sales->_discharge_date_time = $request->_discharge_date_time;
+        $Sales->_sd_input = $request->_sd_input ?? 0;
+        $Sales->_total_sd_amount = $request->total_sd_amount ?? 0;
+
+
         $Sales->_status = 1;
         $Sales->_lock = $request->_lock ?? 0;
         $Sales->save();
@@ -2316,6 +2349,7 @@ $over_qtys = array();
                 $SalesDetail->_purchase_invoice_no = $_purchase_invoice_nos[$i];
                 $SalesDetail->_purchase_detail_id = $_purchase_detail_ids[$i];
                 $SalesDetail->_qty = $_qtys[$i];
+                $SalesDetail->_expected_qty = $_expected_qtys[$i] ?? 0;
 
 
 

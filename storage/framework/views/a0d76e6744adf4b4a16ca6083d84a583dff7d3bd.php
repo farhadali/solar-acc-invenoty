@@ -45,6 +45,14 @@
         <td><?php echo e($data->_name ?? ''); ?></td>
       </tr>
       <tr>
+        <td><?php echo e(__('label._bin')); ?>:</td>
+        <td><?php echo e($data->_bin ?? ''); ?></td>
+      </tr>
+      <tr>
+        <td><?php echo e(__('label._address')); ?>:</td>
+        <td><?php echo e($data->_address ?? ''); ?></td>
+      </tr>
+      <tr>
         <td><?php echo e(__('label._details')); ?>:</td>
         <td><?php echo e($data->_details ?? ''); ?></td>
       </tr>

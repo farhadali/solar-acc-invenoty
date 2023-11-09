@@ -15,6 +15,9 @@ return [
 
 
 
+    '_contact_info' => 'Contact Information',
+    '_authorised_person' => 'Authorised Person',
+    '_bin' => 'Bin',
     '_item_id' => 'Item Information',
     '_transection_unit' => 'Unit',
     'purchase_order' => 'Purchase Order',

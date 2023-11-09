@@ -139,7 +139,7 @@ $__user= Auth::user();
                                      
                                      @can('money-receipt-print')
                                     
-                                        <a class="dropdown-item " href="{{ url('purchase-money-receipt') }}/{{$data->id}}">
+                                        <a class="dropdown-item " href="{{ url('import-purchase-money-receipt') }}/{{$data->id}}">
                                          Payment Receipt
                                         </a>
                                      

@@ -752,18 +752,29 @@ class ImportPuchaseController extends Controller
 $store_houses = permited_stores(explode(',',$users->store_ids));
 
          if($form_settings->_invoice_template==1){
-            return view('backend.purchase.print',compact('page_name','permited_branch','permited_costcenters','data','form_settings','permited_branch','permited_costcenters','store_houses'));
+            return view('backend.import-purchase.print',compact('page_name','permited_branch','permited_costcenters','data','form_settings','permited_branch','permited_costcenters','store_houses'));
          }elseif($form_settings->_invoice_template==2){
-            return view('backend.purchase.print_1',compact('page_name','permited_branch','permited_costcenters','data','form_settings','permited_branch','permited_costcenters','store_houses'));
+            return view('backend.import-purchase.print_1',compact('page_name','permited_branch','permited_costcenters','data','form_settings','permited_branch','permited_costcenters','store_houses'));
          }elseif($form_settings->_invoice_template==3){
-            return view('backend.purchase.print_2',compact('page_name','permited_branch','permited_costcenters','data','form_settings','permited_branch','permited_costcenters','store_houses'));
+            return view('backend.import-purchase.print_2',compact('page_name','permited_branch','permited_costcenters','data','form_settings','permited_branch','permited_costcenters','store_houses'));
          }elseif($form_settings->_invoice_template==4){
-           return view('backend.purchase.print_3',compact('page_name','permited_branch','permited_costcenters','data','form_settings','permited_branch','permited_costcenters','store_houses'));
+           return view('backend.import-purchase.print_3',compact('page_name','permited_branch','permited_costcenters','data','form_settings','permited_branch','permited_costcenters','store_houses'));
          }else{
-            return view('backend.purchase.print',compact('page_name','permited_branch','permited_costcenters','data','form_settings','permited_branch','permited_costcenters','store_houses'));
+            return view('backend.import-purchase.print',compact('page_name','permited_branch','permited_costcenters','data','form_settings','permited_branch','permited_costcenters','store_houses'));
          }
 
        
+    }
+    public function moneyReceipt($id){
+        $users = Auth::user();
+        $page_name = 'Money Receipt';
+        
+        $branchs = Branch::orderBy('_name','asc')->get();
+        $permited_branch = permited_branch(explode(',',$users->branch_ids));
+        $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
+        $data = Purchase::with(['_master_branch','purchase_account','_ledger'])->where('_purchase_type',2)->find($id);
+
+       return view('backend.import-purchase.money_receipt',compact('page_name','branchs','permited_branch','permited_costcenters','data'));
     }
 
     /**
@@ -824,7 +835,7 @@ $store_houses = permited_stores(explode(',',$users->store_ids));
  public function update(Request $request)
     {
          
-      // return $request->all();
+      // return dump($request->all());
         $all_req= $request->all();
         $this->validate($request, [
             '_purchase_id' => 'required',
@@ -877,7 +888,9 @@ $store_houses = permited_stores(explode(',',$users->store_ids));
     _barcode_status("PurchaseBarcode",$purchase_id); 
     }  
 
-    $organization_id = $request->organization_id ?? 1;      
+    $organization_id = $request->organization_id ?? 1;   
+    $_branch_id = $request->_branch_id;   
+    $_cost_center_id = $request->_cost_center_id;
 
     //###########################
     // Purchase Master information Save Start
@@ -904,9 +917,19 @@ $store_houses = permited_stores(explode(',',$users->store_ids));
         $Purchase->_total_discount = $request->_total_discount;
         $Purchase->_total_vat = $request->_total_vat;
         $Purchase->_total = $request->_total;
-        $Purchase->organization_id = $organization_id;
+
+
         $Purchase->_branch_id = $request->_branch_id;
-        $Purchase->_cost_center_id = $request->_cost_center_id ?? 1;
+        $Purchase->organization_id = $organization_id;
+        $Purchase->_cost_center_id = $request->_cost_center_id;
+
+        $Purchase->_rlp_no = $request->_rlp_no;
+        $Purchase->_note_sheet_no = $request->_note_sheet_no;
+        $Purchase->_workorder_no = $request->_workorder_no;
+        $Purchase->_lc_no = $request->_lc_no;
+        $Purchase->_vessel_no = $request->_vessel_no;
+        $Purchase->_arrival_date_time = $request->_arrival_date_time;
+        $Purchase->_discharge_date_time = $request->_discharge_date_time;
 
         $Purchase->_address = $request->_address;
         $Purchase->_phone = $request->_phone;
@@ -925,6 +948,7 @@ $store_houses = permited_stores(explode(',',$users->store_ids));
         $_item_ids = $request->_item_id;
         $_barcodes = $request->_barcode;
         $_qtys = $request->_qty;
+        $_expected_qtys = $request->_expected_qty ?? [];
         $_rates = $request->_rate;
         $_sales_rates = $request->_sales_rate;
         $_vats = $request->_vat;
@@ -967,6 +991,7 @@ if($sales_number == 0 ){
                 $PurchaseDetail->_barcode = $barcode_string;
                 $PurchaseDetail->_item_id = $_item_ids[$i];
                 $PurchaseDetail->_qty = $_qtys[$i];
+                $PurchaseDetail->_expected_qty = $_expected_qty[$i] ?? 0;
 
                 $PurchaseDetail->_transection_unit = $_transection_units[$i] ?? 1;
                 $PurchaseDetail->_unit_conversion = $conversion_qtys[$i] ?? 1;
@@ -1348,7 +1373,7 @@ if($__sub_total > 0){
 
                DB::commit();
         if(($request->_lock ?? 0) ==1){
-                return redirect('purchase/print/'.$purchase_id)
+                return redirect('import-purchase/print/'.$purchase_id)
                 ->with('success','Information save successfully');
           }else{
             return redirect()->back()

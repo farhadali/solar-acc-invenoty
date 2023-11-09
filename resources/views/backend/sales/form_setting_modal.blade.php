@@ -40,6 +40,14 @@
         </select>
       </div>
       <div class="form-group row">
+        <label for="_default_sd_account" class="col-sm-5 col-form-label">Default SD Account</label>
+        <select class="form-control col-md-7" name="_default_sd_account">
+          @foreach($dis_accounts as $account)
+          <option value="{{$account->id}}" @if(isset($form_settings->_default_sd_account))@if($form_settings->_default_sd_account==$account->id) selected @endif @endif>{{ $account->_name ?? '' }}</option>
+          @endforeach
+        </select>
+      </div>
+      <div class="form-group row">
         <label for="_show_unit" class="col-sm-5 col-form-label">Show Unit</label>
         <select class="form-control col-sm-7" name="_show_unit">
          
@@ -145,6 +153,8 @@
           <option value="1" @if(isset($form_settings->_show_p_balance))@if($form_settings->_show_p_balance==1) selected @endif @endif>YES</option>
         </select>
       </div>
+
+
       <div class="form-group row">
         <label for="_show_due_history" class="col-sm-5 col-form-label">Show Due Invoice</label>
         <select class="form-control col-sm-7" name="_show_due_history">
@@ -152,6 +162,46 @@
           <option value="1" @if(isset($form_settings->_show_due_history))@if($form_settings->_show_due_history==1) selected @endif @endif>YES</option>
         </select>
       </div>
+      <div class="form-group row">
+        <label for="_show_ar_date" class="col-sm-5 col-form-label">Show AR. Date</label>
+        <select class="form-control col-sm-7" name="_show_ar_date">
+          <option value="0" @if(isset($form_settings->_show_ar_date))@if($form_settings->_show_ar_date==0) selected @endif @endif>NO</option>
+          <option value="1" @if(isset($form_settings->_show_ar_date))@if($form_settings->_show_ar_date==1) selected @endif @endif>YES</option>
+        </select>
+      </div>
+      <div class="form-group row">
+        <label for="_show_dis_date" class="col-sm-5 col-form-label">Show Dis. Date</label>
+        <select class="form-control col-sm-7" name="_show_dis_date">
+          <option value="0" @if(isset($form_settings->_show_dis_date))@if($form_settings->_show_dis_date==0) selected @endif @endif>NO</option>
+          <option value="1" @if(isset($form_settings->_show_dis_date))@if($form_settings->_show_dis_date==1) selected @endif @endif>YES</option>
+        </select>
+      </div>
+      <div class="form-group row">
+        <label for="_show_vn" class="col-sm-5 col-form-label">Show Vessel No</label>
+        <select class="form-control col-sm-7" name="_show_vn">
+          <option value="0" @if(isset($form_settings->_show_vn))@if($form_settings->_show_vn==0) selected @endif @endif>NO</option>
+          <option value="1" @if(isset($form_settings->_show_vn))@if($form_settings->_show_vn==1) selected @endif @endif>YES</option>
+        </select>
+      </div>
+      <div class="form-group row">
+        <label for="_show_expected_qty" class="col-sm-5 col-form-label">Show Expected QTY</label>
+        <select class="form-control col-sm-7" name="_show_expected_qty">
+          <option value="0" @if(isset($form_settings->_show_expected_qty))@if($form_settings->_show_expected_qty==0) selected @endif @endif>NO</option>
+          <option value="1" @if(isset($form_settings->_show_expected_qty))@if($form_settings->_show_expected_qty==1) selected @endif @endif>YES</option>
+        </select>
+      </div>
+      <div class="form-group row">
+        <label for="_show_sd" class="col-sm-5 col-form-label">Show SD</label>
+        <select class="form-control col-sm-7" name="_show_sd">
+          <option value="0" @if(isset($form_settings->_show_sd))@if($form_settings->_show_sd==0) selected @endif @endif>NO</option>
+          <option value="1" @if(isset($form_settings->_show_sd))@if($form_settings->_show_sd==1) selected @endif @endif>YES</option>
+        </select>
+      </div>
+
+
+
+
+
       
       <div class="form-group row">
         <label for="_invoice_template" class="col-sm-5 col-form-label">Invoice Template</label>

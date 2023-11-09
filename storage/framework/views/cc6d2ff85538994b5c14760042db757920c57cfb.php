@@ -140,7 +140,7 @@ $__user= Auth::user();
                                      
                                      <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('money-receipt-print')): ?>
                                     
-                                        <a class="dropdown-item " href="<?php echo e(url('purchase-money-receipt')); ?>/<?php echo e($data->id); ?>">
+                                        <a class="dropdown-item " href="<?php echo e(url('import-purchase-money-receipt')); ?>/<?php echo e($data->id); ?>">
                                          Payment Receipt
                                         </a>
                                      

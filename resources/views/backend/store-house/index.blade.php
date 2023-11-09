@@ -46,8 +46,15 @@
                         <tr>
                          <th class="_no">No</th>
                          <th class="_action">Action</th>
-                         <th>Name</th>
-                         <th>Code</th>
+                         <th>{{__('label._name')}}</th>
+                         <th>{{__('label._code')}}</th>
+                         <th>{{__('label._address')}}</th>
+                         <th>{{__('label._authorised_person')}}</th>
+                         <th>{{__('label._contact_info')}}</th>
+                         
+                         
+
+
                         
                       </tr>
                       </thead>
@@ -82,8 +89,13 @@
                             
                             <td>{{ $data->id }} - {{ $data->_name }}</td>
                             <td>{{ $data->_code ?? '' }}</td>
+                            <td>{!! $data->_address ?? '' !!}</td>
+                            <td>{!! $data->_authorised_person ?? '' !!}</td>
+                            <td>{!! $data->_contact_info ?? '' !!}</td>
                             
                            
+
+
                         </tr>
                         @endforeach
                         </tbody>

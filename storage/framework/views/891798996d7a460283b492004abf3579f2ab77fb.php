@@ -46,8 +46,15 @@
                         <tr>
                          <th class="_no">No</th>
                          <th class="_action">Action</th>
-                         <th>Name</th>
-                         <th>Code</th>
+                         <th><?php echo e(__('label._name')); ?></th>
+                         <th><?php echo e(__('label._code')); ?></th>
+                         <th><?php echo e(__('label._address')); ?></th>
+                         <th><?php echo e(__('label._authorised_person')); ?></th>
+                         <th><?php echo e(__('label._contact_info')); ?></th>
+                         
+                         
+
+
                         
                       </tr>
                       </thead>
@@ -84,8 +91,13 @@
                             
                             <td><?php echo e($data->id); ?> - <?php echo e($data->_name); ?></td>
                             <td><?php echo e($data->_code ?? ''); ?></td>
+                            <td><?php echo $data->_address ?? ''; ?></td>
+                            <td><?php echo $data->_authorised_person ?? ''; ?></td>
+                            <td><?php echo $data->_contact_info ?? ''; ?></td>
                             
                            
+
+
                         </tr>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </tbody>

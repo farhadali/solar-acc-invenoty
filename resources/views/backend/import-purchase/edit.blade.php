@@ -13,7 +13,7 @@ $__user= Auth::user();
       <div class="container-fluid">
         <div class="row mb-2">
           <div class=" col-sm-6 ">
-           <a class="m-0 _page_name" href="{{ route('purchase.index') }}">{!! $page_name ?? '' !!} </a>
+           <a class="m-0 _page_name" href="{{ route('import-purchase.index') }}">{!! $page_name ?? '' !!} </a>
            
           </div><!-- /.col -->
           <div class=" col-sm-6 ">
@@ -21,7 +21,7 @@ $__user= Auth::user();
 
                @can('item-information-create')
              <li class="breadcrumb-item ">
-                 <a target="__blank" href="{{url('purchase/print')}}/{{$data->id}}" class="btn btn-sm btn-warning"> <i class="nav-icon fas fa-print"></i> </a>
+                 <a target="__blank" href="{{url('import-purchase/print')}}/{{$data->id}}" class="btn btn-sm btn-warning"> <i class="nav-icon fas fa-print"></i> </a>
                   
                 
                </li>
@@ -50,7 +50,7 @@ $__user= Auth::user();
               @endcan
               
               <li class="breadcrumb-item ">
-                 <a class="btn btn-sm btn-success" title="List" href="{{ route('purchase.index') }}"> <i class="nav-icon fas fa-list"></i> </a>
+                 <a class="btn btn-sm btn-success" title="List" href="{{ route('import-purchase.index') }}"> <i class="nav-icon fas fa-list"></i> </a>
                </li>
             </ol>
           </div><!-- /.col -->
@@ -95,7 +95,8 @@ $__user= Auth::user();
               </div>
              
               <div class="card-body">
-               <form action="{{url('purchase/update')}}" method="POST" class="purchase_form" >
+              
+                {!! Form::model($data, ['method' => 'PATCH','route' => ['import-purchase.update', $data->id],'class'=>'purchase_form']) !!}                  
                 @csrf
                       <div class="row">
 
@@ -279,6 +280,7 @@ $__user= Auth::user();
                                           $_total_vat_amount =0;
                                           $_total_value_amount =0;
                                           $_total_discount_amount=0;
+                                          $_total_expected_amount=0;
                                           $__master_details = $data->_master_details;
                                           @endphp
                                           <tbody class="area__purchase_details" id="area__purchase_details">
@@ -289,6 +291,7 @@ $__user= Auth::user();
                                               $_total_vat_amount += $detail->_vat_amount ??  0;
                                               $_total_value_amount += $detail->_value ??  0;
                                               $_total_discount_amount=$detail->_discount_amount ??  0;
+                                              $_total_expected_amount +=$detail->_expected_qty ??  0;
                                               @endphp
                                             <tr class="_purchase_row">
                                               <td>
@@ -397,7 +400,7 @@ $__user= Auth::user();
                                               @endif
                                               @endif
                                               <td>
-                                                <input type="number" name="_value[]" class="form-control _value " readonly value="{{ $detail->_value ?? 0 }}" >
+                                                <input type="number" name="_value[]" class="form-control _value "  value="{{ $detail->_value ?? 0 }}" >
                                               </td>
                                             
                                              
@@ -449,10 +452,10 @@ $__user= Auth::user();
                                                 <td  class="text-right @if($_show_short_note==0) display_none @endif"></td>
                                              
                                               <td class="@if($_show_expected_qty==0) display_none @endif">
-                                                <input type="number" step="any" min="0" name="_total_expected_qty_amount" class="form-control _total_expected_qty_amount" value="0" readonly required>
+                                                <input type="number" step="any" min="0" name="_total_expected_qty_amount" class="form-control _total_expected_qty_amount" value="{{$_total_expected_amount}}" readonly required>
                                               </td>
                                               <td>
-                                                <input type="number" step="any" min="0" name="_total_qty_amount" class="form-control _total_qty_amount" value="0" readonly required>
+                                                <input type="number" step="any" min="0" name="_total_qty_amount" class="form-control _total_qty_amount" value="{{$_total_qty_amount}}" readonly required>
                                               </td>
                                               <td></td>
                                               <td class="@if($_show_sales_rate==0) display_none @endif"></td>
@@ -945,6 +948,52 @@ function converted_qty_value(__this){
 
 }
 
+$(document).on('change','._value',function(e){
+
+  var _vat_amount =0;
+  var _value = parseFloat($(this).closest('tr').find('._value').val());
+  var _qty = parseFloat($(this).closest('tr').find('._qty').val());
+  var _rate =parseFloat( $(this).closest('tr').find('._rate').val());
+
+  if(isNaN(_value)){_value=0}
+  if(isNaN(_qty)){_qty=0}
+  if(isNaN(_rate)){ _rate   = 0 }
+
+  if(_value > 0 && _qty > 0){
+      var _rate = parseFloat(_value)/parseFloat(_qty);
+      if(isNaN(_rate)){_rate=0}
+      $(this).closest('tr').find('._rate').val(_rate);
+  }
+
+  if(_value > 0 && _rate > 0){
+      var _qty = parseFloat(_value)/parseFloat(_rate);
+      if(isNaN(_qty)){_qty=0}
+      $(this).closest('tr').find('._qty').val(_qty);
+  }
+
+  // var _sales_rate =parseFloat( $(this).closest('tr').find('._sales_rate').val());
+  // var _item_vat = parseFloat($(this).closest('tr').find('._vat').val());
+  // var _item_discount = parseFloat($(this).closest('tr').find('._discount').val());
+  // var _rate =parseFloat( $(this).closest('tr').find('._rate').val());
+
+
+  //  if(isNaN(_item_vat)){ _item_vat   = 0 }
+  
+  //  if(isNaN(_rate)){ _rate =0 }
+  //  if(isNaN(_sales_rate)){ _sales_rate =0 }
+  //  if(isNaN(_item_discount)){ _item_discount =0 }
+  //  _vat_amount = Math.ceil(((_qty*_rate)*_item_vat)/100)
+  //  _discount_amount = Math.ceil(((_qty*_rate)*_item_discount)/100)
+  //  _value = parseFloat((_qty*_rate)).toFixed(2);
+
+  // $(this).closest('tr').find('._qty').val(_qty);
+  // $(this).closest('tr').find('._value').val(_value);
+  // $(this).closest('tr').find('._vat_amount').val(_vat_amount);
+  // $(this).closest('tr').find('._discount_amount').val(_discount_amount);
+    _purchase_total_calculation();
+
+});
+
 $(document).on('click',function(){
     var searach_show= $('.search_box_item').hasClass('search_box_show');
     var search_box_main_ledger= $('.search_box_main_ledger').hasClass('search_box_show');
@@ -983,6 +1032,11 @@ $(document).on('keyup','._common_keyup',function(){
   $(this).closest('tr').find('._discount_amount').val(_discount_amount);
     _purchase_total_calculation();
 })
+
+
+// $(document).on('keyup','._expected_qty',function(){
+
+// })
 
 $(document).on('keyup','._vat_amount',function(){
  var _item_vat =0;
@@ -1045,26 +1099,41 @@ $(document).on("change","#_purchase_discount_input",function(){
     var _total__value = 0;
     var _total__vat =0;
     var _total_discount_amount = 0;
+    var _total__expected_qty = 0;
       $(document).find("._value").each(function() {
             var _s_value =parseFloat($(this).val());
             if(isNaN(_s_value)){_s_value = 0}
           _total__value +=parseFloat(_s_value);
       });
+
       $(document).find("._qty").each(function() {
             var _s_qty =parseFloat($(this).val());
             if(isNaN(_s_qty)){_s_qty = 0}
           _total_qty +=parseFloat(_s_qty);
       });
+
       $(document).find("._vat_amount").each(function() {
             var _s_vat =parseFloat($(this).val());
             if(isNaN(_s_vat)){_s_vat = 0}
           _total__vat +=parseFloat(_s_vat);
       });
+
       $(document).find("._discount_amount").each(function() {
             var _s_discount_amount =parseFloat($(this).val());
             if(isNaN(_s_discount_amount)){_s_discount_amount = 0}
           _total_discount_amount +=parseFloat(_s_discount_amount);
       });
+
+
+      $(document).find("._expected_qty").each(function() {
+            var _expected_qty =parseFloat($(this).val());
+            if(isNaN(_expected_qty)){_expected_qty = 0}
+          _total__expected_qty +=parseFloat(_expected_qty);
+      });
+
+
+
+      $(document).find("._total_expected_qty_amount").val(_total__expected_qty);
       $(document).find("._total_qty_amount").val(_total_qty);
       $(document).find("._total_value_amount").val(_total__value);
       $(document).find("._total_vat_amount").val(_total__vat);

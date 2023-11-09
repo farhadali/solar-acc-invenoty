@@ -64,11 +64,19 @@ $__user= Auth::user();
     $_show_sales_man = $form_settings->_show_sales_man ?? 0;
     $_show_barcode = $form_settings->_show_barcode ?? 0;
     $_show_cost_rate =  $form_settings->_show_cost_rate ?? 0;
+    $_show_payment_terms =  $form_settings->_show_payment_terms ?? 0;
     $_show_vat =  $form_settings->_show_vat ?? 0;
    $_inline_discount = $form_settings->_inline_discount ?? 0;
     $_show_self = $form_settings->_show_self ?? 0;
     $_show_warranty = $form_settings->_show_warranty ?? 0;
-    $_show_payment_terms  = $form_settings->_show_payment_terms  ?? 0;
+    $_defaut_customer = $form_settings->_defaut_customer ?? 0;
+    $_show_expected_qty  = $form_settings->_show_expected_qty  ?? 0;
+    $_show_vn  = $form_settings->_show_vn  ?? 0;
+    $_show_ar_date  = $form_settings->_show_ar_date  ?? 0;
+    $_show_dis_date  = $form_settings->_show_dis_date  ?? 0;
+    $_show_vn  = $form_settings->_show_vn  ?? 0;
+    $_show_expected_qty  = $form_settings->_show_expected_qty  ?? 0;
+    $_show_sd  = $form_settings->_show_sd  ?? 0;
     @endphp
     <div class="content">
       <div class="container-fluid">
@@ -199,6 +207,34 @@ $__user= Auth::user();
                                 
                             </div>
                         </div>
+                        @php
+                        $vessels = \DB::table('vessel_infos')->get();
+                        @endphp
+                        <div class="col-xs-12 col-sm-12 col-md-3   @if($_show_vn==0) display_none @endif">
+                            <div class="form-group">
+                              <label class="mr-2" for="_vessel_no">{{__('label._vessel_no')}}:</label>
+                             
+                              <select class="form-control select2" name="_vessel_no">
+                                <option value="">{{__('label.select')}}</option>
+                                @forelse($vessels as $key=>$val)
+                                <option value="{{$val->id}}" @if($val->id==$data->_vessel_no) selected @endif >{{ $val->_name ?? '' }}</option>
+                                @empty
+                                @endforelse
+                              </select>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2 @if($_show_ar_date==0) display_none @endif ">
+                            <div class="form-group">
+                              <label class="mr-2" for="_arrival_date_time">{{__('label._arrival_date_time')}}:</label>
+                              <input type="datetime-local" id="_arrival_date_time" name="_arrival_date_time" class="form-control _arrival_date_time" value="{{old('_arrival_date_time',$data->_arrival_date_time)}}" placeholder="{{__('label._arrival_date_time')}}" >
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2 @if($_show_dis_date==0) display_none @endif ">
+                            <div class="form-group">
+                              <label class="mr-2" for="_discharge_date_time">{{__('label._discharge_date_time')}}:</label>
+                              <input type="datetime-local" id="_discharge_date_time" name="_discharge_date_time" class="form-control _discharge_date_time" value="{{old('_discharge_date_time',$data->_discharge_date_time)}}" placeholder="{{__('label._discharge_date_time')}}" >
+                            </div>
+                        </div>
                       </div>
 
                         <div class="col-md-12  ">
@@ -221,6 +257,7 @@ $__user= Auth::user();
                                            
                                             <th class="text-left @if($form_settings->_show_barcode == 0) display_none @endif" >Barcode</th>
                                             <th class="text-left @if($_show_warranty  ==0) display_none @endif" >Warranty</th>
+                                            <th class="text-left @if($_show_expected_qty==0) display_none @endif " >{{__('label._expected_qty')}}</th>
                                            
                                             <th class="text-left" >Qty</th>
                                             <th class="text-left @if($form_settings->_show_cost_rate == 0) display_none @endif" >Cost Rate</th>
@@ -228,6 +265,8 @@ $__user= Auth::user();
                                             
                                             <th class="text-left @if($form_settings->_show_vat == 0) display_none @endif " >VAT%</th>
                                             <th class="text-left @if($form_settings->_show_vat == 0) display_none @endif" >VAT Amount</th>
+                                            <th class="text-left  @if($_show_sd  ==0) display_none @endif" >SD%</th>
+                                            <th class="text-left  @if($_show_sd  ==0) display_none @endif" >SD Amount</th>
                                             
                                             <th class="text-left @if($form_settings->_inline_discount == 0) display_none @endif " >Dis%</th>
                                             <th class="text-left @if($form_settings->_inline_discount == 0) display_none @endif " >Discount</th>
@@ -252,6 +291,8 @@ $__user= Auth::user();
                                           $_total_vat_amount =0;
                                           $_total_value_amount =0;
                                           $_total_discount_amount =0;
+                                          $_sd_total_amount =0;
+                                          $_total_expected_qty_amount =0;
 
                                            $__master_details = $data->_master_details;
                                           @endphp
@@ -263,6 +304,8 @@ $__user= Auth::user();
                                               $_total_vat_amount += $detail->_vat_amount ??  0;
                                               $_total_value_amount += $detail->_value ??  0;
                                               $_total_discount_amount += $detail->_discount_amount ??  0;
+                                              $_sd_total_amount += $detail->_sd_amount ??  0;
+                                              $_total_expected_qty_amount += $detail->_expected_qty ??  0;
                                               @endphp
                                             <tr class="_purchase_row">
                                               <td>
@@ -361,6 +404,9 @@ $__user= Auth::user();
                                                       @endforelse
                                                 </select>
                                               </td>
+                                               <td class="@if($_show_expected_qty==0) display_none @endif" >
+                                                <input type="number" name="_expected_qty[]" class="form-control _expected_qty _common_keyup" value="{{$detail->_expected_qty ?? 0 }}">
+                                              </td>
                                               
                                               <td>
                                                 <input type="number" min="0"  name="_qty[]" class="form-control _qty _qty__counter_{{($m_key+1)}}  _qty__{{$detail->_p_p_l_id}} _common_keyup"  value="{{$detail->_qty ?? 0 }}" >
@@ -377,6 +423,14 @@ $__user= Auth::user();
                                               </td>
                                               <td class="@if($form_settings->_show_vat == 0) display_none @endif">
                                                 <input type="number" name="_vat_amount[]" class="form-control  _vat_amount _vat_amount__counter_{{($m_key+1)}} _vat_amount__{{$detail->_p_p_l_id}} " value="{{$detail->_vat_amount ?? 0 }}" >
+                                              </td>
+
+
+                                              <td class=" @if($_show_sd == 0) display_none @endif ">
+                                                <input type="number" name="_sd[]" class="form-control  _sd _sd__counter_{{($m_key+1)}} _sd__{{$detail->_p_p_l_id}} _common_keyup" placeholder="" value="{{$detail->_sd ?? 0 }}" >
+                                              </td>
+                                              <td class="@if($_show_sd ==0) display_none @endif " >
+                                                <input type="number" name="_sd_amount[]" class="form-control  _sd_amount _sd_amount__counter_{{($m_key+1)}} _sd_amount__{{$detail->_p_p_l_id}} " placeholder="" value="{{$detail->_sd_amount ?? 0 }}"  >
                                               </td>
                                              
                                               
@@ -450,7 +504,9 @@ $__user= Auth::user();
                                               
                                                 <td  class="text-right @if($form_settings->_show_barcode == 0) display_none @endif"></td>
                                                 <td class="@if($_show_warranty==0) display_none @endif"></td>
-                                             
+                                             <td class="@if($_show_expected_qty==0) display_none @endif" >
+                                                <input type="number" step="any" min="0" name="_total_expected_qty_amount" class="form-control _total_expected_qty_amount" value="{{$_total_expected_qty_amount}}" readonly required>
+                                              </td>
                                               <td>
                                                 <input type="number" min="0"  step="any" min="0" name="_total_qty_amount" class="form-control _total_qty_amount" value="{{$_total_qty_amount}}" readonly required>
                                               </td>
@@ -461,7 +517,11 @@ $__user= Auth::user();
                                               <td class="@if($form_settings->_show_vat == 0) display_none @endif">
                                                 <input type="number" min="0"  step="any" min="0" name="_total_vat_amount" class="form-control _total_vat_amount" value="{{$_total_vat_amount ?? 0}}" readonly required>
                                               </td>
-                                              
+                                              <td class="@if($_show_sd==0) display_none @endif"></td>
+                                              <td class="@if($_show_sd==0) display_none @endif">
+                                                <input type="number" step="any" min="0" name="_total_sd_amount" class="form-control _total_sd_amount" value="{{ $_sd_total_amount}}" readonly required>
+                                              </td>
+                                             
                                                
                                               <td class="@if($form_settings->_inline_discount == 0) display_none @endif"></td>
                                               <td class="@if($form_settings->_inline_discount == 0) display_none @endif">
@@ -540,6 +600,18 @@ $__user= Auth::user();
                               <td style="width: 10%;border:0px;"><label for="_total_vat">Total VAT</label></td>
                               <td style="width: 70%;border:0px;">
                                 <input type="text" name="_total_vat" class="form-control width_200_px" id="_total_vat" readonly value="{{$data->_total_vat ?? 0}}">
+                              </td>
+                            </tr>
+                            <tr>
+                              <td style="border:0px;width: 20%;"><label for="_sd_input">SD%</label></td>
+                              <td style="border:0px;width: 80%;">
+                                <input type="text" name="_sd_input" class="form-control width_200_px" id="_sd_input" value="{{$data->_sd_input ?? 0}}" >
+                              </td>
+                            </tr>
+                            <tr>
+                              <td style="border:0px;width: 20%;"><label for="total_sd_amount">Total SD</label></td>
+                              <td style="border:0px;width: 80%;">
+                                <input type="number" name="total_sd_amount" class="form-control width_200_px" id="total_sd_amount" readonly value="{{$data->_total_sd_amount ?? 0}}">
                               </td>
                             </tr>
                             
@@ -1206,6 +1278,9 @@ function _add_new_row_for_barcode(_warranty,row_id,_name,_p_item_item_id,_unit_i
                                                       @endforelse
                                                 </select>
                                               </td>
+                                              <td class="@if($_show_expected_qty==0) display_none @endif" >
+                                                <input type="number" name="_expected_qty[]" class="form-control _expected_qty _expected_qty__${row_id} _common_keyup" value="${_qty}" >
+                                              </td>
                                               <td>
                                                 <input type="number" name="_qty[]" class="form-control _qty _qty__${row_id} _common_keyup" value="${_qty}" >
                                               </td>
@@ -1221,6 +1296,12 @@ function _add_new_row_for_barcode(_warranty,row_id,_name,_p_item_item_id,_unit_i
                                               </td>
                                               <td class="@if($_show_vat==0) display_none @endif">
                                                 <input type="number" name="_vat_amount[]" class="form-control  _vat_amount _vat_amount__${row_id}" value="${_vat_amount}" >
+                                              </td>
+                                              <td class="@if($_show_sd==0) display_none @endif">
+                                                <input type="number" name="_sd[]" class="form-control  _sd _sd__${row_id}" value="${_sd}" >
+                                              </td>
+                                              <td class="@if($_show_sd==0) display_none @endif">
+                                                <input type="number" name="_sd_amount[]" class="form-control  _sd_amount _sd_amount__${row_id}" value="${_sd_amount}" >
                                               </td>
                                                 <td class="@if($_inline_discount==0) display_none @endif">
                                                 <input type="number" name="_discount[]" class="form-control  _discount _discount__${row_id} _common_keyup" value="${_sales_discount}" >
@@ -1556,23 +1637,30 @@ function converted_qty_value(__this){
 
 $(document).on('keyup','._common_keyup',function(){
   var _vat_amount =0;
+  var _sd_amount =0;
   var _qty = parseFloat($(this).closest('tr').find('._qty').val());
   var _rate =parseFloat( $(this).closest('tr').find('._rate').val());
   var _sales_rate =parseFloat( $(this).closest('tr').find('._sales_rate').val());
   var _item_vat = parseFloat($(this).closest('tr').find('._vat').val());
   var _item_discount = parseFloat($(this).closest('tr').find('._discount').val());
+  var _sd = parseFloat($(this).closest('tr').find('._sd').val());
 
    if(isNaN(_item_vat)){ _item_vat   = 0 }
    if(isNaN(_qty)){ _qty   = 0 }
    if(isNaN(_rate)){ _rate =0 }
+   if(isNaN(_sd)){ _sd =0 }
    if(isNaN(_sales_rate)){ _sales_rate =0 }
    if(isNaN(_item_discount)){ _item_discount =0 }
-   _vat_amount = Math.ceil(((_qty*_sales_rate)*_item_vat)/100)
-   _discount_amount = Math.ceil(((_qty*_sales_rate)*_item_discount)/100)
+   _vat_amount = Math.ceil(((_qty*_sales_rate)*_item_vat)/100);
+   _sd_amount = Math.ceil(((_qty*_sales_rate)*_sd)/100);
+   _discount_amount = Math.ceil(((_qty*_sales_rate)*_item_discount)/100);
+
+
 
   $(this).closest('tr').find('._value').val((_qty*_sales_rate));
   $(this).closest('tr').find('._vat_amount').val(_vat_amount);
   $(this).closest('tr').find('._discount_amount').val(_discount_amount);
+  $(this).closest('tr').find('._sd_amount').val(_sd_amount);
     _purchase_total_calculation();
 })
 
@@ -1632,7 +1720,22 @@ $(document).on("change","#_discount_input",function(){
     _purchase_total_calculation()
 })
 
+$(document).on("change","#_sd_input",function(){
+  var _sd_input = $(this).val();
+  var res = _sd_input.match(/%/gi);
+  if(res){
+     res = _sd_input.split("%");
+    res= parseFloat(res);
+    on_invoice_sd_amount = ($("#_sub_total").val()*res)/100
+    $("#_sd_input").val(on_invoice_sd_amount)
 
+  }else{
+    on_invoice_sd_amount = _sd_input;
+  }
+
+   $("#_sd_input").val(on_invoice_sd_amount);
+    _purchase_total_calculation()
+})
 
  function _purchase_total_calculation(){
   console.log('calculation here')
@@ -1660,6 +1763,24 @@ $(document).on("change","#_discount_input",function(){
             if(isNaN(_s_discount_amount)){_s_discount_amount = 0}
           _total_discount_amount +=parseFloat(_s_discount_amount);
       });
+
+      var _total__expected_qty = 0;
+      $(document).find("._expected_qty").each(function() {
+            var _expected_qty =parseFloat($(this).val());
+            if(isNaN(_expected_qty)){_expected_qty = 0}
+          _total__expected_qty +=parseFloat(_expected_qty);
+      });
+      $(document).find("._total_expected_qty_amount").val(_total__expected_qty);
+
+      var _total_sd_amount = 0;
+      $(document).find("._sd_amount").each(function() {
+            var _sd_amount =parseFloat($(this).val());
+            if(isNaN(_sd_amount)){_sd_amount = 0}
+          _total_sd_amount +=parseFloat(_sd_amount);
+      });
+      $(document).find("._total_sd_amount").val(_total_sd_amount);
+
+
       $("._total_qty_amount").val(_total_qty);
       $("._total_value_amount").val(_total__value);
       $("._total_vat_amount").val(_total__vat);
@@ -1667,11 +1788,24 @@ $(document).on("change","#_discount_input",function(){
 
       var _discount_input = parseFloat($("#_discount_input").val());
       if(isNaN(_discount_input)){ _discount_input =0 }
+
+      
+
       var _total_discount = parseFloat(_discount_input)+parseFloat(_total_discount_amount);
       $("#_sub_total").val(_math_round(_total__value));
       $("#_total_vat").val(_total__vat);
       $("#_total_discount").val(parseFloat(_discount_input)+parseFloat(_total_discount_amount));
-      var _total = _math_round((parseFloat(_total__value)+parseFloat(_total__vat))-parseFloat(_total_discount));
+
+      var _sd_input = parseFloat($("#_sd_input").val());
+      if(isNaN(_sd_input)){ _sd_input =0 }
+
+      var input_and_sd_amount = parseFloat(parseFloat(_sd_input)+parseFloat(_total_sd_amount));
+    if(isNaN(input_and_sd_amount)){input_and_sd_amount=0}
+
+      $("#total_sd_amount").val(input_and_sd_amount);
+
+
+      var _total = _math_round((parseFloat(_total__value)+parseFloat(_total__vat)+parseFloat(input_and_sd_amount))-parseFloat(_total_discount));
       $("#_total").val(_total);
   }
 
@@ -1792,6 +1926,9 @@ function purchase_row_add(event){
                                                       @endforelse
                                                 </select>
                                               </td>
+                                              <td class="@if($_show_expected_qty==0) display_none @endif" >
+                                                <input type="number" name="_expected_qty[]" class="form-control _expected_qty _common_keyup" >
+                                              </td>
                                               <td>
                                                 <input type="number" name="_qty[]" class="form-control _qty _common_keyup" >
                                               </td>
@@ -1807,6 +1944,12 @@ function purchase_row_add(event){
                                               </td>
                                               <td class="@if($_show_vat==0) display_none @endif">
                                                 <input type="number" name="_vat_amount[]" class="form-control  _vat_amount" >
+                                              </td>
+                                              <td class=" @if($_show_sd == 0) display_none @endif ">
+                                                <input type="number" name="_sd[]" class="form-control  _sd _common_keyup" placeholder="" >
+                                              </td>
+                                              <td class="@if($_show_sd ==0) display_none @endif " >
+                                                <input type="number" name="_sd_amount[]" class="form-control  _sd_amount" placeholder=""  >
                                               </td>
                                                 <td class="@if($_inline_discount==0) display_none @endif">
                                                 <input type="number" name="_discount[]" class="form-control  _discount _common_keyup" >

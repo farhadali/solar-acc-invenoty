@@ -951,7 +951,7 @@ input[type='text']{
 
 #_sub_total,#_discount_input,#_total_discount,#_total_discount,
 #_total_vat,#_total,#_service_charge,#_other_charge,#_delivery_charge,
-#_stock_in__total,#_cost_price
+#_stock_in__total,#_cost_price,#_sd_input,#total_sd_amount
 {
     width: 250px;
 }

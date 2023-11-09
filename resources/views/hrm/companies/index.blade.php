@@ -85,6 +85,8 @@ $__user= Auth::user();
                          <th class=""><b>{{__('label.id')}}</b></th>
                          <th class=""><b>{{__('label._name')}}</b></th>
                          <th class=""><b>{{__('label._code')}}</b></th>
+                         <th class=""><b>{{__('label._bin')}}</b></th>
+                         <th class=""><b>{{__('label._address')}}</b></th>
                          <th class=""><b>{{__('label._details')}}</b></th>
                          <th class=""><b>{{__('label._status')}}</b></th>
                          <th class=""><b>{{__('label.user')}}</b></th>
@@ -117,6 +119,8 @@ $__user= Auth::user();
                             <td>{{ $data->id }}</td>
                             <td>{{ $data->_name ?? '' }}</td>
                             <td>{{ $data->_code ?? '' }}</td>
+                            <td>{!! $data->_bin ?? '' !!}</td>
+                            <td>{!! $data->_address ?? '' !!}</td>
                             <td>{{ $data->_details ?? '' }}</td>
                            <td>{{ selected_status($data->_status) }}</td>
                             <td>{{ $data->_entry_by->name ?? '' }}</td>

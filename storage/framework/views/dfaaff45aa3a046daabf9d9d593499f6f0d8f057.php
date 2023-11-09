@@ -1181,6 +1181,7 @@ if(_unique_barcode ==1){
     var _total__value = 0;
     var _total__vat =0;
     var _total_discount_amount = 0;
+    
       $(document).find("._value").each(function() {
             var _s_value =parseFloat($(this).val());
             if(isNaN(_s_value)){_s_value = 0}
@@ -1201,6 +1202,16 @@ if(_unique_barcode ==1){
             if(isNaN(_s_discount_amount)){_s_discount_amount = 0}
           _total_discount_amount +=parseFloat(_s_discount_amount);
       });
+
+      var _total__expected_qty = 0;
+      $(document).find("._expected_qty").each(function() {
+            var _expected_qty =parseFloat($(this).val());
+            if(isNaN(_expected_qty)){_expected_qty = 0}
+          _total__expected_qty +=parseFloat(_expected_qty);
+      });
+      $(document).find("._total_expected_qty_amount").val(_total__expected_qty);
+
+      
       $(document).find("._total_qty_amount").val(_total_qty);
       $(document).find("._total_value_amount").val(_total__value);
       $(document).find("._total_vat_amount").val(_total__vat);

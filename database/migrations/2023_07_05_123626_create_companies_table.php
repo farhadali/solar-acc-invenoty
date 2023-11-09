@@ -18,6 +18,8 @@ class CreateCompaniesTable extends Migration
             $table->string('_code');
             $table->string('_name');
             $table->longText('_details')->nullable();
+            $table->longText('_address')->nullable();
+            $table->string('_bin')->nullable();
             $table->integer('_status');
             $table->integer('_user');
             $table->timestamps();

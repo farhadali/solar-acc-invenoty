@@ -19,16 +19,7 @@
                           <div class="col-md-2">
                             <input type="text" name="_code" class="form-control" placeholder="Search By Code" value="<?php if(isset($request->_code)): ?> <?php echo e($request->_code ?? ''); ?>  <?php endif; ?>">
                           </div>
-                          <div class="col-md-2">
-                            <select class="form-control" name="_branch_id" >
-                              <option value="">--Select Branch--</option>
-                                  <?php $__empty_1 = true; $__currentLoopData = $branchs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $branch): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                                  <option value="<?php echo e($branch->id); ?>" <?php if(isset($request->_branch_id)): ?> <?php if($request->_branch_id==$branch->id): ?> selected <?php endif; ?>  <?php endif; ?>><?php echo e($branch->_name ?? ''); ?></option>
-                                  <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-                                  <?php endif; ?>
-                                  
-                                </select>
-                          </div>
+                         
                           
                           <div class="col-md-2">
                               <button class="form-control btn btn-warning" type="submit">Search</button>

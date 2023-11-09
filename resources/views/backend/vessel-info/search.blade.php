@@ -18,11 +18,11 @@
                          
                   @endphp
                   <div class="form-group row">
-                    <label for="inputEmail3" class="col-sm-2 col-form-label">Limit:</label>
+                    <label for="filter_limit" class="col-sm-2 col-form-label">Limit:</label>
                     <div class="col-sm-10">
-                     <select name="limit" class="form-control" >
+                     <select name="limit" class="form-control" id="filter_limit" >
                               @forelse($row_numbers as $row)
-                               <option  @if($limit == $row) selected @endif  value="{{ $row }}">{{$row}}</option>
+                               <option   value="{{ $row }}" @if($limit==$row) selected @endif >{{$row}} </option>
                               @empty
                               @endforelse
                       </select>

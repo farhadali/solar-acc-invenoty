@@ -40,6 +40,12 @@
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-3">
                             <div class="form-group">
+                                <label>{{__('label._capacity')}}:</label>
+                                {!! Form::text('_capacity', null, array('placeholder' => __('label._capacity'),'class' => 'form-control')) !!}
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-3">
+                            <div class="form-group">
                                 <label>{{__('label._code')}}:</label>
                                 {!! Form::text('_code', null, array('placeholder' => __('label._code'),'class' => 'form-control')) !!}
                             </div>
@@ -98,12 +104,7 @@
                                 {!! Form::text('_contact_three', null, array('placeholder' => __('label._contact_three'),'class' => 'form-control')) !!}
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-3">
-                            <div class="form-group">
-                                <label>{{__('label._capacity')}}:</label>
-                                {!! Form::text('_capacity', null, array('placeholder' => __('label._capacity'),'class' => 'form-control')) !!}
-                            </div>
-                        </div>
+                        
                        
                         <div class="col-xs-12 col-sm-12 col-md-3">
                             <div class="form-group">

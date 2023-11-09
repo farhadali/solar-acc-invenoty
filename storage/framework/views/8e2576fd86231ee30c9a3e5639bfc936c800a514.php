@@ -67,6 +67,7 @@
                             </div>
                         </div>
                          <?php echo $__env->make('basic.org_create', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                         
                         <div class="col-xs-12 col-sm-12 col-md-6 ">
                             <div class="form-group">
                               <label class="mr-2" for="_transection_ref">Reference:</label>
@@ -275,6 +276,7 @@
   function voucher_row_add(event) {
       event.preventDefault();
       $("#area__voucher_details").append(single_row);
+      change_branch_cost_strore();
   }
 
   

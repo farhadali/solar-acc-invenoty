@@ -46,38 +46,38 @@
                        
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
-                                <label>Name:</label>
+                                <label>Name:<span class="_required">*</span></label>
                                 <input type="text" name="_name" class="form-control" placeholder="Name" required="true" value="{{old('_name',$data->_name)}}">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
-                                <label>Code:</label>
-                                <input type="text" name="_code" class="form-control" placeholder="Code" required="true" value="{{old('_code',$data->_code ?? '')}}">
+                                <label>Code:<span class="_required">*</span></label>
+                                <input type="text" name="_code" class="form-control" placeholder="Code"  value="{{old('_code',$data->_code ?? '')}}">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
                                 <label>Address:</label>
-                                <input type="text" name="_address" class="form-control" placeholder="Address" required="true" value="{{old('_address',$data->_address)}}">
+                                <input type="text" name="_address" class="form-control" placeholder="Address"  value="{{old('_address',$data->_address)}}">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
                                 <label>Date:</label>
-                                <input type="date" name="_date" class="form-control" placeholder="Date" required="true" value="{{old('_date',$data->_date)}}">
+                                <input type="date" name="_date" class="form-control" placeholder="Date"  value="{{old('_date',$data->_date)}}">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
                                 <label>Email:</label>
-                                <input type="email" name="_email" class="form-control" placeholder="Email" required="true" value="{{old('_email',$data->_email)}}">
+                                <input type="email" name="_email" class="form-control" placeholder="Email"  value="{{old('_email',$data->_email)}}">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
                                 <label>Phone:</label>
-                                <input type="text" name="_phone" class="form-control" placeholder="Phone" required="true" value="{{old('_phone',$data->_phone)}}">
+                                <input type="text" name="_phone" class="form-control" placeholder="Phone"  value="{{old('_phone',$data->_phone)}}">
                             </div>
                         </div>
                        

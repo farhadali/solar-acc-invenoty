@@ -23,9 +23,9 @@ class VesselInfoController extends Controller
     {
        if($request->has('limit')){
             $limit = $request->limit ??  default_pagination();
-            session()->put('_u_limit', $request->limit);
+            session()->put('_vessel_limit', $request->limit);
         }else{
-             $limit= Session::get('_u_limit') ??  default_pagination();
+             $limit= Session::get('_vessel_limit') ??  default_pagination();
             
         }
        
@@ -73,6 +73,7 @@ class VesselInfoController extends Controller
       
 
          $datas = $datas->orderBy($asc_cloumn,$_asc_desc)->paginate($limit);
+         
          $page_name = $this->page_name;
         if($request->has('print')){
             if($request->print =="single"){
@@ -83,14 +84,15 @@ class VesselInfoController extends Controller
         
          
 
-        return view('backend.vessel-info.index',compact('datas','request','page_name','limit'));
+        return view('backend.vessel-info.index',compact('datas','request',
+            'page_name','limit'));
 
     }
 
 
 
     public function reset(){
-        Session::flash('_u_limit');
+        Session::flash('_vessel_limit');
        return  \Redirect::to('vessel-info?limit='.default_pagination());
     }
 

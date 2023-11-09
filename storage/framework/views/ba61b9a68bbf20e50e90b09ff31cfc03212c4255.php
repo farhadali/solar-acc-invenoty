@@ -1,4 +1,7 @@
 
+<?php $__env->startSection('title',$page_name); ?>
+
+<?php $__env->startSection('content'); ?>
 <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
@@ -25,7 +28,8 @@
              
               <div class="card-body">
                
-                 <form action="<?php echo e(url('cost-center/update')); ?>" method="POST">
+                 <?php echo Form::model($data, ['method' => 'PATCH','route' => ['cost-center.update', $data->id]]); ?>
+
                     <?php echo csrf_field(); ?>
                     <div class="row">
                        <div class="col-xs-12 col-sm-12 col-md-12">
@@ -119,5 +123,6 @@
       <!-- /.container-fluid -->
     </div>
 </div>
+<?php $__env->stopSection(); ?>
 
-<?php /**PATH D:\xampp\htdocs\own\inv-acc-hrm\resources\views/backend/cost-center/edit.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('backend.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\xampp\htdocs\own\inv-acc-hrm\resources\views/backend/cost-center/edit.blade.php ENDPATH**/ ?>

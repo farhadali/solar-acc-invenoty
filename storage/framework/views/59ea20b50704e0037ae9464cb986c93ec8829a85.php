@@ -18,11 +18,11 @@
                          
                   ?>
                   <div class="form-group row">
-                    <label for="inputEmail3" class="col-sm-2 col-form-label">Limit:</label>
+                    <label for="filter_limit" class="col-sm-2 col-form-label">Limit:</label>
                     <div class="col-sm-10">
-                     <select name="limit" class="form-control" >
+                     <select name="limit" class="form-control" id="filter_limit" >
                               <?php $__empty_1 = true; $__currentLoopData = $row_numbers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $row): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                               <option  <?php if($limit == $row): ?> selected <?php endif; ?>  value="<?php echo e($row); ?>"><?php echo e($row); ?></option>
+                               <option   value="<?php echo e($row); ?>" <?php if($limit==$row): ?> selected <?php endif; ?> ><?php echo e($row); ?> </option>
                               <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                               <?php endif; ?>
                       </select>
