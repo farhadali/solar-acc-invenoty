@@ -53,6 +53,16 @@ $__user= Auth::user();
     $_show_cost_rate =  $form_settings->_show_cost_rate ?? 0;
     $_show_self = $form_settings->_show_self ?? 0;
     $_show_warranty = $form_settings->_show_warranty ?? 0;
+    $_show_vn = $form_settings->_show_vn ?? 0;
+    $_show_ard = $form_settings->_show_ard ?? 0;
+    $_show_disd = $form_settings->_show_disd ?? 0;
+    $_show_sales_rate = $form_settings->_show_sales_rate ?? 0;
+    $_show_loding_point = $form_settings->_show_loding_point ?? 0;
+    $_show_unloading_point = $form_settings->_show_unloading_point ?? 0;
+
+
+
+
     ?>
   
     <div class="content">
@@ -88,7 +98,7 @@ $__user= Auth::user();
                <form action="<?php echo e(route('transfer.store')); ?>" method="POST" class="purchase_form" >
                 <?php echo csrf_field(); ?>
                     <div class="row">
-                       <div class="col-xs-12 col-sm-12 col-md-4">
+                       <div class="col-xs-12 col-sm-12 col-md-2">
                         <input type="hidden" name="_form_name" class="_form_name"  value="transfer">
                             <div class="form-group">
                                 <label>Date:</label>
@@ -146,7 +156,7 @@ $permited_organizations = permited_organization(explode(',',$users->organization
                                 </select>
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-4 " >
+                        <div class="col-xs-12 col-sm-12 col-md-2 " >
                             <div class="form-group ">
                                 <label>Type:<span class="_required">*</span></label>
                                <select class="form-control" name="_type" required >
@@ -204,11 +214,52 @@ $permited_organizations = permited_organization(explode(',',$users->organization
                             </div>
                         </div>
                         
-                        
-                        <div class="col-xs-12 col-sm-12 col-md-8 ">
+                         <?php
+                        $vessels = \DB::table('vessel_infos')->get();
+                        ?>
+                        <div class="col-xs-12 col-sm-12 col-md-3   <?php if($_show_vn==0): ?> display_none <?php endif; ?>">
                             <div class="form-group">
-                              <label class="mr-2" for="_referance">Referance:</label>
-                              <input type="text" id="_referance" name="_referance" class="form-control _referance" value="<?php echo e(old('_referance')); ?>" placeholder="Referance" >
+                              <label class="mr-2" for="_vessel_no"><?php echo e(__('label._vessel_no')); ?>:</label>
+                             
+                              <select class="form-control select2" name="_vessel_no">
+                                <option value=""><?php echo e(__('label.select')); ?></option>
+                                <?php $__empty_1 = true; $__currentLoopData = $vessels; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                                <option value="<?php echo e($val->id); ?>"><?php echo e($val->_name ?? ''); ?></option>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                                <?php endif; ?>
+                              </select>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2 <?php if($_show_ard==0): ?> display_none <?php endif; ?> ">
+                            <div class="form-group">
+                              <label class="mr-2" for="_arrival_date_time"><?php echo e(__('label._arrival_date_time')); ?>:</label>
+                              <input type="datetime-local" id="_arrival_date_time" name="_arrival_date_time" class="form-control _arrival_date_time" value="<?php echo e(old('_arrival_date_time')); ?>" placeholder="<?php echo e(__('label._arrival_date_time')); ?>" >
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2 <?php if($_show_disd==0): ?> display_none <?php endif; ?>">
+                            <div class="form-group">
+                              <label class="mr-2" for="_discharge_date_time"><?php echo e(__('label._discharge_date_time')); ?>:</label>
+                              <input type="datetime-local" id="_discharge_date_time" name="_discharge_date_time" class="form-control _discharge_date_time" value="<?php echo e(old('_discharge_date_time')); ?>" placeholder="<?php echo e(__('label._discharge_date_time')); ?>" >
+                            </div>
+                        </div>
+
+
+                        <div class="col-xs-12 col-sm-12 col-md-3 <?php if($_show_loding_point==0): ?> display_none <?php endif; ?>">
+                            <div class="form-group">
+                              <label class="mr-2" for="_loding_point"><?php echo e(__('label._loding_point')); ?>:</label>
+                              <input type="text" id="_loding_point" name="_loding_point" class="form-control _loding_point" value="<?php echo e(old('_loding_point')); ?>" placeholder="<?php echo e(__('label._loding_point')); ?>" >
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-3 <?php if($_show_unloading_point==0): ?> display_none <?php endif; ?>">
+                            <div class="form-group">
+                              <label class="mr-2" for="_unloading_point"><?php echo e(__('label._unloading_point')); ?>:</label>
+                              <input type="text" id="_unloading_point" name="_unloading_point" class="form-control _unloading_point" value="<?php echo e(old('_unloading_point')); ?>" placeholder="<?php echo e(__('label._unloading_point')); ?>" >
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-3 ">
+                            <div class="form-group">
+                              <label class="mr-2" for="_referance"><?php echo e(__('label._referance')); ?>:</label>
+                              <input type="text" id="_referance" name="_referance" class="form-control _referance" value="<?php echo e(old('_referance')); ?>" placeholder="<?php echo e(__('label._referance')); ?>" >
                             </div>
                         </div>
                         
@@ -736,11 +787,11 @@ $permited_organizations = permited_organization(explode(',',$users->organization
 </div>
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog  modal-lg" role="document">
-    <form action="<?php echo e(url('production-form-settings')); ?>" method="POST">
+    <form action="<?php echo e(url('transfer-form-settings')); ?>" method="POST">
         <?php echo csrf_field(); ?>
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Production/Transfer Form Settings</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Transfer Form Settings</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

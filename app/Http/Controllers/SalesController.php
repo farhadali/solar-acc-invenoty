@@ -1482,8 +1482,11 @@ where  t1._status = 1 and  (t1._barcode like '%$text_val%' OR t2._item like '%$t
         $Sales->_phone = $request->_phone;
 
         $Sales->_vessel_no = $request->_vessel_no ?? 0;
-        $Sales->_arrival_date_time = $request->_arrival_date_time;
-        $Sales->_discharge_date_time = $request->_discharge_date_time;
+        $Sales->_arrival_date_time = $request->_arrival_date_time ?? '';
+        $Sales->_discharge_date_time = $request->_discharge_date_time ?? '';
+        $Sales->_loding_point = $request->_loding_point ?? '';
+        $Sales->_unloading_point = $request->_unloading_point ?? '';
+
         $Sales->_sd_input = $request->_sd_input ?? 0;
         $Sales->_total_sd_amount = $request->total_sd_amount ?? 0;
 

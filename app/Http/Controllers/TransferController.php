@@ -73,6 +73,10 @@ class TransferController extends Controller
         //         $datas = $datas->where('_user_id',$auth_user->id);   
         //     } 
         // }
+
+        if($auth_user->user_type !='admin'){
+                $datas = $datas->where('_user_id',$auth_user->id);   
+            } 
         
 
         if($request->has('_user_date') && $request->_user_date=="yes" && $request->_datex !="" && $request->_datex !=""){
@@ -214,6 +218,12 @@ class TransferController extends Controller
         $data->_show_expire_date = $request->_show_expire_date ?? 1;
         $data->_invoice_template = $request->_invoice_template ?? 1;
         $data->_show_warranty =$request->_show_warranty ?? 0;
+         $data->_show_vn =$request->_show_vn ?? 0;
+        $data->_show_ard =$request->_show_ard ?? 0;
+        $data->_show_disd =$request->_show_disd ?? 0;
+        $data->_show_sales_rate =$request->_show_sales_rate ?? 0;
+        $data->_show_loding_point =$request->_show_loding_point ?? 0;
+        $data->_show_unloading_point=$request->_show_unloading_point?? 0;
         $data->save();
 
 
@@ -232,7 +242,7 @@ class TransferController extends Controller
     {
 
      
-        
+       // return dump($request->all());
          $all_req= $request->all();
          $this->validate($request, [
             '_date' => 'required',
@@ -297,9 +307,26 @@ class TransferController extends Controller
             $Production->_stock_in__total =  $_stock_in__total;
             $Production->_p_status = $request->_p_status;
             $Production->_status = 1;
+
+            $Production->_vessel_no = $request->_vessel_no ?? 0;
+            $Production->_arrival_date_time = $request->_arrival_date_time ?? '';
+            $Production->_discharge_date_time = $request->_discharge_date_time ?? '';
+            $Production->_loding_point = $request->_loding_point ?? '';
+            $Production->_unloading_point = $request->_unloading_point ?? '';
+
+
             $Production->_lock = $request->_lock ?? 0;
             $Production->save();
             $production_id = $Production->id;
+
+             $_main_branch_id = $request->_from_branch;
+             $organization_id = $request->_from_organization_id;
+            $__table="productions";
+            $_pfix = _transfer_prefix().make_order_number($__table,$organization_id,$_main_branch_id);
+
+             \DB::table('productions')
+             ->where('id',$production_id)
+             ->update(['_invoice_number'=>$_pfix]);
  
             //Stock out Start
 
@@ -741,6 +768,9 @@ account_data_save($_ref_master_id,$_ref_detail_id,_find_ledger($_default_invento
     {
         $page_name  = "Transfer";
         $users = Auth::user();
+
+        $data =  Production::where('_lock',0)->find($id);
+         if(!$data){ return redirect()->back()->with('danger','You have no permission to edit or update !'); }
        
         $account_types = AccountHead::select('id','_name')->orderBy('_name','asc')->get();
         $account_groups = [];
@@ -758,6 +788,7 @@ account_data_save($_ref_master_id,$_ref_detail_id,_find_ledger($_default_invento
         $categories = ItemCategory::with(['_parents'])->select('id','_name','_parent_id')->orderBy('_name','asc')->get();
         $units = Units::select('id','_name','_code')->orderBy('_name','asc')->get();
          $_warranties = Warranty::select('id','_name')->orderBy('_name','asc')->where('_status',1)->get();
+
          $data =  Production::with(['_stock_in','_stock_out'])->find($id);
 
        return view('backend.transfer.edit',compact('account_types','page_name','account_groups','branchs','permited_branch','permited_costcenters','voucher_types','store_houses','form_settings','inv_accounts','p_accounts','dis_accounts','vat_accounts','categories','units','_warranties','_all_store_houses','data'));
@@ -936,6 +967,12 @@ account_data_save($_ref_master_id,$_ref_detail_id,_find_ledger($_default_invento
             $Production->_p_status = $request->_p_status;
             $Production->_status = 1;
             $Production->_lock = $request->_lock ?? 0;
+            $Production->_vessel_no = $request->_vessel_no ?? 0;
+            $Production->_arrival_date_time = $request->_arrival_date_time ?? '';
+            $Production->_discharge_date_time = $request->_discharge_date_time ?? '';
+            $Production->_loding_point = $request->_loding_point ?? '';
+            $Production->_unloading_point = $request->_unloading_point ?? '';
+
             $Production->save();
             $production_id = $Production->id;
 

@@ -593,7 +593,7 @@
           </a>
         </div>
          @endcan 
-       @can('actual-sales-report')wa
+       @can('actual-sales-report')
         <div style="display: flex;">
            <a href="{{url('filter-actual-sales')}}" class="dropdown-item">
             <i class="fa fa-list-alt mr-2" aria-hidden="true"></i> {{ __('label.actual-sales-report') }}

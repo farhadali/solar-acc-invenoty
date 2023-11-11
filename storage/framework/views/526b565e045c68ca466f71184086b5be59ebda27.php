@@ -37,7 +37,7 @@ $("#_serach_baorce").focus();
 
   function setting_data_fetch(){
       var request = $.ajax({
-            url: "<?php echo e(url('production-setting-modal')); ?>",
+            url: "<?php echo e(url('transfer-setting-modal')); ?>",
             method: "GET",
             dataType: "html"
           });

@@ -15,6 +15,9 @@ return [
 
 
 
+
+    '_unloading_point' => 'UnLoading Point',
+    '_loding_point' => 'Loading Point',
     '_contact_info' => 'Contact Information',
     '_authorised_person' => 'Authorised Person',
     '_bin' => 'Bin',

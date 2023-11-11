@@ -53,6 +53,14 @@ $__user= Auth::user();
     $_show_cost_rate =  $form_settings->_show_cost_rate ?? 0;
     $_show_self = $form_settings->_show_self ?? 0;
     $_show_warranty = $form_settings->_show_warranty ?? 0;
+    $_show_vn = $form_settings->_show_vn ?? 0;
+    $_show_ard = $form_settings->_show_ard ?? 0;
+    $_show_disd = $form_settings->_show_disd ?? 0;
+    $_show_sales_rate = $form_settings->_show_sales_rate ?? 0;
+    $_show_loding_point = $form_settings->_show_loding_point ?? 0;
+    $_show_unloading_point = $form_settings->_show_unloading_point ?? 0;
+
+
     @endphp
   
     <div class="content">
@@ -199,18 +207,61 @@ $__user= Auth::user();
                                 </select>
                             </div>
                         </div>
+                         @php
+                        $vessels = \DB::table('vessel_infos')->get();
+                        @endphp
+                        <div class="col-xs-12 col-sm-12 col-md-3   @if($_show_vn==0) display_none @endif">
+                            <div class="form-group">
+                              <label class="mr-2" for="_vessel_no">{{__('label._vessel_no')}}:</label>
+                             
+                              <select class="form-control select2" name="_vessel_no">
+                                <option value="">{{__('label.select')}}</option>
+                                @forelse($vessels as $key=>$val)
+                                <option value="{{$val->id}}" @if($val->id==$data->_vessel_no) selected @endif >{{ $val->_name ?? '' }}</option>
+                                @empty
+                                @endforelse
+                              </select>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2 @if($_show_ard==0) display_none @endif ">
+                            <div class="form-group">
+                              <label class="mr-2" for="_arrival_date_time">{{__('label._arrival_date_time')}}:</label>
+                              <input type="datetime-local" id="_arrival_date_time" name="_arrival_date_time" class="form-control _arrival_date_time" value="{{old('_arrival_date_time',$data->_arrival_date_time)}}" placeholder="{{__('label._arrival_date_time')}}" >
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2 @if($_show_disd==0) display_none @endif">
+                            <div class="form-group">
+                              <label class="mr-2" for="_discharge_date_time">{{__('label._discharge_date_time')}}:</label>
+                              <input type="datetime-local" id="_discharge_date_time" name="_discharge_date_time" class="form-control _discharge_date_time" value="{{old('_discharge_date_time',$data->_discharge_date_time)}}" placeholder="{{__('label._discharge_date_time')}}" >
+                            </div>
+                        </div>
+
+
+                        <div class="col-xs-12 col-sm-12 col-md-3  @if($_show_loding_point==0) display_none @endif">
+                            <div class="form-group">
+                              <label class="mr-2" for="_loding_point">{{__('label._loding_point')}}:</label>
+                              <input type="text" id="_loding_point" name="_loding_point" class="form-control _loding_point" value="{{old('_loding_point',$data->_loding_point)}}" placeholder="{{__('label._loding_point')}}" >
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-3 @if($_show_unloading_point==0) display_none @endif">
+                            <div class="form-group">
+                              <label class="mr-2" for="_unloading_point">{{__('label._unloading_point')}}:</label>
+                              <input type="text" id="_unloading_point" name="_unloading_point" class="form-control _unloading_point" value="{{old('_unloading_point',$data->_unloading_point)}}" placeholder="{{__('label._unloading_point')}}" >
+                            </div>
+                        </div>
                         
                         
-                        <div class="col-xs-12 col-sm-12 col-md-8 ">
+                        <div class="col-xs-12 col-sm-12 col-md-3 ">
                             <div class="form-group">
                               <label class="mr-2" for="_referance">Referance:</label>
                               <input type="text" id="_referance" name="_referance" class="form-control _referance" value="{{old('_referance',$data->_reference)}}" placeholder="Referance" >
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-4 " >
+                        <div class="col-xs-12 col-sm-12 col-md-3 " >
                             <div class="form-group ">
-                                <label>ID:</label>
-                               <input type="text" name="" readonly value="{{$data->id}}" class="form-control">
+                                <label>{{__('label._order_number')}}:</label>
+                               <input type="hidden" name="id" readonly value="{{$data->id}}" class="form-control">
+                               <input type="text" name="_invoice_number" readonly value="{{$data->_invoice_number}}" class="form-control">
                             </div>
                         </div>
                         @php
@@ -805,11 +856,11 @@ $__user= Auth::user();
 </div>
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog  modal-lg" role="document">
-    <form action="{{ url('production-form-settings')}}" method="POST">
+    <form action="{{ url('transfer-form-settings')}}" method="POST">
         @csrf
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Production/Transfer Form Settings</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Transfer Form Settings</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

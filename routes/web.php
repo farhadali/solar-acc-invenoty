@@ -414,6 +414,8 @@ Route::get('book_table_list_ajax', 'App\Http\Controllers\ResturantSalesControlle
     Route::get('transfer/print/{id}', 'App\Http\Controllers\TransferController@Print');
     Route::get('transfer/stock-in/{id}', 'App\Http\Controllers\TransferController@PrintStockIn');
     Route::get('transfer/stock-out/{id}', 'App\Http\Controllers\TransferController@PrintStockOut');
+    Route::get('transfer-setting-modal', 'App\Http\Controllers\TransferController@formSettingAjax');
+    Route::post('transfer-form-settings', 'App\Http\Controllers\TransferController@Settings');
 
    
 

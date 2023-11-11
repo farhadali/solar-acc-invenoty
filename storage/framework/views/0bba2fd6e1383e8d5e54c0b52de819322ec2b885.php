@@ -637,7 +637,7 @@
           </a>
         </div>
          <?php endif; ?> 
-       <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('actual-sales-report')): ?>wa
+       <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('actual-sales-report')): ?>
         <div style="display: flex;">
            <a href="<?php echo e(url('filter-actual-sales')); ?>" class="dropdown-item">
             <i class="fa fa-list-alt mr-2" aria-hidden="true"></i> <?php echo e(__('label.actual-sales-report')); ?>
