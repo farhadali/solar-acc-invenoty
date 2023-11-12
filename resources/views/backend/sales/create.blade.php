@@ -68,6 +68,11 @@ $__user= Auth::user();
     $_show_vn  = $form_settings->_show_vn  ?? 0;
     $_show_expected_qty  = $form_settings->_show_expected_qty  ?? 0;
     $_show_sd  = $form_settings->_show_sd  ?? 0;
+    $_show_loding_point  = $form_settings->_show_loding_point  ?? 0;
+    $_show_unloading_point  = $form_settings->_show_unloading_point  ?? 0;
+
+
+
     @endphp
   
     <div class="content">
@@ -198,6 +203,18 @@ $__user= Auth::user();
                                 
                             </div>
                         </div>
+                         <div class="col-xs-12 col-sm-12 col-md-3 @if($_show_loding_point==0) display_none @endif">
+                            <div class="form-group">
+                              <label class="mr-2" for="_loding_point">{{__('label._loding_point')}}:</label>
+                              <input type="text" id="_loding_point" name="_loding_point" class="form-control _loding_point" value="{{old('_loding_point')}}" placeholder="{{__('label._loding_point')}}" >
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-3 @if($_show_unloading_point==0) display_none @endif">
+                            <div class="form-group">
+                              <label class="mr-2" for="_unloading_point">{{__('label._unloading_point')}}:</label>
+                              <input type="text" id="_unloading_point" name="_unloading_point" class="form-control _unloading_point" value="{{old('_unloading_point')}}" placeholder="{{__('label._unloading_point')}}" >
+                            </div>
+                        </div>
                         <div class="col-xs-12 col-sm-12 col-md-3 ">
                             <div class="form-group">
                               <label class="mr-2" for="_referance">Referance:</label>
@@ -215,13 +232,21 @@ $__user= Auth::user();
                             <div class="form-group">
                               <label class="mr-2" for="_vessel_no">{{__('label._vessel_no')}}:</label>
                              
-                              <select class="form-control select2" name="_vessel_no">
+                              <select class="form-control " name="_vessel_no">
                                 <option value="">{{__('label.select')}}</option>
                                 @forelse($vessels as $key=>$val)
-                                <option value="{{$val->id}}">{{ $val->_name ?? '' }}</option>
+                                <option value="{{$val->id}}" 
+                                  attr_capacity="{{ $val->_capacity ?? 0 }}">{{ $val->_name ?? '' }} || Capacity: {{ $val->_capacity ?? 0 }}</option>
                                 @empty
                                 @endforelse
                               </select>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2   @if($_show_vn==0) display_none @endif">
+                            <div class="form-group">
+                              <label class="mr-2" for="_vessel_no">{{__('label._capacity')}}:</label>
+                             
+                              <input type="text" name="_vessel_capacity" class="form-control _vessel_capacity" readonly>
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-2 @if($_show_ar_date==0) display_none @endif ">

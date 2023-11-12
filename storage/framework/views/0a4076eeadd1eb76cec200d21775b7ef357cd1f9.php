@@ -173,7 +173,7 @@ $__user= Auth::user();
                         ?>
                         <div class="col-xs-12 col-sm-12 col-md-2   <?php if($_show_vn==0): ?> display_none <?php endif; ?>">
                             <div class="form-group">
-                              <label class="mr-2" for="_vessel_no"><?php echo e(__('label._vessel_no')); ?>:</label>
+                              <label class="mr-2" for="_vessel_no"><?php echo e(__('label._mother_vessel_no')); ?>:</label>
                              
                               <select class="form-control select2" name="_vessel_no">
                                 <option value=""><?php echo e(__('label.select')); ?></option>
@@ -373,7 +373,7 @@ $__user= Auth::user();
                                               <td>
                                                 <input type="number" name="_rate[]" class="form-control _rate _common_keyup" value="<?php echo e($detail->_rate ?? 0); ?>" >
                                               </td>
-                                              <td>
+                                              <td class="<?php if($_show_sales_rate==0): ?> display_none <?php endif; ?>">
                                                 <input type="number" name="_sales_rate[]" class="form-control _sales_rate " value="<?php echo e($detail->_sales_rate ?? 0); ?>" >
                                               </td>
 
@@ -472,7 +472,7 @@ $__user= Auth::user();
                                               
                                             
                                               <td>
-                                                <input type="number" step="any" min="0" name="_total_value_amount" class="form-control _total_value_amount" value="0" readonly required>
+                                                <input type="number" step="any" min="0" name="_total_value_amount" class="form-control _total_value_amount" value="<?php echo e($_total_value_amount); ?>" readonly required>
                                               </td>
                                               
                                                <td class="<?php if(sizeof($store_houses) == 1): ?> display_none <?php endif; ?>"></td>

@@ -77,6 +77,8 @@ $__user= Auth::user();
     $_show_vn  = $form_settings->_show_vn  ?? 0;
     $_show_expected_qty  = $form_settings->_show_expected_qty  ?? 0;
     $_show_sd  = $form_settings->_show_sd  ?? 0;
+     $_show_loding_point = $form_settings->_show_loding_point ?? 0;
+    $_show_unloading_point = $form_settings->_show_unloading_point ?? 0;
     ?>
     <div class="content">
       <div class="container-fluid">
@@ -198,6 +200,18 @@ $__user= Auth::user();
                               <label class="mr-2" for="_address">Address:</label>
                               <input type="text" id="_address" name="_address" class="form-control _address" value="<?php echo e(old('_address',$data->_address)); ?>" placeholder="Address" >
                                 
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-3  <?php if($_show_loding_point==0): ?> display_none <?php endif; ?>">
+                            <div class="form-group">
+                              <label class="mr-2" for="_loding_point"><?php echo e(__('label._loding_point')); ?>:</label>
+                              <input type="text" id="_loding_point" name="_loding_point" class="form-control _loding_point" value="<?php echo e(old('_loding_point',$data->_loding_point)); ?>" placeholder="<?php echo e(__('label._loding_point')); ?>" >
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-3 <?php if($_show_unloading_point==0): ?> display_none <?php endif; ?>">
+                            <div class="form-group">
+                              <label class="mr-2" for="_unloading_point"><?php echo e(__('label._unloading_point')); ?>:</label>
+                              <input type="text" id="_unloading_point" name="_unloading_point" class="form-control _unloading_point" value="<?php echo e(old('_unloading_point',$data->_unloading_point)); ?>" placeholder="<?php echo e(__('label._unloading_point')); ?>" >
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-3 ">

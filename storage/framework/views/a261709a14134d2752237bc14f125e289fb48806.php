@@ -111,6 +111,20 @@
         </select>
       </div>
       <div class="form-group row">
+        <label for="_show_loding_point" class="col-sm-5 col-form-label"><?php echo e(__('label._loding_point')); ?></label>
+        <select class="form-control col-sm-7" name="_show_loding_point">
+          <option value="0" <?php if(isset($form_settings->_show_loding_point)): ?><?php if($form_settings->_show_loding_point==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
+          <option value="1" <?php if(isset($form_settings->_show_loding_point)): ?><?php if($form_settings->_show_loding_point==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
+        </select>
+      </div>
+      <div class="form-group row">
+        <label for="_show_unloading_point" class="col-sm-5 col-form-label"><?php echo e(__('label._unloading_point')); ?></label>
+        <select class="form-control col-sm-7" name="_show_unloading_point">
+          <option value="0" <?php if(isset($form_settings->_show_unloading_point)): ?><?php if($form_settings->_show_unloading_point==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
+          <option value="1" <?php if(isset($form_settings->_show_unloading_point)): ?><?php if($form_settings->_show_unloading_point==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
+        </select>
+      </div>
+      <div class="form-group row">
         <label for="_show_store" class="col-sm-5 col-form-label">Show Store</label>
         <select class="form-control col-sm-7" name="_show_store">
           <option value="0" <?php if(isset($form_settings->_show_store)): ?><?php if($form_settings->_show_store==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>

@@ -41,7 +41,7 @@ $__user= Auth::user();
                </li>
               <?php endif; ?>
               <li class="breadcrumb-item ">
-                 <a class="btn btn-sm btn-success" title="List" href="<?php echo e(route('purchase.index')); ?>"> <i class="nav-icon fas fa-list"></i> </a>
+                 <a class="btn btn-sm btn-success" title="List" href="<?php echo e(route('import-purchase.index')); ?>"> <i class="nav-icon fas fa-list"></i> </a>
                </li>
             </ol>
           </div><!-- /.col -->
@@ -163,7 +163,7 @@ $__user= Auth::user();
                         ?>
                         <div class="col-xs-12 col-sm-12 col-md-2   <?php if($_show_vn==0): ?> display_none <?php endif; ?>">
                             <div class="form-group">
-                              <label class="mr-2" for="_vessel_no"><?php echo e(__('label._vessel_no')); ?>:</label>
+                              <label class="mr-2" for="_vessel_no"><?php echo e(__('label._mother_vessel_no')); ?>:</label>
                              
                               <select class="form-control select2" name="_vessel_no">
                                 <option value=""><?php echo e(__('label.select')); ?></option>

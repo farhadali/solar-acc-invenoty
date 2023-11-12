@@ -68,6 +68,11 @@ $__user= Auth::user();
     $_show_vn  = $form_settings->_show_vn  ?? 0;
     $_show_expected_qty  = $form_settings->_show_expected_qty  ?? 0;
     $_show_sd  = $form_settings->_show_sd  ?? 0;
+    $_show_loding_point  = $form_settings->_show_loding_point  ?? 0;
+    $_show_unloading_point  = $form_settings->_show_unloading_point  ?? 0;
+
+
+
     ?>
   
     <div class="content">
@@ -198,6 +203,18 @@ $__user= Auth::user();
                                 
                             </div>
                         </div>
+                         <div class="col-xs-12 col-sm-12 col-md-3 <?php if($_show_loding_point==0): ?> display_none <?php endif; ?>">
+                            <div class="form-group">
+                              <label class="mr-2" for="_loding_point"><?php echo e(__('label._loding_point')); ?>:</label>
+                              <input type="text" id="_loding_point" name="_loding_point" class="form-control _loding_point" value="<?php echo e(old('_loding_point')); ?>" placeholder="<?php echo e(__('label._loding_point')); ?>" >
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-3 <?php if($_show_unloading_point==0): ?> display_none <?php endif; ?>">
+                            <div class="form-group">
+                              <label class="mr-2" for="_unloading_point"><?php echo e(__('label._unloading_point')); ?>:</label>
+                              <input type="text" id="_unloading_point" name="_unloading_point" class="form-control _unloading_point" value="<?php echo e(old('_unloading_point')); ?>" placeholder="<?php echo e(__('label._unloading_point')); ?>" >
+                            </div>
+                        </div>
                         <div class="col-xs-12 col-sm-12 col-md-3 ">
                             <div class="form-group">
                               <label class="mr-2" for="_referance">Referance:</label>
@@ -215,13 +232,21 @@ $__user= Auth::user();
                             <div class="form-group">
                               <label class="mr-2" for="_vessel_no"><?php echo e(__('label._vessel_no')); ?>:</label>
                              
-                              <select class="form-control select2" name="_vessel_no">
+                              <select class="form-control " name="_vessel_no">
                                 <option value=""><?php echo e(__('label.select')); ?></option>
                                 <?php $__empty_1 = true; $__currentLoopData = $vessels; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                                <option value="<?php echo e($val->id); ?>"><?php echo e($val->_name ?? ''); ?></option>
+                                <option value="<?php echo e($val->id); ?>" 
+                                  attr_capacity="<?php echo e($val->_capacity ?? 0); ?>"><?php echo e($val->_name ?? ''); ?> || Capacity: <?php echo e($val->_capacity ?? 0); ?></option>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                                 <?php endif; ?>
                               </select>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2   <?php if($_show_vn==0): ?> display_none <?php endif; ?>">
+                            <div class="form-group">
+                              <label class="mr-2" for="_vessel_no"><?php echo e(__('label._capacity')); ?>:</label>
+                             
+                              <input type="text" name="_vessel_capacity" class="form-control _vessel_capacity" readonly>
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-2 <?php if($_show_ar_date==0): ?> display_none <?php endif; ?> ">

@@ -23,6 +23,7 @@ use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\UnitsController;
 use App\Http\Controllers\PurchaseReturnController;
 use App\Http\Controllers\ImportPuchaseController;
+use App\Http\Controllers\ImportMRController;
 
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\SalesReturnController;
@@ -52,6 +53,7 @@ use App\Http\Controllers\InterProjectVoucherController;
 use App\Http\Controllers\WItemReceiveFromSupplierController;
 
 use App\Http\Controllers\VesselInfoController;
+use App\Http\Controllers\MotherVesselController;
 
 
 
@@ -97,7 +99,11 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::group(['middleware' => ['auth']], function() {
 
 Route::resource('import-purchase',ImportPuchaseController::class);
+Route::resource('import-material-receive',ImportMRController::class);
+Route::get('import-invoice-wise-detail',[ImportMRController::class,'importInvoiceWiseDetail']);
+
 Route::resource('vessel-info',VesselInfoController::class);
+Route::resource('mother-vessel-info',MotherVesselController::class);
 
 Route::get('import-purchase-setting-modal',[ImportPuchaseController::class,'formSettingAjax']);
 Route::post('import-purchase-settings',[ImportPuchaseController::class,'Settings']);
@@ -331,6 +337,7 @@ Route::get('book_table_list_ajax', 'App\Http\Controllers\ResturantSalesControlle
     Route::get('sales-reset', 'App\Http\Controllers\SalesController@reset');
     Route::get('sales/print/{id}', 'App\Http\Controllers\SalesController@Print');
     Route::get('sales/challan/{id}', 'App\Http\Controllers\SalesController@challanPrint');
+    Route::get('mushak-six-three/{id}', 'App\Http\Controllers\SalesController@mushakSixThree');
     Route::get('net-sales-after-return/{id}', 'App\Http\Controllers\SalesController@salesAfterReturn');
 
     Route::post('sales-settings', 'App\Http\Controllers\SalesController@Settings');

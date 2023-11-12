@@ -150,6 +150,14 @@ $__user= Auth::user();
                                         </a>
                                     
                                     <?php endif; ?>
+                                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('money-receipt-print')): ?>
+                                     
+                                        <a class="dropdown-item " target="__blank" href="<?php echo e(url('mushak-six-three')); ?>/<?php echo e($data->id); ?>">
+                                         <?php echo e(__('label.mushak_six_three')); ?>
+
+                                        </a>
+                                    
+                                    <?php endif; ?>
 
                                    
                                   </div>

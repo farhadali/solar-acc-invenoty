@@ -149,6 +149,13 @@ $__user= Auth::user();
                                         </a>
                                     
                                     @endcan
+                                     @can('money-receipt-print')
+                                     
+                                        <a class="dropdown-item " target="__blank" href="{{ url('mushak-six-three') }}/{{$data->id}}">
+                                         {{__('label.mushak_six_three')}}
+                                        </a>
+                                    
+                                    @endcan
 
                                    
                                   </div>

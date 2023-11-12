@@ -13,6 +13,7 @@ use App\Models\VoucherType;
 use App\Models\VoucherMasterDetail;
 use App\Models\StoreHouse;
 use App\Models\PurchaseFormSettings;
+use App\Models\ImportPuchaseDetail;
 use App\Models\PurchaseDetail;
 use App\Models\PurchaseAccount;
 use App\Models\ProductPriceList;
@@ -25,6 +26,7 @@ use App\Models\BarcodeDetail;
 use App\Models\PurchaseBarcode;
 use App\Models\GeneralSettings;
 use App\Models\ImportPuchaseFormSetting;
+use App\Models\ImportPuchase;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
@@ -35,11 +37,11 @@ class ImportPuchaseController extends Controller
 
      function __construct()
     {
-         // $this->middleware('permission:import-purchase-list|import-purchase-create|import-purchase-edit|import-purchase-delete|import-purchase-print', ['only' => ['index','store']]);
-         // $this->middleware('permission:import-purchase-print', ['only' => ['importPurchasePrint']]);
-         // $this->middleware('permission:import-purchase-create', ['only' => ['create','store']]);
-         // $this->middleware('permission:import-purchase-edit', ['only' => ['edit','update']]);
-         // $this->middleware('permission:import-purchase-delete', ['only' => ['destroy']]);
+         $this->middleware('permission:import-purchase-list|import-purchase-create|import-purchase-edit|import-purchase-delete|import-purchase-print', ['only' => ['index','store']]);
+         $this->middleware('permission:import-purchase-print', ['only' => ['importPurchasePrint']]);
+         $this->middleware('permission:import-purchase-create', ['only' => ['create','store']]);
+         $this->middleware('permission:import-purchase-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:import-purchase-delete', ['only' => ['destroy']]);
          $this->page_name = __('label.import-purchase');
     }
     /**
@@ -62,7 +64,7 @@ class ImportPuchaseController extends Controller
         $_asc_desc = $request->_asc_desc ?? 'DESC';
         $asc_cloumn =  $request->asc_cloumn ?? 'id';
 
-        $datas = Purchase::with(['_organization','_master_branch','_ledger'])->where('_purchase_type',2);
+        $datas = ImportPuchase::with(['_organization','_master_branch','_ledger'])->where('_purchase_type',2);
         $datas = $datas->whereIn('_branch_id',explode(',',$auth_user->branch_ids));
         $datas = $datas->whereIn('_cost_center_id',explode(',',$auth_user->cost_center_ids));
         $datas = $datas->whereIn('organization_id',explode(',',$auth_user->organization_ids));
@@ -283,7 +285,7 @@ class ImportPuchaseController extends Controller
 
         $_print_value = $request->_print ?? 0;
          $users = Auth::user();
-        $Purchase = new Purchase();
+        $Purchase = new ImportPuchase();
         $Purchase->_date = change_date_format($request->_date);
         $Purchase->_time = date('H:i:s');
         $Purchase->_order_ref_id = $request->_order_ref_id;
@@ -361,133 +363,46 @@ class ImportPuchaseController extends Controller
 
         if(sizeof($_item_ids) > 0){
             for ($i = 0; $i <sizeof($_item_ids) ; $i++) {
-                $PurchaseDetail = new PurchaseDetail();
-                $PurchaseDetail->_item_id = $_item_ids[$i];
-                $PurchaseDetail->_qty = $_qtys[$i];
+                $ImportPuchaseDetail = new ImportPuchaseDetail();
+                $ImportPuchaseDetail->_item_id = $_item_ids[$i];
+                $ImportPuchaseDetail->_qty = $_qtys[$i];
 
-                $PurchaseDetail->_expected_qty = $_expected_qtys[$i] ?? 0;
+                $ImportPuchaseDetail->_expected_qty = $_expected_qtys[$i] ?? 0;
 
-                $PurchaseDetail->_transection_unit = $_transection_units[$i] ?? 1;
-                $PurchaseDetail->_unit_conversion = $conversion_qtys[$i] ?? 1;
-                $PurchaseDetail->_base_unit = $_base_unit_ids[$i] ?? 1;
+                $ImportPuchaseDetail->_transection_unit = $_transection_units[$i] ?? 1;
+                $ImportPuchaseDetail->_unit_conversion = $conversion_qtys[$i] ?? 1;
+                $ImportPuchaseDetail->_base_unit = $_base_unit_ids[$i] ?? 1;
 
                 //Barcode 
                 $barcode_string=$all_req[$_ref_counters[$i]."__barcode__".$_item_ids[$i]] ?? '';
 
-                $PurchaseDetail->_barcode = $barcode_string;
-                $PurchaseDetail->_manufacture_date =$_manufacture_dates[$i] ?? null;
-                $PurchaseDetail->_expire_date = $_expire_dates[$i] ?? null;
+                $ImportPuchaseDetail->_barcode = $barcode_string;
+                $ImportPuchaseDetail->_manufacture_date =$_manufacture_dates[$i] ?? null;
+                $ImportPuchaseDetail->_expire_date = $_expire_dates[$i] ?? null;
 
                 
 
 
-                $PurchaseDetail->_rate = $_rates[$i];
-                $PurchaseDetail->_short_note = $_short_notes[$i] ?? '';
-                $PurchaseDetail->_sales_rate = $_sales_rates[$i];
-                $PurchaseDetail->_discount = $_discounts[$i] ?? 0;
-                $PurchaseDetail->_discount_amount = $_discount_amounts[$i] ?? 0;
-                $PurchaseDetail->_vat = $_vats[$i] ?? 0;
-                $PurchaseDetail->_vat_amount = $_vat_amounts[$i] ?? 0;
-                $PurchaseDetail->_value = $_values[$i] ?? 0;
-                $PurchaseDetail->_store_id = $_store_ids[$i] ?? 1;
-                $PurchaseDetail->_cost_center_id = $_cost_center_id ?? 1;
-                $PurchaseDetail->_store_salves_id = $_store_salves_ids[$i] ?? '';
-                $PurchaseDetail->organization_id = $organization_id ?? 1;
-                $PurchaseDetail->_branch_id = $_branch_id ?? 1;
-                $PurchaseDetail->_no = $purchase_id;
-                $PurchaseDetail->_status = 1;
-                $PurchaseDetail->_created_by = $users->id."-".$users->name;
-                $PurchaseDetail->save();
-                $_purchase_detail_id = $PurchaseDetail->id;
+                $ImportPuchaseDetail->_rate = $_rates[$i];
+                $ImportPuchaseDetail->_short_note = $_short_notes[$i] ?? '';
+                $ImportPuchaseDetail->_sales_rate = $_sales_rates[$i];
+                $ImportPuchaseDetail->_discount = $_discounts[$i] ?? 0;
+                $ImportPuchaseDetail->_discount_amount = $_discount_amounts[$i] ?? 0;
+                $ImportPuchaseDetail->_vat = $_vats[$i] ?? 0;
+                $ImportPuchaseDetail->_vat_amount = $_vat_amounts[$i] ?? 0;
+                $ImportPuchaseDetail->_value = $_values[$i] ?? 0;
+                $ImportPuchaseDetail->_store_id = $_store_ids[$i] ?? 1;
+                $ImportPuchaseDetail->_cost_center_id = $_cost_center_id ?? 1;
+                $ImportPuchaseDetail->_store_salves_id = $_store_salves_ids[$i] ?? '';
+                $ImportPuchaseDetail->organization_id = $organization_id ?? 1;
+                $ImportPuchaseDetail->_branch_id = $_branch_id ?? 1;
+                $ImportPuchaseDetail->_no = $purchase_id;
+                $ImportPuchaseDetail->_status = 1;
+                $ImportPuchaseDetail->_created_by = $users->id."-".$users->name;
+                $ImportPuchaseDetail->save();
+                $_purchase_detail_id = $ImportPuchaseDetail->id;
 
                
-
-
-
-                $item_info = Inventory::where('id',$_item_ids[$i])->first();
-                $ProductPriceList = new ProductPriceList();
-                $ProductPriceList->_item_id = $_item_ids[$i];
-                $ProductPriceList->_item = $item_info->_item ?? '';
-
-            $general_settings =GeneralSettings::select('_pur_base_model_barcode')->first();
-            if($general_settings->_pur_base_model_barcode==1){
-                 if($item_info->_unique_barcode ==1){
-                    $ProductPriceList->_barcode =$barcode_string ?? '';
-                    }else{
-                        if($barcode_string !=''){
-                            $ProductPriceList->_barcode = $barcode_string.$purchase_id;
-                            $PurchaseD = PurchaseDetail::find($_purchase_detail_id);
-                            $PurchaseD->_barcode = $barcode_string.$purchase_id;
-                            $PurchaseD->save();
-                        }
-                    }
-            }else{
-                $ProductPriceList->_barcode =$barcode_string ?? '';
-            }
-               
-                
-                $ProductPriceList->_manufacture_date =$_manufacture_dates[$i] ?? null;
-
-                $ProductPriceList->_expire_date = $_expire_dates[$i] ?? null;
-                $ProductPriceList->_qty = ($_qtys[$i] * $conversion_qtys[$i] ?? 1);
-                $ProductPriceList->_pur_rate = ($_rates[$i] / $conversion_qtys[$i] ?? 1);
-                $ProductPriceList->_sales_rate = ($_sales_rates[$i] / $conversion_qtys[$i] ?? 1);
-
-                //Unit Conversion section
-                $ProductPriceList->_transection_unit = $_transection_units[$i] ?? 1;
-                $ProductPriceList->_unit_conversion = $conversion_qtys[$i] ?? 1;
-                $ProductPriceList->_base_unit = $_base_unit_ids[$i] ?? 1;
-                $ProductPriceList->_unit_id = $item_info->_unit_id ?? 1;
-
-
-                
-                
-                $ProductPriceList->_unique_barcode = $item_info->_unique_barcode ?? 0;
-                $ProductPriceList->_warranty = $item_info->_warranty ?? 0;
-                
-                $ProductPriceList->_sales_discount = $item_info->_discount ?? 0;
-                $ProductPriceList->_p_discount_input = $_discounts[$i] ?? 0;
-                $ProductPriceList->_p_discount_amount = $_discount_amounts[$i] ?? 0;
-                $ProductPriceList->_p_vat = $_vats[$i] ?? 0;
-                $ProductPriceList->_p_vat_amount = $_vat_amounts[$i] ?? 0;
-                $ProductPriceList->_sales_vat = $item_info->_vat ?? 0;;
-                $ProductPriceList->_value =$_values[$i] ?? 0;
-                $ProductPriceList->_purchase_detail_id =$_purchase_detail_id;
-                $ProductPriceList->_master_id = $purchase_id;
-                $ProductPriceList->organization_id = $organization_id ?? 1;
-                $ProductPriceList->_branch_id = $_branch_id ?? 1;
-                $ProductPriceList->_cost_center_id = $_cost_center_id ?? 1;
-                $ProductPriceList->_store_salves_id = $_store_salves_ids[$i] ?? '';
-                $ProductPriceList->_store_id = $_store_ids[$i] ?? 1;
-                $ProductPriceList->_status =1;
-                $ProductPriceList->_created_by = $users->id."-".$users->name;
-                $ProductPriceList->save();
-                $product_price_id =  $ProductPriceList->id;
-                $_unique_barcode =  $ProductPriceList->_unique_barcode;
-
-/*
-    Barcode insert into database section
-   _barcode_insert_update($modelName, $_p_p_id,$_item_id,$_no_id,$_no_detail_id,$_qty,$_barcode,$_status,$_return=0,$p=0)
-   IF RETURN ACTION THEN $_return = 1; and BarcodeDetail avoid 
-                [  $data->_no_id = $_no_id;
-                    $data->_no_detail_id = $_no_detail_id;
-                    ] use  $p=1;
-*/
-                     if($_unique_barcode ==1){
-                         if($barcode_string !=""){
-
-                               $barcode_array=  explode(",",$barcode_string);
-                               $_qty = 1;
-                               $_stat = 1;
-                               $_return=0;
-                               $p=0;
-                               foreach ($barcode_array as $_b_v) {
-                                _barcode_insert_update('BarcodeDetail',$product_price_id,$_item_ids[$i],$purchase_id,$_purchase_detail_id,$_qty,$_b_v,$_stat,$_return,$p);
-                                _barcode_insert_update('PurchaseBarcode',$product_price_id,$_item_ids[$i],$purchase_id,$_purchase_detail_id,$_qty,$_b_v,$_stat,$_return,$p);
-                                 
-                               }
-                            }
-                     }
                 
 
                 
@@ -496,45 +411,7 @@ class ImportPuchaseController extends Controller
 */
 
 
-                $ItemInventory = new ItemInventory();
-                $ItemInventory->_item_id =  $_item_ids[$i];
-                $ItemInventory->_item_name =  $item_info->_item ?? '';
-                $ItemInventory->_unit_id =  $item_info->_unit_id ?? '';
-                $ItemInventory->_category_id = _item_category($_item_ids[$i]);
-                $ItemInventory->_date = change_date_format($request->_date);
-                $ItemInventory->_time = date('H:i:s');
-                $ItemInventory->_transection = "Purchase";
-                $ItemInventory->_transection_ref = $purchase_id;
-                $ItemInventory->_transection_detail_ref_id = $_purchase_detail_id;
-
-                $ItemInventory->_qty = ($_qtys[$i] * $conversion_qtys[$i] ?? 1);
-                $ItemInventory->_rate = ($_sales_rates[$i] / $conversion_qtys[$i] ?? 1);
-                $ItemInventory->_cost_rate = ($_rates[$i]/ $conversion_qtys[$i] ?? 1);
-                 //Unit Conversion section
-                $ItemInventory->_transection_unit = $_transection_units[$i] ?? 1;
-                $ItemInventory->_unit_conversion = $conversion_qtys[$i] ?? 1;
-                $ItemInventory->_base_unit = $_base_unit_ids[$i] ?? 1;
-                $ItemInventory->_unit_id = $item_info->_unit_id ?? 1;
-
                 
-                $ItemInventory->_unit_id = $item_info->_unit_id ?? '';
-                $ItemInventory->_cost_value = ($_qtys[$i]*$_rates[$i]);
-                $ItemInventory->_value = $_values[$i] ?? 0;
-                $ItemInventory->organization_id = $organization_id ?? 1;
-                $ItemInventory->_branch_id = $_branch_id ?? 1;
-                $ItemInventory->_store_id = $_store_ids[$i] ?? 1;
-                $ItemInventory->_cost_center_id = $_cost_center_id ?? 1;
-                $ItemInventory->_store_salves_id = $_store_salves_ids[$i] ?? '';
-                $ItemInventory->_status = 1;
-                $ItemInventory->_created_by = $users->id."-".$users->name;
-                $ItemInventory->save(); 
-
-                $last_price_rate = ($_rates[$i]/$conversion_qtys[$i]);
-                $last__sales_rates = ($_sales_rates[$i]/$conversion_qtys[$i]);
-
-                _inventory_last_price($_item_ids[$i],$last_price_rate,$last__sales_rates);
-
-                inventory_stock_update($_item_ids[$i]);
             }
         }
 
@@ -710,11 +587,11 @@ class ImportPuchaseController extends Controller
             $_pfix = _purchase_pfix().$purchase_id;
 
             $_main_branch_id = $request->_branch_id;
-            $__table="purchases";
+            $__table="import_puchases";
             $_pfix = _purchase_pfix().make_order_number($__table,$organization_id,$_main_branch_id);
 
 
-             \DB::table('purchases')
+             \DB::table('import_puchases')
              ->where('id',$purchase_id)
              ->update(['_p_balance'=>$_p_balance,'_l_balance'=>$_l_balance,'_order_number'=>$_pfix]);
                //SMS SEND to Customer and Supplier
@@ -744,7 +621,7 @@ class ImportPuchaseController extends Controller
         $permited_branch = permited_branch(explode(',',$users->branch_ids));
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
         $voucher_types = VoucherType::select('id','_name','_code')->orderBy('_code','asc')->get();
-         $data =  Purchase::with(['_master_branch','_master_details','purchase_account','_ledger'])->find($id);
+         $data =  ImportPuchase::with(['_master_branch','_master_details','purchase_account','_ledger'])->find($id);
         $form_settings = PurchaseFormSettings::first();
            $permited_branch = permited_branch(explode(',',$users->branch_ids));
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
@@ -772,7 +649,7 @@ $store_houses = permited_stores(explode(',',$users->store_ids));
         $branchs = Branch::orderBy('_name','asc')->get();
         $permited_branch = permited_branch(explode(',',$users->branch_ids));
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
-        $data = Purchase::with(['_master_branch','purchase_account','_ledger'])->where('_purchase_type',2)->find($id);
+        $data = ImportPuchase::with(['_master_branch','purchase_account','_ledger'])->where('_purchase_type',2)->find($id);
 
        return view('backend.import-purchase.money_receipt',compact('page_name','branchs','permited_branch','permited_costcenters','data'));
     }
@@ -816,7 +693,7 @@ $store_houses = permited_stores(explode(',',$users->store_ids));
         
         $categories = ItemCategory::orderBy('_name','asc')->get();
         $units = Units::orderBy('_name','asc')->get();
-         $data =  Purchase::with(['_master_branch','_master_details','purchase_account','_ledger'])->where('_purchase_type',2)->where('_lock',0)->find($id);
+         $data =  ImportPuchase::with(['_master_branch','_master_details','purchase_account','_ledger'])->where('_purchase_type',2)->where('_lock',0)->find($id);
          
          if(!$data){
             return redirect()->back()->with('danger','You have no permission to edit or update !');
@@ -850,7 +727,7 @@ $store_houses = permited_stores(explode(',',$users->store_ids));
        // Previous information need to make zero for every thing.
        //#####################
      $purchase_id = $request->_purchase_id;
-     $data =  Purchase::where('_lock',0)->find($purchase_id); 
+     $data =  ImportPuchase::where('_lock',0)->find($purchase_id); 
      if(!$data){ return redirect()->back()->with('danger','You have no permission to edit or update !'); }
 
 
@@ -865,7 +742,7 @@ $store_houses = permited_stores(explode(',',$users->store_ids));
         try {
 
     if($sales_number == 0 ){
-    PurchaseDetail::where('_no', $purchase_id)
+    ImportPuchaseDetail::where('_no', $purchase_id)
             ->update(['_status'=>0]);
     ProductPriceList::where('_master_id',$purchase_id)
                     ->update(['_status'=>0]);
@@ -897,7 +774,7 @@ $store_houses = permited_stores(explode(',',$users->store_ids));
     //###########################
        $_print_value = $request->_print ?? 0;
        $users = Auth::user();
-        $Purchase = Purchase::where('id',$purchase_id)->first();
+        $Purchase = ImportPuchase::where('id',$purchase_id)->first();
         if(empty($Purchase)){
             return redirect()->back()->with('danger','Something Went Wrong !');
         }
@@ -977,44 +854,44 @@ if($sales_number == 0 ){
         if(sizeof($_item_ids) > 0){
             for ($i = 0; $i <sizeof($_item_ids) ; $i++) {
                 if($purchase_detail_ids[$i] ==0){
-                    $PurchaseDetail = new PurchaseDetail();
-                    $PurchaseDetail->_created_by = $users->id."-".$users->name;
+                    $ImportPuchaseDetail = new ImportPuchaseDetail();
+                    $ImportPuchaseDetail->_created_by = $users->id."-".$users->name;
                 }else{
-                    $PurchaseDetail = PurchaseDetail::where('id',$purchase_detail_ids[$i])->first();
+                    $ImportPuchaseDetail = ImportPuchaseDetail::where('id',$purchase_detail_ids[$i])->first();
                 }
-                $PurchaseDetail->_manufacture_date =$_manufacture_dates[$i] ?? null;
-                $PurchaseDetail->_expire_date = $_expire_dates[$i] ?? null;
+                $ImportPuchaseDetail->_manufacture_date =$_manufacture_dates[$i] ?? null;
+                $ImportPuchaseDetail->_expire_date = $_expire_dates[$i] ?? null;
 
                 //Barcode 
                 $barcode_string=$all_req[$_ref_counters[$i]."__barcode__".$_item_ids[$i]] ?? '';
 
-                $PurchaseDetail->_barcode = $barcode_string;
-                $PurchaseDetail->_item_id = $_item_ids[$i];
-                $PurchaseDetail->_qty = $_qtys[$i];
-                $PurchaseDetail->_expected_qty = $_expected_qty[$i] ?? 0;
+                $ImportPuchaseDetail->_barcode = $barcode_string;
+                $ImportPuchaseDetail->_item_id = $_item_ids[$i];
+                $ImportPuchaseDetail->_qty = $_qtys[$i];
+                $ImportPuchaseDetail->_expected_qty = $_expected_qty[$i] ?? 0;
 
-                $PurchaseDetail->_transection_unit = $_transection_units[$i] ?? 1;
-                $PurchaseDetail->_unit_conversion = $conversion_qtys[$i] ?? 1;
-                $PurchaseDetail->_base_unit = $_base_unit_ids[$i] ?? 1;
+                $ImportPuchaseDetail->_transection_unit = $_transection_units[$i] ?? 1;
+                $ImportPuchaseDetail->_unit_conversion = $conversion_qtys[$i] ?? 1;
+                $ImportPuchaseDetail->_base_unit = $_base_unit_ids[$i] ?? 1;
 
-                $PurchaseDetail->_short_note = $_short_notes[$i] ?? '';
-                $PurchaseDetail->_rate = $_rates[$i];
-                $PurchaseDetail->_sales_rate = $_sales_rates[$i];
-                $PurchaseDetail->_discount = $_discounts[$i] ?? 0;
-                $PurchaseDetail->_discount_amount = $_discount_amounts[$i] ?? 0;
-                $PurchaseDetail->_vat = $_vats[$i] ?? 0;
-                $PurchaseDetail->_vat_amount = $_vat_amounts[$i] ?? 0;
-                $PurchaseDetail->_value = $_values[$i] ?? 0;
-                $PurchaseDetail->_store_id = $_store_ids[$i] ?? 1;
-                $PurchaseDetail->_cost_center_id = $_main_cost_center[$i] ?? 1;
-                $PurchaseDetail->_store_salves_id = $_store_salves_ids[$i] ?? 1;
-                $PurchaseDetail->organization_id = $organization_id ?? 1;
-                $PurchaseDetail->_branch_id = $_main_branch_id_detail[$i] ?? 1;
-                $PurchaseDetail->_no = $purchase_id;
-                $PurchaseDetail->_status = 1;
-                $PurchaseDetail->_updated_by = $users->id."-".$users->name;
-                $PurchaseDetail->save();
-                $_purchase_detail_id = $PurchaseDetail->id;
+                $ImportPuchaseDetail->_short_note = $_short_notes[$i] ?? '';
+                $ImportPuchaseDetail->_rate = $_rates[$i];
+                $ImportPuchaseDetail->_sales_rate = $_sales_rates[$i];
+                $ImportPuchaseDetail->_discount = $_discounts[$i] ?? 0;
+                $ImportPuchaseDetail->_discount_amount = $_discount_amounts[$i] ?? 0;
+                $ImportPuchaseDetail->_vat = $_vats[$i] ?? 0;
+                $ImportPuchaseDetail->_vat_amount = $_vat_amounts[$i] ?? 0;
+                $ImportPuchaseDetail->_value = $_values[$i] ?? 0;
+                $ImportPuchaseDetail->_store_id = $_store_ids[$i] ?? 1;
+                $ImportPuchaseDetail->_cost_center_id = $_main_cost_center[$i] ?? 1;
+                $ImportPuchaseDetail->_store_salves_id = $_store_salves_ids[$i] ?? 1;
+                $ImportPuchaseDetail->organization_id = $organization_id ?? 1;
+                $ImportPuchaseDetail->_branch_id = $_main_branch_id_detail[$i] ?? 1;
+                $ImportPuchaseDetail->_no = $purchase_id;
+                $ImportPuchaseDetail->_status = 1;
+                $ImportPuchaseDetail->_updated_by = $users->id."-".$users->name;
+                $ImportPuchaseDetail->save();
+                $_purchase_detail_id = $ImportPuchaseDetail->id;
 
                 $item_info = Inventory::where('id',$_item_ids[$i])->first();
 
@@ -1037,7 +914,7 @@ if($sales_number == 0 ){
                             if($barcode_string !=''){
                                 if($purchase_detail_ids[$i] ==0){
                                     $ProductPriceList->_barcode = $barcode_string.$purchase_id;
-                                    $PurchaseD = PurchaseDetail::find($_purchase_detail_id);
+                                    $PurchaseD = ImportPuchaseDetail::find($_purchase_detail_id);
                                     $PurchaseD->_barcode = $barcode_string.$purchase_id;
                                     $PurchaseD->save();
                                 }

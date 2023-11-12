@@ -34,7 +34,7 @@
                     <div class="row">
                        <div class="col-xs-12 col-sm-12 col-md-12">
                         <input type="hidden" name="id" value="<?php echo e($data->id); ?>">
-                            <div class="form-group">
+                            <div class="form-group display_none">
                                 <label>Branch:</label>
                                 
                                 <select class="form-control" name="_branch_id" required>
