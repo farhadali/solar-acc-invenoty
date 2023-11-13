@@ -142,7 +142,7 @@
                             }
                           ?>
                           <?php $__empty_1 = true; $__currentLoopData = $stores; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                              <?php if(in_array($val->id,$selected_organization_ids)): ?> <label class="badge badge-info"><?php echo e($val->_name); ?></label> <?php endif; ?>
+                              <?php if(in_array($val->id,$selected_store_ids)): ?> <label class="badge badge-info"><?php echo e($val->_name); ?></label> <?php endif; ?>
                               <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                               <?php endif; ?>
 

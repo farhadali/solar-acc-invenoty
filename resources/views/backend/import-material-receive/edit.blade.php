@@ -13,7 +13,7 @@ $__user= Auth::user();
       <div class="container-fluid">
         <div class="row mb-2">
           <div class=" col-sm-6 ">
-           <a class="m-0 _page_name" href="{{ route('import-purchase.index') }}">{!! $page_name ?? '' !!} </a>
+           <a class="m-0 _page_name" href="{{ route('import-material-receive.index') }}">{!! $page_name ?? '' !!} </a>
            
           </div><!-- /.col -->
           <div class=" col-sm-6 ">
@@ -21,7 +21,7 @@ $__user= Auth::user();
 
                @can('item-information-create')
              <li class="breadcrumb-item ">
-                 <a target="__blank" href="{{url('import-purchase/print')}}/{{$data->id}}" class="btn btn-sm btn-warning"> <i class="nav-icon fas fa-print"></i> </a>
+                 <a target="__blank" href="{{url('import-material-receive/print')}}/{{$data->id}}" class="btn btn-sm btn-warning"> <i class="nav-icon fas fa-print"></i> </a>
                   
                 
                </li>
@@ -96,34 +96,72 @@ $__user= Auth::user();
              
               <div class="card-body">
               
-                {!! Form::model($data, ['method' => 'PATCH','route' => ['import-purchase.update', $data->id],'class'=>'purchase_form']) !!}                  
+                {!! Form::model($data, ['method' => 'PATCH','route' => ['import-material-receive.update', $data->id],'class'=>'purchase_form']) !!}                  
                 @csrf
                       <div class="row">
+                  
+                        <div class="col-xs-12 col-sm-12 col-md-2  ">
+                            <div class="form-group">
+                              <label class="mr-2" for="import_invoice_no">{{__('label.import_invoice_no')}}:</label>
+                              <select class="form-control import_invoice_no " name="import_invoice_no">
+                                <option value="">{{__('label.select')}}</option>
+                                @forelse($import_purchases as $key=>$val)
+                                <option value="{{$val->id}}" @if($val->id==$import_purchase_single->id) selected @endif >{{ $val->_order_number ?? '' }}</option>
+                                @empty
+                                @endforelse
+                              </select>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2  ">
+                            <div class="form-group">
+                              <label class="mr-2" for="_mother_vessel_no">{{__('label._mother_vessel_no')}}:</label>
+                              <input type="text" name="_mother_vessel_no_text" class="form-control _mother_vessel_no_text" readonly value="{{$import_purchase_single->_mother_vessel->_name ?? ''}}">
+                              <input type="hidden" name="_mother_vessel_no" class="form-control _mother_vessel_no" readonly value="{{$import_purchase_single->_mother_vessel->id ?? ''}}">
+                            </div>
+                        </div>
+                        
+                        <div class="col-xs-12 col-sm-12 col-md-2 ">
+                            <div class="form-group">
+                              <label class="mr-2" for="_main_ledger_id">Supplier:<span class="_required">*</span></label>
+                            <input type="text" id="_search_main_ledger_id" name="_search_main_ledger_id" class="form-control _search_main_ledger_id" value="{{old('_search_main_ledger_id',$data->_ledger->_name ?? '')}}" placeholder="Supplier" required readonly>
+
+                            <input type="hidden" id="_main_ledger_id" name="_main_ledger_id" class="form-control _main_ledger_id" value="{{old('_main_ledger_id',$data->_ledger_id)}}" placeholder="Supplier" required>
+                            <div class="search_box_main_ledger"> </div>
+
+                                
+                            </div>
+                        </div>
+                </div>
+
+                   <div class="row">
 
                        <div class="col-xs-12 col-sm-12 col-md-2">
-                        <input type="hidden" name="_form_name" class="_form_name"  value="purchases">
+                        <input type="hidden" name="_form_name" class="_form_name" value="purchases">
                             <div class="form-group">
-                                <label>{{__('label._date')}}:</label>
+                                <label>{{__('label.mrr_date')}}:</label>
                                   <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                                      <input type="text" name="_date" class="form-control datetimepicker-input" data-target="#reservationdate" value="{{_view_date_formate($data->_date)}}"  />
+                                      <input type="text" name="_date" class="form-control datetimepicker-input" data-target="#reservationdate" value="{{_view_date_formate($data->_date)}}" />
                                       <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
                                           <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                       </div>
                                   </div>
                               </div>
-                              <input type="hidden" name="_purchase_id" value="{{$data->id}}">
-                              <input type="hidden" id="_search_form_value" name="_search_form_value" class="_search_form_value" value="1" >
+                              
+                              <input type="hidden" name="_item_row_count" value="1" class="_item_row_count">
+                              <input type="hidden" name="_purchase_id" value="{{$data->id}}" >
                         </div>
 
                         
                         <div class="col-xs-12 col-sm-12 col-md-2 ">
                             <div class="form-group">
-                              <label class="mr-2" for="_order_number">{{__('label._order_number')}}:</label>
+                              <label class="mr-2" for="_order_number">{{__('label.mrr_number')}}:</label>
                               <input type="text" id="_order_number" name="_order_number" class="form-control _order_number" value="{{old('_order_number',$data->_order_number)}}" placeholder="Invoice No" readonly>
+                              <input type="hidden" name="_search_form_value" class="_search_form_value" value="2">
                                 
                             </div>
                         </div>
-                         <div class="col-xs-12 col-sm-12 col-md-2 ">
+                        
+                        <div class="col-xs-12 col-sm-12 col-md-2 ">
                             <div class="form-group">
                               <label class="mr-2" for="_purchase_type">{{__('label._purchase_type')}}:</label>
                               <select class="form-control" name="_purchase_type" >
@@ -133,49 +171,19 @@ $__user= Auth::user();
                             </div>
                         </div>
                         @include('basic.org_edit')
-                        
-                        
-                        <div class="col-xs-12 col-sm-12 col-md-2  @if($_show_po==0) display_none @endif">
-                            <div class="form-group">
-                              <label class="mr-2" for="_order_ref_id">{{__('label.purchase_order')}}:</label>
-                              <input type="text" id="_search_order_ref_id" name="_search_order_ref_id" class="form-control _search_order_ref_id" value="{{old('_order_ref_id',$data->_order_ref_id)}}" placeholder="{{__('label.purchase_order')}}" >
-                              <input type="hidden" id="_order_ref_id" name="_order_ref_id" class="form-control _order_ref_id" value="{{old('_order_ref_id')}}" placeholder="Purchase Order" >
-                              <div class="search_box_purchase_order"></div>
-                            </div>
-                        </div>
 
-                        <div class="col-xs-12 col-sm-12 col-md-2 @if($_show_po==0) display_none @endif">
-                            <div class="form-group">
-                              <label class="mr-2" for="_rlp_no">{{__('label._rlp_no')}}:</label>
-                              <input type="text" id="_rlp_no" name="_rlp_no" class="form-control _rlp_no" value="{{old('_rlp_no',$data->_rlp_no)}}" placeholder="{{__('label._rlp_no')}}" >
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-2 @if($_show_note_sheet==0) display_none @endif">
-                            <div class="form-group">
-                              <label class="mr-2" for="_note_sheet_no">{{__('label._note_sheet_no')}}:</label>
-                              <input type="text" id="_note_sheet_no" name="_note_sheet_no" class="form-control _note_sheet_no" value="{{old('_note_sheet_no',$data->_note_sheet_no)}}" placeholder="{{__('label._note_sheet_no')}}" >
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-2 @if($_show_wo==0) display_none @endif ">
-                            <div class="form-group">
-                              <label class="mr-2" for="_workorder_no">{{__('label._workorder_no')}}:</label>
-                              <input type="text" id="_workorder_no" name="_workorder_no" class="form-control _workorder_no" value="{{old('_workorder_no',$data->_workorder_no)}}" placeholder="{{__('label._workorder_no')}}" >
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-2 @if($_show_lc==0) display_none @endif">
-                            <div class="form-group">
-                              <label class="mr-2" for="_lc_no">{{__('label._lc_no')}}:</label>
-                              <input type="text" id="_lc_no" name="_lc_no" class="form-control _lc_no" value="{{old('_lc_no',$data->_lc_no)}}" placeholder="{{__('label._lc_no')}}" >
-                            </div>
-                        </div>
+                         
+
+                        
+                        
+                        
                         @php
                         $vessels = \DB::table('vessel_infos')->get();
                         @endphp
-                        <div class="col-xs-12 col-sm-12 col-md-2   @if($_show_vn==0) display_none @endif">
+                        <div class="col-xs-12 col-sm-12 col-md-3  @if($_show_vn==0) display_none @endif">
                             <div class="form-group">
-                              <label class="mr-2" for="_vessel_no">{{__('label._mother_vessel_no')}}:</label>
-                             
-                              <select class="form-control select2" name="_vessel_no">
+                              <label class="mr-2" for="_vessel_no">{{__('label._vessel_no')}}:</label>
+                              <select class="form-control " name="_vessel_no">
                                 <option value="">{{__('label.select')}}</option>
                                 @forelse($vessels as $key=>$val)
                                 <option value="{{$val->id}}" @if($val->id==$data->_vessel_no) selected @endif >{{ $val->_name ?? '' }}</option>
@@ -184,6 +192,49 @@ $__user= Auth::user();
                               </select>
                             </div>
                         </div>
+                        <div class="col-xs-12 col-sm-12 col-md-3  @if($_show_vn==0) display_none @endif">
+                            <div class="form-group">
+                              <label class="mr-2" for="_name_of_master">{{__('label._name_of_master')}}:</label>
+                              <input type="text" name="_vessel_res_person" class="form-control" placeholder="{{__('label._name_of_master')}}" value="{!! $data->_vessel_res_person ?? '' !!}">
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2  @if($_show_vn==0) display_none @endif">
+                            <div class="form-group">
+                              <label class="mr-2" for="_mobile_of_master">{{__('label._mobile_of_master')}}:</label>
+                              <input type="text" name="_vessel_res_mobile" class="form-control" placeholder="{{__('label._mobile_of_master')}}" value="{!! $data->_vessel_res_mobile ?? '' !!}">
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2  @if($_show_vn==0) display_none @endif">
+                            <div class="form-group">
+                              <label class="mr-2" for="_loding_point">{{__('label._loding_point')}}:</label>
+                              <select class="form-control" name="_loding_point">
+                                <option value="">{{__('label.select')}}</option>
+                                @forelse($all_store_houses as $key=>$val)
+                                  <option value="{{$val->id}}" @if($val->id==$data->_loding_point) selected @endif >{{ $val->_name ?? '' }}</option>
+                                @empty
+                                @endforelse
+                              </select>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2 ">
+                            <div class="form-group">
+                              <label class="mr-2" for="_store_id">{{__('label._store_id')}}:</label>
+                             <select class="form-control" name="_store_id">
+                                <option value="">{{__('label.select')}}</option>
+                                @forelse($store_houses as $key=>$val)
+                                  <option value="{{$val->id}}" @if($val->id==$data->_store_id) selected @endif >{{ $val->_name ?? '' }}</option>
+                                @empty
+                                @endforelse
+                              </select>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2 ">
+                            <div class="form-group">
+                              <label class="mr-2" for="_loading_date_time">{{__('label._loading_date_time')}}:</label>
+                              <input type="datetime-local" id="_loading_date_time" name="_loading_date_time" class="form-control _loading_date_time" value="{{old('_loading_date_time',$data->_loading_date_time)}}" placeholder="{{__('label._loading_date_time')}}" >
+                            </div>
+                        </div>
+                        
                         <div class="col-xs-12 col-sm-12 col-md-2 ">
                             <div class="form-group">
                               <label class="mr-2" for="_arrival_date_time">{{__('label._arrival_date_time')}}:</label>
@@ -196,18 +247,9 @@ $__user= Auth::user();
                               <input type="datetime-local" id="_discharge_date_time" name="_discharge_date_time" class="form-control _discharge_date_time" value="{{old('_discharge_date_time',$data->_discharge_date_time)}}" placeholder="{{__('label._discharge_date_time')}}" >
                             </div>
                         </div>
-                         <div class="col-xs-12 col-sm-12 col-md-3 ">
-                            <div class="form-group">
-                              <label class="mr-2" for="_main_ledger_id">Supplier:<span class="_required">*</span></label>
-                            <input type="text" id="_search_main_ledger_id" name="_search_main_ledger_id" class="form-control _search_main_ledger_id" value="{{old('_search_main_ledger_id',$data->_ledger->_name ?? '' )}}" placeholder="Supplier" required>
 
-                            <input type="hidden" id="_main_ledger_id" name="_main_ledger_id" class="form-control _main_ledger_id" value="{{old('_main_ledger_id',$data->_ledger_id)}}" placeholder="Supplier" required>
-                            <div class="search_box_main_ledger"> </div>
-
-                                
-                            </div>
-                        </div>
-                         <div class="col-xs-12 col-sm-12 col-md-3 ">
+                         
+                         <div class="col-xs-12 col-sm-12 col-md-2 display_none">
                             <div class="form-group">
                               <label class="mr-2" for="_phone">Phone:</label>
                               <input type="text" id="_phone" name="_phone" class="form-control _phone" value="{{old('_phone',$data->_phone)}}" placeholder="Phone" >
@@ -215,7 +257,7 @@ $__user= Auth::user();
                             </div>
                         </div>
                         
-                        <div class="col-xs-12 col-sm-12 col-md-3 ">
+                        <div class="col-xs-12 col-sm-12 col-md-3 display_none">
                             <div class="form-group">
                               <label class="mr-2" for="_address">Address:</label>
                               <input type="text" id="_address" name="_address" class="form-control _address" value="{{old('_address',$data->_address)}}" placeholder="Address" >
@@ -229,8 +271,6 @@ $__user= Auth::user();
                                 
                             </div>
                         </div>
-
-       
 
 
                         <div class="col-md-12  ">
@@ -250,7 +290,7 @@ $__user= Auth::user();
                                             <th class="text-left display_none" >{{__('label.conversion_qty')}}</th>
                                             <th class="text-left @if(isset($_show_unit)) @if($_show_unit==0) display_none    @endif @endif" >{{__('label._transection_unit')}}</th>
                                            
-                                            <th class="text-left @if($_show_barcode==0) display_none    @endif " >{{__('_barcode')}}</th>
+                                            <th class="text-left @if($_show_barcode==0) display_none    @endif " >{{__('label._barcode')}}</th>
                                             <th class="text-left @if($_show_short_note==0) display_none    @endif " >{{__('label._note')}}</th>
                                          
                                             <th class="text-left @if($_show_expected_qty==0) display_none @endif" >{{__('label._expected_qty')}}</th>
@@ -258,14 +298,10 @@ $__user= Auth::user();
                                             <th class="text-left" >{{__('label._rate')}}</th>
                                             <th class="text-left @if($_show_sales_rate==0) display_none @endif" >{{__('label._sales_rate')}}</th>
 
-                                            <th class="text-left @if($_inline_discount  ==0) display_none @endif" >{{__('label._discount')}}%</th>
-                                            <th class="text-left @if($_inline_discount  ==0) display_none @endif" >{{__('label._discount_value')}}</th>
                                            
-                                            <th class="text-left @if(isset($_show_vat)) @if($_show_vat==0) display_none   @endif @endif" >{{__('label._vat')}}%</th>
-                                            <th class="text-left @if(isset($_show_vat)) @if($_show_vat==0) display_none   @endif @endif" >{{__('label._vat_amount')}}</th>
                                             
                                             <th class="text-left" >{{__('label._value')}}</th>
-                                            <th class="text-left  @if(sizeof($store_houses) == 1) display_none @endif">{{__('label._store_id')}}</th>
+                                           
                                              <th class="text-left @if(isset($_show_self)) @if($_show_self==0) display_none @endif
                                             @endif" >{{__('label._shelf')}}</th>
                                              <th class="text-left @if(isset($form_settings->_show_manufacture_date)) @if($form_settings->_show_manufacture_date==0) display_none @endif
@@ -377,46 +413,11 @@ $__user= Auth::user();
                                                 <input type="number" name="_sales_rate[]" class="form-control _sales_rate " value="{{$detail->_sales_rate ?? 0 }}" >
                                               </td>
 
-                                               <td class="@if($_inline_discount == 0) display_none @endif">
-                                                <input type="number" name="_discount[]" class="form-control  _discount _common_keyup" value="{{$detail->_discount}}">
-                                              </td>
-                                              <td class="@if($_inline_discount == 0) display_none @endif">
-                                                <input type="number" name="_discount_amount[]" class="form-control  _discount_amount  " value="{{$detail->_discount_amount}}">
-                                              </td>
-                                              @if(isset($_show_vat)) @if($_show_vat==1)
-                                              <td>
-                                                <input type="text" name="_vat[]" class="form-control  _vat _common_keyup" value="{{$detail->_vat ?? 0 }}">
-                                              </td>
-                                              <td>
-                                                <input type="text" name="_vat_amount[]" class="form-control  _vat_amount" value="{{$detail->_vat_amount ?? 0 }}">
-                                              </td>
-                                              @else
-                                              <td class="display_none">
-                                                <input type="text" name="_vat[]" class="form-control  _vat _common_keyup" value="{{$detail->_vat ?? 0 }}">
-                                              </td>
-                                              <td class="display_none">
-                                                <input type="text" name="_vat_amount[]" class="form-control  _vat_amount" value="{{$detail->_vat_amount ?? 0 }}" >
-                                              </td>
-                                              @endif
-                                              @endif
+                                               
                                               <td>
                                                 <input type="number" name="_value[]" class="form-control _value "  value="{{ $detail->_value ?? 0 }}" >
                                               </td>
                                             
-                                             
-                                              
-                                              <td class=" @if(sizeof($store_houses) == 1) display_none @endif">
-                                                <select class="form-control  _main_store_id" name="_main_store_id[]">
-                                                  @forelse($store_houses as $store)
-                                                  <option value="{{$store->id}}"   @if(isset($detail->_store_id)) @if($detail->_store_id == $store->id) selected @endif   @endif  >{{$store->_name ?? '' }}</option>
-                                                  @empty
-                                                  @endforelse
-                                                </select>
-                                                
-                                              </td>
-                                            
-                                             
-                                              
                                               <td class=" @if(isset($_show_self)) @if($_show_self==0) display_none @endif  @endif">
                                                 <input type="text" name="_store_salves_id[]" class="form-control _store_salves_id " value="{{$detail->_store_salves_id ?? '' }}" >
                                               </td>
@@ -459,24 +460,11 @@ $__user= Auth::user();
                                               </td>
                                               <td></td>
                                               <td class="@if($_show_sales_rate==0) display_none @endif"></td>
-                                              <td class="@if($_inline_discount==0) display_none @endif"></td>
-                                              <td class="@if($_inline_discount==0) display_none @endif">
-                                                <input type="number" step="any" min="0" name="_total_discount_amount" class="form-control _total_discount_amount" value="0" readonly required>
-                                              </td>
-                                             
-                                              <td class="@if(isset($_show_vat)) @if($_show_vat==0) display_none   @endif  @endif"></td>
-                                              <td class="@if(isset($_show_vat)) @if($_show_vat==0) display_none   @endif  @endif">
-                                                <input type="number" step="any" min="0" name="_total_vat_amount" class="form-control _total_vat_amount" value="0" readonly required>
-                                              </td>
-
-                                              
-                                            
                                               <td>
                                                 <input type="number" step="any" min="0" name="_total_value_amount" class="form-control _total_value_amount" value="{{$_total_value_amount}}" readonly required>
                                               </td>
                                               
-                                               <td class="@if(sizeof($store_houses) == 1) display_none @endif"></td>
-                                              <td class="@if(isset($_show_self)) @if($_show_self==0) display_none  @endif  @endif"></td>
+                                              
                                               <td class="@if(isset($form_settings->_show_manufacture_date)) @if($form_settings->_show_manufacture_date==0) display_none  @endif  @endif"></td>
 
                                               <td class="@if(isset($form_settings->_show_expire_date)) @if($form_settings->_show_expire_date==0) display_none  @endif  @endif"></td>
@@ -523,36 +511,27 @@ $__user= Auth::user();
                                 <input type="text" name="_sub_total" class="form-control width_200_px" id="_purchase_sub_total" readonly value="{{ _php_round($data->_sub_total ?? 0) }}">
                               </td>
                             </tr>
-                            <tr>
+                            <tr class="display_none">
                               <td style="width: 10%;border:0px;"><label for="_discount_input">Invoice Discount</label></td>
                               <td style="width: 70%;border:0px;">
                                 <input type="text" name="_discount_input" class="form-control width_200_px" id="_purchase_discount_input" value="{{$data->_discount_input ?? 0}}" >
                               </td>
                             </tr>
-                            <tr>
+                            <tr class="display_none">
                               <td style="width: 10%;border:0px;"><label for="_total_discount">Total Discount</label></td>
                               <td style="width: 70%;border:0px;">
                                 <input type="text" name="_total_discount" class="form-control width_200_px" id="_purchase_total_discount" readonly value="{{$data->_total_discount ?? 0}}">
                               </td>
                             </tr>
-                            @if(isset($_show_vat)) 
-                            @if($_show_vat==1)
-                            <tr>
+                            
+                            <tr class=" display_none @if($_show_vat==0) display_none @endif">
                               <td style="width: 10%;border:0px;"><label for="_total_vat">Total VAT</label></td>
                               <td style="width: 70%;border:0px;">
                                 <input type="text" name="_total_vat" class="form-control width_200_px" id="_purchase_total_vat" readonly value="{{$data->_total_vat ?? 0}}">
                               </td>
                             </tr>
-                            @else
-                            <tr class="display_none">
-                              <td style="width: 10%;border:0px;"><label for="_total_vat">Total VAT</label></td>
-                              <td style="width: 70%;border:0px;">
-                                <input type="text" name="_total_vat" class="form-control width_200_px" id="_purchase_total_vat" readonly value="{{$data->_total_vat ?? 0}}">
-                              </td>
-                            </tr>
-                            @endif
-                            @endif
-                            <tr>
+                            
+                            <tr class=" ">
                               <td style="width: 10%;border:0px;"><label for="_total">NET Total </label></td>
                               <td style="width: 70%;border:0px;">
                           <input type="text" name="_total" class="form-control width_200_px" id="_total" readonly value="{{ _php_round($data->_total ?? 0)}}">
@@ -596,7 +575,7 @@ $__user= Auth::user();
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
-    <form action="{{ url('purchase-settings')}}" method="POST">
+    <form action="{{ url('import-purchase-settings')}}" method="POST">
         @csrf
     <div class="modal-content">
       <div class="modal-header">
@@ -605,123 +584,8 @@ $__user= Auth::user();
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body display_form_setting_info">
        
-        <div class="form-group row">
-        <label for="_default_inventory" class="col-sm-5 col-form-label">Default Inventory</label>
-        <select class="form-control col-sm-7" name="_default_inventory">
-          @foreach($inv_accounts as $account)
-          <option value="{{$account->id}}" @if(isset($form_settings->_default_inventory))@if($form_settings->_default_inventory==$account->id) selected @endif @endif>{{ $account->_name ?? '' }}</option>
-          @endforeach
-        </select>
-      </div>
-      <div class="form-group row">
-        <label for="_default_purchase" class="col-sm-5 col-form-label">Default Purchase Account</label>
-        <select class="form-control col-sm-7" name="_default_purchase">
-          @foreach($p_accounts as $account)
-          <option value="{{$account->id}}" @if(isset($form_settings->_default_purchase))@if($form_settings->_default_purchase==$account->id) selected @endif @endif>{{ $account->_name ?? '' }}</option>
-          @endforeach
-        </select>
-      </div>
-      <div class="form-group row">
-        <label for="_default_discount" class="col-sm-5 col-form-label">Default Discount Account</label>
-        <select class="form-control col-md-7" name="_default_discount">
-          @foreach($dis_accounts as $account)
-          <option value="{{$account->id}}" @if(isset($form_settings->_default_discount))@if($form_settings->_default_discount==$account->id) selected @endif @endif>{{ $account->_name ?? '' }}</option>
-          @endforeach
-        </select>
-      </div>
-      <div class="form-group row">
-        <label for="_default_vat_account" class="col-sm-5 col-form-label">Default VAT Account</label>
-        <select class="form-control col-md-7" name="_default_vat_account">
-          @foreach($p_accounts as $account)
-          <option value="{{$account->id}}" @if(isset($form_settings->_default_vat_account))@if($form_settings->_default_vat_account==$account->id) selected @endif @endif>{{ $account->_name ?? '' }}</option>
-          @endforeach
-        </select>
-      </div>
-       <div class="form-group row">
-        <label for="_show_unit" class="col-sm-5 col-form-label">Show Unit</label>
-        <select class="form-control col-sm-7" name="_show_unit">
-         
-          <option value="0" @if(isset($_show_unit))@if($_show_unit==0) selected @endif @endif>NO</option>
-          <option value="1" @if(isset($_show_unit))@if($_show_unit==1) selected @endif @endif>YES</option>
-        </select>
-      </div>
-      <div class="form-group row">
-        <label for="_inline_discount" class="col-sm-5 col-form-label">Show Inline Discount</label>
-        <select class="form-control col-sm-7" name="_inline_discount">
-         
-          <option value="0" @if(isset($_inline_discount))@if($_inline_discount==0) selected @endif @endif>NO</option>
-          <option value="1" @if(isset($_inline_discount))@if($_inline_discount==1) selected @endif @endif>YES</option>
-        </select>
-      </div>
-      <div class="form-group row">
-        <label for="_show_vat" class="col-sm-5 col-form-label">Show VAT</label>
-        <select class="form-control col-sm-7" name="_show_vat">
-         
-          <option value="0" @if(isset($_show_vat))@if($_show_vat==0) selected @endif @endif>NO</option>
-          <option value="1" @if(isset($_show_vat))@if($_show_vat==1) selected @endif @endif>YES</option>
-        </select>
-      </div>
-      <div class="form-group row">
-        <label for="_show_barcode" class="col-sm-5 col-form-label">Show Barcode</label>
-        <select class="form-control col-sm-7" name="_show_barcode">
-          <option value="0" @if(isset($_show_barcode))@if($_show_barcode==0) selected @endif @endif>NO</option>
-          <option value="1" @if(isset($_show_barcode))@if($_show_barcode==1) selected @endif @endif>YES</option>
-        </select>
-      </div>
-      <div class="form-group row">
-        <label for="_show_short_note" class="col-sm-5 col-form-label">Show Short Note</label>
-        <select class="form-control col-sm-7" name="_show_short_note">
-         
-          <option value="0" @if(isset($_show_short_note))@if($_show_short_note==0) selected @endif @endif>NO</option>
-          <option value="1" @if(isset($_show_short_note))@if($_show_short_note==1) selected @endif @endif>YES</option>
-        </select>
-      </div>
-      <div class="form-group row">
-        <label for="_show_store" class="col-sm-5 col-form-label">Show Store</label>
-        <select class="form-control col-sm-7" name="_show_store">
-          <option value="0" @if(isset($form_settings->_show_store))@if($form_settings->_show_store==0) selected @endif @endif>NO</option>
-          <option value="1" @if(isset($form_settings->_show_store))@if($form_settings->_show_store==1) selected @endif @endif>YES</option>
-        </select>
-      </div>
-      <div class="form-group row">
-        <label for="_show_self" class="col-sm-5 col-form-label">Show Shelf</label>
-        <select class="form-control col-sm-7" name="_show_self">
-          <option value="0" @if(isset($_show_self))@if($_show_self==0) selected @endif @endif>NO</option>
-          <option value="1" @if(isset($_show_self))@if($_show_self==1) selected @endif @endif>YES</option>
-        </select>
-      </div>
-       <div class="form-group row">
-        <label for="_show_manufacture_date" class="col-sm-5 col-form-label">Use Manufacture Date</label>
-        <select class="form-control col-sm-7" name="_show_manufacture_date">
-          <option value="0" @if(isset($form_settings->_show_manufacture_date))@if($form_settings->_show_manufacture_date==0) selected @endif @endif>NO</option>
-          <option value="1" @if(isset($form_settings->_show_manufacture_date))@if($form_settings->_show_manufacture_date==1) selected @endif @endif>YES</option>
-        </select>
-      </div>
-      <div class="form-group row">
-        <label for="_show_expire_date" class="col-sm-5 col-form-label">Use Expired Date</label>
-        <select class="form-control col-sm-7" name="_show_expire_date">
-          <option value="0" @if(isset($form_settings->_show_expire_date))@if($form_settings->_show_expire_date==0) selected @endif @endif>NO</option>
-          <option value="1" @if(isset($form_settings->_show_expire_date))@if($form_settings->_show_expire_date==1) selected @endif @endif>YES</option>
-        </select>
-      </div>
-      <div class="form-group row">
-        <label for="_show_p_balance" class="col-sm-5 col-form-label">Invoice Show Previous Balance</label>
-        <select class="form-control col-sm-7" name="_show_p_balance">
-          <option value="0" @if(isset($form_settings->_show_p_balance))@if($form_settings->_show_p_balance==0) selected @endif @endif>NO</option>
-          <option value="1" @if(isset($form_settings->_show_p_balance))@if($form_settings->_show_p_balance==1) selected @endif @endif>YES</option>
-        </select>
-      </div>
-       <div class="form-group row">
-        <label for="_invoice_template" class="col-sm-5 col-form-label">Invoice Template</label>
-        <select class="form-control col-sm-7" name="_invoice_template">
-          <option value="1" @if(isset($form_settings->_invoice_template))@if($form_settings->_invoice_template==1) selected @endif @endif>Template A</option>
-          <option value="2" @if(isset($form_settings->_invoice_template))@if($form_settings->_invoice_template==2) selected @endif @endif>Template B</option>
-          <option value="3" @if(isset($form_settings->_invoice_template))@if($form_settings->_invoice_template==3) selected @endif @endif>Template C</option>
-          <option value="4" @if(isset($form_settings->_invoice_template))@if($form_settings->_invoice_template==4) selected @endif @endif>Template D</option>
-        </select>
-      </div>
          
       
       </div>
@@ -763,7 +627,20 @@ $__user= Auth::user();
       }
   }
 
+$(document).on("click","#form_settings",function(){
+         setting_data_fetch();
+  })
 
+  function setting_data_fetch(){
+      var request = $.ajax({
+            url: "{{url('import-purchase-setting-modal')}}",
+            method: "GET",
+            dataType: "html"
+          });
+         request.done(function( result ) {
+              $(document).find(".display_form_setting_info").html(result);
+         })
+  }
   
 
 
@@ -1274,45 +1151,15 @@ function purchase_row_add(event){
                                               <td>
                                                 <input type="number" name="_rate[]" class="form-control _rate _common_keyup" >
                                               </td>
-                                              <td>
+                                              <td class="@if($_show_sales_rate==0) display_none @endif">
                                                 <input type="number" name="_sales_rate[]" class="form-control _sales_rate " >
                                               </td>
-                                              <td class="@if($_inline_discount==0) display_none @endif">
-                                                <input type="number" name="_discount[]" class="form-control  _discount _discount__${_item_row_count} _common_keyup" value="" >
-                                              </td>
-                                              <td class="@if($_inline_discount==0) display_none @endif">
-                                                <input type="number" name="_discount_amount[]" class="form-control  _discount_amount _discount_amount__${_item_row_count}" value="" >
-                                              </td>
-                                               @if(isset($_show_vat)) @if($_show_vat==1)
-                                              <td>
-                                                <input type="text" name="_vat[]" class="form-control  _vat _common_keyup" >
-                                              </td>
-                                              <td>
-                                                <input type="text" name="_vat_amount[]" class="form-control  _vat_amount" >
-                                              </td>
-                                              @else
-                                                <td class="display_none">
-                                                <input type="text" name="_vat[]" class="form-control  _vat _common_keyup" >
-                                              </td>
-                                              <td class="display_none">
-                                                <input type="text" name="_vat_amount[]" class="form-control  _vat_amount" >
-                                              </td>
-                                              @endif
-                                              @endif
+                                              
                                               <td>
                                                 <input type="number" name="_value[]" class="form-control _value "  >
                                               </td>
                                               
                                              
-                                              <td class=" @if(sizeof($store_houses) == 0) display_none @endif">
-                                                <select class="form-control  _main_store_id" name="_main_store_id[]">
-                                                  @forelse($store_houses as $store)
-                                                  <option value="{{$store->id}}">{{$store->_name ?? '' }}</option>
-                                                  @empty
-                                                  @endforelse
-                                                </select>
-                                                
-                                              </td>
                                               
                                               @if(isset($_show_self)) @if($_show_self==1)
                                               <td>

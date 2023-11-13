@@ -9,7 +9,7 @@ $permited_organizations = permited_organization(explode(',',$users->organization
  <div class="form-group ">
      <label>{!! __('label.organization') !!}:<span class="_required">*</span></label>
     <select class="form-control _master_organization_id" name="organization_id" required >
-@if(sizeof($permited_organizations) > 0)
+@if(sizeof($permited_organizations) > 1)
        <option value="">{{__('label.select')}} {!! __('label.organization') !!}</option>
 @endif
        @forelse($permited_organizations as $val )
@@ -23,7 +23,7 @@ $permited_organizations = permited_organization(explode(',',$users->organization
     <div class="form-group ">
         <label>{!! __('label.Branch') !!}:<span class="_required">*</span></label>
        <select class="form-control _master_branch_id" name="_branch_id" required >
-          @if(sizeof($permited_branch) > 0)
+          @if(sizeof($permited_branch) > 1)
        <option value="">{{__('label.select')}} {!! __('label.Branch') !!}</option>
        @endif
           @forelse($permited_branch as $branch )
@@ -37,7 +37,7 @@ $permited_organizations = permited_organization(explode(',',$users->organization
     <div class="form-group ">
         <label>{{__('label.Cost center')}}:<span class="_required">*</span></label>
        <select class="form-control _cost_center_id" name="_cost_center_id" required >
-          @if(sizeof($permited_costcenters) > 0)
+          @if(sizeof($permited_costcenters) > 1)
        <option value="">{{__('label.select')}} {{__('label.Cost center')}}</option>
        @endif
           @forelse($permited_costcenters as $cost_center )

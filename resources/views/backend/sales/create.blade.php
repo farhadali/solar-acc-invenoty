@@ -123,6 +123,18 @@ $__user= Auth::user();
                         
                         <div class="col-xs-12 col-sm-12 col-md-2 ">
                             <div class="form-group">
+                              <label class="mr-2" for="_direct_purchase_no">{{__('label._direct_purchase_no')}}:</label>
+                              <input type="text" id="_direct_purchase_no" name="_direct_purchase_no" class="form-control _direct_purchase_no" value="{{old('_direct_purchase_no')}}" placeholder="{{__('label._direct_purchase_no')}}"  >
+
+                              <input type="hidden" id="_ref_master_id" name="_ref_master_id" class="form-control _ref_master_id"   >
+                              <div class="search_box_master_purchase"></div>
+
+                
+                                
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2 ">
+                            <div class="form-group">
                               <label class="mr-2" for="_order_number">Invoice Number:</label>
                               <input type="text" id="_order_number" name="_order_number" class="form-control _order_number" value="{{old('_order_number')}}" placeholder="Invoice Number" readonly >
                 <input type="hidden" id="_search_form_value" name="_search_form_value" class="_search_form_value" value="2" >
@@ -203,13 +215,13 @@ $__user= Auth::user();
                                 
                             </div>
                         </div>
-                         <div class="col-xs-12 col-sm-12 col-md-3 @if($_show_loding_point==0) display_none @endif">
+                         <div class="col-xs-12 col-sm-12 col-md-3  display_none ">
                             <div class="form-group">
                               <label class="mr-2" for="_loding_point">{{__('label._loding_point')}}:</label>
                               <input type="text" id="_loding_point" name="_loding_point" class="form-control _loding_point" value="{{old('_loding_point')}}" placeholder="{{__('label._loding_point')}}" >
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-3 @if($_show_unloading_point==0) display_none @endif">
+                        <div class="col-xs-12 col-sm-12 col-md-3  display_none ">
                             <div class="form-group">
                               <label class="mr-2" for="_unloading_point">{{__('label._unloading_point')}}:</label>
                               <input type="text" id="_unloading_point" name="_unloading_point" class="form-control _unloading_point" value="{{old('_unloading_point')}}" placeholder="{{__('label._unloading_point')}}" >
@@ -221,18 +233,22 @@ $__user= Auth::user();
                               <input type="text" id="_referance" name="_referance" class="form-control _referance" value="{{old('_referance','')}}" placeholder="Referance" >
                             </div>
                         </div>
+                        <div class="col-xs-12 col-sm-12 col-md-3 ">
+                            <div class="form-group">
+                              <label class="mr-2" for="_delivery_details">{{__('label._delivery_details')}}:</label>
+                              <textarea id="_delivery_details" name="_delivery_details" class="form-control _delivery_details" value="{{old('_delivery_details','')}}" placeholder="{{__('label._delivery_details')}}">{{old('_delivery_details')}}</textarea>
+                              
+                            </div>
+                        </div>
 
-
-
-
-                         @php
+                    @php
                         $vessels = \DB::table('vessel_infos')->get();
-                        @endphp
+                    @endphp
                         <div class="col-xs-12 col-sm-12 col-md-3   @if($_show_vn==0) display_none @endif">
                             <div class="form-group">
                               <label class="mr-2" for="_vessel_no">{{__('label._vessel_no')}}:</label>
                              
-                              <select class="form-control " name="_vessel_no">
+                              <select class="form-control _vessel_no" name="_vessel_no">
                                 <option value="">{{__('label.select')}}</option>
                                 @forelse($vessels as $key=>$val)
                                 <option value="{{$val->id}}" 
@@ -242,20 +258,20 @@ $__user= Auth::user();
                               </select>
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-2   @if($_show_vn==0) display_none @endif">
+                        <div class="col-xs-12 col-sm-12 col-md-2  display_none ">
                             <div class="form-group">
                               <label class="mr-2" for="_vessel_no">{{__('label._capacity')}}:</label>
                              
                               <input type="text" name="_vessel_capacity" class="form-control _vessel_capacity" readonly>
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-2 @if($_show_ar_date==0) display_none @endif ">
+                        <div class="col-xs-12 col-sm-12 col-md-2  display_none  ">
                             <div class="form-group">
                               <label class="mr-2" for="_arrival_date_time">{{__('label._arrival_date_time')}}:</label>
                               <input type="datetime-local" id="_arrival_date_time" name="_arrival_date_time" class="form-control _arrival_date_time" value="{{old('_arrival_date_time')}}" placeholder="{{__('label._arrival_date_time')}}" >
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-2 @if($_show_dis_date==0) display_none @endif ">
+                        <div class="col-xs-12 col-sm-12 col-md-2  display_none  ">
                             <div class="form-group">
                               <label class="mr-2" for="_discharge_date_time">{{__('label._discharge_date_time')}}:</label>
                               <input type="datetime-local" id="_discharge_date_time" name="_discharge_date_time" class="form-control _discharge_date_time" value="{{old('_discharge_date_time')}}" placeholder="{{__('label._discharge_date_time')}}" >
@@ -307,13 +323,8 @@ $__user= Auth::user();
                                              <th class="text-middle @if(isset($form_settings->_show_expire_date)) @if($form_settings->_show_expire_date==0) display_none @endif
                                             @endif"> Expired Date </th>
                                            
-                                            <th class="text-left  @if(sizeof($permited_branch)  ==1) display_none @endif " >Branch</th>
                                             
-                                            
-                                             <th class="text-left  @if(sizeof($permited_costcenters)  ==1) display_none @endif " >Cost Center</th>
-                                            
-                                             
-                                             <th class="text-left @if(sizeof($store_houses)  ==1) display_none @endif" >Store</th>
+                                             <th class="text-left @if(sizeof($store_houses)  ==1) display_none @endif" >{{__('label._store_id')}}</th>
                                            
                                             
                                              <th class="text-left  @if($_show_self  ==0) display_none @endif " >Shelf</th>
@@ -409,26 +420,6 @@ $__user= Auth::user();
                                                 <input type="date" name="_expire_date[]" class="form-control _expire_date " >
                                               </td>
                                             
-                                               <td class="@if(sizeof($permited_branch) == 1) display_none @endif ">
-                                                <select class="form-control  _main_branch_id_detail" name="_main_branch_id_detail[]"  required>
-                                                  @forelse($permited_branch as $branch )
-                                                  <option value="{{$branch->id}}" @if(isset($request->_branch_id)) @if($request->_branch_id == $branch->id) selected @endif   @endif>{{ $branch->_name ?? '' }}</option>
-                                                  @empty
-                                                  @endforelse
-                                                </select>
-                                              </td>
-                                             
-                                             
-                                               <td class=" @if(sizeof($permited_costcenters) == 1) display_none @endif " >
-                                                 <select class="form-control  _main_cost_center" name="_main_cost_center[]" required >
-                                            
-                                                  @forelse($permited_costcenters as $costcenter )
-                                                  <option value="{{$costcenter->id}}" @if(isset($request->_main_cost_center)) @if($request->_main_cost_center == $costcenter->id) selected @endif   @endif> {{ $costcenter->_name ?? '' }}</option>
-                                                  @empty
-                                                  @endforelse
-                                                </select>
-                                              </td>
-                                            
                                               <td class=" @if(sizeof($store_houses) == 1) display_none @endif ">
                                                 <select class="form-control  _main_store_id" name="_main_store_id[]">
                                                   @forelse($store_houses as $store)
@@ -436,7 +427,6 @@ $__user= Auth::user();
                                                   @empty
                                                   @endforelse
                                                 </select>
-                                                
                                               </td>
                                              
                                              
@@ -491,12 +481,6 @@ $__user= Auth::user();
                                               </td>
                                               <td class="@if(isset($form_settings->_show_expire_date)) @if($form_settings->_show_expire_date==0) display_none  @endif @endif">
                                               </td>
-                                             
-                                               <td class="@if(sizeof($permited_branch) == 1) display_none @endif"></td>
-                                              
-                                              
-                                               <td class="@if(sizeof($permited_costcenters) == 1) display_none @endif"></td>
-                                             
                                                <td class="@if(sizeof($store_houses) == 1) display_none @endif"></td>
                                               
                                               <td class="@if($_show_self==0) display_none @endif"></td>
@@ -648,8 +632,6 @@ $__user= Auth::user();
     </div>
   </div>
 
-
-
 </div>
 @include('backend.common-modal.item_ledger_modal')
 
@@ -694,7 +676,7 @@ $("#_serach_baorce").focus();
  
 
   $(document).on("click","#form_settings",function(){
-         setting_data_fetch();
+      setting_data_fetch();
   })
 
   function setting_data_fetch(){
@@ -1217,11 +1199,7 @@ function _add_new_row_for_barcode(_warranty,row_id,_name,_p_item_item_id,_unit_i
                                                 <select class="form-control _transection_unit _transection_unit__${row_id}" name="_transection_unit[]">
                                                 </select>
                                               </td>
-
-                                             
                                               <td class="@if($_show_barcode==0) display_none @endif d-flex">
-                                                
-
                                                 <input type="text" readonly name="${_item_row_count}__barcode__${row_id}" class="form-control _barcode _barcode__${row_id} ${_item_row_count}__barcode " value="${_barcode}" id="${_item_row_count}__barcode"  >
 
                                                 <div  class="modal __modal_${row_id} _modal_show_class" tabindex="-1" role="dialog" style="display: ${(_global_unique_barcode==1) ? 'contents' : 'none'}">
@@ -1278,12 +1256,9 @@ function _add_new_row_for_barcode(_warranty,row_id,_name,_p_item_item_id,_unit_i
                                                 <td class="@if($_inline_discount==0) display_none @endif">
                                                 <input type="number" name="_discount[]" class="form-control  _discount _discount__${row_id} _common_keyup" value="${_sales_discount}" >
                                               </td>
-
-
                                               <td class="@if($_inline_discount==0) display_none @endif">
                                                 <input type="number" name="_discount_amount[]" class="form-control  _discount_amount _discount_amount__${row_id}" value="${_discount_amount}" >
                                               </td>
-                                             
                                               <td>
                                                 <input type="number" name="_value[]" class="form-control _value _value__${row_id} " readonly value="${_value_line}" >
                                               </td>
@@ -1293,27 +1268,6 @@ function _add_new_row_for_barcode(_warranty,row_id,_name,_p_item_item_id,_unit_i
                                               <td class="@if(isset($form_settings->_show_expire_date)) @if($form_settings->_show_expire_date==0) display_none  @endif @endif">
                                                 <input type="date" name="_expire_date[]" class="form-control _expire_date__${row_id} _expire_date " value="${_expire_date}" >
                                               </td>
-                                              
-                                              <td class="@if(sizeof($permited_branch) == 1) display_none @endif ">
-                                                <select class="form-control  _main_branch_id_detail__${row_id} _main_branch_id_detail" name="_main_branch_id_detail[]"  required>
-                                                  @forelse($permited_branch as $branch )
-                                                  <option value="{{$branch->id}}" @if(isset($request->_branch_id)) @if($request->_branch_id == $branch->id) selected @endif   @endif>{{ $branch->_name ?? '' }}</option>
-                                                  @empty
-                                                  @endforelse
-                                                </select>
-                                              </td>
-                                              
-                                               <td class="@if(sizeof($permited_costcenters)==1) display_none @endif">
-                                                 <select class="form-control  _main_cost_center__${row_id} _main_cost_center" name="_main_cost_center[]" required >
-                                            
-                                                  @forelse($permited_costcenters as $costcenter )
-                                                  <option value="{{$costcenter->id}}" @if(isset($request->_main_cost_center)) @if($request->_main_cost_center == $costcenter->id) selected @endif   @endif> {{ $costcenter->_name ?? '' }}</option>
-                                                  @empty
-                                                  @endforelse
-                                                </select>
-                                              </td>
-                                              
-                                             
                                               <td class="@if(sizeof($store_houses)==1) display_none @endif">
                                                 <select class="form-control  _main_store_id__${row_id} _main_store_id" name="_main_store_id[]">
                                                   @forelse($store_houses as $store)
@@ -1321,14 +1275,10 @@ function _add_new_row_for_barcode(_warranty,row_id,_name,_p_item_item_id,_unit_i
                                                   @empty
                                                   @endforelse
                                                 </select>
-                                                
                                               </td>
-                                              
                                               <td class="@if($_show_self==0) display_none @endif">
                                                 <input type="text" name="_store_salves_id[]" class="form-control _store_salves_id _store_salves_id__${row_id} " value="${_store_salves_id}" >
                                               </td>
-                                              
-                                              
                                             </tr>`);
 
 $("."+_item_row_count+"___warranty").val(_warranty);
@@ -1354,9 +1304,6 @@ var _main_unit_val = '';
   $(document).find('._base_rate__'+row_id).val(_sales_rate);
   $(document).find('._base_unit_id__'+row_id).val(_main_unit_id);
   $(document).find('._main_unit_val__'+row_id).val(_main_unit_val);
-
-
-
 
 _purchase_total_calculation();
 
@@ -1396,7 +1343,253 @@ $(document).on("click",'._barcode_modal_button',function(){
     $(document).find("._barcode_modal_list_body").html(search_html);
   })
 
+ $(document).on('keyup','._direct_purchase_no',delay(function(e){
+    var _gloabal_this = $(this);
+    var _text_val = $(this).val().trim();
+
+
+  var request = $.ajax({
+      url: "{{url('purchase-invoice-search')}}",
+      method: "GET",
+      data: { _text_val : _text_val },
+      dataType: "JSON"
+    });
+     
+    request.done(function( result ) {
+console.log(result)
+      var search_html =``;
+      var data = result; 
+      if(data.length > 0 ){
+            search_html +=`<div class="card">
+            <table style="width: 300px;" class="table-bordered">
+            <thead>
+            <th>{{__('label._order_number')}}</th>
+            <th>{{__('label._date')}}</th>
+            <th>{{__('label._mother_vessel_no')}}</th>
+            <th>{{__('label._vessel_no')}}</th>
+            </thead><tbody>`;
+                        for (var i = 0; i < data.length; i++) {
+                         search_html += `<tr class="search_row_import_purchase" >
+
+                                        <td>${isEmpty(data[i]?._order_number)}
+
+                                        <input class="_import_purchase_invoice_no" value="${isEmpty(data[i]?._order_number)}" type="hidden" />
+                                        <input class="_import_purchase_invoice_id" value="${isEmpty(data[i]?.id)}" type="hidden" /></td>
+                                        <td>${isEmpty(data[i]?._date)}</td>
+                                        <td>${isEmpty(data[i]?._import_purchase?._mother_vessel?._name)}</td>
+                                        <td>${isEmpty(data[i]?._lighter_info?._name)}</td>
+                                   </tr>`;
+
+                                  
+                                   
+                        }                         
+            search_html += ` </tbody> </table></div>`;
+      }else{
+        search_html +=`<div class="card"><table style="width: 300px;"> 
+        <thead><th colspan="3">No Data Found</th></thead><tbody></tbody></table></div>`;
+      }     
+      _gloabal_this.parent('div').find('.search_box_master_purchase').html(search_html);
+      _gloabal_this.parent('div').find('.search_box_master_purchase').addClass('search_box_show').show();
+      
+    });
+     
+    request.fail(function( jqXHR, textStatus ) {
+      alert( "Request failed: " + textStatus );
+    });
+
   
+
+}, 500));  
+
+
+$(document).on('click','.search_row_import_purchase',function(){
+  var _order_number = $(this).find('._import_purchase_invoice_no').val();
+  var id = $(this).find('._import_purchase_invoice_id').val();
+
+var self = $(this);
+
+    var request = $.ajax({
+      url: "{{url('id-base-purchase-detail')}}",
+      method: "GET",
+      data: { _order_number:_order_number, id:id},
+       dataType: "html"
+    });
+     
+    request.done(function( response ) {
+      var data = JSON.parse(response);
+     // console.log(response)
+      var _master_details = data._master_details;
+      var master_info = data;
+      var _ledger = data._ledger;
+      
+
+      $(document).find("._direct_purchase_no").val(master_info?._order_number);
+      $(document).find("._vessel_no").val(master_info?._vessel_no).change();
+      $(document).find(".area__purchase_details").empty();
+
+      var _total__expected_qty=0;
+      var _total_qty = 0;
+      var _total__value=0;
+
+      var detail_html =``;
+      if(_master_details?.length > 0){
+        for (var i = _master_details.length - 1; i >= 0; i--) {
+          console.log(_master_details[i])
+
+
+          _total__expected_qty +=_master_details[i]?._expected_qty;
+          _total_qty  +=_master_details[i]?._qty;
+          _total__value +=_master_details[i]?._value;
+        
+
+        var _item_row_count = parseFloat($(document).find('._item_row_count').val());
+       var _item_row_count = (parseFloat(_item_row_count)+1);
+      $("._item_row_count").val(_item_row_count)
+
+         detail_html +=`<tr class="_purchase_row">
+                                              <td>
+                                                <a  href="#none" class="btn btn-default _purchase_row_remove" ><i class="fa fa-trash"></i></a>
+                                              </td>
+                                              <td>
+                                                <input type="text" name="_search_item_id[]" class="form-control _search_item_id width_280_px" placeholder="Item" value="${_master_details[i]?._items?._name}">
+                                                <input type="hidden" name="_item_id[]" class="form-control _item_id width_200_px" value="${_master_details[i]?._items?.id}" >
+                                                <input type="hidden" name="_p_p_l_id[]" class="form-control _p_p_l_id "  value="${_master_details[i]?._lot_product?.id}">
+                                                <input type="hidden" name="_purchase_invoice_no[]" class="form-control _purchase_invoice_no" value="${_master_details[i]?._no}">
+                                                <input type="hidden" name="_purchase_detail_id[]" class="form-control _purchase_detail_id" value="${_master_details[i]?.id}">
+                                                <div class="search_box_item"></div>
+                                              </td>
+                                                <td class="display_none">
+                                                <input type="hidden" class="form-control _base_unit_id width_100_px" name="_base_unit_id[]" value="${_master_details[i]?._base_unit}" />
+                                                <input type="text" class="form-control _main_unit_val width_100_px" readonly name="_main_unit_val[]" value="${_master_details[i]?._base_unit}"/>
+                                              </td>
+                                              <td class="display_none">
+                                                <input type="number" name="conversion_qty[]" min="0" step="any" class="form-control conversion_qty " value="${_master_details[i]?._unit_conversion}" readonly>
+                                                <input type="number" name="_base_rate[]" min="0" step="any" class="form-control _base_rate " value="${_master_details[i]?._items?._pur_rate}"  readonly>
+                                              </td>
+                                              <td class="@if($form_settings->_show_unit==0) display_none @endif">
+                                                <select class="form-control _transection_unit _transection_unit__${_item_row_count}" name="_transection_unit[]">
+                                                </select>
+                                              </td>
+                                             
+                                              <td class="@if($_show_barcode==0) display_none @endif">
+                                                <input type="text" readonly name="_barcode[]" class="form-control _barcode  ${_item_row_count}__barcode " value="" id="${_item_row_count}__barcode" value="${_master_details[i]?._barcode}" >
+
+                                                <input type="hidden" name="_ref_counter[]" value="${_item_row_count}" class="_ref_counter" id="${_item_row_count}__ref_counter">
+                                              </td>
+                                                <td class="@if($_show_warranty  ==0) display_none @endif">
+                                                <select name="_warranty[]" class="form-control _warranty ${_item_row_count}___warranty">
+                                                   <option value="0">--None --</option>
+                                                      @forelse($_warranties as $_warranty )
+                                                      <option value="{{$_warranty->id}}" >{{ $_warranty->_name ?? '' }}</option>
+                                                      @empty
+                                                      @endforelse
+                                                </select>
+                                              </td>
+                                              <td class="@if($_show_expected_qty==0) display_none @endif" >
+                                                <input type="number" name="_expected_qty[]" class="form-control _expected_qty _common_keyup" value="${_master_details[i]?._expected_qty}" >
+                                              </td>
+ 
+                                              <td>
+                                                <input type="number" name="_qty[]" class="form-control _qty _common_keyup"  value="${_master_details[i]?._qty}">
+                                              </td>
+                                              <td class="@if($_show_cost_rate==0) display_none @endif">
+                                                <input type="number" name="_rate[]" class="form-control _rate " readonly value="${_master_details[i]?._rate}" >
+                                              </td>
+                                              <td>
+                                                <input type="number" name="_sales_rate[]" class="form-control _sales_rate _common_keyup" value="${_master_details[i]?._sales_rate}">
+                                              </td>
+                                               
+                                                <td class="@if($_show_vat==0) display_none @endif">
+                                                <input type="number" name="_vat[]" class="form-control  _vat _common_keyup" value="${_master_details[i]?._vat}">
+                                              </td>
+                                              <td class="@if($_show_vat==0) display_none @endif">
+                                                <input type="number" name="_vat_amount[]" class="form-control  _vat_amount" value="${_master_details[i]?._vat_amount}">
+                                              </td>
+                                              <td class=" @if($_show_sd == 0) display_none @endif ">
+                                                <input type="number" name="_sd[]" class="form-control  _sd _common_keyup" placeholder="" value="${_master_details[i]?._sd}">
+                                              </td>
+                                              <td class="@if($_show_sd ==0) display_none @endif " >
+                                                <input type="number" name="_sd_amount[]" class="form-control  _sd_amount" placeholder=""  value="${_master_details[i]?._sd_amount}">
+                                              </td>
+                                                <td class="@if($_inline_discount==0) display_none @endif">
+                                                <input type="number" name="_discount[]" class="form-control  _discount _common_keyup" value="${_master_details[i]?._discount}">
+                                              </td>
+                                              <td class="@if($_inline_discount==0) display_none @endif">
+                                                <input type="number" name="_discount_amount[]" class="form-control  _discount_amount"  value="${_master_details[i]?._discount_amount}" >
+                                              </td>
+                                             
+                                              <td>
+                                                <input type="number" name="_value[]" class="form-control _value " value="${_master_details[i]?._value}"  >
+                                              </td>
+                                              <td class="@if(isset($form_settings->_show_manufacture_date)) @if($form_settings->_show_manufacture_date==0) display_none  @endif @endif">
+                                                <input type="date" name="_manufacture_date[]" class="form-control _manufacture_date "
+                                                value="${_master_details[i]?._manufacture_date}"  
+                                                >
+                                              </td>
+                                              <td class="@if(isset($form_settings->_show_expire_date)) @if($form_settings->_show_expire_date==0) display_none  @endif @endif">
+                                                <input type="date" name="_expire_date[]" class="form-control _expire_date " value="${_master_details[i]?._expire_date}" >
+                                              </td>
+                                              <td class="@if(sizeof($store_houses)==1) display_none @endif">
+                                                <select class="form-control  _main_store_id _main_store_id___${_item_row_count}" name="_main_store_id[]">
+                                                  @forelse($store_houses as $store)
+                                                  <option value="{{$store->id}}">{{$store->_name ?? '' }}</option>
+                                                  @empty
+                                                  @endforelse
+                                                </select>
+                                              </td>
+                                              <td class="@if($_show_self==0) display_none @endif">
+                                                <input type="text" name="_store_salves_id[]" class="form-control _store_salves_id "  value="${_master_details[i]?._store_salves_id}">
+                                              </td>
+                                            </tr>`;
+
+  var _p_item_item_id = _master_details[i]?._item_id
+  var _transection_unit___class=`_transection_unit__${_item_row_count}`;
+  var _store_id = _master_details[i]?._store_id;
+
+  var _main_store_id___class =`_main_store_id___${_item_row_count}`;
+  // console.log(_item_row_count)
+  // console.log(_main_store_id___class)
+
+  $(document).find("."+_main_store_id___class).val(_store_id).change();
+  
+      var self = $(this);
+      var request = $.ajax({
+        url: "{{url('item-wise-units')}}",
+        method: "GET",
+        data: { item_id:_p_item_item_id },
+         dataType: "html"
+      });
+       
+      request.done(function( response ) {
+        $(document).find('._transection_unit').html("")
+        $(document).find("."+_transection_unit___class).html(response);
+      });
+       
+      request.fail(function( jqXHR, textStatus ) {
+        alert( "Request failed: " + textStatus );
+      });
+
+    }
+      }
+$(document).find("._total_expected_qty_amount").val(_total__expected_qty);
+$(document).find("._total_qty_amount").val(_total_qty);
+$(document).find("._total_value_amount").val(_total__value);
+
+
+
+
+      $(document).find(".area__purchase_details").html(detail_html);
+});
+     
+    request.fail(function( jqXHR, textStatus ) {
+      alert( "Request failed: " + textStatus );
+    });
+ 
+  $('.search_box_master_purchase').hide();
+  $('.search_box_master_purchase').removeClass('search_box_show').hide();
+})
+
+
   
 
   $(document).on('keyup','._search_item_id',delay(function(e){
@@ -1418,6 +1611,14 @@ $(document).on("click",'._barcode_modal_button',function(){
       var data = result.data; 
       if(data.length > 0 ){
             search_html +=`<div class="card"><table style="width: 300px;">
+            <thead>
+            <th>{{__('label._order_number')}}</th>
+            <th>{{__('label._item')}}</th>
+            <th>{{__('label._unit')}}</th>
+            <th>{{__('label._qty')}}</th>
+            <th>{{__('label._sales_rate')}}</th>
+            <th>{{__('label._store_id')}}</th>
+            </thead>
                             <tbody>`;
                         for (var i = 0; i < data.length; i++) {
                          search_html += `<tr class="search_row_item" >
@@ -1447,11 +1648,10 @@ $(document).on("click",'._barcode_modal_button',function(){
    <input type="hidden" name="_main_unit_id" class="_main_unit_id" value="${data[i]._unit_id}">
    <input type="hidden" name="_main_unit_text" class="_main_unit_text" value="${data[i]?._unit_name}">
                                    </td>
-
-                                   
-                                   <td>${data[i]._qty} ${data[i]?._unit_name}</td>
-                                    <td>${data[i]._pur_rate}</td>
-                                    <td>${data[i]._sales_rate}</td>
+                                   <td> ${data[i]?._unit_name}</td>
+                                    <td>${data[i]?._qty}</td>
+                                    <td>${data[i]?._sales_rate}</td>
+                                    <td>${data[i]?._store_name}</td>
                                    </tr>`;
 
                                   
@@ -1557,6 +1757,7 @@ $(this).parent().parent().parent().parent().parent().parent().find('.'+find_coun
   $(this).parent().parent().parent().parent().parent().parent().find('._warranty').val(_warranty);
 var _search_item_id="_search_item_id__"+row_id;
   $(this).parent().parent().parent().parent().parent().parent().find('._search_item_id').addClass(_search_item_id)
+  $(this).parent().parent().parent().parent().parent().parent().find('._main_store_id').val(_store_id).change();
 
 
   _purchase_total_calculation();
@@ -1935,24 +2136,9 @@ function purchase_row_add(event){
                                                 <input type="date" name="_expire_date[]" class="form-control _expire_date " >
                                               </td>
                                               
-                                              <td class="@if(sizeof($permited_branch)==1) display_none @endif">
-                                                <select class="form-control  _main_branch_id_detail" name="_main_branch_id_detail[]"  required>
-                                                  @forelse($permited_branch as $branch )
-                                                  <option value="{{$branch->id}}" @if(isset($request->_branch_id)) @if($request->_branch_id == $branch->id) selected @endif   @endif>{{ $branch->_name ?? '' }}</option>
-                                                  @empty
-                                                  @endforelse
-                                                </select>
-                                              </td>
-                                              
-                                               <td class="@if(sizeof($permited_costcenters)==1) display_none @endif">
-                                                 <select class="form-control  _main_cost_center" name="_main_cost_center[]" required >
                                             
-                                                  @forelse($permited_costcenters as $costcenter )
-                                                  <option value="{{$costcenter->id}}" @if(isset($request->_main_cost_center)) @if($request->_main_cost_center == $costcenter->id) selected @endif   @endif> {{ $costcenter->_name ?? '' }}</option>
-                                                  @empty
-                                                  @endforelse
-                                                </select>
-                                              </td>
+                                              
+                                              
                                               
                                              
                                               <td class="@if(sizeof($store_houses)==1) display_none @endif">

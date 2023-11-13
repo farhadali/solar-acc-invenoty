@@ -228,13 +228,21 @@ $__user= Auth::user();
                             <div class="form-group">
                               <label class="mr-2" for="_vessel_no"><?php echo e(__('label._vessel_no')); ?>:</label>
                              
-                              <select class="form-control select2" name="_vessel_no">
+                              <select class="form-control " name="_vessel_no">
                                 <option value=""><?php echo e(__('label.select')); ?></option>
                                 <?php $__empty_1 = true; $__currentLoopData = $vessels; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                                <option value="<?php echo e($val->id); ?>" <?php if($val->id==$data->_vessel_no): ?> selected <?php endif; ?> ><?php echo e($val->_name ?? ''); ?></option>
+                                <option value="<?php echo e($val->id); ?>" 
+                                  attr_capacity="<?php echo e($val->_capacity ?? 0); ?>"><?php echo e($val->_name ?? ''); ?> || Capacity: <?php echo e($val->_capacity ?? 0); ?></option>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                                 <?php endif; ?>
                               </select>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2   <?php if($_show_vn==0): ?> display_none <?php endif; ?>">
+                            <div class="form-group">
+                              <label class="mr-2" for="_vessel_no"><?php echo e(__('label._capacity')); ?>:</label>
+                             
+                              <input type="text" name="_vessel_capacity" class="form-control _vessel_capacity" readonly>
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-2 <?php if($_show_ar_date==0): ?> display_none <?php endif; ?> ">

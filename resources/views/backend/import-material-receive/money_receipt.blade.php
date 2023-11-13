@@ -13,11 +13,11 @@
 }
   </style>
 <div class="_report_button_header">
- <a class="nav-link"  href="{{url('import-purchase')}}" role="button"><i class="fa fa-arrow-left"></i></a>
- @can('import-purchase-edit')
-    <a  href="{{ route('import-purchase.edit',$data->id) }}" 
+ <a class="nav-link"  href="{{url('import-material-receive')}}" role="button"><i class="fa fa-arrow-left"></i></a>
+ @can('import-material-receive-edit')
+    <a  href="{{ route('import-material-receive.edit',$data->id) }}" 
     class="nav-link "  title="Edit" 
-   attr_base_edit_url="{{ route('import-purchase.edit',$data->id) }}" >
+   attr_base_edit_url="{{ route('import-material-receive.edit',$data->id) }}" >
     <i class="nav-icon fas fa-edit"></i>
      </a>
   @endcan

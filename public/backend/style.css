@@ -267,6 +267,19 @@ label{
     background: #fff;
     display: none;
 }
+.search_box_master_purchase{
+    position: absolute;
+    z-index: 9999;
+    background: #fff;
+    display: none;
+}
+.search_row_import_purchase{
+    cursor: pointer;
+}
+.search_row_import_purchase:hover{
+    background: #e9ecef;
+    cursor: pointer;
+}
 .search_manu_comapany{
     cursor: pointer;
 }
@@ -1074,7 +1087,7 @@ tbody{
 }
 
 
-.modal {
+/*.modal {
   padding: 0 !important; // override inline padding-right added from js
 }
 .modal .modal-dialog {
@@ -1090,7 +1103,7 @@ tbody{
 }
 .modal .modal-body {
   overflow-y: auto;
-}
+}*/
 
 #spinner_div {
     position: fixed;

@@ -78,26 +78,33 @@ $__user= Auth::user();
               </div>
               <div class="card-body">
                 <div class="">
-                  
+
                   <table class="table table-bordered table-striped table-hover _list_table">
                     <thead>
                       <tr>
                          <th class=" _nv_th_action _action_big"><b>Action</b></th>
-                         <th class=" _no"><b>ID</b></th>
-                         <th class=""><b>Date</b></th>
+                         <th><?php echo e(__('label._lock')); ?></th>
+                         <th class=" _no"><b><?php echo e(__('label.id')); ?></b></th>
+                         
+                         <?php if(sizeof($permited_organizations) > 1): ?>
                          <th class=""><b><?php echo e(__('label.organization')); ?></b></th>
+                         <?php endif; ?>
+                         <?php if(sizeof($permited_branch) > 1): ?>
                          <th class=""><b>Branch</b></th>
-                         <th class=""><b>Invoice No</b></th>
+                         <?php endif; ?>
+                         <?php if(sizeof($permited_costcenters) > 1): ?>
+                         <th class=""><b><?php echo e(__('label._cost_center_id')); ?></b></th>
+                         <?php endif; ?>
+                         <th class=""><b><?php echo e(__('label._order_number')); ?></b></th>
+                         <th class=""><b><?php echo e(__('label._date')); ?></b></th>
                          <th class=""><b>Order Ref</b></th>
                          <th class=""><b>Referance</b></th>
                          <th class=""><b>Ledger</b></th>
-                         <th class=""><b>Sub Total</b></th>
-                         <th class=""><b>VAT</b></th>
                          <th class=""><b>Total</b></th>
                          <th class=""><b>User</b></th>
                          <th class=""><b>Created At</b></th>
                          <th class=""><b>Updated At</b></th>
-                         <th>Lock</th>
+                         
                        
 
                       </tr>
@@ -148,43 +155,47 @@ $__user= Auth::user();
                                   </div>
                                 </div>
                                 
-                                
-                                
-                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('labels-print')): ?>
-                                    <a title="Model Barcode Print" target="__blank" class="btn btn-default" href="<?php echo e(url('labels-print')); ?>?_id=<?php echo e($data->id); ?>&_type=purchase"><i class=" fas fa-barcode"></i></a>
-                                  <?php endif; ?>
-                                 
-                               
                         </td>
 
-                            
+                           <td>
+                              
+                             <div style="display: flex;">
+                              <?php if($data->_lock==1): ?>
+                              <i class="fa fa-lock _green mr-2 _icon_change__<?php echo e($data->id); ?>" aria-hidden="true"></i>
+                              <?php else: ?>
+                              <i class="fa fa-lock _required mr-2 _icon_change__<?php echo e($data->id); ?>" aria-hidden="true"></i>
+                              <?php endif; ?>
+                                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('lock-permission')): ?>
+                              <input class="form-control _invoice_lock" type="checkbox" name="_lock" _attr_invoice_id="<?php echo e($data->id); ?>" value="<?php echo e($data->_lock); ?>" <?php if($data->_lock==1): ?> checked <?php endif; ?>>
+                              <?php endif; ?>
+
+                              
+                             </div>
+
+                           </td>
                             <td><?php echo e($data->id); ?></td>
-                            <td><?php echo e(_view_date_formate($data->_date ?? '')); ?> <?php echo e($data->_time ?? ''); ?></td>
-                            <td><?php echo e($data->_organization->_name ?? ''); ?></td>
-                            <td><?php echo e($data->_master_branch->_name ?? ''); ?></td>
+                           
+
+                            <?php if(sizeof($permited_organizations) > 1): ?>
+                         <td><?php echo e($data->_organization->_name ?? ''); ?></td>
+                         <?php endif; ?>
+                         <?php if(sizeof($permited_branch) > 1): ?>
+                        <td><?php echo e($data->_master_branch->_name ?? ''); ?></td>
+                         <?php endif; ?>
+                         <?php if(sizeof($permited_costcenters) > 1): ?>
+                         <td><?php echo e($data->_cost_center->_name ?? ''); ?></td>
+                         <?php endif; ?>
 
                             <td><?php echo e($data->_order_number ?? ''); ?></td>
+                             <td><?php echo e(_view_date_formate($data->_date ?? '')); ?> <?php echo e($data->_time ?? ''); ?></td>
                             <td><?php echo e($data->_order_ref_id ?? ''); ?></td>
                             <td><?php echo e($data->_referance ?? ''); ?></td>
                             <td><?php echo e($data->_ledger->_name ?? ''); ?></td>
-                            <td><?php echo e(_report_amount( $data->_sub_total ?? 0)); ?> </td>
-                            <td><?php echo e(_report_amount( $data->_total_vat ?? 0)); ?> </td>
                             <td><?php echo e(_report_amount( $data->_total ?? 0)); ?> </td>
                             <td><?php echo e($data->_user_name ?? ''); ?></td>
                             <td><?php echo e($data->created_at ?? ''); ?></td>
                             <td><?php echo e($data->updated_at ?? ''); ?></td>
-                           <td style="display: flex;">
-                              <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('lock-permission')): ?>
-                              <input class="form-control _invoice_lock" type="checkbox" name="_lock" _attr_invoice_id="<?php echo e($data->id); ?>" value="<?php echo e($data->_lock); ?>" <?php if($data->_lock==1): ?> checked <?php endif; ?>>
-                              <?php endif; ?>
-
-                              <?php if($data->_lock==1): ?>
-                              <i class="fa fa-lock _green ml-1 _icon_change__<?php echo e($data->id); ?>" aria-hidden="true"></i>
-                              <?php else: ?>
-                              <i class="fa fa-lock _required ml-1 _icon_change__<?php echo e($data->id); ?>" aria-hidden="true"></i>
-                              <?php endif; ?>
-
-                            </td>
+                           
                             
                            
                         </tr>
@@ -193,9 +204,17 @@ $__user= Auth::user();
                        
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         <tr>
-                          <td colspan="9" class="text-center"><b>Total</b></td>
-                          <td><b><?php echo e(_report_amount($sum_of_sub_total)); ?> </b></td>
-                          <td></td>
+                          <td colspan="3"></td>
+                          <?php if(sizeof($permited_organizations) > 1): ?>
+                         <td></td>
+                         <?php endif; ?>
+                         <?php if(sizeof($permited_branch) > 1): ?>
+                         <td></td>
+                         <?php endif; ?>
+                         <?php if(sizeof($permited_costcenters) > 1): ?>
+                         <td></td>
+                         <?php endif; ?>
+                          <td colspan="5" class="text-center"><b>Total</b></td>
                           <td><b><?php echo e(_report_amount($sum_of_amount)); ?> </b></td>
                           <td></td>
                           <td></td>

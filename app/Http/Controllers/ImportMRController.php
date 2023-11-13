@@ -133,25 +133,39 @@ class ImportMRController extends Controller
         $permited_branch = permited_branch(explode(',',$users->branch_ids));
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
         $store_houses = permited_stores(explode(',',$users->store_ids));
+        $permited_organizations = permited_organization(explode(',',$users->organization_ids));
         // $store_houses = StoreHouse::whereIn('_branch_id',explode(',',$users->cost_center_ids))->get();
         //return $datas;
          if($request->has('print')){
             if($request->print =="single"){
-                return view('backend.import-material-receive.master_print',compact('datas','page_name','account_types','request','account_groups','current_date','current_time','limit','form_settings','permited_branch','permited_costcenters','store_houses'));
+                return view('backend.import-material-receive.master_print',compact('datas','page_name','account_types','request','account_groups','current_date','current_time','limit','form_settings','permited_branch','permited_costcenters','store_houses','permited_organizations'));
             }
 
             if($request->print =="detail"){
-                return view('backend.import-material-receive.details_print',compact('datas','page_name','account_types','request','account_groups','current_date','current_time','limit','form_settings','permited_branch','permited_costcenters','store_houses'));
+                return view('backend.import-material-receive.details_print',compact('datas','page_name','account_types','request','account_groups','current_date','current_time','limit','form_settings','permited_branch','permited_costcenters','store_houses','permited_organizations'));
             }
          }
 
-        return view('backend.import-material-receive.index',compact('datas','page_name','account_types','request','account_groups','current_date','limit','form_settings','permited_branch','permited_costcenters','store_houses'));
+        return view('backend.import-material-receive.index',compact('datas','page_name','account_types','request','account_groups','current_date','limit','form_settings','permited_branch','permited_costcenters','store_houses','permited_organizations'));
     }
 
 
     public function importInvoiceWiseDetail(Request $request){
         $id = $request->import_invoice_id ?? '';
         $import_purchases =ImportPuchase::with(['_mother_vessel','_ledger','_master_details'])->where('_is_close',0)->where('id',$id)->first();
+
+        return json_encode($import_purchases);
+    }
+    public function purchaseInvoiceSerarch(Request $request){
+        $_text_val = $request->_text_val ?? '';
+        $import_purchases =Purchase::with(['_import_purchase','_lighter_info'])->where('_order_number','like',"%$_text_val%")
+        ->get();
+
+        return json_encode($import_purchases);
+    }
+    public function idBasePurchase(Request $request){
+        $id = $request->id ?? '';
+        $import_purchases =Purchase::with(['_import_purchase','_lighter_info','_master_details','_ledger'])->find($id);
 
         return json_encode($import_purchases);
     }
@@ -270,6 +284,7 @@ class ImportMRController extends Controller
        $all_req= $request->all();
          $this->validate($request, [
             '_date' => 'required',
+            'import_invoice_no' => 'required',
             '_branch_id' => 'required',
             '_main_ledger_id' => 'required',
             '_form_name' => 'required'
@@ -289,8 +304,9 @@ class ImportMRController extends Controller
 
          $_cost_center_id = $request->_cost_center_id;
          $_branch_id = $request->_branch_id;
+         $master_store_id = $request->_store_id ?? 1;
 
-
+         
 
 
          
@@ -300,7 +316,7 @@ class ImportMRController extends Controller
         $Purchase = new Purchase();
         $Purchase->_date = change_date_format($request->_date);
         $Purchase->_time = date('H:i:s');
-        $Purchase->_order_ref_id = $request->_order_ref_id;
+        $Purchase->_order_ref_id = $request->_order_ref_id ?? '';
         $Purchase->_purchase_type = $request->_purchase_type ?? 2;
         $Purchase->_referance = $request->_referance ?? '';
         $Purchase->_ledger_id = $request->_main_ledger_id;
@@ -308,28 +324,45 @@ class ImportMRController extends Controller
         $Purchase->_created_by = $users->id."-".$users->name;
         $Purchase->_user_id = $users->id;
         $Purchase->_user_name = $users->name;
-        $Purchase->_note = $request->_note;
+        $Purchase->_note = $request->_note ?? '';
         $Purchase->_sub_total = $__sub_total;
         $Purchase->_discount_input = $__discount_input;
         $Purchase->_total_discount = $__total_discount;
         $Purchase->_total_vat = $__total_vat;
         $Purchase->_total =  $__total;
 
-        $Purchase->_branch_id = $request->_branch_id;
+        $Purchase->_branch_id = $request->_branch_id ?? 1;
         $Purchase->organization_id = $organization_id;
-        $Purchase->_cost_center_id = $request->_cost_center_id;
-
-        $Purchase->_rlp_no = $request->_rlp_no;
-        $Purchase->_note_sheet_no = $request->_note_sheet_no;
-        $Purchase->_workorder_no = $request->_workorder_no;
-        $Purchase->_lc_no = $request->_lc_no;
-        $Purchase->_vessel_no = $request->_vessel_no;
-        $Purchase->_arrival_date_time = $request->_arrival_date_time;
-        $Purchase->_discharge_date_time = $request->_discharge_date_time;
+        $Purchase->_cost_center_id = $request->_cost_center_id ?? 1;
+        $Purchase->_store_id = $master_store_id ?? 1;
 
 
-        $Purchase->_address = $request->_address;
-        $Purchase->_phone = $request->_phone;
+        $import_invoice_no = $request->import_invoice_no;
+        $import_purchases =ImportPuchase::with(['_mother_vessel'])->find($import_invoice_no);
+        $im_rlp = $import_purchases->_rlp_no;
+        $im_note_sheet_no = $import_purchases->_note_sheet_no;
+        $im_workorder_no = $import_purchases->_workorder_no;
+        $im_lc_no = $import_purchases->_lc_no;
+
+        $Purchase->_rlp_no = $request->_rlp_no ?? $im_rlp;
+        $Purchase->_note_sheet_no = $request->_note_sheet_no ?? $im_note_sheet_no;
+        $Purchase->_workorder_no = $request->_workorder_no ?? $im_workorder_no;
+        $Purchase->_lc_no = $request->_lc_no ?? $im_lc_no;
+        $Purchase->_vessel_no = $request->_vessel_no ?? '';
+        $Purchase->_loading_date_time = $request->_loading_date_time ?? '';
+        $Purchase->_arrival_date_time = $request->_arrival_date_time ?? '';
+        $Purchase->_discharge_date_time = $request->_discharge_date_time ?? '';
+        $Purchase->_loding_point = $request->_loding_point ?? 1;
+        $Purchase->_unloading_point = $master_store_id ?? 1;
+        $Purchase->import_invoice_no = $request->import_invoice_no ?? 1;
+        $Purchase->_vessel_no = $request->_vessel_no ?? 1;
+        $Purchase->_vessel_res_person = $request->_vessel_res_person ?? '';
+        $Purchase->_vessel_res_mobile = $request->_vessel_res_mobile ?? '';
+
+
+
+        $Purchase->_address = $request->_address ?? '';
+        $Purchase->_phone = $request->_phone ?? '';
         $Purchase->_status = 1;
         $Purchase->_lock = $request->_lock ?? 0;
         $Purchase->save();
@@ -352,7 +385,7 @@ class ImportMRController extends Controller
         $_values = $request->_value;
         $_main_branch_id_detail = $request->_main_branch_id_detail;
         $_main_cost_center = $request->_main_cost_center;
-        $_store_ids = $request->_main_store_id;
+       // $_store_ids = $request->_main_store_id;
         $_store_salves_ids = $request->_store_salves_id;
         $_manufacture_dates = $request->_manufacture_date;
         $_expire_dates = $request->_expire_date;
@@ -403,7 +436,7 @@ class ImportMRController extends Controller
                 $PurchaseDetail->_vat = $_vats[$i] ?? 0;
                 $PurchaseDetail->_vat_amount = $_vat_amounts[$i] ?? 0;
                 $PurchaseDetail->_value = $_values[$i] ?? 0;
-                $PurchaseDetail->_store_id = $_store_ids[$i] ?? 1;
+                $PurchaseDetail->_store_id = $master_store_id;
                 $PurchaseDetail->_cost_center_id = $_cost_center_id ?? 1;
                 $PurchaseDetail->_store_salves_id = $_store_salves_ids[$i] ?? '';
                 $PurchaseDetail->organization_id = $organization_id ?? 1;
@@ -468,11 +501,13 @@ class ImportMRController extends Controller
                 $ProductPriceList->_value =$_values[$i] ?? 0;
                 $ProductPriceList->_purchase_detail_id =$_purchase_detail_id;
                 $ProductPriceList->_master_id = $purchase_id;
+
                 $ProductPriceList->organization_id = $organization_id ?? 1;
                 $ProductPriceList->_branch_id = $_branch_id ?? 1;
                 $ProductPriceList->_cost_center_id = $_cost_center_id ?? 1;
                 $ProductPriceList->_store_salves_id = $_store_salves_ids[$i] ?? '';
-                $ProductPriceList->_store_id = $_store_ids[$i] ?? 1;
+                $ProductPriceList->_store_id = $master_store_id;
+
                 $ProductPriceList->_status =1;
                 $ProductPriceList->_created_by = $users->id."-".$users->name;
                 $ProductPriceList->save();
@@ -536,7 +571,7 @@ class ImportMRController extends Controller
                 $ItemInventory->_value = $_values[$i] ?? 0;
                 $ItemInventory->organization_id = $organization_id ?? 1;
                 $ItemInventory->_branch_id = $_branch_id ?? 1;
-                $ItemInventory->_store_id = $_store_ids[$i] ?? 1;
+                $ItemInventory->_store_id = $master_store_id;
                 $ItemInventory->_cost_center_id = $_cost_center_id ?? 1;
                 $ItemInventory->_store_salves_id = $_store_salves_ids[$i] ?? '';
                 $ItemInventory->_status = 1;
@@ -580,34 +615,34 @@ class ImportMRController extends Controller
         $_cost_center =   $request->_cost_center_id;
         $_name =$users->name;
         
-        if($__sub_total > 0){
+        // if($__sub_total > 0){
 
-            //Default Purchase
-            account_data_save($_ref_master_id,$_ref_detail_id,_find_ledger($request->_main_ledger_id),$_narration,$_reference,$_transaction,$_date,$_table_name,$_default_purchase,$__sub_total,0,$_branch_id,$_cost_center,$_name,1,$organization_id);
-            //Default Supplier
-            account_data_save($_ref_master_id,$_ref_detail_id,_find_ledger($_default_purchase),$_narration,$_reference,$_transaction,$_date,$_table_name,$request->_main_ledger_id,0,$__sub_total,$_branch_id,$_cost_center,$_name,2,$organization_id);
+        //     //Default Purchase
+        //     account_data_save($_ref_master_id,$_ref_detail_id,_find_ledger($request->_main_ledger_id),$_narration,$_reference,$_transaction,$_date,$_table_name,$_default_purchase,$__sub_total,0,$_branch_id,$_cost_center,$_name,1,$organization_id);
+        //     //Default Supplier
+        //     account_data_save($_ref_master_id,$_ref_detail_id,_find_ledger($_default_purchase),$_narration,$_reference,$_transaction,$_date,$_table_name,$request->_main_ledger_id,0,$__sub_total,$_branch_id,$_cost_center,$_name,2,$organization_id);
 
-            //Default Inventory
-            account_data_save($_ref_master_id,$_ref_detail_id,_find_ledger($_default_purchase),$_narration,$_reference,$_transaction,$_date,$_table_name,$_default_inventory,$__sub_total,0,$_branch_id,$_cost_center,$_name,3,$organization_id);
-            //Default Purchase 
-            account_data_save($_ref_master_id,$_ref_detail_id,_find_ledger($_default_inventory),$_narration,$_reference,$_transaction,$_date,$_table_name,$_default_purchase,0,$__sub_total,$_branch_id,$_cost_center,$_name,4,$organization_id);
-        }
+        //     //Default Inventory
+        //     account_data_save($_ref_master_id,$_ref_detail_id,_find_ledger($_default_purchase),$_narration,$_reference,$_transaction,$_date,$_table_name,$_default_inventory,$__sub_total,0,$_branch_id,$_cost_center,$_name,3,$organization_id);
+        //     //Default Purchase 
+        //     account_data_save($_ref_master_id,$_ref_detail_id,_find_ledger($_default_inventory),$_narration,$_reference,$_transaction,$_date,$_table_name,$_default_purchase,0,$__sub_total,$_branch_id,$_cost_center,$_name,4,$organization_id);
+        // }
 
-        if($__total_discount > 0){
-            //Default Supplier
-            account_data_save($_ref_master_id,$_ref_detail_id,_find_ledger($_default_discount),$_narration,$_reference,$_transaction,$_date,$_table_name,$request->_main_ledger_id,$__total_discount,0,$_branch_id,$_cost_center,$_name,5,$organization_id);
-             //Default Discount
-            account_data_save($_ref_master_id,$_ref_detail_id,_find_ledger($request->_main_ledger_id),$_narration,$_reference,$_transaction,$_date,$_table_name,$_default_discount,0,$__total_discount,$_branch_id,$_cost_center,$_name,6,$organization_id);
+        // if($__total_discount > 0){
+        //     //Default Supplier
+        //     account_data_save($_ref_master_id,$_ref_detail_id,_find_ledger($_default_discount),$_narration,$_reference,$_transaction,$_date,$_table_name,$request->_main_ledger_id,$__total_discount,0,$_branch_id,$_cost_center,$_name,5,$organization_id);
+        //      //Default Discount
+        //     account_data_save($_ref_master_id,$_ref_detail_id,_find_ledger($request->_main_ledger_id),$_narration,$_reference,$_transaction,$_date,$_table_name,$_default_discount,0,$__total_discount,$_branch_id,$_cost_center,$_name,6,$organization_id);
         
-        }
+        // }
          $__total_vat = (float) $request->_total_vat ?? 0;
-        if($__total_vat > 0){
-            //Default Vat Account
-            account_data_save($_ref_master_id,$_ref_detail_id,_find_ledger($request->_main_ledger_id),$_narration,$_reference,$_transaction,$_date,$_table_name,$_default_vat_account,$__total_vat,0,$_branch_id,$_cost_center,$_name,7,$organization_id);
-        //Default Supplier
-            account_data_save($_ref_master_id,$_ref_detail_id,_find_ledger($_default_vat_account),$_narration,$_reference,$_transaction,$_date,$_table_name,$request->_main_ledger_id,0,$__total_vat,$_branch_id,$_cost_center,$_name,8,$organization_id);
+        // if($__total_vat > 0){
+        //     //Default Vat Account
+        //     account_data_save($_ref_master_id,$_ref_detail_id,_find_ledger($request->_main_ledger_id),$_narration,$_reference,$_transaction,$_date,$_table_name,$_default_vat_account,$__total_vat,0,$_branch_id,$_cost_center,$_name,7,$organization_id);
+        // //Default Supplier
+        //     account_data_save($_ref_master_id,$_ref_detail_id,_find_ledger($_default_vat_account),$_narration,$_reference,$_transaction,$_date,$_table_name,$request->_main_ledger_id,0,$__total_vat,$_branch_id,$_cost_center,$_name,8,$organization_id);
         
-        }
+        // }
 
         // ############################
         //  Purchase Account         Dr 
@@ -836,7 +871,12 @@ $store_houses = permited_stores(explode(',',$users->store_ids));
             return redirect()->back()->with('danger','You have no permission to edit or update !');
          }
         $sales_number = SalesDetail::where('_purchase_invoice_no',$id)->count();
-       return view('backend.import-material-receive.edit',compact('account_types','page_name','account_groups','branchs','permited_branch','permited_costcenters','store_houses','form_settings','inv_accounts','p_accounts','dis_accounts','categories','units','data','sales_number'));
+         $import_purchases =ImportPuchase::with(['_mother_vessel'])->where('_is_close',0)->get();
+         $all_store_houses = StoreHouse::where('_status',1)->get();
+
+         $import_purchase_single =ImportPuchase::with(['_mother_vessel','_ledger','_master_details'])->where('_is_close',0)->where('id',$data->import_invoice_no)->first();
+
+       return view('backend.import-material-receive.edit',compact('account_types','page_name','account_groups','branchs','permited_branch','permited_costcenters','store_houses','form_settings','inv_accounts','p_accounts','dis_accounts','categories','units','data','sales_number','import_purchases','all_store_houses','import_purchase_single'));
     }
 
     /**
@@ -849,7 +889,7 @@ $store_houses = permited_stores(explode(',',$users->store_ids));
  public function update(Request $request)
     {
          
-      // return dump($request->all());
+      //return dump($request->all());
         $all_req= $request->all();
         $this->validate($request, [
             '_purchase_id' => 'required',
@@ -905,6 +945,7 @@ $store_houses = permited_stores(explode(',',$users->store_ids));
     $organization_id = $request->organization_id ?? 1;   
     $_branch_id = $request->_branch_id;   
     $_cost_center_id = $request->_cost_center_id;
+    $master_store_id = $request->_store_id ?? 1;
 
     //###########################
     // Purchase Master information Save Start
@@ -936,14 +977,29 @@ $store_houses = permited_stores(explode(',',$users->store_ids));
         $Purchase->_branch_id = $request->_branch_id;
         $Purchase->organization_id = $organization_id;
         $Purchase->_cost_center_id = $request->_cost_center_id;
+        $Purchase->_store_id = $master_store_id;
 
-        $Purchase->_rlp_no = $request->_rlp_no;
-        $Purchase->_note_sheet_no = $request->_note_sheet_no;
-        $Purchase->_workorder_no = $request->_workorder_no;
-        $Purchase->_lc_no = $request->_lc_no;
-        $Purchase->_vessel_no = $request->_vessel_no;
-        $Purchase->_arrival_date_time = $request->_arrival_date_time;
-        $Purchase->_discharge_date_time = $request->_discharge_date_time;
+        $import_invoice_no = $request->import_invoice_no;
+        $import_purchases =ImportPuchase::with(['_mother_vessel'])->find($import_invoice_no);
+        $im_rlp = $import_purchases->_rlp_no;
+        $im_note_sheet_no = $import_purchases->_note_sheet_no;
+        $im_workorder_no = $import_purchases->_workorder_no;
+        $im_lc_no = $import_purchases->_lc_no;
+
+        $Purchase->_rlp_no = $request->_rlp_no ?? $im_rlp;
+        $Purchase->_note_sheet_no = $request->_note_sheet_no ?? $im_note_sheet_no;
+        $Purchase->_workorder_no = $request->_workorder_no ?? $im_workorder_no;
+        $Purchase->_lc_no = $request->_lc_no ?? $im_lc_no;
+        $Purchase->_vessel_no = $request->_vessel_no ?? '';
+        $Purchase->_loading_date_time = $request->_loading_date_time ?? '';
+        $Purchase->_arrival_date_time = $request->_arrival_date_time ?? '';
+        $Purchase->_discharge_date_time = $request->_discharge_date_time ?? '';
+        $Purchase->_loding_point = $request->_loding_point ?? 1;
+        $Purchase->_unloading_point = $master_store_id ?? 1;
+        $Purchase->import_invoice_no = $request->import_invoice_no ?? 1;
+        $Purchase->_vessel_no = $request->_vessel_no ?? 1;
+        $Purchase->_vessel_res_person = $request->_vessel_res_person ?? '';
+        $Purchase->_vessel_res_mobile = $request->_vessel_res_mobile ?? '';
 
         $Purchase->_address = $request->_address;
         $Purchase->_phone = $request->_phone;
@@ -1005,7 +1061,7 @@ if($sales_number == 0 ){
                 $PurchaseDetail->_barcode = $barcode_string;
                 $PurchaseDetail->_item_id = $_item_ids[$i];
                 $PurchaseDetail->_qty = $_qtys[$i];
-                $PurchaseDetail->_expected_qty = $_expected_qty[$i] ?? 0;
+                $PurchaseDetail->_expected_qty = $_expected_qtys[$i] ?? 0;
 
                 $PurchaseDetail->_transection_unit = $_transection_units[$i] ?? 1;
                 $PurchaseDetail->_unit_conversion = $conversion_qtys[$i] ?? 1;
@@ -1019,7 +1075,7 @@ if($sales_number == 0 ){
                 $PurchaseDetail->_vat = $_vats[$i] ?? 0;
                 $PurchaseDetail->_vat_amount = $_vat_amounts[$i] ?? 0;
                 $PurchaseDetail->_value = $_values[$i] ?? 0;
-                $PurchaseDetail->_store_id = $_store_ids[$i] ?? 1;
+                $PurchaseDetail->_store_id = $master_store_id;
                 $PurchaseDetail->_cost_center_id = $_main_cost_center[$i] ?? 1;
                 $PurchaseDetail->_store_salves_id = $_store_salves_ids[$i] ?? 1;
                 $PurchaseDetail->organization_id = $organization_id ?? 1;
@@ -1089,7 +1145,7 @@ if($sales_number == 0 ){
                 $ProductPriceList->_p_vat_amount = $_vat_amounts[$i] ?? 0;
                 $ProductPriceList->organization_id = $organization_id ?? 1;
                 $ProductPriceList->_branch_id = $_main_branch_id_detail[$i] ?? 1;
-                $ProductPriceList->_store_id = $_store_ids[$i] ?? 1;
+                $ProductPriceList->_store_id = $master_store_id;
                 $ProductPriceList->_cost_center_id = $_main_cost_center[$i] ?? 1;
                 $ProductPriceList->_store_salves_id = $_store_salves_ids[$i] ?? '';
                 $ProductPriceList->_status =1;
@@ -1167,7 +1223,7 @@ if($_unique_barcode ==1){
                 $ItemInventory->_cost_value = ($_qtys[$i]*$_rates[$i]);
                 $ItemInventory->_value = $_values[$i] ?? 0;
                 $ItemInventory->_branch_id = $_main_branch_id_detail[$i] ?? 1;
-                $ItemInventory->_store_id = $_store_ids[$i] ?? 1;
+                $ItemInventory->_store_id = $master_store_id;
                 $ItemInventory->_cost_center_id = $_main_cost_center[$i] ?? 1;
                 $ItemInventory->_store_salves_id = $_store_salves_ids[$i] ?? '';
                 $ItemInventory->_status = 1;
@@ -1220,34 +1276,34 @@ if($_unique_barcode ==1){
          $__discount_input = (float) $request->_discount_input;
          $__total_discount = (float) $request->_total_discount;
          $__total_vat = (float) $request->_total_vat ?? 0;
-if($__sub_total > 0){
+// if($__sub_total > 0){
 
-            //Default Purchase
-            account_data_save($_ref_master_id,$_ref_detail_id,_find_ledger($request->_main_ledger_id),$_narration,$_reference,$_transaction,$_date,$_table_name,$_default_purchase,$__sub_total,0,$_branch_id,$_cost_center,$_name,1,$organization_id);
-        //Default Supplier
-            account_data_save($_ref_master_id,$_ref_detail_id,_find_ledger($_default_purchase),$_narration,$_reference,$_transaction,$_date,$_table_name,$request->_main_ledger_id,0,$__sub_total,$_branch_id,$_cost_center,$_name,2,$organization_id);
+//             //Default Purchase
+//             account_data_save($_ref_master_id,$_ref_detail_id,_find_ledger($request->_main_ledger_id),$_narration,$_reference,$_transaction,$_date,$_table_name,$_default_purchase,$__sub_total,0,$_branch_id,$_cost_center,$_name,1,$organization_id);
+//         //Default Supplier
+//             account_data_save($_ref_master_id,$_ref_detail_id,_find_ledger($_default_purchase),$_narration,$_reference,$_transaction,$_date,$_table_name,$request->_main_ledger_id,0,$__sub_total,$_branch_id,$_cost_center,$_name,2,$organization_id);
 
-            //Default Inventory
-            account_data_save($_ref_master_id,$_ref_detail_id,_find_ledger($_default_purchase),$_narration,$_reference,$_transaction,$_date,$_table_name,$_default_inventory,$__sub_total,0,$_branch_id,$_cost_center,$_name,3,$organization_id);
-        //Default Purchase 
-            account_data_save($_ref_master_id,$_ref_detail_id,_find_ledger($_default_inventory),$_narration,$_reference,$_transaction,$_date,$_table_name,$_default_purchase,0,$__sub_total,$_branch_id,$_cost_center,$_name,4,$organization_id);
-        }
+//             //Default Inventory
+//             account_data_save($_ref_master_id,$_ref_detail_id,_find_ledger($_default_purchase),$_narration,$_reference,$_transaction,$_date,$_table_name,$_default_inventory,$__sub_total,0,$_branch_id,$_cost_center,$_name,3,$organization_id);
+//         //Default Purchase 
+//             account_data_save($_ref_master_id,$_ref_detail_id,_find_ledger($_default_inventory),$_narration,$_reference,$_transaction,$_date,$_table_name,$_default_purchase,0,$__sub_total,$_branch_id,$_cost_center,$_name,4,$organization_id);
+//         }
 
-        if($__total_discount > 0){
-            //Default Supplier
-            account_data_save($_ref_master_id,$_ref_detail_id,_find_ledger($_default_discount),$_narration,$_reference,$_transaction,$_date,$_table_name,$request->_main_ledger_id,$__total_discount,0,$_branch_id,$_cost_center,$_name,5,$organization_id);
-             //Default Discount
-            account_data_save($_ref_master_id,$_ref_detail_id,_find_ledger($request->_main_ledger_id),$_narration,$_reference,$_transaction,$_date,$_table_name,$_default_discount,0,$__total_discount,$_branch_id,$_cost_center,$_name,6,$organization_id);
+//         if($__total_discount > 0){
+//             //Default Supplier
+//             account_data_save($_ref_master_id,$_ref_detail_id,_find_ledger($_default_discount),$_narration,$_reference,$_transaction,$_date,$_table_name,$request->_main_ledger_id,$__total_discount,0,$_branch_id,$_cost_center,$_name,5,$organization_id);
+//              //Default Discount
+//             account_data_save($_ref_master_id,$_ref_detail_id,_find_ledger($request->_main_ledger_id),$_narration,$_reference,$_transaction,$_date,$_table_name,$_default_discount,0,$__total_discount,$_branch_id,$_cost_center,$_name,6,$organization_id);
         
-        }
-         $__total_vat = (float) $request->_total_vat ?? 0;
-        if($__total_vat > 0){
-            //Default Vat Account
-            account_data_save($_ref_master_id,$_ref_detail_id,_find_ledger($request->_main_ledger_id),$_narration,$_reference,$_transaction,$_date,$_table_name,$_default_vat_account,$request->_total_vat,0,$_branch_id,$_cost_center,$_name,7,$organization_id);
-        //Default Supplier
-            account_data_save($_ref_master_id,$_ref_detail_id,_find_ledger($_default_vat_account),$_narration,$_reference,$_transaction,$_date,$_table_name,$request->_main_ledger_id,0,$request->_total_vat,$_branch_id,$_cost_center,$_name,8,$organization_id);
+//         }
+//          $__total_vat = (float) $request->_total_vat ?? 0;
+//         if($__total_vat > 0){
+//             //Default Vat Account
+//             account_data_save($_ref_master_id,$_ref_detail_id,_find_ledger($request->_main_ledger_id),$_narration,$_reference,$_transaction,$_date,$_table_name,$_default_vat_account,$request->_total_vat,0,$_branch_id,$_cost_center,$_name,7,$organization_id);
+//         //Default Supplier
+//             account_data_save($_ref_master_id,$_ref_detail_id,_find_ledger($_default_vat_account),$_narration,$_reference,$_transaction,$_date,$_table_name,$request->_main_ledger_id,0,$request->_total_vat,$_branch_id,$_cost_center,$_name,8,$organization_id);
         
-        }
+//         }
 
         // ############################
         //  Purchase Account         Dr 
@@ -1372,7 +1428,7 @@ if($__sub_total > 0){
 
              \DB::table('purchases')
              ->where('id',$purchase_id)
-             ->update(['_p_balance'=>$_p_balance,'_l_balance'=>$_l_balance,'_order_number'=>$_pfix]);
+             ->update(['_p_balance'=>$_p_balance,'_l_balance'=>$_l_balance]);
 
              //SMS SEND to Customer and Supplier
              $_send_sms = $request->_send_sms ?? '';
@@ -1387,7 +1443,7 @@ if($__sub_total > 0){
 
                DB::commit();
         if(($request->_lock ?? 0) ==1){
-                return redirect('import-purchase/print/'.$purchase_id)
+                return redirect('import-material-receive/print/'.$purchase_id)
                 ->with('success','Information save successfully');
           }else{
             return redirect()->back()

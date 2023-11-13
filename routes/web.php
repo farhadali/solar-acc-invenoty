@@ -89,6 +89,9 @@ Route::get('make_all_table_autoincrement', function(){
 
 
 Route::get('/', 'App\Http\Controllers\FrontendController@index');
+Route::get('/lc-master', function(){
+   return view('procurment.lc-management.create');
+});
 
 
 Auth::routes();
@@ -101,6 +104,9 @@ Route::group(['middleware' => ['auth']], function() {
 Route::resource('import-purchase',ImportPuchaseController::class);
 Route::resource('import-material-receive',ImportMRController::class);
 Route::get('import-invoice-wise-detail',[ImportMRController::class,'importInvoiceWiseDetail']);
+Route::get('import-material-receive/print/{id}', 'App\Http\Controllers\ImportMRController@purchasePrint');
+Route::get('purchase-invoice-search', 'App\Http\Controllers\ImportMRController@purchaseInvoiceSerarch');
+Route::get('id-base-purchase-detail', 'App\Http\Controllers\ImportMRController@idBasePurchase');
 
 Route::resource('vessel-info',VesselInfoController::class);
 Route::resource('mother-vessel-info',MotherVesselController::class);

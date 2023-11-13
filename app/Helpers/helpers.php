@@ -290,10 +290,14 @@ function make_po_number($organization_id,$branch_id){
 
 
 function make_order_number($table,$organization_id,$branch_id){
-    $row_counts = \DB::table($table)->where('organization_id',$organization_id)
-                                            ->where('_branch_id',$branch_id)
-                                            ->count();
-     $row_counts = ($row_counts+1);                                   
+
+    $counts = \DB::select("SELECT COUNT(id) as _row_count FROM ".$table." WHERE `organization_id`=".$organization_id." AND _branch_id=".$branch_id." ");
+    // $row_counts = \DB::table($table)->where('organization_id',$organization_id)
+    //                                         ->where('_branch_id',$branch_id)
+    //                                         ->count();
+    $row_counts = $counts[0]->_row_count ?? 0;
+
+   // $row_counts = ($row_counts+1);                                   
     $org_code = \App\Models\hrm\Company::find($organization_id)->_code ?? '';
     $branch_code = \App\Models\Branch::find($branch_id)->_code ?? '';
     if(strlen($row_counts)==1){

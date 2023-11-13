@@ -160,39 +160,11 @@ $__user= Auth::user();
                         </div>
                         @include('basic.org_create')
 
-                          <div class="col-xs-12 col-sm-12 col-md-2  @if($_show_po==0) display_none @endif">
-                            <div class="form-group">
-                              <label class="mr-2" for="_order_ref_id">{{__('label.purchase_order')}}:</label>
-                              <input type="text" id="_search_order_ref_id" name="_search_order_ref_id" class="form-control _search_order_ref_id" value="{{old('_order_ref_id')}}" placeholder="{{__('label.purchase_order')}}" >
-                              <input type="hidden" id="_order_ref_id" name="_order_ref_id" class="form-control _order_ref_id" value="{{old('_order_ref_id')}}" placeholder="Purchase Order" >
-                              <div class="search_box_purchase_order"></div>
-                            </div>
-                        </div>
+                         
 
-                        <div class="col-xs-12 col-sm-12 col-md-2 @if($_show_po==0) display_none @endif">
-                            <div class="form-group">
-                              <label class="mr-2" for="_rlp_no">{{__('label._rlp_no')}}:</label>
-                              <input type="text" id="_rlp_no" name="_rlp_no" class="form-control _rlp_no" value="{{old('_rlp_no')}}" placeholder="{{__('label._rlp_no')}}" >
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-2 @if($_show_note_sheet==0) display_none @endif">
-                            <div class="form-group">
-                              <label class="mr-2" for="_note_sheet_no">{{__('label._note_sheet_no')}}:</label>
-                              <input type="text" id="_note_sheet_no" name="_note_sheet_no" class="form-control _note_sheet_no" value="{{old('_note_sheet_no')}}" placeholder="{{__('label._note_sheet_no')}}" >
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-2 @if($_show_wo==0) display_none @endif ">
-                            <div class="form-group">
-                              <label class="mr-2" for="_workorder_no">{{__('label._workorder_no')}}:</label>
-                              <input type="text" id="_workorder_no" name="_workorder_no" class="form-control _workorder_no" value="{{old('_workorder_no')}}" placeholder="{{__('label._workorder_no')}}" >
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-2 @if($_show_lc==0) display_none @endif">
-                            <div class="form-group">
-                              <label class="mr-2" for="_lc_no">{{__('label._lc_no')}}:</label>
-                              <input type="text" id="_lc_no" name="_lc_no" class="form-control _lc_no" value="{{old('_lc_no')}}" placeholder="{{__('label._lc_no')}}" >
-                            </div>
-                        </div>
+                        
+                        
+                        
                         @php
                         $vessels = \DB::table('vessel_infos')->get();
                         @endphp
@@ -211,19 +183,19 @@ $__user= Auth::user();
                         <div class="col-xs-12 col-sm-12 col-md-3  @if($_show_vn==0) display_none @endif">
                             <div class="form-group">
                               <label class="mr-2" for="_name_of_master">{{__('label._name_of_master')}}:</label>
-                              <input type="text" name="_name_of_master" class="form-control" placeholder="{{__('label._name_of_master')}}">
+                              <input type="text" name="_vessel_res_person" class="form-control" placeholder="{{__('label._name_of_master')}}">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-2  @if($_show_vn==0) display_none @endif">
                             <div class="form-group">
                               <label class="mr-2" for="_mobile_of_master">{{__('label._mobile_of_master')}}:</label>
-                              <input type="text" name="_mobile_of_master" class="form-control" placeholder="{{__('label._mobile_of_master')}}">
+                              <input type="text" name="_vessel_res_mobile" class="form-control" placeholder="{{__('label._mobile_of_master')}}">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-2  @if($_show_vn==0) display_none @endif">
                             <div class="form-group">
-                              <label class="mr-2" for="_loading_place">{{__('label._loding_point')}}:</label>
-                              <select class="form-control" name="_loading_place">
+                              <label class="mr-2" for="_loding_point">{{__('label._loding_point')}}:</label>
+                              <select class="form-control" name="_loding_point">
                                 <option value="">{{__('label.select')}}</option>
                                 @forelse($all_store_houses as $key=>$val)
                                   <option value="{{$val->id}}">{{ $val->_name ?? '' }}</option>
@@ -234,8 +206,8 @@ $__user= Auth::user();
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-2 ">
                             <div class="form-group">
-                              <label class="mr-2" for="_unloading_point">{{__('label._unloading_point')}}:</label>
-                             <select class="form-control" name="_unloading_point">
+                              <label class="mr-2" for="_store_id">{{__('label._store_id')}}:</label>
+                             <select class="form-control" name="_store_id">
                                 <option value="">{{__('label.select')}}</option>
                                 @forelse($store_houses as $key=>$val)
                                   <option value="{{$val->id}}">{{ $val->_name ?? '' }}</option>
@@ -287,6 +259,8 @@ $__user= Auth::user();
                                 
                             </div>
                         </div>
+
+                        
                         <div class="col-md-12  ">
                              <div class="card">
                               <div class="card-header">
@@ -304,7 +278,7 @@ $__user= Auth::user();
                                             <th class="text-left display_none" >{{__('label.conversion_qty')}}</th>
                                             <th class="text-left @if(isset($_show_unit)) @if($_show_unit==0) display_none    @endif @endif" >{{__('label._transection_unit')}}</th>
                                            
-                                            <th class="text-left @if($_show_barcode==0) display_none    @endif " >{{__('_barcode')}}</th>
+                                            <th class="text-left @if($_show_barcode==0) display_none    @endif " >{{__('label._barcode')}}</th>
                                             <th class="text-left @if($_show_short_note==0) display_none    @endif " >{{__('label._note')}}</th>
                                          
                                             <th class="text-left @if($_show_expected_qty==0) display_none @endif" >{{__('label._expected_qty')}}</th>
@@ -312,11 +286,7 @@ $__user= Auth::user();
                                             <th class="text-left" >{{__('label._rate')}}</th>
                                             <th class="text-left @if($_show_sales_rate==0) display_none @endif" >{{__('label._sales_rate')}}</th>
 
-                                            <th class="text-left @if($_inline_discount  ==0) display_none @endif" >{{__('label._discount')}}%</th>
-                                            <th class="text-left @if($_inline_discount  ==0) display_none @endif" >{{__('label._discount_value')}}</th>
-                                           
-                                            <th class="text-left @if(isset($_show_vat)) @if($_show_vat==0) display_none   @endif @endif" >{{__('label._vat')}}%</th>
-                                            <th class="text-left @if(isset($_show_vat)) @if($_show_vat==0) display_none   @endif @endif" >{{__('label._vat_amount')}}</th>
+                                            
                                             
                                             <th class="text-left" >{{__('label._value')}}</th>
                                            
@@ -378,26 +348,11 @@ $__user= Auth::user();
                                                 <input type="number" name="_sales_rate[]" class="form-control _sales_rate " >
                                               </td>
 
-                                               <td class="@if($_inline_discount ==0) display_none @endif " >
-                                                <input type="number" name="_discount[]" class="form-control  _discount _common_keyup" >
-                                              </td>
-                                              <td class="@if($_inline_discount ==0) display_none @endif" >
-                                                <input type="number" name="_discount_amount[]" class="form-control  _discount_amount" >
-                                              </td>
-                                             
-                                              <td class="@if(isset($_show_vat)) @if($_show_vat==0) display_none  @endif @endif ">
-                                                <input type="number" name="_vat[]" class="form-control  _vat _common_keyup" >
-                                              </td>
-                                              <td class="@if(isset($_show_vat)) @if($_show_vat==0) display_none  @endif @endif ">
-                                                <input type="number" name="_vat_amount[]" class="form-control  _vat_amount" >
-                                              </td>
+                                              
                                               <td>
                                                 <input type="number" name="_value[]" class="form-control _value "  >
                                               </td>
                                             
-                                              
-                                              
-                                              
                                               <td class="@if(isset($_show_self)) @if($_show_self==0) display_none  @endif @endif">
                                                 <input type="text" name="_store_salves_id[]" class="form-control _store_salves_id " >
                                               </td>
@@ -434,17 +389,8 @@ $__user= Auth::user();
                                               </td>
                                               <td></td>
                                               <td class="@if($_show_sales_rate==0) display_none @endif"></td>
-                                              <td class="@if($_inline_discount==0) display_none @endif"></td>
-                                              <td class="@if($_inline_discount==0) display_none @endif">
-                                                <input type="number" step="any" min="0" name="_total_discount_amount" class="form-control _total_discount_amount" value="0" readonly required>
-                                              </td>
                                              
-                                              <td class="@if(isset($_show_vat)) @if($_show_vat==0) display_none   @endif  @endif"></td>
-                                              <td class="@if(isset($_show_vat)) @if($_show_vat==0) display_none   @endif  @endif">
-                                                <input type="number" step="any" min="0" name="_total_vat_amount" class="form-control _total_vat_amount" value="0" readonly required>
-                                              </td>
-
-                                              
+                                             
                                             
                                               <td>
                                                 <input type="number" step="any" min="0" name="_total_value_amount" class="form-control _total_value_amount" value="0" readonly required>
@@ -497,20 +443,20 @@ $__user= Auth::user();
                                 <input type="text" name="_sub_total" class="form-control width_200_px" id="_purchase_sub_total" readonly value="0">
                               </td>
                             </tr>
-                            <tr>
+                            <tr class="display_none">
                               <td style="width: 10%;border:0px;"><label for="_discount_input">Invoice Discount</label></td>
                               <td style="width: 70%;border:0px;">
                                 <input type="text" name="_discount_input" class="form-control width_200_px" id="_purchase_discount_input" value="0" >
                               </td>
                             </tr>
-                            <tr>
+                            <tr class="display_none">
                               <td style="width: 10%;border:0px;"><label for="_total_discount">Total Discount</label></td>
                               <td style="width: 70%;border:0px;">
                                 <input type="text" name="_total_discount" class="form-control width_200_px" id="_purchase_total_discount" readonly value="0">
                               </td>
                             </tr>
                            
-                            <tr class="@if($_show_vat==0) display_none @endif">
+                            <tr class="display_none" >
                               <td style="width: 10%;border:0px;"><label for="_total_vat">Total VAT</label></td>
                               <td style="width: 70%;border:0px;">
                                 <input type="text" name="_total_vat" class="form-control width_200_px" id="_purchase_total_vat" readonly value="0">
@@ -1422,20 +1368,6 @@ function purchase_row_add(event){
                                               <td class="@if($_show_sales_rate==0) display_none @endif">
                                                 <input type="number" name="_sales_rate[]" class="form-control _sales_rate " >
                                               </td>
-                                              <td class="@if($_inline_discount==0) display_none @endif">
-                                                <input type="number" name="_discount[]" class="form-control  _discount _discount__0 _common_keyup" value="" >
-                                              </td>
-                                              <td class="@if($_inline_discount==0) display_none @endif">
-                                                <input type="number" name="_discount_amount[]" class="form-control  _discount_amount _discount_amount__0" value="" >
-                                              </td>
-
-                                               <td class=" @if($_show_vat==0) display_none @endif">
-                                                <input type="number" name="_vat[]" class="form-control  _vat _common_keyup" >
-                                              </td>
-                                              <td class=" @if($_show_vat==0) display_none @endif">
-                                                <input type="number" name="_vat_amount[]" class="form-control  _vat_amount" >
-                                              </td>
-                                              
                                               
                                               <td>
                                                 <input type="number" name="_value[]" class="form-control _value "  >

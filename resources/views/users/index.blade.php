@@ -140,7 +140,7 @@
                             }
                           @endphp
                           @forelse($stores as $val)
-                              @if(in_array($val->id,$selected_organization_ids)) <label class="badge badge-info">{{$val->_name}}</label> @endif
+                              @if(in_array($val->id,$selected_store_ids)) <label class="badge badge-info">{{$val->_name}}</label> @endif
                               @empty
                               @endforelse
 

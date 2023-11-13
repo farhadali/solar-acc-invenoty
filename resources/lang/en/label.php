@@ -17,6 +17,7 @@ return [
 
 
 
+    '_direct_purchase_no' => 'MRR NO',
     '_master_vessel_available_qty' => 'Available QTY',
     '_prvious_receive_qty' => 'Previous Rec. Qty',
     '_mother_vessel_total_qty' => 'Mother Vessel Total Qty',

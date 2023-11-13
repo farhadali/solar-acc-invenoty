@@ -42,4 +42,11 @@ class Purchase extends Model
     public function _master_store(){
         return $this->hasOne(StoreHouse::class,'id','_store_id')->select('id','_name');
     }
+
+    public function _import_purchase(){
+        return $this->hasOne(ImportPuchase::class,'id','import_invoice_no')->with(['_mother_vessel']);
+    }
+    public function _lighter_info(){
+        return $this->hasOne(VesselInfo::class,'id','_vessel_no');
+    }
 }
