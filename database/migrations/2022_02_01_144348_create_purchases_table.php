@@ -19,9 +19,20 @@ class CreatePurchasesTable extends Migration
             $table->date('_date');
             $table->string('_time',60);
             $table->integer('_order_ref_id')->default(0);
+
+
+            $table->string('_purchase_type')->nullable()->comment('Local,Import');
             $table->string('_po_number')->nullable();
             $table->string('_rlp_no')->nullable();
             $table->string('_note_sheet_no')->nullable();
+            $table->string('_workorder_no')->nullable();
+            $table->string('_lc_no')->nullable();
+            $table->string('_vessel_no')->nullable();
+            $table->string('_arrival_date_time')->nullable();
+            $table->string('_discharge_date_time')->nullable();
+ 
+
+
             $table->string('_referance')->nullable();
             $table->unsignedBigInteger('_ledger_id');
             $table->foreign('_ledger_id')->references('id')->on('account_ledgers');
@@ -34,6 +45,15 @@ class CreatePurchasesTable extends Migration
             $table->double('_total_discount',15,4)->default(0);
             $table->double('_total_vat',15,4)->default(0);
             $table->double('_total',15,4)->default(0);
+
+            $table->double('_total_sd_amount',15,4)->default(0);
+            $table->double('_total_cd_amount',15,4)->default(0);
+            $table->double('_total_ait_amount',15,4)->default(0);
+            $table->double('_total_rd_amount',15,4)->default(0);
+            $table->double('_total_at_amount',15,4)->default(0);
+            $table->double('_total_tti_amount',15,4)->default(0);
+
+            
             $table->double('_p_balance',15,4)->default(0);
             $table->double('_l_balance',15,4)->default(0);
             $table->integer('organization_id')->default(1);

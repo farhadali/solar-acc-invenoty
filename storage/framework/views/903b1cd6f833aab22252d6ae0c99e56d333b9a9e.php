@@ -80,11 +80,11 @@
 
                                <?php endif; ?>  
 
-                               <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('cost-center-authorization-chain')): ?>
+                              <!--  <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('cost-center-authorization-chain')): ?>
                                   <a  type="button" 
                                   href="<?php echo e(url('cost-center-chain')); ?>/<?php echo e($data->id); ?>"
                                   class="btn btn-sm btn-default  mr-1"><i class="fa fa-users "></i></a>
-                                  <?php endif; ?>
+                                  <?php endif; ?> -->
                                
                         </td>  
                               

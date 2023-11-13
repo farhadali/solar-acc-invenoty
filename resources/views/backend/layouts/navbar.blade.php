@@ -52,6 +52,16 @@
           </a>
         </div>
         @endcan
+        @can('import-purchase-list')
+         <div style="display: flex;">
+         <a href="{{route('import-purchase.index')}}" class="dropdown-item">
+            <i class="fa fa-fax mr-2" aria-hidden="true"></i> {{ __('label.import-purchase') }}
+          </a>
+          <a  href="{{route('import-purchase.create')}}" class="dropdown-item text-right">
+            <i class="nav-icon fas fa-plus"></i>
+          </a>
+        </div>
+        @endcan
       </li>
     @endcan
         @can('hrm-module') 
@@ -583,7 +593,7 @@
           </a>
         </div>
          @endcan 
-       @can('actual-sales-report')wa
+       @can('actual-sales-report')
         <div style="display: flex;">
            <a href="{{url('filter-actual-sales')}}" class="dropdown-item">
             <i class="fa fa-list-alt mr-2" aria-hidden="true"></i> {{ __('label.actual-sales-report') }}
@@ -1009,6 +1019,15 @@
            
         </div>
          @endcan
+        @can('vessel-info-list')
+         <div class="dropdown-divider"></div> 
+        <div style="display: flex;">
+           <a href="{{url('vessel-info')}}" class="dropdown-item">
+            <i class="fa fa-list-alt mr-2" aria-hidden="true"></i>{{ __('label.vessel-info') }}
+          </a>
+           
+        </div>
+         @endcan
           @can('restaurant-module') 
           <p style="text-align: center;margin-bottom: 1px solid #000;"><b>Resturant Module</b></p>
       @can('table-info-menu')
@@ -1170,10 +1189,9 @@
           <a href="{{url('store-house')}}" class="dropdown-item">
            <i class="fa fa-adjust mr-2" aria-hidden="true"></i> {{ __('label.Store House') }} 
           </a>
-            <a   href="#None" 
-          class="dropdown-item text-right attr_base_create_url"
-            data-toggle="modal" data-target="#commonEntryModal_item" 
-            attr_base_create_url="{{route('store-house.create')}}"> 
+            <a   
+          class="dropdown-item text-right "
+            href="{{route('store-house.create')}}"> 
             <i class="nav-icon fas fa-plus"></i> </a>
         </div>
           

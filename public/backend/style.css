@@ -604,6 +604,10 @@ body:not(.layout-fixed) .main-sidebar {
 
 
 
+
+
+
+
 @media screen {
     body {
         background-color: #fff; /* background color */
@@ -947,14 +951,18 @@ input[type='text']{
 
 #_sub_total,#_discount_input,#_total_discount,#_total_discount,
 #_total_vat,#_total,#_service_charge,#_other_charge,#_delivery_charge,
-#_stock_in__total,#_cost_price
+#_stock_in__total,#_cost_price,#_sd_input,#total_sd_amount
 {
     width: 250px;
 }
 
 #_purchase_sub_total,#_purchase_discount_input,#_purchase_total_discount,#_purchase_total_discount,
 #_purchase_total_vat,#_purchase_total,#_purchase_service_charge,#_purchase_other_charge,#_purchase_delivery_charge,
-#_purchase_stock_in__total,#_purchase_cost_price
+#_purchase_stock_in__total,#_purchase_cost_price,
+#_purchase_total_ait_amount,#_purchase_inv_ait_amount
+,#_purchase_inv_ait_amount
+,#_purchase_total_sd_amount,#_purchase_total_cd_amount,#_purchase_total_rd_amount
+,#_purchase_total_at_amount,#_purchase_total_tti_amount
 {
     width: 250px;
 }

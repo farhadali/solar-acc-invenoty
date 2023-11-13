@@ -241,7 +241,9 @@ $__user= Auth::user();
                       <tr>
                         <td><?php echo e($sl); ?></td>
                         <td>
-                          <a href="<?php echo e(url('rlp-to-notesheet')); ?>?rlp_no=<?php echo e($data->rlp_no); ?>"></a>
+                          <?php if($data->rlp_status==1): ?>
+                          <a target="__blank" class="btn btn-primary" href="<?php echo e(url('rlp-to-notesheet')); ?>?rlp_no=<?php echo e($data->rlp_no); ?>&rlp_id=<?php echo e($data->id); ?>&supplier_id=<?php echo e($data->_ledger_id ?? ''); ?>"><?php echo e(__('label.notesheet')); ?></a>
+                          <?php endif; ?>
                         </td>
                         <td>
                          

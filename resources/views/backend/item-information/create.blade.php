@@ -1,4 +1,6 @@
-
+@extends('backend.layouts.app')
+@section('title',$page_name ?? '')
+@section('content')
 <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
@@ -34,7 +36,7 @@
                        <div class="col-xs-12 col-sm-12 col-md-3">
                             <div class="form-group">
                                 <label>Category: <span class="_required">*</span></label>
-                               <select  class="form-control _category_id select2" name="_category_id" required>
+                               <select  class="form-control _category_id " name="_category_id" required>
                                   <option value="">--Select Category--</option>
                                   @forelse($categories as $category )
                                   <option value="{{$category->id}}"  @if(old('_category_id') == $category->id) selected @endif  >{{ $category->_parents->_name ?? 'C' }}->{{ $category->_name ?? '' }}</option>
@@ -98,20 +100,56 @@
                                 <input type="text" id="_barcode" name="_barcode" class="form-control" value="{{old('_barcode')}}" placeholder="Model" >
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-3">
+                        <div class="col-xs-12 col-sm-12 col-md-2">
                             <div class="form-group">
                                 <label for="_discount">Discount Rate:</label>
                                 <input type="text" id="_discount" name="_discount" class="form-control" value="{{old('_discount')}}" placeholder="Discount Rate" >
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-3">
+                        <div class="col-xs-12 col-sm-12 col-md-2">
                             <div class="form-group">
                                 <label for="_vat">Vat Rate:</label>
                                 <input type="text" id="_vat" name="_vat" class="form-control" value="{{old('_vat')}}" placeholder="Vat Rate" >
                             </div>
                         </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2">
+                            <div class="form-group">
+                                <label for="_sd">{{__('label._sd')}}:</label>
+                                <input type="text" id="_sd" name="_sd" class="form-control" value="{{old('_sd')}}" placeholder="{{__('label._sd')}}" >
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2">
+                            <div class="form-group">
+                                <label for="_cd">{{__('label._cd')}}:</label>
+                                <input type="text" id="_cd" name="_cd" class="form-control" value="{{old('_cd')}}" placeholder="{{__('label._cd')}}" >
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2">
+                            <div class="form-group">
+                                <label for="_ait">{{__('label._ait')}}:</label>
+                                <input type="text" id="_ait" name="_ait" class="form-control" value="{{old('_ait')}}" placeholder="{{__('label._ait')}}" >
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2">
+                            <div class="form-group">
+                                <label for="_rd">{{__('label._rd')}}:</label>
+                                <input type="text" id="_rd" name="_rd" class="form-control" value="{{old('_rd')}}" placeholder="{{__('label._rd')}}" >
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2">
+                            <div class="form-group">
+                                <label for="_at">{{__('label._at')}}:</label>
+                                <input type="text" id="_at" name="_at" class="form-control" value="{{old('_at')}}" placeholder="{{__('label._at')}}" >
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2">
+                            <div class="form-group">
+                                <label for="_tti">{{__('label._tti')}}:</label>
+                                <input type="text" id="_tti" name="_tti" class="form-control" value="{{old('_tti')}}" placeholder="{{__('label._tti')}}" >
+                            </div>
+                        </div>
                         
-                        <div class="col-xs-12 col-sm-12 col-md-3 @if(sizeof($permited_branch)==1) display_none @endif ">
+                        <div class="col-xs-12 col-sm-12 col-md-2 @if(sizeof($permited_branch)==1) display_none @endif ">
                             <div class="form-group ">
                                 <label>Branch:<span class="_required">*</span></label>
                                <select class="form-control _master_branch_id" name="_branch_id" required >
@@ -123,7 +161,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-3 @if(sizeof($permited_costcenters)==1) display_none @endif ">
+                        <div class="col-xs-12 col-sm-12 col-md-2 @if(sizeof($permited_costcenters)==1) display_none @endif ">
                             <div class="form-group ">
                                 <label>Cost Center:<span class="_required">*</span></label>
                                <select class="form-control _cost_center_id" name="_cost_center_id" required >
@@ -135,7 +173,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-3 @if(sizeof($store_houses)==1) display_none @endif">
+                        <div class="col-xs-12 col-sm-12 col-md-2 @if(sizeof($store_houses)==1) display_none @endif">
                             <div class="form-group ">
                                 <label>Store House:<span class="_required">*</span></label>
                                 <select class="form-control  _store_id" name="_store_id">
@@ -146,38 +184,38 @@
                                     </select>
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-3">
+                        <div class="col-xs-12 col-sm-12 col-md-2">
                             <div class="form-group">
                                 <label for="_opening_qty">Opening QTY:</label>
                                 <input type="number" step="any" min="0" id="_item_opening_qty" name="_opening_qty" class="form-control" value="{{old('_opening_qty',0)}}" placeholder="Opening QTY" >
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-3">
+                        <div class="col-xs-12 col-sm-12 col-md-2">
                             <div class="form-group">
                                 <label for="_pur_rate">Purchase Rate:</label>
                                 <input type="number" step="any" min="0" id="_item_pur_rate" name="_pur_rate" class="form-control" value="{{old('_pur_rate',0)}}" placeholder="Purchase Rate" >
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-3">
+                        <div class="col-xs-12 col-sm-12 col-md-2">
                             <div class="form-group">
                                 <label for="_sale_rate">Sales Rate:</label>
                                 <input type="number" step="any" min="0" id="_item_sale_rate" name="_sale_rate" class="form-control" value="{{old('_sale_rate',0)}}" placeholder="Sales Rate" >
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-3">
+                        <div class="col-xs-12 col-sm-12 col-md-2">
                             <div class="form-group">
                                 <label for="_reorder">Reorder Level:</label>
                                 <input type="text" id="_reorder" name="_reorder" class="form-control" value="{{old('_reorder')}}" placeholder="Reorder Level" >
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-3">
+                        <div class="col-xs-12 col-sm-12 col-md-2">
                             <div class="form-group">
                                 <label for="_order_qty">Order Qty:</label>
                                 <input type="text" id="_order_qty" name="_order_qty" class="form-control" value="{{old('_order_qty')}}" placeholder="Order Qty" >
                             </div>
                         </div>
                        @can('restaurant-module') 
-                         <div class="col-xs-12 col-sm-12 col-md-3">
+                         <div class="col-xs-12 col-sm-12 col-md-2">
                             <div class="form-group">
                                 <label for="_kitchen_item" class="_required" title="if Yes then this item will send to kitchen to cook/production for sales and store deduct as per item ingredient wise automaticaly">Kitchen/Production Item ?:</label>
                                 <select class="form-control" name="_kitchen_item" id="_kitchen_item">
@@ -187,7 +225,7 @@
                             </div>
                         </div>
                         @endcan
-                         <div class="col-xs-12 col-sm-12 col-md-3">
+                         <div class="col-xs-12 col-sm-12 col-md-2">
                             <div class="form-group">
                                 <label for="_unique_barcode" class="_required">Use Unique Barcode ?:</label>
                                 <select class="form-control" name="_unique_barcode" id="_unique_barcode">
@@ -197,7 +235,7 @@
                             </div>
                         </div>
 
-                         <div class="col-xs-12 col-sm-12 col-md-3">
+                         <div class="col-xs-12 col-sm-12 col-md-2">
                             <div class="form-group">
                                 <label for="_status">Status:</label>
                                 <select class="form-control" name="_status" id="_status">
@@ -207,7 +245,7 @@
                             </div>
                         </div>
                         
-                         <div class="col-xs-12 col-sm-12 col-md-3 mb-10">
+                         <div class="col-xs-12 col-sm-12 col-md-2 mb-10">
                             <div class="form-group">
                                 <label>Image:</label>
                                <input type="file" accept="image/*" onchange="loadFile(event,1 )"  name="_image" class="form-control">
@@ -238,22 +276,6 @@
 
 
 
-<script type="text/javascript">
-  
-  // $(document).on('click','.item_save',function(event){
-  //   event.preventDefault();
-  //   var _item_opening_qty = $(document).find('#_item_opening_qty').val();
-  //   var _item_pur_rate = $(document).find('#_item_pur_rate').val();
-  //   var _item_sale_rate = $(document).find('#_item_sale_rate').val();
 
-  //   if(_item_opening_qty > 0){
-
-  //   }
-
-
-
-
-
-  // })
-</script>
+@endsection
 

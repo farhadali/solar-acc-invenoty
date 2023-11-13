@@ -1,4 +1,6 @@
 
+<?php $__env->startSection('title',$page_name ?? ''); ?>
+<?php $__env->startSection('content'); ?>
 <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
@@ -111,43 +113,79 @@
                                 <input type="text" id="_barcode" name="_barcode" class="form-control" value="<?php echo e(old('_barcode',$data->_barcode)); ?>" placeholder="Model" >
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-3">
+                        <div class="col-xs-12 col-sm-12 col-md-2">
                             <div class="form-group">
                                 <label for="_discount">Discount Rate:</label>
                                 <input type="text" id="_discount" name="_discount" class="form-control" value="<?php echo e(old('_discount',$data->_discount)); ?>" placeholder="Discount Rate" >
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-3">
+                        <div class="col-xs-12 col-sm-12 col-md-2">
                             <div class="form-group">
                                 <label for="_vat">Vat Rate:</label>
                                 <input type="text" id="_vat" name="_vat" class="form-control" value="<?php echo e(old('_vat',$data->_vat)); ?>" placeholder="Vat Rate" >
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-3">
+                        <div class="col-xs-12 col-sm-12 col-md-2">
+                            <div class="form-group">
+                                <label for="_sd"><?php echo e(__('label._sd')); ?>:</label>
+                                <input type="text" id="_sd" name="_sd" class="form-control" value="<?php echo e(old('_sd',$data->_sd)); ?>" placeholder="<?php echo e(__('label._sd')); ?>" >
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2">
+                            <div class="form-group">
+                                <label for="_cd"><?php echo e(__('label._cd')); ?>:</label>
+                                <input type="text" id="_cd" name="_cd" class="form-control" value="<?php echo e(old('_cd',$data->_cd)); ?>" placeholder="<?php echo e(__('label._cd')); ?>" >
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2">
+                            <div class="form-group">
+                                <label for="_ait"><?php echo e(__('label._ait')); ?>:</label>
+                                <input type="text" id="_ait" name="_ait" class="form-control" value="<?php echo e(old('_ait',$data->_ait)); ?>" placeholder="<?php echo e(__('label._ait')); ?>" >
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2">
+                            <div class="form-group">
+                                <label for="_rd"><?php echo e(__('label._rd')); ?>:</label>
+                                <input type="text" id="_rd" name="_rd" class="form-control" value="<?php echo e(old('_rd',$data->_rd)); ?>" placeholder="<?php echo e(__('label._rd')); ?>" >
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2">
+                            <div class="form-group">
+                                <label for="_at"><?php echo e(__('label._at')); ?>:</label>
+                                <input type="text" id="_at" name="_at" class="form-control" value="<?php echo e(old('_at',$data->_at)); ?>" placeholder="<?php echo e(__('label._at')); ?>" >
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2">
+                            <div class="form-group">
+                                <label for="_tti"><?php echo e(__('label._tti')); ?>:</label>
+                                <input type="text" id="_tti" name="_tti" class="form-control" value="<?php echo e(old('_tti',$data->_tti)); ?>" placeholder="<?php echo e(__('label._tti')); ?>" >
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2">
                             <div class="form-group">
                                 <label for="_opening_qty">Opening QTY:</label>
                                 <input type="text" id="_opening_qty" name="_opening_qty" class="form-control" value="<?php echo e(old('_opening_qty',$data->_opening_qty ?? 0)); ?>" placeholder="Opening QTY" >
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-3">
+                        <div class="col-xs-12 col-sm-12 col-md-2">
                             <div class="form-group">
                                 <label for="_pur_rate">Purchase Rate:</label>
                                 <input type="text" id="_pur_rate" name="_pur_rate" class="form-control" value="<?php echo e(old('_pur_rate',$data->_pur_rate)); ?>" placeholder="Purchase Rate" >
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-3">
+                        <div class="col-xs-12 col-sm-12 col-md-2">
                             <div class="form-group">
                                 <label for="_sale_rate">Sales Rate:</label>
                                 <input type="text" id="_sale_rate" name="_sale_rate" class="form-control" value="<?php echo e(old('_sale_rate',$data->_sale_rate)); ?>" placeholder="Sales Rate" >
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-3">
+                        <div class="col-xs-12 col-sm-12 col-md-2">
                             <div class="form-group">
                                 <label for="_reorder">Reorder Level:</label>
                                 <input type="text" id="_reorder" name="_reorder" class="form-control" value="<?php echo e(old('_reorder',$data->_reorder)); ?>" placeholder="Reorder Level" >
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-3">
+                        <div class="col-xs-12 col-sm-12 col-md-2">
                             <div class="form-group">
                                 <label for="_order_qty">Order Qty:</label>
                                 <input type="text" id="_order_qty" name="_order_qty" class="form-control" value="<?php echo e(old('_order_qty',$data->_order_qty)); ?>" placeholder="Order Qty" >
@@ -155,7 +193,7 @@
                         </div>
                         
                         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('restaurant-module')): ?> 
-                         <div class="col-xs-12 col-sm-12 col-md-3">
+                         <div class="col-xs-12 col-sm-12 col-md-2">
                             <div class="form-group">
                                 <label for="_kitchen_item" class="_required" title="if Yes then this item will send to kitchen to cook/production for sales and store deduct as per item ingredient wise automaticaly">Kitchen/Production Item ?:</label>
                                 <select class="form-control" name="_kitchen_item" id="_kitchen_item">
@@ -165,7 +203,7 @@
                             </div>
                         </div>
                         <?php endif; ?>
-                         <div class="col-xs-12 col-sm-12 col-md-3">
+                         <div class="col-xs-12 col-sm-12 col-md-2">
                             <div class="form-group">
                                 <label for="_unique_barcode" class="_required">Use Unique Barcode ?:</label>
                                 <select class="form-control" name="_unique_barcode" id="_unique_barcode">
@@ -174,7 +212,7 @@
                                 </select>
                             </div>
                         </div>
-                         <div class="col-xs-12 col-sm-12 col-md-3">
+                         <div class="col-xs-12 col-sm-12 col-md-2">
                             <div class="form-group">
                                 <label for="_status">Status:</label>
                                 <select class="form-control" name="_status" id="_status">
@@ -213,4 +251,6 @@
       <!-- /.container-fluid -->
     </div>
 </div>
-<?php /**PATH D:\xampp\htdocs\own\inv-acc-hrm\resources\views/backend/item-information/edit.blade.php ENDPATH**/ ?>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('backend.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\xampp\htdocs\own\inv-acc-hrm\resources\views/backend/item-information/edit.blade.php ENDPATH**/ ?>

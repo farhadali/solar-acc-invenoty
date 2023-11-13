@@ -86,6 +86,8 @@ $__user= Auth::user();
                          <th class=""><b><?php echo e(__('label.id')); ?></b></th>
                          <th class=""><b><?php echo e(__('label._name')); ?></b></th>
                          <th class=""><b><?php echo e(__('label._code')); ?></b></th>
+                         <th class=""><b><?php echo e(__('label._bin')); ?></b></th>
+                         <th class=""><b><?php echo e(__('label._address')); ?></b></th>
                          <th class=""><b><?php echo e(__('label._details')); ?></b></th>
                          <th class=""><b><?php echo e(__('label._status')); ?></b></th>
                          <th class=""><b><?php echo e(__('label.user')); ?></b></th>
@@ -120,6 +122,8 @@ $__user= Auth::user();
                             <td><?php echo e($data->id); ?></td>
                             <td><?php echo e($data->_name ?? ''); ?></td>
                             <td><?php echo e($data->_code ?? ''); ?></td>
+                            <td><?php echo $data->_bin ?? ''; ?></td>
+                            <td><?php echo $data->_address ?? ''; ?></td>
                             <td><?php echo e($data->_details ?? ''); ?></td>
                            <td><?php echo e(selected_status($data->_status)); ?></td>
                             <td><?php echo e($data->_entry_by->name ?? ''); ?></td>

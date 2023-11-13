@@ -20,7 +20,6 @@ class CreateHrmTransfersTable extends Migration
             $table->date('_ttransfer')->nullable();
             $table->date('_tjoin')->nullable();
             $table->longText('_tnote')->nullable();
-
             $table->integer('_employee_id')->nullable();
             $table->integer('_user')->nullable();
             $table->timestamps();

@@ -1,6 +1,5 @@
 
-<?php $__env->startSection('title',$page_name); ?>
-
+<?php $__env->startSection('title',$page_name ?? ''); ?>
 <?php $__env->startSection('content'); ?>
 <div class="content-header">
       <div class="container-fluid">

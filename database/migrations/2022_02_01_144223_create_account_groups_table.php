@@ -4,6 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+
 class CreateAccountGroupsTable extends Migration
 {
     /**
@@ -28,6 +29,10 @@ class CreateAccountGroupsTable extends Migration
             $table->integer('_show_filter')->default(0);
             $table->timestamps();
         });
+
+
+
+
     }
 
 

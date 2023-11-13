@@ -15,6 +15,7 @@ class CreateRestaurantCategorySettingsTable extends Migration
     {
         Schema::create('restaurant_category_settings', function (Blueprint $table) {
             $table->id();
+            $table->integer('organization_id')->default(0);
             $table->text('_branch_ids')->nullable();
             $table->text('_category_ids')->nullable();
             $table->timestamps();

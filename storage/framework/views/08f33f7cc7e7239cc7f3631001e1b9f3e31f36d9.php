@@ -44,38 +44,38 @@
                        
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
-                                <label>Name:</label>
+                                <label>Name:<span class="_required">*</span></label>
                                 <input type="text" name="_name" class="form-control" placeholder="Name" required="true" value="<?php echo e(old('_name')); ?>">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
-                                <label>Code:</label>
+                                <label>Code:<span class="_required">*</span></label>
                                 <input type="text" name="_code" class="form-control" placeholder="Code" required="true" value="<?php echo e(old('_code')); ?>">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
                                 <label>Address:</label>
-                                <input type="text" name="_address" class="form-control" placeholder="Address" required="true" value="<?php echo e(old('_address')); ?>">
+                                <input type="text" name="_address" class="form-control" placeholder="Address"  value="<?php echo e(old('_address')); ?>">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
                                 <label>Date:</label>
-                                <input type="date" name="_date" class="form-control" placeholder="Date" required="true" value="<?php echo e(old('_date')); ?>">
+                                <input type="date" name="_date" class="form-control" placeholder="Date"  value="<?php echo e(old('_date')); ?>">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
                                 <label>Email:</label>
-                                <input type="email" name="_email" class="form-control" placeholder="Email" required="true" value="<?php echo e(old('_email')); ?>">
+                                <input type="email" name="_email" class="form-control" placeholder="Email"  value="<?php echo e(old('_email')); ?>">
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
                                 <label>Phone:</label>
-                                <input type="text" name="_phone" class="form-control" placeholder="Phone" required="true" value="<?php echo e(old('_phone')); ?>">
+                                <input type="text" name="_phone" class="form-control" placeholder="Phone"  value="<?php echo e(old('_phone')); ?>">
                             </div>
                         </div>
                        

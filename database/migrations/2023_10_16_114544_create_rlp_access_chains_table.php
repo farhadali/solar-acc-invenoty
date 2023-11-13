@@ -24,6 +24,7 @@ class CreateRlpAccessChainsTable extends Migration
             $table->integer('rlp_type');
             $table->text('users');
             $table->integer('created_by');
+            $table->integer('_user_id');
             $table->integer('updated_by')->nullable();
             $table->tinyInteger('_status')->default(1);
             $table->timestamps();

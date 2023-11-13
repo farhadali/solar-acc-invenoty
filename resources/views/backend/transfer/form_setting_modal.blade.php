@@ -61,6 +61,48 @@
         </select>
       </div>
       <div class="form-group row">
+        <label for="_show_sales_rate" class="col-sm-5 col-form-label">Show Sales Rate</label>
+        <select class="form-control col-sm-7" name="_show_sales_rate">
+          <option value="0" @if(isset($form_settings->_show_sales_rate))@if($form_settings->_show_sales_rate==0) selected @endif @endif>NO</option>
+          <option value="1" @if(isset($form_settings->_show_sales_rate))@if($form_settings->_show_sales_rate==1) selected @endif @endif>YES</option>
+        </select>
+      </div>
+      <div class="form-group row">
+        <label for="_show_loding_point" class="col-sm-5 col-form-label">{{__('label._loding_point')}}</label>
+        <select class="form-control col-sm-7" name="_show_loding_point">
+          <option value="0" @if(isset($form_settings->_show_loding_point))@if($form_settings->_show_loding_point==0) selected @endif @endif>NO</option>
+          <option value="1" @if(isset($form_settings->_show_loding_point))@if($form_settings->_show_loding_point==1) selected @endif @endif>YES</option>
+        </select>
+      </div>
+      <div class="form-group row">
+        <label for="_show_unloading_point" class="col-sm-5 col-form-label">{{__('label._unloading_point')}}</label>
+        <select class="form-control col-sm-7" name="_show_unloading_point">
+          <option value="0" @if(isset($form_settings->_show_unloading_point))@if($form_settings->_show_unloading_point==0) selected @endif @endif>NO</option>
+          <option value="1" @if(isset($form_settings->_show_unloading_point))@if($form_settings->_show_unloading_point==1) selected @endif @endif>YES</option>
+        </select>
+      </div>
+      <div class="form-group row">
+        <label for="_show_vn" class="col-sm-5 col-form-label">Vessel Info</label>
+        <select class="form-control col-sm-7" name="_show_vn">
+          <option value="0" @if(isset($form_settings->_show_vn))@if($form_settings->_show_vn==0) selected @endif @endif>NO</option>
+          <option value="1" @if(isset($form_settings->_show_vn))@if($form_settings->_show_vn==1) selected @endif @endif>YES</option>
+        </select>
+      </div>
+      <div class="form-group row">
+        <label for="_show_ard" class="col-sm-5 col-form-label">Arrival Date & Time</label>
+        <select class="form-control col-sm-7" name="_show_ard">
+          <option value="0" @if(isset($form_settings->_show_ard))@if($form_settings->_show_ard==0) selected @endif @endif>NO</option>
+          <option value="1" @if(isset($form_settings->_show_ard))@if($form_settings->_show_ard==1) selected @endif @endif>YES</option>
+        </select>
+      </div>
+      <div class="form-group row">
+        <label for="_show_disd" class="col-sm-5 col-form-label">Discharge Date & Time</label>
+        <select class="form-control col-sm-7" name="_show_disd">
+          <option value="0" @if(isset($form_settings->_show_disd))@if($form_settings->_show_disd==0) selected @endif @endif>NO</option>
+          <option value="1" @if(isset($form_settings->_show_disd))@if($form_settings->_show_disd==1) selected @endif @endif>YES</option>
+        </select>
+      </div>
+      <div class="form-group row">
         <label for="_show_self" class="col-sm-5 col-form-label">Show Shelf</label>
         <select class="form-control col-sm-7" name="_show_self">
           <option value="0" @if(isset($form_settings->_show_self))@if($form_settings->_show_self==0) selected @endif @endif>NO</option>

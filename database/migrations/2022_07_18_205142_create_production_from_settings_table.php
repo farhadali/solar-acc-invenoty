@@ -15,14 +15,15 @@ class CreateProductionFromSettingsTable extends Migration
     {
         Schema::create('production_from_settings', function (Blueprint $table) {
             $table->id();
-            $table->integer('_default_inventory');
-            $table->integer('_production_account');
-            $table->integer('_transit_account');
-            $table->integer('_show_barcode');
-            $table->integer('_show_store');
-            $table->integer('_show_self');
-            $table->integer('_show_cost_rate');
-            $table->integer('_invoice_template');
+            $table->integer('organization_id')->default(0);
+            $table->integer('_default_inventory')->default(0);
+            $table->integer('_production_account')->default(0);
+            $table->integer('_transit_account')->default(0);
+            $table->integer('_show_barcode')->default(0);
+            $table->integer('_show_store')->default(0);
+            $table->integer('_show_self')->default(0);
+            $table->integer('_show_cost_rate')->default(0);
+            $table->integer('_invoice_template')->default(0);
             $table->timestamps();
         });
     }

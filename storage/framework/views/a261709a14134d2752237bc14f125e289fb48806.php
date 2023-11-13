@@ -40,6 +40,14 @@
         </select>
       </div>
       <div class="form-group row">
+        <label for="_default_sd_account" class="col-sm-5 col-form-label">Default SD Account</label>
+        <select class="form-control col-md-7" name="_default_sd_account">
+          <?php $__currentLoopData = $dis_accounts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $account): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+          <option value="<?php echo e($account->id); ?>" <?php if(isset($form_settings->_default_sd_account)): ?><?php if($form_settings->_default_sd_account==$account->id): ?> selected <?php endif; ?> <?php endif; ?>><?php echo e($account->_name ?? ''); ?></option>
+          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+        </select>
+      </div>
+      <div class="form-group row">
         <label for="_show_unit" class="col-sm-5 col-form-label">Show Unit</label>
         <select class="form-control col-sm-7" name="_show_unit">
          
@@ -103,6 +111,20 @@
         </select>
       </div>
       <div class="form-group row">
+        <label for="_show_loding_point" class="col-sm-5 col-form-label"><?php echo e(__('label._loding_point')); ?></label>
+        <select class="form-control col-sm-7" name="_show_loding_point">
+          <option value="0" <?php if(isset($form_settings->_show_loding_point)): ?><?php if($form_settings->_show_loding_point==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
+          <option value="1" <?php if(isset($form_settings->_show_loding_point)): ?><?php if($form_settings->_show_loding_point==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
+        </select>
+      </div>
+      <div class="form-group row">
+        <label for="_show_unloading_point" class="col-sm-5 col-form-label"><?php echo e(__('label._unloading_point')); ?></label>
+        <select class="form-control col-sm-7" name="_show_unloading_point">
+          <option value="0" <?php if(isset($form_settings->_show_unloading_point)): ?><?php if($form_settings->_show_unloading_point==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
+          <option value="1" <?php if(isset($form_settings->_show_unloading_point)): ?><?php if($form_settings->_show_unloading_point==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
+        </select>
+      </div>
+      <div class="form-group row">
         <label for="_show_store" class="col-sm-5 col-form-label">Show Store</label>
         <select class="form-control col-sm-7" name="_show_store">
           <option value="0" <?php if(isset($form_settings->_show_store)): ?><?php if($form_settings->_show_store==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
@@ -145,6 +167,8 @@
           <option value="1" <?php if(isset($form_settings->_show_p_balance)): ?><?php if($form_settings->_show_p_balance==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
         </select>
       </div>
+
+
       <div class="form-group row">
         <label for="_show_due_history" class="col-sm-5 col-form-label">Show Due Invoice</label>
         <select class="form-control col-sm-7" name="_show_due_history">
@@ -152,6 +176,46 @@
           <option value="1" <?php if(isset($form_settings->_show_due_history)): ?><?php if($form_settings->_show_due_history==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
         </select>
       </div>
+      <div class="form-group row">
+        <label for="_show_ar_date" class="col-sm-5 col-form-label">Show AR. Date</label>
+        <select class="form-control col-sm-7" name="_show_ar_date">
+          <option value="0" <?php if(isset($form_settings->_show_ar_date)): ?><?php if($form_settings->_show_ar_date==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
+          <option value="1" <?php if(isset($form_settings->_show_ar_date)): ?><?php if($form_settings->_show_ar_date==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
+        </select>
+      </div>
+      <div class="form-group row">
+        <label for="_show_dis_date" class="col-sm-5 col-form-label">Show Dis. Date</label>
+        <select class="form-control col-sm-7" name="_show_dis_date">
+          <option value="0" <?php if(isset($form_settings->_show_dis_date)): ?><?php if($form_settings->_show_dis_date==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
+          <option value="1" <?php if(isset($form_settings->_show_dis_date)): ?><?php if($form_settings->_show_dis_date==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
+        </select>
+      </div>
+      <div class="form-group row">
+        <label for="_show_vn" class="col-sm-5 col-form-label">Show Vessel No</label>
+        <select class="form-control col-sm-7" name="_show_vn">
+          <option value="0" <?php if(isset($form_settings->_show_vn)): ?><?php if($form_settings->_show_vn==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
+          <option value="1" <?php if(isset($form_settings->_show_vn)): ?><?php if($form_settings->_show_vn==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
+        </select>
+      </div>
+      <div class="form-group row">
+        <label for="_show_expected_qty" class="col-sm-5 col-form-label">Show Expected QTY</label>
+        <select class="form-control col-sm-7" name="_show_expected_qty">
+          <option value="0" <?php if(isset($form_settings->_show_expected_qty)): ?><?php if($form_settings->_show_expected_qty==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
+          <option value="1" <?php if(isset($form_settings->_show_expected_qty)): ?><?php if($form_settings->_show_expected_qty==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
+        </select>
+      </div>
+      <div class="form-group row">
+        <label for="_show_sd" class="col-sm-5 col-form-label">Show SD</label>
+        <select class="form-control col-sm-7" name="_show_sd">
+          <option value="0" <?php if(isset($form_settings->_show_sd)): ?><?php if($form_settings->_show_sd==0): ?> selected <?php endif; ?> <?php endif; ?>>NO</option>
+          <option value="1" <?php if(isset($form_settings->_show_sd)): ?><?php if($form_settings->_show_sd==1): ?> selected <?php endif; ?> <?php endif; ?>>YES</option>
+        </select>
+      </div>
+
+
+
+
+
       
       <div class="form-group row">
         <label for="_invoice_template" class="col-sm-5 col-form-label">Invoice Template</label>

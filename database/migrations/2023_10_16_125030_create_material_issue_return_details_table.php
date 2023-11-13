@@ -22,9 +22,15 @@ class CreateMaterialIssueReturnDetailsTable extends Migration
             $table->integer('_sales_ref_id')->nullable();
             $table->integer('_sales_detail_ref_id')->nullable();
             $table->double('_qty',15,4)->default(0);
+            $table->integer('_transection_unit');
+            $table->double('_unit_conversion')->default(0);
+            $table->integer('_base_unit');
+            $table->double('_base_rate')->default(0);
             $table->double('_rate',15,4)->default(0);
             $table->double('_sales_rate',15,4)->default(0);
             $table->double('_discount',15,4)->default(0);
+            $table->double('_discount_amount')->default(0);
+            $table->double('_vat_amount')->default(0);
             $table->double('_vat',15,4)->default(0);
             $table->double('_value',15,4)->default(0);
             $table->integer('_store_id')->default(0);

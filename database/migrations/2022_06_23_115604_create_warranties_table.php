@@ -19,6 +19,7 @@ class CreateWarrantiesTable extends Migration
             $table->text('_description')->nullable();
             $table->integer('_duration');
             $table->string('_period');
+            $table->tinyInteger('_status')->default(1);
             $table->timestamps();
         });
     }

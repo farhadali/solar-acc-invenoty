@@ -19,7 +19,7 @@ class CostCenterController extends Controller
          $this->middleware('permission:cost-center-edit', ['only' => ['edit','update']]);
          $this->middleware('permission:cost-center-delete', ['only' => ['destroy']]);
          $this->middleware('permission:cost-center-authorization-chain', ['only' => ['csAuthorizationChain']]);
-         $this->page_name = "Cost Center";
+         $this->page_name = __('label._cost_center_id');
     }
     /**
      * Display a listing of the resource.

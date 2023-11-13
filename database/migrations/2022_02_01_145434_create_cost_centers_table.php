@@ -20,6 +20,7 @@ class CreateCostCentersTable extends Migration
             $table->integer('_branch_id')->default(0);
             $table->longText('_detail')->nullable();
             $table->tinyInteger('_is_close')->default(0);
+            $table->tinyInteger('_status')->default(1);
             $table->timestamps();
         });
     }

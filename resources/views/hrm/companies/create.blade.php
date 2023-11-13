@@ -37,8 +37,21 @@
                         </div>
                       <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
+                                <label>{{__('label._bin')}}:</label>
+                                <input class="form-control" type="text" name="_bin" placeholder="{{__('label._bin')}}" value="{{old('_bin',$data->_bin ?? '' )}}" >
+                            </div>
+                        </div>
+                      <div class="col-xs-12 col-sm-12 col-md-12">
+                            <div class="form-group">
                                 <label>{{__('label._details')}}:</label>
                                 <textarea class="form-control" type="text" name="_details" placeholder="{{__('label._details')}}">{{old('_details',$data->_details ?? '' )}}</textarea>
+                                
+                            </div>
+                        </div>
+                      <div class="col-xs-12 col-sm-12 col-md-12">
+                            <div class="form-group">
+                                <label>{{__('label._address')}}:</label>
+                                <textarea class="form-control" type="text" name="_address" placeholder="{{__('label._address')}}">{{old('_address',$data->_address ?? '' )}}</textarea>
                                 
                             </div>
                         </div>

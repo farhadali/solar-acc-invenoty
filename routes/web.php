@@ -22,6 +22,9 @@ use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\UnitsController;
 use App\Http\Controllers\PurchaseReturnController;
+use App\Http\Controllers\ImportPuchaseController;
+use App\Http\Controllers\ImportMRController;
+
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\SalesReturnController;
 use App\Http\Controllers\InventoryReportController;
@@ -48,6 +51,9 @@ use App\Http\Controllers\IndividualReplaceMasterController;
 use App\Http\Controllers\EasyVoucherController;
 use App\Http\Controllers\InterProjectVoucherController;
 use App\Http\Controllers\WItemReceiveFromSupplierController;
+
+use App\Http\Controllers\VesselInfoController;
+use App\Http\Controllers\MotherVesselController;
 
 
 
@@ -76,6 +82,12 @@ use App\Http\Controllers\PM\ProjectManagementController;
 |
 */
 
+Route::get('make_all_table_autoincrement', function(){
+   make_all_table_autoincrement();
+   return "ok Done";
+});
+
+
 Route::get('/', 'App\Http\Controllers\FrontendController@index');
 
 
@@ -86,7 +98,21 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::group(['middleware' => ['auth']], function() {
 
+Route::resource('import-purchase',ImportPuchaseController::class);
+Route::resource('import-material-receive',ImportMRController::class);
+Route::get('import-invoice-wise-detail',[ImportMRController::class,'importInvoiceWiseDetail']);
+
+Route::resource('vessel-info',VesselInfoController::class);
+Route::resource('mother-vessel-info',MotherVesselController::class);
+
+Route::get('import-purchase-setting-modal',[ImportPuchaseController::class,'formSettingAjax']);
+Route::post('import-purchase-settings',[ImportPuchaseController::class,'Settings']);
+Route::get('import-purchase/print/{id}', 'App\Http\Controllers\ImportPuchaseController@purchasePrint');
+Route::get('import-purchase-money-receipt/{id}', 'App\Http\Controllers\ImportPuchaseController@moneyReceipt');
+
+
 Route::resource('material-issue',MaterialIssueController::class);
+
 Route::post('material-issue-setting', 'App\Http\Controllers\MaterialIssueController@Settings');
 Route::get('material-issue-setting-modal', 'App\Http\Controllers\MaterialIssueController@formSettingAjax');
 Route::get('available-qty-check-for-materail-issue-update', 'App\Http\Controllers\MaterialIssueController@checkQtyUpdateFoMaterialIssue');
@@ -311,6 +337,7 @@ Route::get('book_table_list_ajax', 'App\Http\Controllers\ResturantSalesControlle
     Route::get('sales-reset', 'App\Http\Controllers\SalesController@reset');
     Route::get('sales/print/{id}', 'App\Http\Controllers\SalesController@Print');
     Route::get('sales/challan/{id}', 'App\Http\Controllers\SalesController@challanPrint');
+    Route::get('mushak-six-three/{id}', 'App\Http\Controllers\SalesController@mushakSixThree');
     Route::get('net-sales-after-return/{id}', 'App\Http\Controllers\SalesController@salesAfterReturn');
 
     Route::post('sales-settings', 'App\Http\Controllers\SalesController@Settings');
@@ -394,6 +421,8 @@ Route::get('book_table_list_ajax', 'App\Http\Controllers\ResturantSalesControlle
     Route::get('transfer/print/{id}', 'App\Http\Controllers\TransferController@Print');
     Route::get('transfer/stock-in/{id}', 'App\Http\Controllers\TransferController@PrintStockIn');
     Route::get('transfer/stock-out/{id}', 'App\Http\Controllers\TransferController@PrintStockOut');
+    Route::get('transfer-setting-modal', 'App\Http\Controllers\TransferController@formSettingAjax');
+    Route::post('transfer-form-settings', 'App\Http\Controllers\TransferController@Settings');
 
    
 

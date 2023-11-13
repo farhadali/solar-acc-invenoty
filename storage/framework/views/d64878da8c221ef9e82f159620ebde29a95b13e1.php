@@ -87,7 +87,7 @@ $currentURL = URL::full();
   <div class="ajax_loader"><h5 class="loading_text">Loading.....</span></div>
     <div id="_notify_message_box"></div>
   <!-- Navbar -->
-  <?php echo $__env->make('backend.layouts.navbar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+  <?php echo $__env->make('backend.layouts.coel_nav', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->

@@ -65,6 +65,32 @@ function convert_number($number)
 }
 
 
+function _vessel_types(){
+    return [1=>'Local',2=>'Foreign',3=>'Join'];
+}
+
+function selected_vessel_type($id){
+    foreach(_vessel_types() as $key=>$val){
+        if($id==$key){
+            return $val;
+        }
+    }
+    return 1;
+}
+function _purchase_types(){
+    return [1=>'Local',2=>'Import'];
+}
+
+function selected__purchase_type($id){
+    foreach(_purchase_types() as $key=>$val){
+        if($id==$key){
+            return $val;
+        }
+    }
+    return 1;
+}
+
+
 
 //RLP Database Connection
 if (! function_exists('create_update_user')) {
@@ -1370,6 +1396,21 @@ if (! function_exists('_show_amount_dr_cr')) {
         
     }
 }
+
+if (! function_exists('make_all_table_autoincrement')) {
+     function make_all_table_autoincrement(){
+             $DbName             = env('DB_DATABASE');
+            $get_all_table_query = "SHOW TABLES ";
+            $result = DB::select(DB::raw($get_all_table_query));
+
+            $prep = "Tables_in_$DbName";
+            foreach ($result as $res){
+                DB::statement("ALTER TABLE ".$res->$prep." AUTO_INCREMENT =1 ");
+            }
+     }
+}
+
+
 if (! function_exists('database_backup_info')) {
      function database_backup_info(){
             $DbName             = env('DB_DATABASE');

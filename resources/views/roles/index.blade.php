@@ -58,14 +58,14 @@
                                   class="btn btn-sm btn-default  mr-1"><i class="fa fa-eye"></i></a>
 
 
-                                  @can('role-edit')
+                                  
                                   <a   
                                   href="{{ route('roles.edit',$role->id) }}"
                                   
                                   class="btn btn-sm btn-default  mr-1"><i class="fa fa-pen "></i></a>
 
                                     
-                                  @endcan
+                                 
                                 @can('role-delete')
                                  {!! Form::open(['method' => 'DELETE','route' => ['roles.destroy', $role->id],'style'=>'display:inline']) !!}
                                       <button onclick="return confirm('Are you sure?')" type="submit" class="btn btn-sm btn-default"><i class="fa fa-trash _required"></i></button>

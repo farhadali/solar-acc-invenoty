@@ -33,6 +33,7 @@ use App\Models\BarcodeDetail;
 use App\Models\SalesBarcode;
 use App\Models\Warranty;
 use App\Models\TransectionTerms;
+use App\Models\hrm\Company;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
@@ -1332,6 +1333,7 @@ where  t1._status = 1 and  (t1._barcode like '%$text_val%' OR t2._item like '%$t
         $data->_default_sales = $request->_default_sales;
         $data->_default_discount = $request->_default_discount;
         $data->_default_cost_of_solds = $request->_default_cost_of_solds;
+        $data->_default_sd_account = $request->_default_sd_account;
         $data->_show_barcode = $request->_show_barcode;
         $data->_show_vat = $request->_show_vat;
         $data->_show_store = $request->_show_store;
@@ -1351,6 +1353,19 @@ where  t1._status = 1 and  (t1._barcode like '%$text_val%' OR t2._item like '%$t
         $data->_show_unit =$request->_show_unit ?? 0;
         $data->_defaut_customer =$request->_defaut_customer ?? 0;
         $data->_show_due_history =$request->_show_due_history ?? 0;
+        $data->_show_ar_date =$request->_show_ar_date ?? 0;
+        $data->_show_dis_date =$request->_show_dis_date ?? 0;
+        $data->_show_vn =$request->_show_vn ?? 0;
+        $data->_show_expected_qty =$request->_show_expected_qty ?? 0;
+        $data->_show_sd =$request->_show_sd ?? 0;
+        $data->_show_loding_point =$request->_show_loding_point ?? 0;
+        $data->_show_unloading_point =$request->_show_unloading_point ?? 0;
+
+
+
+
+
+
         $data->_is_header =$request->_is_header ?? 1;
         $data->_is_footer =$request->_is_footer ?? 1;
         $data->_margin_top =$request->_margin_top ?? "0px";
@@ -1379,7 +1394,7 @@ where  t1._status = 1 and  (t1._barcode like '%$text_val%' OR t2._item like '%$t
     public function store(Request $request)
     {
         
-        // return dump($request->all());
+        //return dump($request->all());
          $all_req= $request->all();
          $this->validate($request, [
             '_date' => 'required',
@@ -1426,6 +1441,7 @@ where  t1._status = 1 and  (t1._barcode like '%$text_val%' OR t2._item like '%$t
         $_base_unit_ids = $request->_base_unit_id ?? [];
         $conversion_qtys = $request->conversion_qty ?? [];
         $_transection_units = $request->_transection_unit ?? [];
+        $_expected_qtys = $request->_expected_qty ?? [];
 
       DB::beginTransaction();
         try {
@@ -1467,8 +1483,20 @@ where  t1._status = 1 and  (t1._barcode like '%$text_val%' OR t2._item like '%$t
         $Sales->_cost_center_id = $request->_cost_center_id;
         $Sales->_address = $request->_address;
         $Sales->_phone = $request->_phone;
+
+        $Sales->_vessel_no = $request->_vessel_no ?? 0;
+        $Sales->_arrival_date_time = $request->_arrival_date_time ?? '';
+        $Sales->_discharge_date_time = $request->_discharge_date_time ?? '';
+        $Sales->_loding_point = $request->_loding_point ?? '';
+        $Sales->_unloading_point = $request->_unloading_point ?? '';
+
+        $Sales->_sd_input = $request->_sd_input ?? 0;
+        $Sales->_total_sd_amount = $request->total_sd_amount ?? 0;
+
+
         $Sales->_delivery_man_id = $request->_delivery_man_id ?? 0;
         $Sales->_sales_man_id = $request->_sales_man_id ?? 0;
+       
         $Sales->_sales_type = $request->_sales_type ?? 'sales';
         $Sales->_status = 1;
         $Sales->_lock = $request->_lock ?? 0;
@@ -1503,6 +1531,7 @@ where  t1._status = 1 and  (t1._barcode like '%$text_val%' OR t2._item like '%$t
                 $SalesDetail->_purchase_invoice_no = $_purchase_invoice_nos[$i];
                 $SalesDetail->_purchase_detail_id = $_purchase_detail_ids[$i];
                 $SalesDetail->_qty = $_qtys[$i];
+                $SalesDetail->_expected_qty = $_expected_qtys[$i] ?? 0;
 
                 $SalesDetail->_transection_unit = $_transection_units[$i] ?? 1;
                 $SalesDetail->_unit_conversion = $conversion_qtys[$i] ?? 1;
@@ -1974,6 +2003,103 @@ $store_houses = permited_stores(explode(',',$users->store_ids));
        
     }
 
+public function mushakSixThree($id){
+        $users = Auth::user();
+        $page_name = $this->page_name;
+        $permited_branch = permited_branch(explode(',',$users->branch_ids));
+        $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
+       
+        $data =  Sales::with(['_master_branch','_master_details','s_account','_ledger','_terms_con'])->find($id);
+
+         $organization_info = Company::find($data->organization_id);
+
+        $form_settings = SalesFormSetting::first();
+        $permited_branch = permited_branch(explode(',',$users->branch_ids));
+        $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
+         
+$store_houses = permited_stores(explode(',',$users->store_ids));
+         $_master_details_lot_wise = $data->_master_details ?? [];
+         $_master_detail_reassign = [];
+         $old_item_id_price = [];
+         foreach ($_master_details_lot_wise as $key => $value) {
+            $id_prince = $value->_item_id."__".$value->_sales_rate;
+             if(in_array($id_prince, $old_item_id_price)){
+                $_master_detail_reassign[$id_prince][]=$value;
+             }else{
+                $_master_detail_reassign[$id_prince][]=$value;
+                array_push($old_item_id_price, $id_prince);
+             }
+         }
+
+         //return $_master_detail_reassign;
+
+
+
+         $_l_balance_update = _l_balance_update($data->_ledger_id);
+
+         $total_sales = Sales::where('_ledger_id', $data->_ledger_id)
+                                                        ->where('_status',1)
+                                                        ->sum('_total');
+ 
+        $history_sales_invoices = [];
+        $row_conter=0;
+                if($total_sales >= $_l_balance_update ){
+                    //return $_l_balance_update;
+                //if($_l_balance_update > 0 ){
+                 //if last balance gretter then 0 then go ahead
+                        $_avoid_sales_ids =[];
+                        $available_quantity =  0;
+                         $_qty_less = $_l_balance_update;
+                        do {
+
+                            
+                            if ($available_quantity < $_l_balance_update) {
+                               // return $available_quantity;
+                                 $due_sales_info = Sales::select('id','_date','_order_number','_total')
+                                                    ->where('_ledger_id', $data->_ledger_id)
+                                                    ->where('_total','>',0)
+                                                    ->where('_status',1)
+                                                    ->whereNotIn('id', $_avoid_sales_ids)
+                                                    ->orderBy('id','DESC')
+                                                    ->first();
+                                if($due_sales_info){
+                                      array_push($_avoid_sales_ids, $due_sales_info->id);
+
+                                       $available_quantity +=$due_sales_info->_total ?? 0;
+
+                                      if($available_quantity  >= $_l_balance_update  ){
+                                        $_less_qty = ($due_sales_info->_total -( $available_quantity-$_l_balance_update )); //Last Need this qty
+                                         $new_qty = $_less_qty;
+                                         $due_sales_info->_due_amount = $new_qty;
+                                         array_push($history_sales_invoices, $due_sales_info);
+                                         
+                                        }else{
+                                            $due_sales_info->_due_amount = $due_sales_info->_total ?? 0;
+                                            array_push($history_sales_invoices, $due_sales_info);
+                                        }    
+                                }
+                                                            
+                            }
+                        } while ($available_quantity < $_l_balance_update);
+                }
+         
+   
+          
+         //return $history_sales_invoices;     
+           
+
+
+
+
+
+
+
+        
+            return view('backend.sales.mushak_6_3',compact('page_name','permited_branch','permited_costcenters','data','form_settings','permited_branch','permited_costcenters','store_houses','history_sales_invoices','_master_detail_reassign'));
+         
+       
+    }
+
     public function challanPrint($id){
         $users = Auth::user();
         $page_name = $this->page_name;
@@ -2098,6 +2224,8 @@ $store_houses = permited_stores(explode(',',$users->store_ids));
         $_base_unit_ids = $request->_base_unit_id ?? [];
         $conversion_qtys = $request->conversion_qty ?? [];
         $_transection_units = $request->_transection_unit ?? [];
+        $_expected_qtys = $request->_expected_qty ?? [];
+
 
  //====
         // Product Price list table update with previous sales details item
@@ -2263,6 +2391,16 @@ $over_qtys = array();
         $Sales->_delivery_man_id = $request->_delivery_man_id ?? 0;
         $Sales->_sales_man_id = $request->_sales_man_id ?? 0;
         $Sales->_sales_type = $request->_sales_type ?? 'sales';
+
+        $Sales->_vessel_no = $request->_vessel_no ?? 0;
+        $Sales->_arrival_date_time = $request->_arrival_date_time;
+        $Sales->_discharge_date_time = $request->_discharge_date_time;
+        $Sales->_sd_input = $request->_sd_input ?? 0;
+        $Sales->_total_sd_amount = $request->total_sd_amount ?? 0;
+        $Sales->_loding_point = $request->_loding_point ?? '';
+        $Sales->_unloading_point = $request->_unloading_point ?? '';
+
+
         $Sales->_status = 1;
         $Sales->_lock = $request->_lock ?? 0;
         $Sales->save();
@@ -2316,6 +2454,7 @@ $over_qtys = array();
                 $SalesDetail->_purchase_invoice_no = $_purchase_invoice_nos[$i];
                 $SalesDetail->_purchase_detail_id = $_purchase_detail_ids[$i];
                 $SalesDetail->_qty = $_qtys[$i];
+                $SalesDetail->_expected_qty = $_expected_qtys[$i] ?? 0;
 
 
 

@@ -29,7 +29,7 @@
               <div class="card-body">
                 {!! Form::open(array('route' => 'cost-center.store','method'=>'POST')) !!}
                     <div class="row">
-                       <div class="col-xs-12 col-sm-12 col-md-12">
+                       <div class="col-xs-12 col-sm-12 col-md-12 display_none">
                             <div class="form-group">
                                 <label>Branch:</label>
                                 <select class="form-control" name="_branch_id" required>

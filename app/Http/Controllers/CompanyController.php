@@ -72,6 +72,8 @@ class CompanyController extends Controller
             $data->_code =$request->_code ?? '';
             $data->_name =$request->_name ?? 0;
             $data->_details =$request->_details ?? '';
+            $data->_bin =$request->_bin ?? '';
+            $data->_address =$request->_address ?? '';
             $data->_status =$request->_status ?? 0;
             $data->_user = $_user->id;
             $data->save();
@@ -133,6 +135,8 @@ class CompanyController extends Controller
              $data->_code =$request->_code ?? '';
             $data->_name =$request->_name ?? 0;
             $data->_details =$request->_details ?? '';
+            $data->_bin =$request->_bin ?? '';
+            $data->_address =$request->_address ?? '';
             $data->_status =$request->_status ?? 0;
             $data->_user = $_user->id;
             $data->save();

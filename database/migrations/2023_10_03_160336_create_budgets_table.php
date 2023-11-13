@@ -30,6 +30,7 @@ class CreateBudgetsTable extends Migration
             $table->tinyInteger('_status')->default(1);
             $table->tinyInteger('_is_delete')->default(0);
             $table->integer('_created_by');
+            $table->integer('_updated_by');
             $table->string('_user_name');
             $table->timestamps();
         });

@@ -28,7 +28,8 @@ class CreateServiceAccountsTable extends Migration
             $table->string('_type',10)->nullable();
             $table->unsignedBigInteger('_branch_id');
             $table->foreign('_branch_id')->references('id')->on('branches');
-            $table->integer('_cost_center')->nullable(0);
+            $table->integer('organization_id')->default(0);
+            $table->integer('_cost_center')->default(0);
             $table->string('_short_narr')->nullable();
             $table->tinyInteger('_status')->default(0);
             $table->string('_created_by',60)->nullable();

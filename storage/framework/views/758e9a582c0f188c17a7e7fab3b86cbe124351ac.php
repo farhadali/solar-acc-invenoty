@@ -1,4 +1,6 @@
 
+<?php $__env->startSection('title',$page_name ?? ''); ?>
+<?php $__env->startSection('content'); ?>
 <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
@@ -58,6 +60,27 @@
 
                             </div>
                         </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <div class="form-group">
+                                <label><?php echo e(__('label._address')); ?>:</label>
+                                <?php echo Form::text('_address', null, array('placeholder' => __('label._address'),'class' => 'form-control')); ?>
+
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <div class="form-group">
+                                <label><?php echo e(__('label._authorised_person')); ?>:</label>
+                                <?php echo Form::text('_authorised_person', null, array('placeholder' => __('label._authorised_person'),'class' => 'form-control')); ?>
+
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <div class="form-group">
+                                <label><?php echo e(__('label._contact_info')); ?>:</label>
+                                <?php echo Form::text('_contact_info', null, array('placeholder' => __('label._contact_info'),'class' => 'form-control')); ?>
+
+                            </div>
+                        </div>
                        
                         
                        
@@ -81,4 +104,5 @@
       <!-- /.container-fluid -->
     </div>
 </div>
-<?php /**PATH D:\xampp\htdocs\own\inv-acc-hrm\resources\views/backend/store-house/create.blade.php ENDPATH**/ ?>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('backend.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\xampp\htdocs\own\inv-acc-hrm\resources\views/backend/store-house/create.blade.php ENDPATH**/ ?>

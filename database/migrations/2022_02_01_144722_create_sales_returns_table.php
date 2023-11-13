@@ -22,6 +22,22 @@ class CreateSalesReturnsTable extends Migration
             $table->string('_referance')->nullable();
              $table->string('_address')->nullable();
             $table->string('_phone')->nullable();
+
+            $table->string('_master_vessel_no')->nullable();
+            $table->string('_vessel_no')->nullable();
+            $table->string('_destination')->nullable();
+            $table->string('_arrival_date_time')->nullable();
+            $table->string('_discharge_date_time')->nullable();
+
+
+            $table->double('_total_sd_amount',15,4)->default(0);
+            $table->double('_total_cd_amount',15,4)->default(0);
+            $table->double('_total_ait_amount',15,4)->default(0);
+            $table->double('_total_rd_amount',15,4)->default(0);
+            $table->double('_total_at_amount',15,4)->default(0);
+            $table->double('_total_tti_amount',15,4)->default(0);
+
+
             $table->unsignedBigInteger('_ledger_id');
             $table->foreign('_ledger_id')->references('id')->on('account_ledgers');
             $table->unsignedBigInteger('_user_id');
@@ -45,6 +61,7 @@ class CreateSalesReturnsTable extends Migration
             $table->integer('_sales_man_id')->nullable();
             $table->string('_sales_type',60)->nullable();
             $table->tinyInteger('_status')->default(0);
+            $table->tinyInteger('_lock')->default(0);
             $table->string('_created_by',60)->nullable();
             $table->string('_updated_by',60)->nullable();
             $table->timestamps();

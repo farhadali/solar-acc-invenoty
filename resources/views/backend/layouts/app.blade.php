@@ -87,7 +87,7 @@ $currentURL = URL::full();
   <div class="ajax_loader"><h5 class="loading_text">Loading.....</span></div>
     <div id="_notify_message_box"></div>
   <!-- Navbar -->
-  @include('backend.layouts.navbar')
+  @include('backend.layouts.coel_nav')
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->

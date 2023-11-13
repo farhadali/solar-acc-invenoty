@@ -39,6 +39,20 @@
                                 <input class="form-control" type="text" name="_name" placeholder="<?php echo e(__('label._name')); ?>" value="<?php echo e(old('_name',$data->_name ?? '' )); ?>" required>
                             </div>
                         </div>
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <div class="form-group">
+                                <label><?php echo e(__('label._bin')); ?>:</label>
+                                <input class="form-control" type="text" name="_bin" placeholder="<?php echo e(__('label._bin')); ?>" value="<?php echo e(old('_bin',$data->_bin ?? '' )); ?>" />
+                                
+                            </div>
+                        </div>
+                      <div class="col-xs-12 col-sm-12 col-md-12">
+                            <div class="form-group">
+                                <label><?php echo e(__('label._address')); ?>:</label>
+                                <textarea class="form-control" type="text" name="_address" placeholder="<?php echo e(__('label._address')); ?>"><?php echo e(old('_address',$data->_address ?? '' )); ?></textarea>
+                                
+                            </div>
+                        </div>
                       <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
                                 <label><?php echo e(__('label._details')); ?>:</label>

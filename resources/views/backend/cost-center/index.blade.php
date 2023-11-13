@@ -78,11 +78,11 @@
                                   {!! Form::close() !!}
                                @endcan  
 
-                               @can('cost-center-authorization-chain')
+                              <!--  @can('cost-center-authorization-chain')
                                   <a  type="button" 
                                   href="{{ url('cost-center-chain') }}/{{$data->id}}"
                                   class="btn btn-sm btn-default  mr-1"><i class="fa fa-users "></i></a>
-                                  @endcan
+                                  @endcan -->
                                
                         </td>  
                               

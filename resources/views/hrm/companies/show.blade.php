@@ -45,6 +45,14 @@
         <td>{{ $data->_name ?? ''  }}</td>
       </tr>
       <tr>
+        <td>{{__('label._bin')}}:</td>
+        <td>{{ $data->_bin ?? ''  }}</td>
+      </tr>
+      <tr>
+        <td>{{__('label._address')}}:</td>
+        <td>{{ $data->_address ?? ''  }}</td>
+      </tr>
+      <tr>
         <td>{{__('label._details')}}:</td>
         <td>{{ $data->_details ?? ''  }}</td>
       </tr>

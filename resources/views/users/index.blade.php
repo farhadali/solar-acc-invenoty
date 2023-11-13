@@ -64,13 +64,13 @@
                                   class="btn btn-sm btn-default  mr-1"><i class="fa fa-eye"></i></a>
 
 
-                                  @can('user-edit')
+                                  
                                   <a  type="button" 
                                   href="{{ route('users.edit',$user->id) }}"
                                   class="btn btn-sm btn-default  mr-1"><i class="fa fa-pen "></i></a>
 
                                     
-                                  @endcan
+                                
                                 @can('user-delete')
                                  {!! Form::open(['method' => 'DELETE','route' => ['users.destroy', $user->id],'style'=>'display:inline']) !!}
                                       <button onclick="return confirm('Are you sure?')" type="submit" class="btn btn-sm btn-default"><i class="fa fa-trash _required"></i></button>
