@@ -61,7 +61,6 @@ function convert_number($number)
         $decimalPartWords = convert_number($decimalPart);
         $res .= $decimalPartWords;
     }
-
     return $res;
 }
 
@@ -94,7 +93,6 @@ function selected__purchase_type($id){
 
 
 //RLP Database Connection
-
 if (! function_exists('create_update_user')) {
     function create_update_user($request)
     {
