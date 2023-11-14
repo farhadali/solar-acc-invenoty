@@ -50,7 +50,7 @@ $__user= Auth::user();
               <?php endif; ?>
               
               <li class="breadcrumb-item ">
-                 <a class="btn btn-sm btn-success" title="List" href="<?php echo e(route('import-purchase.index')); ?>"> <i class="nav-icon fas fa-list"></i> </a>
+                 <a class="btn btn-sm btn-success" title="List" href="<?php echo e(route('import-material-receive.index')); ?>"> <i class="nav-icon fas fa-list"></i> </a>
                </li>
             </ol>
           </div><!-- /.col -->
@@ -131,6 +131,27 @@ $__user= Auth::user();
                                 
                             </div>
                         </div>
+                          <div class="col-xs-12 col-sm-12 col-md-2 ">
+                            <div class="form-group">
+                              <label class="mr-2" for="_phone"><?php echo e(__('label._phone')); ?>:</label>
+                              <input type="text" id="_phone" name="_phone" class="form-control _phone" value="<?php echo e(old('_phone',$data->_phone)); ?>" placeholder="<?php echo e(__('label._phone')); ?>" >
+                            </div>
+                        </div>
+                        
+                        <div class="col-xs-12 col-sm-12 col-md-2 ">
+                            <div class="form-group">
+                              <label class="mr-2" for="_address"><?php echo e(__('label._address')); ?>:</label>
+                              <input type="text" id="_address" name="_address" class="form-control _address" value="<?php echo e(old('_address',$data->_address)); ?>" placeholder="<?php echo e(__('label._address')); ?>" >
+                                
+                            </div>
+                        </div>
+                         <div class="col-xs-12 col-sm-12 col-md-2 ">
+                            <div class="form-group">
+                              <label class="mr-2" for="_referance"><?php echo e(__('label._referance')); ?>:</label>
+                              <input type="text" id="_referance" name="_referance" class="form-control _referance" value="<?php echo e(old('_referance',$data->_referance)); ?>" placeholder="<?php echo e(__('label._referance')); ?>" >
+                                
+                            </div>
+                        </div>
                 </div>
 
                    <div class="row">
@@ -161,7 +182,7 @@ $__user= Auth::user();
                             </div>
                         </div>
                         
-                        <div class="col-xs-12 col-sm-12 col-md-2 ">
+                        <div class="col-xs-12 col-sm-12 col-md-2 display_none">
                             <div class="form-group">
                               <label class="mr-2" for="_purchase_type"><?php echo e(__('label._purchase_type')); ?>:</label>
                               <select class="form-control" name="_purchase_type" >
@@ -170,52 +191,8 @@ $__user= Auth::user();
                                 
                             </div>
                         </div>
+                        
                         <?php echo $__env->make('basic.org_edit', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-
-                         
-
-                        
-                        
-                        
-                        <?php
-                        $vessels = \DB::table('vessel_infos')->get();
-                        ?>
-                        <div class="col-xs-12 col-sm-12 col-md-3  <?php if($_show_vn==0): ?> display_none <?php endif; ?>">
-                            <div class="form-group">
-                              <label class="mr-2" for="_vessel_no"><?php echo e(__('label._vessel_no')); ?>:</label>
-                              <select class="form-control " name="_vessel_no">
-                                <option value=""><?php echo e(__('label.select')); ?></option>
-                                <?php $__empty_1 = true; $__currentLoopData = $vessels; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                                <option value="<?php echo e($val->id); ?>" <?php if($val->id==$data->_vessel_no): ?> selected <?php endif; ?> ><?php echo e($val->_name ?? ''); ?></option>
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-                                <?php endif; ?>
-                              </select>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-3  <?php if($_show_vn==0): ?> display_none <?php endif; ?>">
-                            <div class="form-group">
-                              <label class="mr-2" for="_name_of_master"><?php echo e(__('label._name_of_master')); ?>:</label>
-                              <input type="text" name="_vessel_res_person" class="form-control" placeholder="<?php echo e(__('label._name_of_master')); ?>" value="<?php echo $data->_vessel_res_person ?? ''; ?>">
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-2  <?php if($_show_vn==0): ?> display_none <?php endif; ?>">
-                            <div class="form-group">
-                              <label class="mr-2" for="_mobile_of_master"><?php echo e(__('label._mobile_of_master')); ?>:</label>
-                              <input type="text" name="_vessel_res_mobile" class="form-control" placeholder="<?php echo e(__('label._mobile_of_master')); ?>" value="<?php echo $data->_vessel_res_mobile ?? ''; ?>">
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-2  <?php if($_show_vn==0): ?> display_none <?php endif; ?>">
-                            <div class="form-group">
-                              <label class="mr-2" for="_loding_point"><?php echo e(__('label._loding_point')); ?>:</label>
-                              <select class="form-control" name="_loding_point">
-                                <option value=""><?php echo e(__('label.select')); ?></option>
-                                <?php $__empty_1 = true; $__currentLoopData = $all_store_houses; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                                  <option value="<?php echo e($val->id); ?>" <?php if($val->id==$data->_loding_point): ?> selected <?php endif; ?> ><?php echo e($val->_name ?? ''); ?></option>
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-                                <?php endif; ?>
-                              </select>
-                            </div>
-                        </div>
                         <div class="col-xs-12 col-sm-12 col-md-2 ">
                             <div class="form-group">
                               <label class="mr-2" for="_store_id"><?php echo e(__('label._store_id')); ?>:</label>
@@ -228,49 +205,147 @@ $__user= Auth::user();
                               </select>
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-2 ">
-                            <div class="form-group">
-                              <label class="mr-2" for="_loading_date_time"><?php echo e(__('label._loading_date_time')); ?>:</label>
-                              <input type="datetime-local" id="_loading_date_time" name="_loading_date_time" class="form-control _loading_date_time" value="<?php echo e(old('_loading_date_time',$data->_loading_date_time)); ?>" placeholder="<?php echo e(__('label._loading_date_time')); ?>" >
-                            </div>
-                        </div>
+                         
+
                         
-                        <div class="col-xs-12 col-sm-12 col-md-2 ">
-                            <div class="form-group">
-                              <label class="mr-2" for="_arrival_date_time"><?php echo e(__('label._arrival_date_time')); ?>:</label>
-                              <input type="datetime-local" id="_arrival_date_time" name="_arrival_date_time" class="form-control _arrival_date_time" value="<?php echo e(old('_arrival_date_time',$data->_arrival_date_time)); ?>" placeholder="<?php echo e(__('label._arrival_date_time')); ?>" >
+                        
+                         <div class="col-md-12 mt-2">
+                          <div class="card ">
+
+                            <div class="row route_info_box" >
+                              <table class="table" >
+                                <thead>
+                                  <tr>
+                                    <th  style="width:5%;"></th>
+                                    <th  style="width:15%;"><?php echo e(__('label._loding_point')); ?></th>
+                                    <th  style="width:15%;"><?php echo e(__('label._unloading_point')); ?></th>
+                                    <th  style="width:15%;"><?php echo e(__('label._loading_date_time')); ?></th>
+                                    <th  style="width:15%;"><?php echo e(__('label._arrival_date_time')); ?></th>
+                                    <th  style="width:15%;"><?php echo e(__('label._discharge_date_time')); ?></th>
+                                    <th  style="width:15%;"><?php echo e(__('label.final_route')); ?></th>
+                                  </tr>
+                                </thead>
+                                <?php
+                                $_route_infos = $data->_route_info ?? [];
+                                ?>
+                                <tbody class="route_display_box">
+                                  <?php $__empty_1 = true; $__currentLoopData = $_route_infos; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $r_key=>$r_val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                                <tr>
+                                  <td>
+                                    
+                                    <a href="#none" class="btn btn-default btn-sm remove_route" ><i class="fa fa-trash"></i></a>
+                                    <input type="hidden" name="_route_info_id[]" value="<?php echo e($r_val->id); ?>">
+                                  </td>
+                                  
+                                  <td>
+                                        
+                                        <select class="form-control" name="_loading_point[]">
+                                          <option value=""><?php echo e(__('label.select')); ?></option>
+                                          <?php $__empty_2 = true; $__currentLoopData = $all_store_houses; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_2 = false; ?>
+                                            <option value="<?php echo e($val->id); ?>" <?php if($val->id==$r_val->_loading_point): ?> selected <?php endif; ?> ><?php echo e($val->_name ?? ''); ?></option>
+                                          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_2): ?>
+                                          <?php endif; ?>
+                                        </select>
+                                      
+                                  </td>
+                                  <td>
+                                        <select class="form-control" name="_unloading_point[]">
+                                          <option value=""><?php echo e(__('label.select')); ?></option>
+                                          <?php $__empty_2 = true; $__currentLoopData = $all_store_houses; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_2 = false; ?>
+                                            <option value="<?php echo e($val->id); ?>" <?php if($val->id==$r_val->_unloading_point): ?> selected <?php endif; ?>><?php echo e($val->_name ?? ''); ?></option>
+                                          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_2): ?>
+                                          <?php endif; ?>
+                                        </select>
+                                  </td>
+                                  <td>
+                                        <input type="datetime-local" name="_loading_date_time[]" class="form-control _loading_date_time" value="<?php echo e(old('_loading_date_time',$r_val->_loading_date_time)); ?>" placeholder="<?php echo e(__('label._loading_date_time')); ?>" >
+                                     
+                                  </td>
+                                  <td>
+                                        <input type="datetime-local"  name="_arrival_date_time[]" class="form-control _arrival_date_time" value="<?php echo e(old('_arrival_date_time',$r_val->_arrival_date_time)); ?>" placeholder="<?php echo e(__('label._arrival_date_time')); ?>" >
+                                     
+                                  </td>
+                                  <td>
+                                  <input type="datetime-local"  name="_discharge_date_time[]" class="form-control _discharge_date_time" value="<?php echo e(old('_discharge_date_time',$r_val->_discharge_date_time)); ?>" placeholder="<?php echo e(__('label._discharge_date_time')); ?>" >
+                                  </td>
+                                  <td>
+                                  <input type="checkbox"  name="_final_route_chekbox[]" class="form-control _final_route_chekbox" value="<?php echo e(old('_final_route_chekbox')); ?>" <?php if($r_val->_final_route==1): ?> checked <?php endif; ?> >
+                                  <input type="hidden" class="_final_route" value="<?php echo e($r_val->_final_route); ?>"  name="_final_route[]"/>
+                                  </td>
+
+                                </tr>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                                
+                                <?php endif; ?>
+                                
+                                </tbody>
+                                <tfoot>
+                                  <tr>
+                                  <td>
+                                    
+                                    <a href="#none" class="btn btn-default btn-sm" onclick="add_new_route_row(event)"><i class="fa fa-plus"></i></a>
+                                  </td>
+                                  <td colspan="6"></td>
+                                </tr>
+                                </tfoot>
+                              </table>
                             </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-2 ">
-                            <div class="form-group">
-                              <label class="mr-2" for="_discharge_date_time"><?php echo e(__('label._discharge_date_time')); ?>:</label>
-                              <input type="datetime-local" id="_discharge_date_time" name="_discharge_date_time" class="form-control _discharge_date_time" value="<?php echo e(old('_discharge_date_time',$data->_discharge_date_time)); ?>" placeholder="<?php echo e(__('label._discharge_date_time')); ?>" >
-                            </div>
+                           
+                          </div>
                         </div>
 
                          
-                         <div class="col-xs-12 col-sm-12 col-md-2 display_none">
+                        <?php
+                        $_vessel_detail = $data->_vessel_detail ?? '';
+                        $_vessel_no= $_vessel_detail->_vessel_no ?? 0;
+                        ?>
+                       
+                <div class="col-md-12">
+                  <div class="card vessel_info_box" >
+                    <div class="row">
+                      <?php
+                        $vessels = \DB::table('vessel_infos')->orderBy('_name','ASC')->get();
+                        ?>
+                        <div class="col-xs-12 col-sm-12 col-md-3  <?php if($_show_vn==0): ?> display_none <?php endif; ?>">
                             <div class="form-group">
-                              <label class="mr-2" for="_phone">Phone:</label>
-                              <input type="text" id="_phone" name="_phone" class="form-control _phone" value="<?php echo e(old('_phone',$data->_phone)); ?>" placeholder="Phone" >
-                                
+                              <label class="mr-2" for="_vessel_no"><?php echo e(__('label._vessel_no')); ?>:</label>
+                              <select class="form-control " name="_vessel_no">
+                                <option value=""><?php echo e(__('label.select')); ?></option>
+                                <?php $__empty_1 = true; $__currentLoopData = $vessels; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                                <option value="<?php echo e($val->id); ?>" <?php if($_vessel_no==$val->id): ?> selected <?php endif; ?> ><?php echo e($val->_name ?? ''); ?> || Capacity:<?php echo $val->_capacity ?? ''; ?></option>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                                <?php endif; ?>
+                              </select>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2  <?php if($_show_vn==0): ?> display_none <?php endif; ?>">
+                            <div class="form-group">
+                              <label class="mr-2" for="_capacity"><?php echo e(__('label._capacity')); ?>:</label>
+                              <input type="text" name="_capacity" class="form-control" placeholder="<?php echo e(__('label._capacity')); ?>" value="<?php echo e(old('_capacity',$_vessel_detail->_capacity ?? 0)); ?>">
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2  <?php if($_show_vn==0): ?> display_none <?php endif; ?>">
+                            <div class="form-group">
+                              <label class="mr-2" for="_name_of_master"><?php echo e(__('label._name_of_master')); ?>:</label>
+                              <input type="text" name="_vessel_res_person" class="form-control" placeholder="<?php echo e(__('label._name_of_master')); ?>" value="<?php echo e(old('_name_of_master',$_vessel_detail->_vessel_res_person ?? '')); ?>">
                             </div>
                         </div>
                         
-                        <div class="col-xs-12 col-sm-12 col-md-3 display_none">
+                        <div class="col-xs-12 col-sm-12 col-md-2  <?php if($_show_vn==0): ?> display_none <?php endif; ?>">
                             <div class="form-group">
-                              <label class="mr-2" for="_address">Address:</label>
-                              <input type="text" id="_address" name="_address" class="form-control _address" value="<?php echo e(old('_address',$data->_address)); ?>" placeholder="Address" >
-                                
+                              <label class="mr-2" for="_mobile_of_master"><?php echo e(__('label._mobile_of_master')); ?>:</label>
+                              <input type="text" name="_vessel_res_mobile" class="form-control" placeholder="<?php echo e(__('label._mobile_of_master')); ?>" value="<?php echo e(old('_mobile_of_master',$_vessel_detail->_vessel_res_mobile ?? '')); ?>">
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-3 ">
+                        <div class="col-xs-12 col-sm-12 col-md-3  <?php if($_show_vn==0): ?> display_none <?php endif; ?>">
                             <div class="form-group">
-                              <label class="mr-2" for="_referance">Referance:</label>
-                              <input type="text" id="_referance" name="_referance" class="form-control _referance" value="<?php echo e(old('_referance',$data->_referance)); ?>" placeholder="Referance" >
-                                
+                              <label class="mr-2" for="_extra_instruction"><?php echo e(__('label._extra_instruction')); ?>:</label>
+                              <input type="text" name="_vessel_res_mobile" class="form-control" placeholder="<?php echo e(__('label._extra_instruction')); ?>" value="<?php echo e(old('_vessel_res_mobile',$_vessel_detail->_extra_instruction ?? '')); ?>">
                             </div>
                         </div>
+                    </div>
+                  </div>
+                </div>
 
 
                         <div class="col-md-12  ">
@@ -642,6 +717,69 @@ $(document).on("click","#form_settings",function(){
               $(document).find(".display_form_setting_info").html(result);
          })
   }
+
+
+
+  $(document).on('click','.remove_route',function(){
+$(this).closest('tr').remove();
+});
+
+function add_new_route_row(event){
+  var single_route=`<tr>
+                                  <td>
+                                    
+                                    <a href="#none" class="btn btn-default btn-sm remove_route" ><i class="fa fa-trash"></i></a>
+                                    <input type="hidden" name="_route_info_id[]" value="0">
+                                  </td>
+                                  <td>
+                                        
+                                        <select class="form-control _loding_point" name="_loding_point[]">
+                                          <option value=""><?php echo e(__('label.select')); ?></option>
+                                          <?php $__empty_1 = true; $__currentLoopData = $all_store_houses; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                                            <option value="<?php echo e($val->id); ?>"><?php echo e($val->_name ?? ''); ?></option>
+                                          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                                          <?php endif; ?>
+                                        </select>
+                                      
+                                  </td>
+                                  <td>
+                                        <select class="form-control _unloading_point" name="_unloading_point[]">
+                                          <option value=""><?php echo e(__('label.select')); ?></option>
+                                          <?php $__empty_1 = true; $__currentLoopData = $all_store_houses; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                                            <option value="<?php echo e($val->id); ?>"><?php echo e($val->_name ?? ''); ?></option>
+                                          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                                          <?php endif; ?>
+                                        </select>
+                                  </td>
+                                  <td>
+                                        <input type="datetime-local" name="_loading_date_time[]" class="form-control _loading_date_time" value="<?php echo e(old('_loading_date_time')); ?>" placeholder="<?php echo e(__('label._loading_date_time')); ?>" >
+                                     
+                                  </td>
+                                  <td>
+                                        <input type="datetime-local" name="_arrival_date_time[]" class="form-control _arrival_date_time" value="<?php echo e(old('_arrival_date_time')); ?>" placeholder="<?php echo e(__('label._arrival_date_time')); ?>" >
+                                     
+                                  </td>
+                                  <td>
+                                  <input type="datetime-local"  name="_discharge_date_time[]" class="form-control _discharge_date_time" value="<?php echo e(old('_discharge_date_time')); ?>" placeholder="<?php echo e(__('label._discharge_date_time')); ?>" >
+                                  </td>
+                                  <td>
+                                  <input type="checkbox"  name="_final_route_chekbox[]" class="form-control _final_route_chekbox" value="<?php echo e(old('_final_route_chekbox')); ?>"  >
+                                  <input type="hidden" class="_final_route" value="0"  name="_final_route[]"/>
+                                  </td>
+
+                                </tr>`;
+
+
+  $(document).find(".route_display_box").append(single_route);
+}
+
+$(document).on('click','._final_route_chekbox',function(){
+  $('._final_route_chekbox').prop('checked',false);
+  $('._final_route').val(0);
+
+  $(this).closest('tr').find('._final_route_chekbox').prop('checked',true);
+  $(this).closest('tr').find('._final_route').val(1);
+})
   
 
 
@@ -1272,6 +1410,7 @@ change_branch_cost_strore();
       $(document).find('._search_main_ledger_id').focus().addClass('required_border');
       return false;
     }else{
+       $('.submit-button').attr('disabled','true');
       $(document).find('.purchase_form').submit();
     }
   })

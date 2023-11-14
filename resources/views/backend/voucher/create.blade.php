@@ -376,10 +376,10 @@
       $(document).find('._search_ledger_id').focus().addClass('required_border');
       return false;
     }else{
+      $('.submit-button').attr('disabled','true');
       $(document).find('.voucher-form').submit();
     }
   })
-
 
 
 

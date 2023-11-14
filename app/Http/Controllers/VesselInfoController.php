@@ -116,7 +116,7 @@ class VesselInfoController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            '_name' => 'required',
+            '_name' => 'required|unique:vessel_infos,_name',
         ]);
         $values = $request->except('_token');
         VesselInfo::create($values);
@@ -163,7 +163,7 @@ class VesselInfoController extends Controller
     {
 
         $this->validate($request, [
-            '_name' => 'required',
+            '_name' => 'required|unique:vessel_infos,_name,'.$id,
         ]);
 
         $values = $request->except(['_token','_method']);

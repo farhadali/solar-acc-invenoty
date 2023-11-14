@@ -159,13 +159,13 @@ $__user= Auth::user();
                             </div>
                         </div>
                         <?php
-                        $vessels = \DB::table('vessel_infos')->get();
+                        $vessels = \DB::table('mother_vessels')->get();
                         ?>
                         <div class="col-xs-12 col-sm-12 col-md-2   <?php if($_show_vn==0): ?> display_none <?php endif; ?>">
                             <div class="form-group">
                               <label class="mr-2" for="_vessel_no"><?php echo e(__('label._mother_vessel_no')); ?>:</label>
                              
-                              <select class="form-control select2" name="_vessel_no">
+                              <select class="form-control " name="_vessel_no">
                                 <option value=""><?php echo e(__('label.select')); ?></option>
                                 <?php $__empty_1 = true; $__currentLoopData = $vessels; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                                 <option value="<?php echo e($val->id); ?>"><?php echo e($val->_name ?? ''); ?></option>
@@ -237,7 +237,7 @@ $__user= Auth::user();
                                             <th class="text-left display_none" ><?php echo e(__('label.conversion_qty')); ?></th>
                                             <th class="text-left <?php if(isset($_show_unit)): ?> <?php if($_show_unit==0): ?> display_none    <?php endif; ?> <?php endif; ?>" ><?php echo e(__('label._transection_unit')); ?></th>
                                            
-                                            <th class="text-left <?php if($_show_barcode==0): ?> display_none    <?php endif; ?> " ><?php echo e(__('_barcode')); ?></th>
+                                            <th class="text-left <?php if($_show_barcode==0): ?> display_none    <?php endif; ?> " ><?php echo e(__('label._barcode')); ?></th>
                                             <th class="text-left <?php if($_show_short_note==0): ?> display_none    <?php endif; ?> " ><?php echo e(__('label._note')); ?></th>
                                          
                                             <th class="text-left <?php if($_show_expected_qty==0): ?> display_none <?php endif; ?>" ><?php echo e(__('label._expected_qty')); ?></th>

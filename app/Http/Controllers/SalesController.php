@@ -1394,7 +1394,7 @@ where  t1._status = 1 and  (t1._barcode like '%$text_val%' OR t2._item like '%$t
     public function store(Request $request)
     {
         
-        return dump($request->all());
+        //return dump($request->all());
          $all_req= $request->all();
          $this->validate($request, [
             '_date' => 'required',
@@ -1483,6 +1483,7 @@ where  t1._status = 1 and  (t1._barcode like '%$text_val%' OR t2._item like '%$t
         $Sales->_cost_center_id = $request->_cost_center_id;
         $Sales->_address = $request->_address;
         $Sales->_phone = $request->_phone;
+        $Sales->_delivery_details = $request->_delivery_details ?? '';
 
         $Sales->_direct_purchase_no = $request->_direct_purchase_no ?? '';
         if(isset($request->_direct_purchase_no) && $request->_direct_purchase_no !=''){
@@ -2397,6 +2398,13 @@ $over_qtys = array();
         $Sales->_sales_man_id = $request->_sales_man_id ?? 0;
         $Sales->_sales_type = $request->_sales_type ?? 'sales';
 
+        $Sales->_delivery_details = $request->_delivery_details ?? '';
+        $Sales->_direct_purchase_no = $request->_direct_purchase_no ?? '';
+        if(isset($request->_direct_purchase_no) && $request->_direct_purchase_no !=''){
+            $Sales->_is_direct_sales = $request->_is_direct_sales ?? 1;
+        }
+        
+        
         $Sales->_vessel_no = $request->_vessel_no ?? 0;
         $Sales->_arrival_date_time = $request->_arrival_date_time;
         $Sales->_discharge_date_time = $request->_discharge_date_time;

@@ -334,7 +334,17 @@
   })
 
 
-
+$(document).on('click','.submit-button',function(event){
+    event.preventDefault();
+    var _note = $(document).find('._note').val();
+    if(_note ==""){
+       $(document).find('._note').focus().addClass('required_border');
+      return false;
+    }else{
+      $('.submit-button').attr('disabled','true');
+      $(document).find('.voucher-form').submit();
+    }
+})
 
 
 

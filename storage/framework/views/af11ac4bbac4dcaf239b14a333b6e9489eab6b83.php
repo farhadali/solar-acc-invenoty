@@ -125,11 +125,19 @@ $__user= Auth::user();
                               <input type="hidden" name="_sales_id" value="<?php echo e($data->id); ?>" class="_sales_id" >
                               <input type="hidden" id="_search_form_value" name="_search_form_value" class="_search_form_value" value="2" >
                         </div>
-                         <div class="col-xs-12 col-sm-12 col-md-3 ">
+                         <div class="col-xs-12 col-sm-12 col-md-2 ">
                             <div class="form-group">
                               <label class="mr-2" for="_order_number" >Invoice Number: </label>
                               <input type="text" id="_order_number"  name="_order_number"  class="form-control _order_number"  value="<?php echo e(old('_order_number' ,$data->_order_number)); ?>" placeholder="Invoice Number"  readonly>
                                 
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2 ">
+                            <div class="form-group">
+                              <label class="mr-2" for="_direct_purchase_no"><?php echo e(__('label._direct_purchase_no')); ?>:</label>
+                              <input type="text" id="_direct_purchase_no" name="_direct_purchase_no" class="form-control _direct_purchase_no" value="<?php echo e(old('_direct_purchase_no',$data->_direct_purchase_no)); ?>" placeholder="<?php echo e(__('label._direct_purchase_no')); ?>"  >
+
+                              <div class="search_box_master_purchase"></div>
                             </div>
                         </div>
 
@@ -202,13 +210,13 @@ $__user= Auth::user();
                                 
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-3  <?php if($_show_loding_point==0): ?> display_none <?php endif; ?>">
+                        <div class="col-xs-12 col-sm-12 col-md-3 display_none  <?php if($_show_loding_point==0): ?> display_none <?php endif; ?>">
                             <div class="form-group">
                               <label class="mr-2" for="_loding_point"><?php echo e(__('label._loding_point')); ?>:</label>
                               <input type="text" id="_loding_point" name="_loding_point" class="form-control _loding_point" value="<?php echo e(old('_loding_point',$data->_loding_point)); ?>" placeholder="<?php echo e(__('label._loding_point')); ?>" >
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-3 <?php if($_show_unloading_point==0): ?> display_none <?php endif; ?>">
+                        <div class="col-xs-12 col-sm-12 col-md-3 display_none <?php if($_show_unloading_point==0): ?> display_none <?php endif; ?>">
                             <div class="form-group">
                               <label class="mr-2" for="_unloading_point"><?php echo e(__('label._unloading_point')); ?>:</label>
                               <input type="text" id="_unloading_point" name="_unloading_point" class="form-control _unloading_point" value="<?php echo e(old('_unloading_point',$data->_unloading_point)); ?>" placeholder="<?php echo e(__('label._unloading_point')); ?>" >
@@ -232,13 +240,13 @@ $__user= Auth::user();
                                 <option value=""><?php echo e(__('label.select')); ?></option>
                                 <?php $__empty_1 = true; $__currentLoopData = $vessels; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                                 <option value="<?php echo e($val->id); ?>" 
-                                  attr_capacity="<?php echo e($val->_capacity ?? 0); ?>"><?php echo e($val->_name ?? ''); ?> || Capacity: <?php echo e($val->_capacity ?? 0); ?></option>
+                                  attr_capacity="<?php echo e($val->_capacity ?? 0); ?>" <?php if($val->id==$data->_vessel_no): ?> selected <?php endif; ?> ><?php echo e($val->_name ?? ''); ?> || Capacity: <?php echo e($val->_capacity ?? 0); ?></option>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                                 <?php endif; ?>
                               </select>
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-2   <?php if($_show_vn==0): ?> display_none <?php endif; ?>">
+                        <div class="col-xs-12 col-sm-12 col-md-2 display_none   <?php if($_show_vn==0): ?> display_none <?php endif; ?>">
                             <div class="form-group">
                               <label class="mr-2" for="_vessel_no"><?php echo e(__('label._capacity')); ?>:</label>
                              
@@ -255,6 +263,13 @@ $__user= Auth::user();
                             <div class="form-group">
                               <label class="mr-2" for="_discharge_date_time"><?php echo e(__('label._discharge_date_time')); ?>:</label>
                               <input type="datetime-local" id="_discharge_date_time" name="_discharge_date_time" class="form-control _discharge_date_time" value="<?php echo e(old('_discharge_date_time',$data->_discharge_date_time)); ?>" placeholder="<?php echo e(__('label._discharge_date_time')); ?>" >
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-3 ">
+                            <div class="form-group">
+                              <label class="mr-2" for="_delivery_details"><?php echo e(__('label._delivery_details')); ?>:</label>
+                              <textarea id="_delivery_details" name="_delivery_details" class="form-control _delivery_details" value="<?php echo e(old('_delivery_details',$data->_delivery_details)); ?>" placeholder="<?php echo e(__('label._delivery_details')); ?>"><?php echo e(old('_delivery_details')); ?></textarea>
+                              
                             </div>
                         </div>
                       </div>
@@ -793,6 +808,249 @@ $(document).on('keyup','#_serach_baorce',delay(function(event){
 
 $(document).on('click','._action_button',function(){
   $(this).closest('td').css({"background":"#fff"})
+})
+
+$(document).on('keyup','._direct_purchase_no',delay(function(e){
+    var _gloabal_this = $(this);
+    var _text_val = $(this).val().trim();
+
+
+  var request = $.ajax({
+      url: "<?php echo e(url('purchase-invoice-search')); ?>",
+      method: "GET",
+      data: { _text_val : _text_val },
+      dataType: "JSON"
+    });
+     
+    request.done(function( result ) {
+console.log(result)
+      var search_html =``;
+      var data = result; 
+      if(data.length > 0 ){
+            search_html +=`<div class="card">
+            <table style="width: 300px;" class="table-bordered">
+            <thead>
+            <th><?php echo e(__('label._order_number')); ?></th>
+            <th><?php echo e(__('label._date')); ?></th>
+            <th><?php echo e(__('label._mother_vessel_no')); ?></th>
+            <th><?php echo e(__('label._vessel_no')); ?></th>
+            </thead><tbody>`;
+                        for (var i = 0; i < data.length; i++) {
+                         search_html += `<tr class="search_row_import_purchase" >
+
+                                        <td>${isEmpty(data[i]?._order_number)}
+
+                                        <input class="_import_purchase_invoice_no" value="${isEmpty(data[i]?._order_number)}" type="hidden" />
+                                        <input class="_import_purchase_invoice_id" value="${isEmpty(data[i]?.id)}" type="hidden" /></td>
+                                        <td>${isEmpty(data[i]?._date)}</td>
+                                        <td>${isEmpty(data[i]?._import_purchase?._mother_vessel?._name)}</td>
+                                        <td>${isEmpty(data[i]?._lighter_info?._name)}</td>
+                                   </tr>`;       
+                        }                         
+            search_html += ` </tbody> </table></div>`;
+      }else{
+        search_html +=`<div class="card"><table style="width: 300px;"> 
+        <thead><th colspan="3">No Data Found</th></thead><tbody></tbody></table></div>`;
+      }     
+      _gloabal_this.parent('div').find('.search_box_master_purchase').html(search_html);
+      _gloabal_this.parent('div').find('.search_box_master_purchase').addClass('search_box_show').show();
+      
+    });
+     
+    request.fail(function( jqXHR, textStatus ) {
+      alert( "Request failed: " + textStatus );
+    });
+
+  
+
+}, 500));  
+
+
+$(document).on('click','.search_row_import_purchase',function(){
+  var _order_number = $(this).find('._import_purchase_invoice_no').val();
+  var id = $(this).find('._import_purchase_invoice_id').val();
+
+var self = $(this);
+
+    var request = $.ajax({
+      url: "<?php echo e(url('id-base-purchase-detail')); ?>",
+      method: "GET",
+      data: { _order_number:_order_number, id:id},
+       dataType: "html"
+    });
+     
+    request.done(function( response ) {
+      var data = JSON.parse(response);
+     // console.log(response)
+      var _master_details = data._master_details;
+      var master_info = data;
+      var _ledger = data._ledger;
+      
+
+      $(document).find("._direct_purchase_no").val(master_info?._order_number);
+      $(document).find("._vessel_no").val(master_info?._vessel_no).change();
+      $(document).find(".area__purchase_details").empty();
+
+      var _total__expected_qty=0;
+      var _total_qty = 0;
+      var _total__value=0;
+
+      var detail_html =``;
+      if(_master_details?.length > 0){
+        for (var i = _master_details.length - 1; i >= 0; i--) {
+          console.log(_master_details[i])
+
+
+          _total__expected_qty +=_master_details[i]?._expected_qty;
+          _total_qty  +=_master_details[i]?._qty;
+          _total__value +=_master_details[i]?._value;
+        
+
+        var _item_row_count = parseFloat($(document).find('._item_row_count').val());
+       var _item_row_count = (parseFloat(_item_row_count)+1);
+      $("._item_row_count").val(_item_row_count)
+
+         detail_html +=`<tr class="_purchase_row">
+                                              <td>
+                                                <a  href="#none" class="btn btn-default _purchase_row_remove" ><i class="fa fa-trash"></i></a>
+                                              </td>
+                                              <td></td>
+                                              <td>
+                                                <input type="text" name="_search_item_id[]" class="form-control _search_item_id width_280_px" placeholder="Item" value="${_master_details[i]?._items?._name}">
+                                                <input type="hidden" name="_item_id[]" class="form-control _item_id width_200_px" value="${_master_details[i]?._items?.id}" >
+                                                <input type="hidden" name="_p_p_l_id[]" class="form-control _p_p_l_id "  value="${_master_details[i]?._lot_product?.id}">
+                                                <input type="hidden" name="_purchase_invoice_no[]" class="form-control _purchase_invoice_no" value="${_master_details[i]?._no}">
+                                                <input type="hidden" name="_purchase_detail_id[]" class="form-control _purchase_detail_id" value="${_master_details[i]?.id}">
+                                                <input type="hidden" name="_sales_detail_row_id[]" class="form-control _sales_detail_row_id _sales_detail_row_id__counter_${_item_row_count} _sales_detail_row_id__${_item_row_count}" value="0">
+                                                
+                                                <div class="search_box_item"></div>
+                                              </td>
+                                                <td class="display_none">
+                                                <input type="hidden" class="form-control _base_unit_id width_100_px" name="_base_unit_id[]" value="${_master_details[i]?._base_unit}" />
+                                                <input type="text" class="form-control _main_unit_val width_100_px" readonly name="_main_unit_val[]" value="${_master_details[i]?._base_unit}"/>
+                                              </td>
+                                              <td class="display_none">
+                                                <input type="number" name="conversion_qty[]" min="0" step="any" class="form-control conversion_qty " value="${_master_details[i]?._unit_conversion}" readonly>
+                                                <input type="number" name="_base_rate[]" min="0" step="any" class="form-control _base_rate " value="${_master_details[i]?._items?._pur_rate}"  readonly>
+                                              </td>
+                                              <td class="<?php if($form_settings->_show_unit==0): ?> display_none <?php endif; ?>">
+                                                <select class="form-control _transection_unit _transection_unit__${_item_row_count}" name="_transection_unit[]">
+                                                </select>
+                                              </td>
+                                             
+                                              <td class="<?php if($_show_barcode==0): ?> display_none <?php endif; ?>">
+                                                <input type="text" readonly name="_barcode[]" class="form-control _barcode  ${_item_row_count}__barcode " value="" id="${_item_row_count}__barcode" value="${_master_details[i]?._barcode}" >
+
+                                                <input type="hidden" name="_ref_counter[]" value="${_item_row_count}" class="_ref_counter" id="${_item_row_count}__ref_counter">
+                                              </td>
+                                                <td class="<?php if($_show_warranty  ==0): ?> display_none <?php endif; ?>">
+                                                <select name="_warranty[]" class="form-control _warranty ${_item_row_count}___warranty">
+                                                   <option value="0">--None --</option>
+                                                      <?php $__empty_1 = true; $__currentLoopData = $_warranties; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $_warranty): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                                                      <option value="<?php echo e($_warranty->id); ?>" ><?php echo e($_warranty->_name ?? ''); ?></option>
+                                                      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                                                      <?php endif; ?>
+                                                </select>
+                                              </td>
+                                              <td class="<?php if($_show_expected_qty==0): ?> display_none <?php endif; ?>" >
+                                                <input type="number" name="_expected_qty[]" class="form-control _expected_qty _common_keyup" value="${_master_details[i]?._expected_qty}" >
+                                              </td>
+ 
+                                              <td>
+                                                <input type="number" name="_qty[]" class="form-control _qty _common_keyup"  value="${_master_details[i]?._qty}">
+                                              </td>
+                                              <td class="<?php if($_show_cost_rate==0): ?> display_none <?php endif; ?>">
+                                                <input type="number" name="_rate[]" class="form-control _rate " readonly value="${_master_details[i]?._rate}" >
+                                              </td>
+                                              <td>
+                                                <input type="number" name="_sales_rate[]" class="form-control _sales_rate _common_keyup" value="${_master_details[i]?._sales_rate}">
+                                              </td>
+                                               
+                                                <td class="<?php if($_show_vat==0): ?> display_none <?php endif; ?>">
+                                                <input type="number" name="_vat[]" class="form-control  _vat _common_keyup" value="${_master_details[i]?._vat}">
+                                              </td>
+                                              <td class="<?php if($_show_vat==0): ?> display_none <?php endif; ?>">
+                                                <input type="number" name="_vat_amount[]" class="form-control  _vat_amount" value="${_master_details[i]?._vat_amount}">
+                                              </td>
+                                              <td class=" <?php if($_show_sd == 0): ?> display_none <?php endif; ?> ">
+                                                <input type="number" name="_sd[]" class="form-control  _sd _common_keyup" placeholder="" value="${_master_details[i]?._sd}">
+                                              </td>
+                                              <td class="<?php if($_show_sd ==0): ?> display_none <?php endif; ?> " >
+                                                <input type="number" name="_sd_amount[]" class="form-control  _sd_amount" placeholder=""  value="${_master_details[i]?._sd_amount}">
+                                              </td>
+                                                <td class="<?php if($_inline_discount==0): ?> display_none <?php endif; ?>">
+                                                <input type="number" name="_discount[]" class="form-control  _discount _common_keyup" value="${_master_details[i]?._discount}">
+                                              </td>
+                                              <td class="<?php if($_inline_discount==0): ?> display_none <?php endif; ?>">
+                                                <input type="number" name="_discount_amount[]" class="form-control  _discount_amount"  value="${_master_details[i]?._discount_amount}" >
+                                              </td>
+                                             
+                                              <td>
+                                                <input type="number" name="_value[]" class="form-control _value " value="${_master_details[i]?._value}"  >
+                                              </td>
+                                              <td class="<?php if(isset($form_settings->_show_manufacture_date)): ?> <?php if($form_settings->_show_manufacture_date==0): ?> display_none  <?php endif; ?> <?php endif; ?>">
+                                                <input type="date" name="_manufacture_date[]" class="form-control _manufacture_date "
+                                                value="${_master_details[i]?._manufacture_date}"  
+                                                >
+                                              </td>
+                                              <td class="<?php if(isset($form_settings->_show_expire_date)): ?> <?php if($form_settings->_show_expire_date==0): ?> display_none  <?php endif; ?> <?php endif; ?>">
+                                                <input type="date" name="_expire_date[]" class="form-control _expire_date " value="${_master_details[i]?._expire_date}" >
+                                              </td>
+                                              <td class="<?php if(sizeof($store_houses)==1): ?> display_none <?php endif; ?>">
+                                                <select class="form-control  _main_store_id _main_store_id___${_item_row_count}" name="_main_store_id[]">
+                                                  <?php $__empty_1 = true; $__currentLoopData = $store_houses; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $store): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                                                  <option value="<?php echo e($store->id); ?>"><?php echo e($store->_name ?? ''); ?></option>
+                                                  <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                                                  <?php endif; ?>
+                                                </select>
+                                              </td>
+                                              <td class="<?php if($_show_self==0): ?> display_none <?php endif; ?>">
+                                                <input type="text" name="_store_salves_id[]" class="form-control _store_salves_id "  value="${_master_details[i]?._store_salves_id}">
+                                              </td>
+                                            </tr>`;
+
+  var _p_item_item_id = _master_details[i]?._item_id
+  var _transection_unit___class=`_transection_unit__${_item_row_count}`;
+  var _store_id = _master_details[i]?._store_id;
+
+  var _main_store_id___class =`_main_store_id___${_item_row_count}`;
+  // console.log(_item_row_count)
+  // console.log(_main_store_id___class)
+
+  $(document).find("."+_main_store_id___class).val(_store_id).change();
+  
+      var self = $(this);
+      var request = $.ajax({
+        url: "<?php echo e(url('item-wise-units')); ?>",
+        method: "GET",
+        data: { item_id:_p_item_item_id },
+         dataType: "html"
+      });
+       
+      request.done(function( response ) {
+        $(document).find('._transection_unit').html("")
+        $(document).find("."+_transection_unit___class).html(response);
+      });
+       
+      request.fail(function( jqXHR, textStatus ) {
+        alert( "Request failed: " + textStatus );
+      });
+
+    }
+      }
+$(document).find("._total_expected_qty_amount").val(_total__expected_qty);
+$(document).find("._total_qty_amount").val(_total_qty);
+$(document).find("._total_value_amount").val(_total__value);
+$(document).find(".area__purchase_details").html(detail_html);
+_purchase_total_calculation();
+});
+     
+    request.fail(function( jqXHR, textStatus ) {
+      alert( "Request failed: " + textStatus );
+    });
+ 
+  $('.search_box_master_purchase').hide();
+  $('.search_box_master_purchase').removeClass('search_box_show').hide();
 })
 
 function _main_item_search(_text_val){

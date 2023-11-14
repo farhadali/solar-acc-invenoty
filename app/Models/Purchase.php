@@ -49,4 +49,13 @@ class Purchase extends Model
     public function _lighter_info(){
         return $this->hasOne(VesselInfo::class,'id','_vessel_no');
     }
+
+
+    public function _route_info(){
+        return $this->hasMany(VesselRoute::class,'_purchase_no','id')->where('_status',1);
+    }
+
+    public function _vessel_detail(){
+        return $this->hasOne(ImportReceiveVesselInfo::class,'_purchase_no','id')->where('_status',1);
+    }
 }

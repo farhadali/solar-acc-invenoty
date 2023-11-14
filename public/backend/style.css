@@ -1156,3 +1156,12 @@ tbody{
 #expected_profit{
     width: 250px !important;
 }
+
+.vessel_info_box{
+    background: #cccccc;;
+    padding: 5px;
+}
+.route_info_box{
+    background: #cccccc;
+    padding: 10px;
+}

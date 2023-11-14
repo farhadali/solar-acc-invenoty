@@ -115,7 +115,7 @@ class MotherVesselController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            '_name' => 'required',
+            '_name' => 'required|unique:mother_vessels,_name',
         ]);
         $values = $request->except('_token');
         MotherVessel::create($values);
@@ -161,8 +161,8 @@ class MotherVesselController extends Controller
     public function update(Request $request,$id)
     {
 
-        $this->validate($request, [
-            '_name' => 'required',
+         $this->validate($request, [
+            '_name' => 'required|unique:mother_vessels,_name,'.$id,
         ]);
 
         $values = $request->except(['_token','_method']);

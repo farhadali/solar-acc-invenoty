@@ -159,13 +159,13 @@ $__user= Auth::user();
                             </div>
                         </div>
                         @php
-                        $vessels = \DB::table('vessel_infos')->get();
+                        $vessels = \DB::table('mother_vessels')->get();
                         @endphp
                         <div class="col-xs-12 col-sm-12 col-md-2   @if($_show_vn==0) display_none @endif">
                             <div class="form-group">
                               <label class="mr-2" for="_vessel_no">{{__('label._mother_vessel_no')}}:</label>
                              
-                              <select class="form-control select2" name="_vessel_no">
+                              <select class="form-control " name="_vessel_no">
                                 <option value="">{{__('label.select')}}</option>
                                 @forelse($vessels as $key=>$val)
                                 <option value="{{$val->id}}">{{ $val->_name ?? '' }}</option>
@@ -237,7 +237,7 @@ $__user= Auth::user();
                                             <th class="text-left display_none" >{{__('label.conversion_qty')}}</th>
                                             <th class="text-left @if(isset($_show_unit)) @if($_show_unit==0) display_none    @endif @endif" >{{__('label._transection_unit')}}</th>
                                            
-                                            <th class="text-left @if($_show_barcode==0) display_none    @endif " >{{__('_barcode')}}</th>
+                                            <th class="text-left @if($_show_barcode==0) display_none    @endif " >{{__('label._barcode')}}</th>
                                             <th class="text-left @if($_show_short_note==0) display_none    @endif " >{{__('label._note')}}</th>
                                          
                                             <th class="text-left @if($_show_expected_qty==0) display_none @endif" >{{__('label._expected_qty')}}</th>

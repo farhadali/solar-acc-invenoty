@@ -26,6 +26,8 @@ use App\Models\BarcodeDetail;
 use App\Models\PurchaseBarcode;
 use App\Models\GeneralSettings;
 use App\Models\ImportPuchaseFormSetting;
+use App\Models\VesselRoute;
+use App\Models\ImportReceiveVesselInfo;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
@@ -292,8 +294,8 @@ class ImportMRController extends Controller
     //###########################
     // Purchase Master information Save Start
     //###########################
-       // DB::beginTransaction();
-       //  try {
+       DB::beginTransaction();
+        try {
          $organization_id = $request->organization_id ?? 1;
          $_p_balance = _l_balance_update($request->_main_ledger_id);
          $__sub_total = (float) $request->_sub_total;
@@ -313,60 +315,113 @@ class ImportMRController extends Controller
 
         $_print_value = $request->_print ?? 0;
          $users = Auth::user();
-        $Purchase = new Purchase();
-        $Purchase->_date = change_date_format($request->_date);
-        $Purchase->_time = date('H:i:s');
-        $Purchase->_order_ref_id = $request->_order_ref_id ?? '';
+        $Purchase           = new Purchase();
+        $Purchase->_date    = change_date_format($request->_date);
+        $Purchase->_time    = date('H:i:s');
+        $Purchase->_order_ref_id  = $request->_order_ref_id ?? '';
         $Purchase->_purchase_type = $request->_purchase_type ?? 2;
-        $Purchase->_referance = $request->_referance ?? '';
-        $Purchase->_ledger_id = $request->_main_ledger_id;
-        $Purchase->_user_id = $request->_main_ledger_id;
-        $Purchase->_created_by = $users->id."-".$users->name;
-        $Purchase->_user_id = $users->id;
-        $Purchase->_user_name = $users->name;
-        $Purchase->_note = $request->_note ?? '';
-        $Purchase->_sub_total = $__sub_total;
+        $Purchase->_referance     = $request->_referance ?? '';
+        $Purchase->_ledger_id     = $request->_main_ledger_id;
+        $Purchase->_user_id       = $request->_main_ledger_id;
+        $Purchase->_created_by    = $users->id."-".$users->name;
+        $Purchase->_user_id       = $users->id;
+        $Purchase->_user_name     = $users->name;
+        $Purchase->_note          = $request->_note ?? '';
+        $Purchase->_sub_total     = $__sub_total;
         $Purchase->_discount_input = $__discount_input;
         $Purchase->_total_discount = $__total_discount;
-        $Purchase->_total_vat = $__total_vat;
-        $Purchase->_total =  $__total;
+        $Purchase->_total_vat      = $__total_vat;
+        $Purchase->_total          =  $__total;
 
-        $Purchase->_branch_id = $request->_branch_id ?? 1;
-        $Purchase->organization_id = $organization_id;
-        $Purchase->_cost_center_id = $request->_cost_center_id ?? 1;
-        $Purchase->_store_id = $master_store_id ?? 1;
+        $Purchase->_branch_id       = $request->_branch_id ?? 1;
+        $Purchase->organization_id  = $organization_id;
+        $Purchase->_cost_center_id  = $request->_cost_center_id ?? 1;
+        $Purchase->_store_id        = $master_store_id ?? 1;
 
 
         $import_invoice_no = $request->import_invoice_no;
+
+
         $import_purchases =ImportPuchase::with(['_mother_vessel'])->find($import_invoice_no);
-        $im_rlp = $import_purchases->_rlp_no;
-        $im_note_sheet_no = $import_purchases->_note_sheet_no;
-        $im_workorder_no = $import_purchases->_workorder_no;
-        $im_lc_no = $import_purchases->_lc_no;
+        $im_rlp             = $import_purchases->_rlp_no;
+        $im_note_sheet_no   = $import_purchases->_note_sheet_no;
+        $im_workorder_no    = $import_purchases->_workorder_no;
+        $im_lc_no           = $import_purchases->_lc_no;
+        $_capacity          = $import_purchases->_mother_vessel->_capacity ?? 0;
 
-        $Purchase->_rlp_no = $request->_rlp_no ?? $im_rlp;
-        $Purchase->_note_sheet_no = $request->_note_sheet_no ?? $im_note_sheet_no;
-        $Purchase->_workorder_no = $request->_workorder_no ?? $im_workorder_no;
-        $Purchase->_lc_no = $request->_lc_no ?? $im_lc_no;
-        $Purchase->_vessel_no = $request->_vessel_no ?? '';
-        $Purchase->_loading_date_time = $request->_loading_date_time ?? '';
-        $Purchase->_arrival_date_time = $request->_arrival_date_time ?? '';
-        $Purchase->_discharge_date_time = $request->_discharge_date_time ?? '';
-        $Purchase->_loding_point = $request->_loding_point ?? 1;
-        $Purchase->_unloading_point = $master_store_id ?? 1;
+        
+        $Purchase->_total_expected_qty = $request->_total_expected_qty_amount ?? 0;
+        $Purchase->_total_qty          = $request->_total_qty_amount ?? 0;
+
+        $Purchase->_rlp_no          = $request->_rlp_no ?? $im_rlp;
+        $Purchase->_note_sheet_no   = $request->_note_sheet_no ?? $im_note_sheet_no;
+        $Purchase->_workorder_no    = $request->_workorder_no ?? $im_workorder_no;
+        $Purchase->_lc_no           = $request->_lc_no ?? $im_lc_no;
+
+        //$Purchase->_capacity = $request->_capacity ?? $_capacity;
+        // $Purchase->_loading_date_time = $request->_loading_date_time ?? '';
+        // $Purchase->_arrival_date_time = $request->_arrival_date_time ?? '';
+        // $Purchase->_discharge_date_time = $request->_discharge_date_time ?? '';
+        // $Purchase->_loding_point = $request->_loding_point ?? 1;
+        // $Purchase->_unloading_point = $master_store_id ?? 1;
+
+        // $Purchase->_vessel_no = $request->_vessel_no ?? 1;
+        // $Purchase->_vessel_res_person = $request->_vessel_res_person ?? '';
+        // $Purchase->_vessel_res_mobile = $request->_vessel_res_mobile ?? '';
+        
+
+
         $Purchase->import_invoice_no = $request->import_invoice_no ?? 1;
-        $Purchase->_vessel_no = $request->_vessel_no ?? 1;
-        $Purchase->_vessel_res_person = $request->_vessel_res_person ?? '';
-        $Purchase->_vessel_res_mobile = $request->_vessel_res_mobile ?? '';
 
-
-
-        $Purchase->_address = $request->_address ?? '';
-        $Purchase->_phone = $request->_phone ?? '';
-        $Purchase->_status = 1;
-        $Purchase->_lock = $request->_lock ?? 0;
+        $Purchase->_address     = $request->_address ?? '';
+        $Purchase->_phone       = $request->_phone ?? '';
+        $Purchase->_status      = 1;
+        $Purchase->_lock        = $request->_lock ?? 0;
         $Purchase->save();
-        $purchase_id = $Purchase->id;
+        $purchase_id            = $Purchase->id;
+
+
+        //Vessel Information Save
+        //VesselRoute
+        //ImportReceiveVesselInfo
+        if($request->has('_vessel_no') && $request->_vessel_no !=''){
+            $ImportReceiveVesselInfo = new ImportReceiveVesselInfo();
+            $ImportReceiveVesselInfo->_purchase_no       = $purchase_id;
+            $ImportReceiveVesselInfo->_vessel_no         = $request->_vessel_no ?? 0;
+            $ImportReceiveVesselInfo->_capacity          = $request->_capacity ?? $_capacity;
+            $ImportReceiveVesselInfo->_vessel_res_person = $request->_vessel_res_person ?? '';
+            $ImportReceiveVesselInfo->_vessel_res_mobile = $request->_vessel_res_mobile ?? '';
+            $ImportReceiveVesselInfo->_extra_instruction = $request->_extra_instruction ?? '';
+            $ImportReceiveVesselInfo->_status            = 1;
+            $ImportReceiveVesselInfo->save(); 
+        }
+
+
+        //Vessel Route Information
+
+        $_loading_point         = $request->_loading_point ?? [];
+        $_unloading_points      = $request->_unloading_point ?? [];
+        $_loading_date_times    = $request->_loading_date_time ?? [];
+        $_arrival_date_times    = $request->_arrival_date_time ?? [];
+        $_discharge_date_times  = $request->_discharge_date_time ?? [];
+        $_final_routes          = $request->_final_route ?? [];
+
+        if(sizeof($_loading_point) > 0){
+            for ($i=0; $i <sizeof($_loading_point); $i++) { 
+                $VesselRoute = new VesselRoute();
+                $VesselRoute->_purchase_no         = $purchase_id;
+                $VesselRoute->_loading_point       =$_loading_point[$i] ?? '';
+                $VesselRoute->_loading_date_time   =$_loading_date_times[$i] ?? '';
+                $VesselRoute->_unloading_point     =$_unloading_points[$i] ?? '';
+                $VesselRoute->_discharge_date_time =$_discharge_date_times[$i] ?? '';
+                $VesselRoute->_arrival_date_time   =$_arrival_date_times[$i] ?? '';
+                $VesselRoute->_final_route         =$_final_routes[$i] ?? '';
+                $VesselRoute->_status              =1;
+                $VesselRoute->save();
+            }
+        }
+                  
+
 
         //###########################
         // Purchase Master information Save End
@@ -777,12 +832,12 @@ class ImportMRController extends Controller
              }
              //End Sms Send to customer and Supplier
 
-           // DB::commit();
+            DB::commit();
             return redirect()->back()->with('success','Information save successfully')->with('_master_id',$purchase_id)->with('_print_value',$_print_value);
-       // } catch (\Exception $e) {
-       //     DB::rollback();
-       //     return redirect()->back()->with('danger','There is Something Wrong !');
-       //  }
+       } catch (\Exception $e) {
+           DB::rollback();
+           return redirect()->back()->with('danger','There is Something Wrong !');
+        }
 
        
     }
@@ -865,8 +920,9 @@ $store_houses = permited_stores(explode(',',$users->store_ids));
         
         $categories = ItemCategory::orderBy('_name','asc')->get();
         $units = Units::orderBy('_name','asc')->get();
-         $data =  Purchase::with(['_master_branch','_master_details','purchase_account','_ledger'])->where('_purchase_type',2)->where('_lock',0)->find($id);
+        $data =  Purchase::with(['_master_branch','_master_details','purchase_account','_ledger','_route_info','_vessel_detail'])->where('_purchase_type',2)->where('_lock',0)->find($id);
          
+
          if(!$data){
             return redirect()->back()->with('danger','You have no permission to edit or update !');
          }
@@ -915,8 +971,8 @@ $store_houses = permited_stores(explode(',',$users->store_ids));
     //###########################
     // Purchase Master information Save Start
     //###########################
-      DB::beginTransaction();
-        try {
+      // DB::beginTransaction();
+      //   try {
 
     if($sales_number == 0 ){
     PurchaseDetail::where('_no', $purchase_id)
@@ -986,27 +1042,84 @@ $store_houses = permited_stores(explode(',',$users->store_ids));
         $im_workorder_no = $import_purchases->_workorder_no;
         $im_lc_no = $import_purchases->_lc_no;
 
+         $_capacity = $import_purchases->_mother_vessel->_capacity ?? 0;
+
+        $Purchase->_capacity = $request->_capacity ?? $_capacity;
+        $Purchase->_total_expected_qty = $request->_total_expected_qty_amount ?? 0;
+        $Purchase->_total_qty = $request->_total_qty_amount ?? 0;
+
         $Purchase->_rlp_no = $request->_rlp_no ?? $im_rlp;
         $Purchase->_note_sheet_no = $request->_note_sheet_no ?? $im_note_sheet_no;
         $Purchase->_workorder_no = $request->_workorder_no ?? $im_workorder_no;
         $Purchase->_lc_no = $request->_lc_no ?? $im_lc_no;
-        $Purchase->_vessel_no = $request->_vessel_no ?? '';
-        $Purchase->_loading_date_time = $request->_loading_date_time ?? '';
-        $Purchase->_arrival_date_time = $request->_arrival_date_time ?? '';
-        $Purchase->_discharge_date_time = $request->_discharge_date_time ?? '';
-        $Purchase->_loding_point = $request->_loding_point ?? 1;
-        $Purchase->_unloading_point = $master_store_id ?? 1;
-        $Purchase->import_invoice_no = $request->import_invoice_no ?? 1;
-        $Purchase->_vessel_no = $request->_vessel_no ?? 1;
-        $Purchase->_vessel_res_person = $request->_vessel_res_person ?? '';
-        $Purchase->_vessel_res_mobile = $request->_vessel_res_mobile ?? '';
 
+        // $Purchase->_vessel_no = $request->_vessel_no ?? '';
+        // $Purchase->_loading_date_time = $request->_loading_date_time ?? '';
+        // $Purchase->_arrival_date_time = $request->_arrival_date_time ?? '';
+        // $Purchase->_discharge_date_time = $request->_discharge_date_time ?? '';
+        // $Purchase->_loding_point = $request->_loding_point ?? 1;
+        // $Purchase->_unloading_point = $master_store_id ?? 1;
+        // $Purchase->_vessel_no = $request->_vessel_no ?? 1;
+        // $Purchase->_vessel_res_person = $request->_vessel_res_person ?? '';
+        // $Purchase->_vessel_res_mobile = $request->_vessel_res_mobile ?? '';
+
+        $Purchase->import_invoice_no = $request->import_invoice_no ?? 1;
         $Purchase->_address = $request->_address;
         $Purchase->_phone = $request->_phone;
         $Purchase->_status = 1;
         $Purchase->_lock = $request->_lock ?? 0;
         $Purchase->save();
         $purchase_id = $Purchase->id;
+
+
+        //Vessel Information Save
+        //VesselRoute
+        //ImportReceiveVesselInfo
+        if($request->has('_vessel_no') && $request->_vessel_no !=''){
+            $ImportReceiveVesselInfo = ImportReceiveVesselInfo::where('_purchase_no',$purchase_id)->first();
+            $ImportReceiveVesselInfo->_purchase_no       = $purchase_id;
+            $ImportReceiveVesselInfo->_vessel_no         = $request->_vessel_no ?? 0;
+            $ImportReceiveVesselInfo->_capacity          = $request->_capacity ?? $_capacity;
+            $ImportReceiveVesselInfo->_vessel_res_person = $request->_vessel_res_person ?? '';
+            $ImportReceiveVesselInfo->_vessel_res_mobile = $request->_vessel_res_mobile ?? '';
+            $ImportReceiveVesselInfo->_extra_instruction = $request->_extra_instruction ?? '';
+            $ImportReceiveVesselInfo->_status            = 1;
+            $ImportReceiveVesselInfo->save(); 
+        }
+
+
+        //Vessel Route Information
+
+        $_route_info_ids         = $request->_route_info_id ?? [];
+        $_loading_points         = $request->_loading_point ?? [];
+        $_unloading_points      = $request->_unloading_point ?? [];
+        $_loading_date_times    = $request->_loading_date_time ?? [];
+        $_arrival_date_times    = $request->_arrival_date_time ?? [];
+        $_discharge_date_times  = $request->_discharge_date_time ?? [];
+        $_final_routes          = $request->_final_route ?? [];
+
+        VesselRoute::where('_purchase_no',$purchase_id)->update(['_status'=>0]);
+
+        if(sizeof($_route_info_ids) > 0){
+            for ($i=0; $i <sizeof($_route_info_ids); $i++) { 
+                $route_id = $_route_info_ids[$i] ?? 0;
+                if($route_id==0){
+                    $VesselRoute = new VesselRoute();
+                }else{
+                    $VesselRoute = VesselRoute::find($route_id);
+                }
+                
+                $VesselRoute->_purchase_no         = $purchase_id;
+                $VesselRoute->_loading_point       =$_loading_points[$i] ?? 1;
+                $VesselRoute->_loading_date_time   =$_loading_date_times[$i] ?? '';
+                $VesselRoute->_unloading_point     =$_unloading_points[$i] ?? '';
+                $VesselRoute->_discharge_date_time =$_discharge_date_times[$i] ?? '';
+                $VesselRoute->_arrival_date_time   =$_arrival_date_times[$i] ?? '';
+                $VesselRoute->_final_route         =$_final_routes[$i] ?? '';
+                $VesselRoute->_status              =1;
+                $VesselRoute->save();
+            }
+        }
 
         //###########################
         // Purchase Master information Save End
@@ -1015,7 +1128,7 @@ $store_houses = permited_stores(explode(',',$users->store_ids));
         //###########################
         // Purchase Details information Save Start
         //###########################
-        $_item_ids = $request->_item_id;
+        $_item_ids = $request->_item_id ?? [];
         $_barcodes = $request->_barcode;
         $_qtys = $request->_qty;
         $_expected_qtys = $request->_expected_qty ?? [];
@@ -1441,7 +1554,7 @@ if($_unique_barcode ==1){
              }
              //End Sms Send to customer and Supplier
 
-               DB::commit();
+              // DB::commit();
         if(($request->_lock ?? 0) ==1){
                 return redirect('import-material-receive/print/'.$purchase_id)
                 ->with('success','Information save successfully');
@@ -1453,10 +1566,10 @@ if($_unique_barcode ==1){
           }
 
         
-       } catch (\Exception $e) {
-           DB::rollback();
-           return redirect()->back()->with('danger','There is Something Wrong !');
-        }
+       // } catch (\Exception $e) {
+       //     DB::rollback();
+       //     return redirect()->back()->with('danger','There is Something Wrong !');
+       //  }
 
        
     }

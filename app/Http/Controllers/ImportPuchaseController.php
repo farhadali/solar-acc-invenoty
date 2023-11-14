@@ -303,6 +303,9 @@ class ImportPuchaseController extends Controller
         $Purchase->_total_vat = $__total_vat;
         $Purchase->_total =  $__total;
 
+        $Purchase->_total_expected_qty = $request->_total_expected_qty_amount ?? 0;
+        $Purchase->_total_qty = $request->_total_qty_amount ?? 0;
+
         $Purchase->_branch_id = $request->_branch_id;
         $Purchase->organization_id = $organization_id;
         $Purchase->_cost_center_id = $request->_cost_center_id;
@@ -794,6 +797,11 @@ $store_houses = permited_stores(explode(',',$users->store_ids));
         $Purchase->_total_discount = $request->_total_discount;
         $Purchase->_total_vat = $request->_total_vat;
         $Purchase->_total = $request->_total;
+
+        $Purchase->_total_expected_qty = $request->_total_expected_qty_amount ?? 0;
+        $Purchase->_total_qty = $request->_total_qty_amount ?? 0;
+
+
 
 
         $Purchase->_branch_id = $request->_branch_id;

@@ -335,50 +335,17 @@
   })
 
 
-  // $(document).on('click','.submit-button',function(event){
-  //   event.preventDefault();
-  //   var _total_dr_amount = $(document).find("._total_dr_amount").val();
-  //   var _total_cr_amount = $(document).find("._total_cr_amount").val();
-  //   var _voucher_type = $(document).find('._voucher_type').val();
-  //   var _note = $(document).find('._note').val();
-  //   var _search_ledger_id = $(document).find('._search_ledger_id').val();
-
-
-  //   var empty_ledger = [];
-  //   $(document).find("._ledger_id").each(function(){
-  //       if($(this).val() ==""){
-  //         alert(" Please Add Ledger  ");
-  //         $(document).find('._search_ledger_id').focus().addClass('required_border');
-  //         empty_ledger.push(1);
-  //       }  
-  //   })
-
-  //   if(empty_ledger.length > 0){
-  //     return false;
-  //   }
-
-
-  //   if(_total_dr_amount !=_total_cr_amount){
-  //     $(document).find("._total_dr_amount").focus().addClass('required_border');
-  //     $(document).find("._total_cr_amount").focus().addClass('required_border');
-  //     return false;
-
-  //   }else if(_voucher_type ==""){
-  //      $(document).find('._voucher_type').focus().addClass('required_border');
-  //      alert('Please Select Voucher Type.');
-  //     return false;
-  //   }else if(_note ==""){
-       
-  //      $(document).find('._note').focus().addClass('required_border');
-  //     return false;
-  //   }else if(_search_ledger_id ==""){
-       
-  //     $(document).find('._search_ledger_id').focus().addClass('required_border');
-  //     return false;
-  //   }else{
-  //     $(document).find('.voucher-form').submit();
-  //   }
-  // })
+  $(document).on('click','.submit-button',function(event){
+    event.preventDefault();
+    var _note = $(document).find('._note').val();
+    if(_note ==""){
+       $(document).find('._note').focus().addClass('required_border');
+      return false;
+    }else{
+      $('.submit-button').attr('disabled','true');
+      $(document).find('.voucher-form').submit();
+    }
+})
 
 
 

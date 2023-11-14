@@ -169,13 +169,13 @@ $__user= Auth::user();
                             </div>
                         </div>
                         @php
-                        $vessels = \DB::table('vessel_infos')->get();
+                        $vessels = \DB::table('mother_vessels')->get();
                         @endphp
                         <div class="col-xs-12 col-sm-12 col-md-2   @if($_show_vn==0) display_none @endif">
                             <div class="form-group">
                               <label class="mr-2" for="_vessel_no">{{__('label._mother_vessel_no')}}:</label>
                              
-                              <select class="form-control select2" name="_vessel_no">
+                              <select class="form-control " name="_vessel_no">
                                 <option value="">{{__('label.select')}}</option>
                                 @forelse($vessels as $key=>$val)
                                 <option value="{{$val->id}}" @if($val->id==$data->_vessel_no) selected @endif >{{ $val->_name ?? '' }}</option>

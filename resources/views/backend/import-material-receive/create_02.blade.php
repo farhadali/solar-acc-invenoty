@@ -120,27 +120,6 @@ $__user= Auth::user();
                                 
                             </div>
                         </div>
-                         <div class="col-xs-12 col-sm-12 col-md-2 ">
-                            <div class="form-group">
-                              <label class="mr-2" for="_phone">{{__('label._phone')}}:</label>
-                              <input type="text" id="_phone" name="_phone" class="form-control _phone" value="{{old('_phone')}}" placeholder="{{__('label._phone')}}" >
-                            </div>
-                        </div>
-                        
-                        <div class="col-xs-12 col-sm-12 col-md-2 ">
-                            <div class="form-group">
-                              <label class="mr-2" for="_address">{{__('label._address')}}:</label>
-                              <input type="text" id="_address" name="_address" class="form-control _address" value="{{old('_address')}}" placeholder="{{__('label._address')}}" >
-                                
-                            </div>
-                        </div>
-                         <div class="col-xs-12 col-sm-12 col-md-2 ">
-                            <div class="form-group">
-                              <label class="mr-2" for="_referance">{{__('label._referance')}}:</label>
-                              <input type="text" id="_referance" name="_referance" class="form-control _referance" value="{{old('_referance')}}" placeholder="{{__('label._referance')}}" >
-                                
-                            </div>
-                        </div>
                 </div>
 
                    <div class="row">
@@ -170,7 +149,7 @@ $__user= Auth::user();
                             </div>
                         </div>
                         
-                        <div class="col-xs-12 col-sm-12 col-md-2 display_none">
+                        <div class="col-xs-12 col-sm-12 col-md-2 ">
                             <div class="form-group">
                               <label class="mr-2" for="_purchase_type">{{__('label._purchase_type')}}:</label>
                               <select class="form-control" name="_purchase_type" >
@@ -180,92 +159,7 @@ $__user= Auth::user();
                             </div>
                         </div>
                         @include('basic.org_create')
-                        <div class="col-xs-12 col-sm-12 col-md-2 ">
-                            <div class="form-group">
-                              <label class="mr-2" for="_store_id">{{__('label._store_id')}}:</label>
-                             <select class="form-control" name="_store_id">
-                                <option value="">{{__('label.select')}}</option>
-                                @forelse($store_houses as $key=>$val)
-                                  <option value="{{$val->id}}">{{ $val->_name ?? '' }}</option>
-                                @empty
-                                @endforelse
-                              </select>
-                            </div>
-                        </div>
-                        
-                        <div class="col-md-12 mt-2">
-                          <div class="card ">
-
-                            <div class="row route_info_box" >
-                              <table class="table" >
-                                <thead>
-                                  <tr>
-                                    <th  style="width:5%;"></th>
-                                    <th  style="width:15%;">{{__('label._loding_point')}}</th>
-                                    <th  style="width:15%;">{{__('label._unloading_point')}}</th>
-                                    <th  style="width:15%;">{{__('label._loading_date_time')}}</th>
-                                    <th  style="width:15%;">{{__('label._arrival_date_time')}}</th>
-                                    <th  style="width:15%;">{{__('label._discharge_date_time')}}</th>
-                                    <th  style="width:15%;">{{__('label.final_route')}}</th>
-                                  </tr>
-                                </thead>
-                                <tbody class="route_display_box">
-                                <tr>
-                                  <td>
-                                    
-                                    <a href="#none" class="btn btn-default btn-sm" onclick="add_new_route_row(event)"><i class="fa fa-plus"></i></a>
-                                  </td>
-                                  <td>
-                                        
-                                        <select class="form-control" name="_loding_point[]">
-                                          <option value="">{{__('label.select')}}</option>
-                                          @forelse($all_store_houses as $key=>$val)
-                                            <option value="{{$val->id}}">{{ $val->_name ?? '' }}</option>
-                                          @empty
-                                          @endforelse
-                                        </select>
-                                      
-                                  </td>
-                                  <td>
-                                        <select class="form-control" name="_unloading_point[]">
-                                          <option value="">{{__('label.select')}}</option>
-                                          @forelse($all_store_houses as $key=>$val)
-                                            <option value="{{$val->id}}">{{ $val->_name ?? '' }}</option>
-                                          @empty
-                                          @endforelse
-                                        </select>
-                                  </td>
-                                  <td>
-                                        <input type="datetime-local" name="_loading_date_time[]" class="form-control _loading_date_time" value="{{old('_loading_date_time')}}" placeholder="{{__('label._loading_date_time')}}" >
-                                     
-                                  </td>
-                                  <td>
-                                        <input type="datetime-local"  name="_arrival_date_time[]" class="form-control _arrival_date_time" value="{{old('_arrival_date_time')}}" placeholder="{{__('label._arrival_date_time')}}" >
-                                     
-                                  </td>
-                                  <td>
-                                  <input type="datetime-local"  name="_discharge_date_time[]" class="form-control _discharge_date_time" value="{{old('_discharge_date_time')}}" placeholder="{{__('label._discharge_date_time')}}" >
-                                  </td>
-                                  <td>
-                                  <input type="checkbox"  name="_final_route_chekbox[]" class="form-control _final_route_chekbox" value="{{old('_final_route_chekbox')}}" checked >
-                                  <input type="hidden" class="_final_route" value="1"  name="_final_route[]"/>
-                                  </td>
-
-                                </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                           
-                          </div>
-                        </div>
-
-                         
-                        
-                       
-                <div class="col-md-12">
-                  <div class="card vessel_info_box" >
-                    <div class="row">
-                      @php
+                        @php
                         $vessels = \DB::table('vessel_infos')->orderBy('_name','ASC')->get();
                         @endphp
                         <div class="col-xs-12 col-sm-12 col-md-3  @if($_show_vn==0) display_none @endif">
@@ -280,34 +174,86 @@ $__user= Auth::user();
                               </select>
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-2  @if($_show_vn==0) display_none @endif">
-                            <div class="form-group">
-                              <label class="mr-2" for="_capacity">{{__('label._capacity')}}:</label>
-                              <input type="text" name="_capacity" class="form-control" placeholder="{{__('label._capacity')}}">
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-2  @if($_show_vn==0) display_none @endif">
+                        <div class="col-xs-12 col-sm-12 col-md-3  @if($_show_vn==0) display_none @endif">
                             <div class="form-group">
                               <label class="mr-2" for="_name_of_master">{{__('label._name_of_master')}}:</label>
                               <input type="text" name="_vessel_res_person" class="form-control" placeholder="{{__('label._name_of_master')}}">
                             </div>
                         </div>
-                        
                         <div class="col-xs-12 col-sm-12 col-md-2  @if($_show_vn==0) display_none @endif">
                             <div class="form-group">
                               <label class="mr-2" for="_mobile_of_master">{{__('label._mobile_of_master')}}:</label>
                               <input type="text" name="_vessel_res_mobile" class="form-control" placeholder="{{__('label._mobile_of_master')}}">
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-3  @if($_show_vn==0) display_none @endif">
+                        <div class="col-xs-12 col-sm-12 col-md-2  @if($_show_vn==0) display_none @endif">
                             <div class="form-group">
-                              <label class="mr-2" for="_extra_instruction">{{__('label._extra_instruction')}}:</label>
-                              <input type="text" name="_vessel_res_mobile" class="form-control" placeholder="{{__('label._extra_instruction')}}">
+                              <label class="mr-2" for="_loding_point">{{__('label._loding_point')}}:</label>
+                              <select class="form-control" name="_loding_point">
+                                <option value="">{{__('label.select')}}</option>
+                                @forelse($all_store_houses as $key=>$val)
+                                  <option value="{{$val->id}}">{{ $val->_name ?? '' }}</option>
+                                @empty
+                                @endforelse
+                              </select>
                             </div>
                         </div>
-                    </div>
-                  </div>
-                </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2 ">
+                            <div class="form-group">
+                              <label class="mr-2" for="_store_id">{{__('label._store_id')}}:</label>
+                             <select class="form-control" name="_store_id">
+                                <option value="">{{__('label.select')}}</option>
+                                @forelse($store_houses as $key=>$val)
+                                  <option value="{{$val->id}}">{{ $val->_name ?? '' }}</option>
+                                @empty
+                                @endforelse
+                              </select>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2 ">
+                            <div class="form-group">
+                              <label class="mr-2" for="_loading_date_time">{{__('label._loading_date_time')}}:</label>
+                              <input type="datetime-local" id="_loading_date_time" name="_loading_date_time" class="form-control _loading_date_time" value="{{old('_loading_date_time')}}" placeholder="{{__('label._loading_date_time')}}" >
+                            </div>
+                        </div>
+                        
+                        <div class="col-xs-12 col-sm-12 col-md-2 ">
+                            <div class="form-group">
+                              <label class="mr-2" for="_arrival_date_time">{{__('label._arrival_date_time')}}:</label>
+                              <input type="datetime-local" id="_arrival_date_time" name="_arrival_date_time" class="form-control _arrival_date_time" value="{{old('_arrival_date_time')}}" placeholder="{{__('label._arrival_date_time')}}" >
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2 ">
+                            <div class="form-group">
+                              <label class="mr-2" for="_discharge_date_time">{{__('label._discharge_date_time')}}:</label>
+                              <input type="datetime-local" id="_discharge_date_time" name="_discharge_date_time" class="form-control _discharge_date_time" value="{{old('_discharge_date_time')}}" placeholder="{{__('label._discharge_date_time')}}" >
+                            </div>
+                        </div>
+
+                         
+                         <div class="col-xs-12 col-sm-12 col-md-2 display_none">
+                            <div class="form-group">
+                              <label class="mr-2" for="_phone">Phone:</label>
+                              <input type="text" id="_phone" name="_phone" class="form-control _phone" value="{{old('_phone')}}" placeholder="Phone" >
+                                
+                            </div>
+                        </div>
+                        
+                        <div class="col-xs-12 col-sm-12 col-md-3 display_none">
+                            <div class="form-group">
+                              <label class="mr-2" for="_address">Address:</label>
+                              <input type="text" id="_address" name="_address" class="form-control _address" value="{{old('_address')}}" placeholder="Address" >
+                                
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-3 ">
+                            <div class="form-group">
+                              <label class="mr-2" for="_referance">Referance:</label>
+                              <input type="text" id="_referance" name="_referance" class="form-control _referance" value="{{old('_referance')}}" placeholder="Referance" >
+                                
+                            </div>
+                        </div>
+
                         
                         <div class="col-md-12  ">
                              <div class="card">
@@ -637,68 +583,6 @@ $(document).on("click","#form_settings",function(){
   }
 
 var duplicate_barcode_status=0;
-
-$(document).on('click','.remove_route',function(){
-$(this).closest('tr').remove();
-});
-
-function add_new_route_row(event){
-  var single_route=`<tr>
-                                  <td>
-                                    
-                                    <a href="#none" class="btn btn-default btn-sm remove_route" ><i class="fa fa-trash"></i></a>
-                                  </td>
-                                  <td>
-                                        
-                                        <select class="form-control _loding_point" name="_loding_point[]">
-                                          <option value="">{{__('label.select')}}</option>
-                                          @forelse($all_store_houses as $key=>$val)
-                                            <option value="{{$val->id}}">{{ $val->_name ?? '' }}</option>
-                                          @empty
-                                          @endforelse
-                                        </select>
-                                      
-                                  </td>
-                                  <td>
-                                        <select class="form-control _unloading_point" name="_unloading_point[]">
-                                          <option value="">{{__('label.select')}}</option>
-                                          @forelse($all_store_houses as $key=>$val)
-                                            <option value="{{$val->id}}">{{ $val->_name ?? '' }}</option>
-                                          @empty
-                                          @endforelse
-                                        </select>
-                                  </td>
-                                  <td>
-                                        <input type="datetime-local" name="_loading_date_time[]" class="form-control _loading_date_time" value="{{old('_loading_date_time')}}" placeholder="{{__('label._loading_date_time')}}" >
-                                     
-                                  </td>
-                                  <td>
-                                        <input type="datetime-local" name="_arrival_date_time[]" class="form-control _arrival_date_time" value="{{old('_arrival_date_time')}}" placeholder="{{__('label._arrival_date_time')}}" >
-                                     
-                                  </td>
-                                  <td>
-                                  <input type="datetime-local"  name="_discharge_date_time[]" class="form-control _discharge_date_time" value="{{old('_discharge_date_time')}}" placeholder="{{__('label._discharge_date_time')}}" >
-                                  </td>
-                                  <td>
-                                  <input type="checkbox"  name="_final_route_chekbox[]" class="form-control _final_route_chekbox" value="{{old('_final_route_chekbox')}}"  >
-                                  <input type="hidden" class="_final_route" value="0"  name="_final_route[]"/>
-                                  </td>
-
-                                </tr>`;
-
-
-  $(document).find(".route_display_box").append(single_route);
-}
-
-$(document).on('click','._final_route_chekbox',function(){
-  $('._final_route_chekbox').prop('checked',false);
-  $('._final_route').val(0);
-
-  $(this).closest('tr').find('._final_route_chekbox').prop('checked',true);
-  $(this).closest('tr').find('._final_route').val(1);
-})
-
-//
 
 
 $(document).on('change','.import_invoice_no',function(){
@@ -1591,7 +1475,6 @@ $(document).on('click',".remove_duplicate_barcode",function(){
     var _total_dr_amount = $(document).find("._total_dr_amount").val();
     var _total_cr_amount = $(document).find("._total_cr_amount").val();
     var _voucher_type = $(document).find('._voucher_type').val();
-    var import_invoice_no  = $(document).find('.import_invoice_no ').val();
     var _note = $(document).find('._note').val();
     var _main_ledger_id = $(document).find('._main_ledger_id').val();
     if(_main_ledger_id  ==""){
@@ -1648,11 +1531,6 @@ $(document).on('click',".remove_duplicate_barcode",function(){
        
        $(document).find('._note').focus().addClass('required_border');
       return false;
-    }
- if(import_invoice_no  ==""){
-       
-       $(document).find('.import_invoice_no ').focus().addClass('required_border');
-      return false;
     }else if(_main_ledger_id ==""){
        
       $(document).find('._search_main_ledger_id').focus().addClass('required_border');
@@ -1664,7 +1542,6 @@ $(document).on('click',".remove_duplicate_barcode",function(){
         return false;
       }
 
-      $('.submit-button').attr('disabled','true');
       $(document).find('.purchase_form').submit();
     }
   })

@@ -17,6 +17,10 @@ return [
 
 
 
+    '_extra_instruction' => 'Extra Instruction',
+    'final_route' => 'Final Route',
+    'master_vessel_wise_ligther_report' => 'Master Vessel Wise Ligther Report',
+    'import_report_dashbaord' => 'Import Report Dashbaord',
     '_direct_purchase_no' => 'MRR NO',
     '_master_vessel_available_qty' => 'Available QTY',
     '_prvious_receive_qty' => 'Previous Rec. Qty',

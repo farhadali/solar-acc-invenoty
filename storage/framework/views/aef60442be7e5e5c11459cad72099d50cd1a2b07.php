@@ -128,9 +128,6 @@ $__user= Auth::user();
 
                               <input type="hidden" id="_ref_master_id" name="_ref_master_id" class="form-control _ref_master_id"   >
                               <div class="search_box_master_purchase"></div>
-
-                
-                                
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-2 ">
@@ -1379,10 +1376,7 @@ console.log(result)
                                         <td>${isEmpty(data[i]?._date)}</td>
                                         <td>${isEmpty(data[i]?._import_purchase?._mother_vessel?._name)}</td>
                                         <td>${isEmpty(data[i]?._lighter_info?._name)}</td>
-                                   </tr>`;
-
-                                  
-                                   
+                                   </tr>`;       
                         }                         
             search_html += ` </tbody> </table></div>`;
       }else{
@@ -1575,11 +1569,8 @@ var self = $(this);
 $(document).find("._total_expected_qty_amount").val(_total__expected_qty);
 $(document).find("._total_qty_amount").val(_total_qty);
 $(document).find("._total_value_amount").val(_total__value);
-
-
-
-
-      $(document).find(".area__purchase_details").html(detail_html);
+$(document).find(".area__purchase_details").html(detail_html);
+_purchase_total_calculation();
 });
      
     request.fail(function( jqXHR, textStatus ) {
@@ -2136,12 +2127,6 @@ function purchase_row_add(event){
                                               <td class="<?php if(isset($form_settings->_show_expire_date)): ?> <?php if($form_settings->_show_expire_date==0): ?> display_none  <?php endif; ?> <?php endif; ?>">
                                                 <input type="date" name="_expire_date[]" class="form-control _expire_date " >
                                               </td>
-                                              
-                                            
-                                              
-                                              
-                                              
-                                             
                                               <td class="<?php if(sizeof($store_houses)==1): ?> display_none <?php endif; ?>">
                                                 <select class="form-control  _main_store_id" name="_main_store_id[]">
                                                   <?php $__empty_1 = true; $__currentLoopData = $store_houses; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $store): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>

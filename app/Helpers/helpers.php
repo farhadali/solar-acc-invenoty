@@ -295,7 +295,7 @@ function make_order_number($table,$organization_id,$branch_id){
     //                                         ->count();
     $row_counts = $counts[0]->_row_count ?? 0;
 
-   // $row_counts = ($row_counts+1);                                   
+    $row_counts = ($row_counts+1);                                   
     $org_code = \App\Models\hrm\Company::find($organization_id)->_code ?? '';
     $branch_code = \App\Models\Branch::find($branch_id)->_code ?? '';
     if(strlen($row_counts)==1){
@@ -1161,7 +1161,7 @@ if (! function_exists('report_date_formate')) {
 if (! function_exists('_view_date_formate')) {
     function _view_date_formate($_date)
     {
-        if($_date ==''){
+        if($_date =='' || $_date=='0000-00-00 00:00:00'){
             return "";
         } 
        return date('d-m-Y h:i:s', strtotime($_date));
