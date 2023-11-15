@@ -67,6 +67,7 @@ $__user= Auth::user();
                  
                    <?php echo $__env->make('backend.message.message', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <?php
+    $default_image = $settings->logo;
     $_show_barcode = $form_settings->_show_barcode ?? 0;
     $_show_short_note = $form_settings->_show_short_note ?? 0;
     $_show_cost_rate =  $form_settings->_show_cost_rate ?? 0;
@@ -222,6 +223,7 @@ $__user= Auth::user();
                                     <th  style="width:15%;"><?php echo e(__('label._loading_date_time')); ?></th>
                                     <th  style="width:15%;"><?php echo e(__('label._arrival_date_time')); ?></th>
                                     <th  style="width:15%;"><?php echo e(__('label._discharge_date_time')); ?></th>
+                                    <th  style="width:15%;"><?php echo e(__('label._note')); ?></th>
                                     <th  style="width:15%;"><?php echo e(__('label.final_route')); ?></th>
                                   </tr>
                                 </thead>
@@ -269,6 +271,9 @@ $__user= Auth::user();
                                   <input type="datetime-local"  name="_discharge_date_time[]" class="form-control _discharge_date_time" value="<?php echo e(old('_discharge_date_time',$r_val->_discharge_date_time)); ?>" placeholder="<?php echo e(__('label._discharge_date_time')); ?>" >
                                   </td>
                                   <td>
+                                  <input type="text"  name="_route_note[]" class="form-control _route_note" value="<?php echo e(old('_route_note',$r_val->_route_note)); ?>" placeholder="<?php echo e(__('label._note')); ?>" >
+                                  </td>
+                                  <td>
                                   <input type="checkbox"  name="_final_route_chekbox[]" class="form-control _final_route_chekbox" value="<?php echo e(old('_final_route_chekbox')); ?>" <?php if($r_val->_final_route==1): ?> checked <?php endif; ?> >
                                   <input type="hidden" class="_final_route" value="<?php echo e($r_val->_final_route); ?>"  name="_final_route[]"/>
                                   </td>
@@ -306,10 +311,10 @@ $__user= Auth::user();
                       <?php
                         $vessels = \DB::table('vessel_infos')->orderBy('_name','ASC')->get();
                         ?>
-                        <div class="col-xs-12 col-sm-12 col-md-3  <?php if($_show_vn==0): ?> display_none <?php endif; ?>">
+                        <div class="col-xs-12 col-sm-12 col-md-4  <?php if($_show_vn==0): ?> display_none <?php endif; ?>">
                             <div class="form-group">
                               <label class="mr-2" for="_vessel_no"><?php echo e(__('label._vessel_no')); ?>:</label>
-                              <select class="form-control " name="_vessel_no">
+                              <select class="form-control select2" name="_vessel_no">
                                 <option value=""><?php echo e(__('label.select')); ?></option>
                                 <?php $__empty_1 = true; $__currentLoopData = $vessels; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                                 <option value="<?php echo e($val->id); ?>" <?php if($_vessel_no==$val->id): ?> selected <?php endif; ?> ><?php echo e($val->_name ?? ''); ?> || Capacity:<?php echo $val->_capacity ?? ''; ?></option>
@@ -337,11 +342,57 @@ $__user= Auth::user();
                               <input type="text" name="_vessel_res_mobile" class="form-control" placeholder="<?php echo e(__('label._mobile_of_master')); ?>" value="<?php echo e(old('_mobile_of_master',$_vessel_detail->_vessel_res_mobile ?? '')); ?>">
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-3  <?php if($_show_vn==0): ?> display_none <?php endif; ?>">
+                        <div class="col-xs-12 col-sm-12 col-md-2  <?php if($_show_vn==0): ?> display_none <?php endif; ?>">
                             <div class="form-group">
                               <label class="mr-2" for="_extra_instruction"><?php echo e(__('label._extra_instruction')); ?>:</label>
-                              <input type="text" name="_vessel_res_mobile" class="form-control" placeholder="<?php echo e(__('label._extra_instruction')); ?>" value="<?php echo e(old('_vessel_res_mobile',$_vessel_detail->_extra_instruction ?? '')); ?>">
+                              <input type="text" name="_extra_instruction" class="form-control" placeholder="<?php echo e(__('label._extra_instruction')); ?>" value="<?php echo e(old('_extra_instruction',$_vessel_detail->_extra_instruction ?? '')); ?>">
                             </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2  <?php if($_show_vn==0): ?> display_none <?php endif; ?>">
+                            <div class="form-group">
+                              <label class="mr-2" for="scott_name"><?php echo e(__('label.scott_name')); ?>:</label>
+                              <input type="text" name="scott_name" class="form-control" placeholder="<?php echo e(__('label.scott_name')); ?>"  value="<?php echo e(old('scott_name',$data->scott_name)); ?>">
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2  <?php if($_show_vn==0): ?> display_none <?php endif; ?>">
+                            <div class="form-group">
+                              <label class="mr-2" for="scott_number"><?php echo e(__('label.scott_number')); ?>:</label>
+                              <input type="text" name="scott_number" class="form-control" placeholder="<?php echo e(__('label.scott_number')); ?>"  value="<?php echo e(old('scott_number',$data->scott_number)); ?>">
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2  <?php if($_show_vn==0): ?> display_none <?php endif; ?>">
+                            <div class="form-group">
+                              <label class="mr-2" for="servey_name"><?php echo e(__('label.servey_name')); ?>:</label>
+                              <input type="text" name="servey_name" class="form-control" placeholder="<?php echo e(__('label.servey_name')); ?>"  value="<?php echo e(old('servey_name',$data->servey_name)); ?>">
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2  <?php if($_show_vn==0): ?> display_none <?php endif; ?>">
+                            <div class="form-group">
+                              <label class="mr-2" for="servey_number"><?php echo e(__('label.servey_number')); ?>:</label>
+                              <input type="text" name="servey_number" class="form-control" placeholder="<?php echo e(__('label.servey_number')); ?>"  value="<?php echo e(old('servey_number',$data->servey_number)); ?>">
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-3  <?php if($_show_vn==0): ?> display_none <?php endif; ?>">
+                            <div class="form-group">
+                              <label class="mr-2" for="boat_no"><?php echo e(__('label.boat_no')); ?>:</label>
+                              <input type="text" name="boat_no" class="form-control" placeholder="<?php echo e(__('label.boat_no')); ?>"  value="<?php echo e(old('boat_no',$data->boat_no)); ?>">
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-3  <?php if($_show_vn==0): ?> display_none <?php endif; ?>">
+                            <div class="form-group">
+                              <label class="mr-2" for="boat_file"><?php echo e(__('label.boat_file')); ?>:</label>
+                              <input type="file" name="boat_file" class="form-control myImage" placeholder="<?php echo e(__('label.boat_file')); ?>" onchange="loadFile(event,1 )" > 
+                            </div>
+                             
+                            <img id="output_1" class="myImage banner_image_create" src="<?php echo e(asset($data->boat_file ?? $default_image)); ?>"  title="attachment" data-toggle="modal" data-target="#imageModal" style="max-height:50px;max-width: 150px; " >
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-3  <?php if($_show_vn==0): ?> display_none <?php endif; ?>">
+                            <div class="form-group">
+                              <label class="mr-2" for="servey_file"><?php echo e(__('label.servey_file')); ?>:</label>
+                              <input type="file" name="servey_file" class="form-control myImage" placeholder="<?php echo e(__('label.servey_file')); ?>"  onchange="loadFile(event,2 )">
+                              
+                            </div>
+                            <img id="output_2" class="myImage banner_image_create" src="<?php echo e(asset($data->servey_file ?? $default_image )); ?>"  title="attachment" data-toggle="modal" data-target="#imageModal" style="max-height:50px;max-width: 150px; " >
                         </div>
                     </div>
                   </div>
@@ -648,6 +699,21 @@ $__user= Auth::user();
       <!-- /.container-fluid -->
     </div>
 </div>
+
+<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <img class="img-fluid" id="modalImage" src="">
+                </div>
+            </div>
+        </div>
+    </div>
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -702,6 +768,13 @@ $__user= Auth::user();
           alert('Please allow popups for this website');
       }
   }
+
+  $('.myImage').on('click', function() {
+        var imgSrc = $(this).attr('src');
+        $('#modalImage').attr('src', imgSrc);
+    });
+
+
 
 $(document).on("click","#form_settings",function(){
          setting_data_fetch();
@@ -761,6 +834,9 @@ function add_new_route_row(event){
                                   </td>
                                   <td>
                                   <input type="datetime-local"  name="_discharge_date_time[]" class="form-control _discharge_date_time" value="<?php echo e(old('_discharge_date_time')); ?>" placeholder="<?php echo e(__('label._discharge_date_time')); ?>" >
+                                  </td>
+                                  <td>
+                                  <input type="text"  name="_route_note[]" class="form-control _route_note" value="<?php echo e(old('_route_note')); ?>" placeholder="<?php echo e(__('label._note')); ?>" >
                                   </td>
                                   <td>
                                   <input type="checkbox"  name="_final_route_chekbox[]" class="form-control _final_route_chekbox" value="<?php echo e(old('_final_route_chekbox')); ?>"  >

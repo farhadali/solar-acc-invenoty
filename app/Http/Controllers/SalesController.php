@@ -2398,6 +2398,7 @@ $over_qtys = array();
         $Sales->_sales_man_id = $request->_sales_man_id ?? 0;
         $Sales->_sales_type = $request->_sales_type ?? 'sales';
 
+       
         $Sales->_delivery_details = $request->_delivery_details ?? '';
         $Sales->_direct_purchase_no = $request->_direct_purchase_no ?? '';
         if(isset($request->_direct_purchase_no) && $request->_direct_purchase_no !=''){

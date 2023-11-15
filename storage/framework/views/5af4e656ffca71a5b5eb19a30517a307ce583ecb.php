@@ -14,6 +14,7 @@
     $_show_tti  = $form_settings->_show_tti  ?? 0;
     $_show_expected_qty  = $form_settings->_show_expected_qty  ?? 0;
     $_show_sales_rate  = $form_settings->_show_sales_rate  ?? 0;
+    $_show_vn  = $form_settings->_show_vn  ?? 0;
     ?>
 
         <div class="form-group row">

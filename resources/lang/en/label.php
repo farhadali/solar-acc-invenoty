@@ -17,6 +17,20 @@ return [
 
 
 
+
+
+    'scott_name' => 'Scott Name',
+    'scott_number' => 'Scott Number',
+    'servey_name' => 'Survey. Name',
+    'servey_number' => 'Survey Number',
+    'boat_no' => 'Boat No',
+    'boat_file' => 'Boat File Attachment',
+    'servey_file' => 'Servey File Attachment',
+    'account_report' => 'Account Report',
+    'inventory_report' => 'Inventory Report',
+    '_import_report' => 'Import Report',
+    'report_panel' => 'Report Panel',
+    '_note' => 'Note',
     '_extra_instruction' => 'Extra Instruction',
     'final_route' => 'Final Route',
     'master_vessel_wise_ligther_report' => 'Master Vessel Wise Ligther Report',
@@ -105,7 +119,7 @@ return [
     '_tti_amount' => 'TTI Amount',
     '_shelf' => 'Shelf',
     '_store_id' => 'Stockpile',
-    '_expected_qty' => 'Exp. QTY',
+    '_expected_qty' => 'Sur. Qty',
     'import-purchase' => 'Import Purchase Invoice',
     'notesheet' => 'Notesheet',
     'Cr. Amount' => 'Cr. Amount',
@@ -188,7 +202,7 @@ return [
     '_lock' => 'Lock',
     '_item' => 'Item Name',
     '_unit' => 'Unit',
-    '_qty' => 'QTY',
+    '_qty' => 'Scal. QTY',
     '_cost_rate' => 'Cost Rate',
     '_issue_rate' => 'Issue Rate',
     '_value' => 'Amount',

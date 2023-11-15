@@ -26,7 +26,7 @@
                       <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
                                 <label>{{__('label._ledger')}}:</label>
-                                <select class="form-control select2" name="_ledger" required>
+                                <select class="form-control " name="_ledger" required>
                                   <option value="">Select Ledger</option>
                                   @forelse($_all_ledgers as $val)
                                   <option value="{{$val->id}}">{!! $val->_name ?? '' !!}</option>

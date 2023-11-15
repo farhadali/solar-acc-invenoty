@@ -63,45 +63,96 @@
               </div>
       </div>
             <section class="invoice" id="printablediv">
+              <div style="text-align: center;">
+                <h3 class="mb-1"><?php echo $single_data->_organization->_name ?? ''; ?></h3>
+                <address class="mb-1"><?php echo $single_data->_organization->_address ?? ''; ?></address>
+                <h4 class="mb-1"><?php echo e($report_title ?? ''); ?></h4>
+                <p class="mb-1">Master Vessel: <b><?php echo e($single_data->_mother_vessel->_name ?? ''); ?></b></p>
+              </div>
 
               <table class="cewReportTable">
                   <thead>
                   <tr>
-                   <th style="border:1px solid silver;" class="text-left" >Lighter<br>Sl.</th>
-                   <th style="border:1px solid silver;" class="text-left" >Name of <br>Vessel</th>
-                    <th style="border:1px solid silver;" class="text-left" >Capacity </th>
-                    <th style="border:1px solid silver;" class="text-left" >Loading Point</th>
-                    <th style="border:1px solid silver;" class="text-left" >Destination </th>
-                    <th style="border:1px solid silver;" class="text-left" >Loading Date & Time </th>
-                    <th style="border:1px solid silver;" class="text-left" >Arrival Date & Time </th>
-                    <th style="border:1px solid silver;" class="text-left" >Discharge Date & Time </th>
-                    <th style="border:1px solid silver;" class="text-left" >Approx. QTY as per<br>draft survey at CTG<br>(MT) </th>
-                    <th style="border:1px solid silver;" class="text-left" >Discharge point<br>Weight Scale Weight<br>(MT)</th>
-                    <th style="border:1px solid silver;" class="text-left" >Diffrence</th>
+                   <th style="border:1px solid silver;width: 10%;" class="text-left" >Lighter<br>Sl.</th>
+                   <th style="border:1px solid silver;width: 10%;" class="text-left" >Name of <br>Vessel</th>
+                    <th style="border:1px solid silver;width: 10%;" class="text-left" >Capacity </th>
+                    <th style="border:1px solid silver;width: 10%;min-width: 168px;" class="text-left" >Loading Point</th>
+                    <th style="border:1px solid silver;width: 10%;min-width: 168px;" class="text-left" >Destination </th>
+                    <th style="border:1px solid silver;width: 10%;min-width: 187px;" class="text-left" >Loading Date & Time </th>
+                    <th style="border:1px solid silver;width: 10%;min-width: 187px;" class="text-left" >Arrival Date & Time </th>
+                    <th style="border:1px solid silver;width: 10%;min-width: 187px;" class="text-left" >Discharge Date & Time </th>
+                    <th style="border:1px solid silver;width: 10%;" class="text-left" >Approx. QTY as per<br>draft survey at CTG<br>(MT) </th>
+                    <th style="border:1px solid silver;width: 10%;" class="text-left" >Discharge point<br>Weight Scale Weight<br>(MT)</th>
+                    <th style="border:1px solid silver;width: 10%;" class="text-left" >Diffrence</th>
                   </tr>
                   
                   
                   </thead>
                   <tbody>
 
+                    <?php
+                    $_capacity_qty      =0;
+                    $_total_sending_qty =0;
+                    $_total_actual_qty  =0;
+                    $_diff_qty          =0;
+                    ?>
+
                     <?php $__empty_1 = true; $__currentLoopData = $datas; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+
+                    <?php
+                    $_capacity_qty      +=$data->_vessel_detail->_capacity ?? 0;
+                    $_total_sending_qty +=$data->_total_expected_qty ?? 0;
+                    $_total_actual_qty  +=$data->_total_qty ?? 0;
+                    $_diff_qty          +=(($data->_total_expected_qty ?? 0) - ($data->_total_qty ?? 0));
+                    ?>
+
+
                     <tr>
-                    <td style="border:1px solid silver;" class="text-left" ><?php echo e(($key+1)); ?></td>
-                    <td style="border:1px solid silver;" class="text-left" ><?php echo $data->_lighter_info->_name ?? ''; ?></td>
-                    <td style="border:1px solid silver;" class="text-left" ><?php echo $data->_capacity ??  $data->_lighter_info->_capacity ?? ''; ?> </td>
-                    <td style="border:1px solid silver;" class="text-left" ><?php echo e(_store_name($data->_loding_point)); ?></td>
-                    <td style="border:1px solid silver;" class="text-left" ><?php echo e(_store_name($data->_unloading_point)); ?> </td>
-                    <td style="border:1px solid silver;" class="text-left" ><?php echo e(_view_date_formate($data->_loading_date_time ?? '')); ?> </td>
-                    <td style="border:1px solid silver;" class="text-left" ><?php echo e(_view_date_formate($data->_arrival_date_time ?? '')); ?> </td>
-                    <td style="border:1px solid silver;" class="text-left" ><?php echo e(_view_date_formate($data->_discharge_date_time ?? '')); ?> </td>
+                    <td style="border:1px solid silver;white-space: nowrap;" class="text-left" ><?php echo e(($key+1)); ?></td>
+                    <td style="border:1px solid silver;white-space: nowrap;" class="text-left" ><?php echo $data->_vessel_detail->_lighter_info->_name ?? ''; ?></td>
+                    <td style="border:1px solid silver;white-space: nowrap;" class="text-left" ><?php echo $data->_vessel_detail->_capacity ?? ''; ?> </td>
+<?php
+$_route_infos = $data->_route_info ?? [];
+?>
+                    <td colspan="5" style="width:50%;">
+                      <table style="width:100%;">
+                        <?php $__empty_2 = true; $__currentLoopData = $_route_infos; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $rKey=>$rVal): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_2 = false; ?>
+                          <tr>
+                            <td style="border:1px solid silver;width: 20%;white-space: nowrap;min-width: 150px;" class="text-left" ><?php echo e(_store_name($rVal->_loading_point)); ?></td>
+                          <td style="border:1px solid silver;width: 20%;white-space: nowrap;min-width: 150px;" class="text-left" ><?php echo e(_store_name($rVal->_unloading_point)); ?> </td>
+                          <td style="border:1px solid silver;width: 20%;white-space: nowrap;min-width: 187px;" class="text-left" ><?php echo e(_view_date_formate($rVal->_loading_date_time ?? '')); ?> </td>
+                          <td style="border:1px solid silver;width: 20%;white-space: nowrap;min-width: 187px;" class="text-left" ><?php echo e(_view_date_formate($rVal->_arrival_date_time ?? '')); ?> </td>
+                          <td style="border:1px solid silver;width: 20%;white-space: nowrap;min-width: 187px;" class="text-left" ><?php echo e(_view_date_formate($rVal->_discharge_date_time ?? '')); ?> </td>
+                          </tr>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_2): ?>
+                        <?php endif; ?>
+                        
+                      </table>
+                      
+                    </td>
+
+                    
+
                     <td style="border:1px solid silver;" class="text-right" ><?php echo _report_amount($data->_total_expected_qty ?? 0); ?></td>
                     <td style="border:1px solid silver;" class="text-right" ><?php echo _report_amount($data->_total_qty ?? 0); ?></td>
-                    <td style="border:1px solid silver;" class="text-right" ><?php echo _report_amount(($data->_total_expected_qty ?? 0) - ($data->_total_qty ?? 0)); ?></td>
+                    <td style="border:1px solid silver;" class="text-right" ><?php echo _report_amount((($data->_total_expected_qty ?? 0) - ($data->_total_qty ?? 0))); ?></td>
                   </tr>
 
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                     <?php endif; ?>
                     </tbody>
+                    <tfoot>
+                      <tr>
+                        <th colspan="2" style="border:1px solid silver;">Total</th>
+                        <th class="text-right"  style="border:1px solid silver;"> <?php echo e(_report_amount($_capacity_qty)); ?></th>
+                        <th colspan="5"  style="border:1px solid silver;"></th>
+                        <th class="text-right" style="border:1px solid silver;"><?php echo e(_report_amount($_total_sending_qty)); ?></th>
+                        <th class="text-right" style="border:1px solid silver;"><?php echo e(_report_amount($_total_actual_qty)); ?></th>
+                        <th class="text-right" style="border:1px solid silver;"><?php echo e(_report_amount($_diff_qty)); ?></th>
+
+
+                      </tr>
+                    </tfoot>
                   </table>
             </section>
           </div>

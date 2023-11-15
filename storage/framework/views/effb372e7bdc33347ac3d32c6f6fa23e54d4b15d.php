@@ -85,7 +85,7 @@ $__user= Auth::user();
 
     ?>
               <div class="card-body">
-               <form action="<?php echo e(route('import-material-receive.store')); ?>" method="POST" class="purchase_form" >
+               <form action="<?php echo e(route('import-material-receive.store')); ?>" method="POST" class="purchase_form"  enctype="multipart/form-data">
                 <?php echo csrf_field(); ?>
                 <div class="row">
                   
@@ -206,18 +206,19 @@ $__user= Auth::user();
                                     <th  style="width:15%;"><?php echo e(__('label._loading_date_time')); ?></th>
                                     <th  style="width:15%;"><?php echo e(__('label._arrival_date_time')); ?></th>
                                     <th  style="width:15%;"><?php echo e(__('label._discharge_date_time')); ?></th>
+                                    <th  style="width:15%;"><?php echo e(__('label._note')); ?></th>
                                     <th  style="width:15%;"><?php echo e(__('label.final_route')); ?></th>
                                   </tr>
                                 </thead>
                                 <tbody class="route_display_box">
                                 <tr>
-                                  <td>
+                                   <td>
                                     
-                                    <a href="#none" class="btn btn-default btn-sm" onclick="add_new_route_row(event)"><i class="fa fa-plus"></i></a>
+                                    <a href="#none" class="btn btn-default btn-sm remove_route" ><i class="fa fa-trash"></i></a>
                                   </td>
                                   <td>
                                         
-                                        <select class="form-control" name="_loding_point[]">
+                                        <select class="form-control" name="_loading_point[]">
                                           <option value=""><?php echo e(__('label.select')); ?></option>
                                           <?php $__empty_1 = true; $__currentLoopData = $all_store_houses; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                                             <option value="<?php echo e($val->id); ?>"><?php echo e($val->_name ?? ''); ?></option>
@@ -247,12 +248,24 @@ $__user= Auth::user();
                                   <input type="datetime-local"  name="_discharge_date_time[]" class="form-control _discharge_date_time" value="<?php echo e(old('_discharge_date_time')); ?>" placeholder="<?php echo e(__('label._discharge_date_time')); ?>" >
                                   </td>
                                   <td>
+                                  <input type="text"  name="_route_note[]" class="form-control _route_note" value="<?php echo e(old('_route_note')); ?>" placeholder="<?php echo e(__('label._note')); ?>" >
+                                  </td>
+                                  <td>
                                   <input type="checkbox"  name="_final_route_chekbox[]" class="form-control _final_route_chekbox" value="<?php echo e(old('_final_route_chekbox')); ?>" checked >
                                   <input type="hidden" class="_final_route" value="1"  name="_final_route[]"/>
                                   </td>
 
                                 </tr>
                                 </tbody>
+                                <tfoot>
+                                  <tr>
+                                  <td>
+                                    
+                                    <a href="#none" class="btn btn-default btn-sm" onclick="add_new_route_row(event)"><i class="fa fa-plus"></i></a>
+                                  </td>
+                                  <td colspan="7"></td>
+                                </tr>
+                                </tfoot>
                               </table>
                             </div>
                            
@@ -268,10 +281,10 @@ $__user= Auth::user();
                       <?php
                         $vessels = \DB::table('vessel_infos')->orderBy('_name','ASC')->get();
                         ?>
-                        <div class="col-xs-12 col-sm-12 col-md-3  <?php if($_show_vn==0): ?> display_none <?php endif; ?>">
+                        <div class="col-xs-12 col-sm-12 col-md-4  <?php if($_show_vn==0): ?> display_none <?php endif; ?>">
                             <div class="form-group">
                               <label class="mr-2" for="_vessel_no"><?php echo e(__('label._vessel_no')); ?>:</label>
-                              <select class="form-control " name="_vessel_no">
+                              <select class="form-control select2" name="_vessel_no">
                                 <option value=""><?php echo e(__('label.select')); ?></option>
                                 <?php $__empty_1 = true; $__currentLoopData = $vessels; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                                 <option value="<?php echo e($val->id); ?>"><?php echo e($val->_name ?? ''); ?> || Capacity:<?php echo $val->_capacity ?? ''; ?></option>
@@ -299,10 +312,52 @@ $__user= Auth::user();
                               <input type="text" name="_vessel_res_mobile" class="form-control" placeholder="<?php echo e(__('label._mobile_of_master')); ?>">
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-3  <?php if($_show_vn==0): ?> display_none <?php endif; ?>">
+                        <div class="col-xs-12 col-sm-12 col-md-2  <?php if($_show_vn==0): ?> display_none <?php endif; ?>">
                             <div class="form-group">
                               <label class="mr-2" for="_extra_instruction"><?php echo e(__('label._extra_instruction')); ?>:</label>
-                              <input type="text" name="_vessel_res_mobile" class="form-control" placeholder="<?php echo e(__('label._extra_instruction')); ?>">
+                              <input type="text" name="_extra_instruction" class="form-control" placeholder="<?php echo e(__('label._extra_instruction')); ?>">
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2  <?php if($_show_vn==0): ?> display_none <?php endif; ?>">
+                            <div class="form-group">
+                              <label class="mr-2" for="scott_name"><?php echo e(__('label.scott_name')); ?>:</label>
+                              <input type="text" name="scott_name" class="form-control" placeholder="<?php echo e(__('label.scott_name')); ?>">
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2  <?php if($_show_vn==0): ?> display_none <?php endif; ?>">
+                            <div class="form-group">
+                              <label class="mr-2" for="scott_number"><?php echo e(__('label.scott_number')); ?>:</label>
+                              <input type="text" name="scott_number" class="form-control" placeholder="<?php echo e(__('label.scott_number')); ?>">
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2  <?php if($_show_vn==0): ?> display_none <?php endif; ?>">
+                            <div class="form-group">
+                              <label class="mr-2" for="servey_name"><?php echo e(__('label.servey_name')); ?>:</label>
+                              <input type="text" name="servey_name" class="form-control" placeholder="<?php echo e(__('label.servey_name')); ?>">
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2  <?php if($_show_vn==0): ?> display_none <?php endif; ?>">
+                            <div class="form-group">
+                              <label class="mr-2" for="servey_number"><?php echo e(__('label.servey_number')); ?>:</label>
+                              <input type="text" name="servey_number" class="form-control" placeholder="<?php echo e(__('label.servey_number')); ?>">
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-3  <?php if($_show_vn==0): ?> display_none <?php endif; ?>">
+                            <div class="form-group">
+                              <label class="mr-2" for="boat_no"><?php echo e(__('label.boat_no')); ?>:</label>
+                              <input type="text" name="boat_no" class="form-control" placeholder="<?php echo e(__('label.boat_no')); ?>">
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2  <?php if($_show_vn==0): ?> display_none <?php endif; ?>">
+                            <div class="form-group">
+                              <label class="mr-2" for="boat_file"><?php echo e(__('label.boat_file')); ?>:</label>
+                              <input type="file" name="boat_file" class="form-control" placeholder="<?php echo e(__('label.boat_file')); ?>">
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2  <?php if($_show_vn==0): ?> display_none <?php endif; ?>">
+                            <div class="form-group">
+                              <label class="mr-2" for="servey_file"><?php echo e(__('label.servey_file')); ?>:</label>
+                              <input type="file" name="servey_file" class="form-control" placeholder="<?php echo e(__('label.servey_file')); ?>">
                             </div>
                         </div>
                     </div>
@@ -651,7 +706,7 @@ function add_new_route_row(event){
                                   </td>
                                   <td>
                                         
-                                        <select class="form-control _loding_point" name="_loding_point[]">
+                                        <select class="form-control _loding_point" name="_loading_point[]">
                                           <option value=""><?php echo e(__('label.select')); ?></option>
                                           <?php $__empty_1 = true; $__currentLoopData = $all_store_houses; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                                             <option value="<?php echo e($val->id); ?>"><?php echo e($val->_name ?? ''); ?></option>
@@ -679,6 +734,9 @@ function add_new_route_row(event){
                                   </td>
                                   <td>
                                   <input type="datetime-local"  name="_discharge_date_time[]" class="form-control _discharge_date_time" value="<?php echo e(old('_discharge_date_time')); ?>" placeholder="<?php echo e(__('label._discharge_date_time')); ?>" >
+                                  </td>
+                                  <td>
+                                  <input type="text"  name="_route_note[]" class="form-control _route_note" value="<?php echo e(old('_route_note')); ?>" placeholder="<?php echo e(__('label._note')); ?>" >
                                   </td>
                                   <td>
                                   <input type="checkbox"  name="_final_route_chekbox[]" class="form-control _final_route_chekbox" value="<?php echo e(old('_final_route_chekbox')); ?>"  >

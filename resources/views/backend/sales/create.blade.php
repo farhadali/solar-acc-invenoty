@@ -1371,10 +1371,12 @@ console.log(result)
                                         <td>${isEmpty(data[i]?._order_number)}
 
                                         <input class="_import_purchase_invoice_no" value="${isEmpty(data[i]?._order_number)}" type="hidden" />
+                                        <input class="__lighter_id" value="${isEmpty(data[i]?._vessel_detail?._lighter_info?.id)}" type="hidden" />
                                         <input class="_import_purchase_invoice_id" value="${isEmpty(data[i]?.id)}" type="hidden" /></td>
                                         <td>${isEmpty(data[i]?._date)}</td>
                                         <td>${isEmpty(data[i]?._import_purchase?._mother_vessel?._name)}</td>
-                                        <td>${isEmpty(data[i]?._lighter_info?._name)}</td>
+                                        <td>${isEmpty(data[i]?._vessel_detail?._lighter_info?._name)}</td>
+
                                    </tr>`;       
                         }                         
             search_html += ` </tbody> </table></div>`;
@@ -1399,6 +1401,7 @@ console.log(result)
 $(document).on('click','.search_row_import_purchase',function(){
   var _order_number = $(this).find('._import_purchase_invoice_no').val();
   var id = $(this).find('._import_purchase_invoice_id').val();
+  var __lighter_id = $(this).find('.__lighter_id').val();
 
 var self = $(this);
 
@@ -1418,7 +1421,7 @@ var self = $(this);
       
 
       $(document).find("._direct_purchase_no").val(master_info?._order_number);
-      $(document).find("._vessel_no").val(master_info?._vessel_no).change();
+      $(document).find("._vessel_no").val(__lighter_id).change();
       $(document).find(".area__purchase_details").empty();
 
       var _total__expected_qty=0;
@@ -1539,12 +1542,10 @@ var self = $(this);
   var _p_item_item_id = _master_details[i]?._item_id
   var _transection_unit___class=`_transection_unit__${_item_row_count}`;
   var _store_id = _master_details[i]?._store_id;
+  console.log("_item_row_count "+_item_row_count)
+  console.log("_store_id "+_store_id)
 
-  var _main_store_id___class =`_main_store_id___${_item_row_count}`;
-  // console.log(_item_row_count)
-  // console.log(_main_store_id___class)
-
-  $(document).find("."+_main_store_id___class).val(_store_id).change();
+ 
   
       var self = $(this);
       var request = $.ajax({
@@ -1569,6 +1570,14 @@ $(document).find("._total_expected_qty_amount").val(_total__expected_qty);
 $(document).find("._total_qty_amount").val(_total_qty);
 $(document).find("._total_value_amount").val(_total__value);
 $(document).find(".area__purchase_details").html(detail_html);
+
+ var _main_store_id___class =`_main_store_id___${_item_row_count}`;
+  // console.log(_item_row_count)
+   console.log(_main_store_id___class)
+
+  $(document).find("."+_main_store_id___class).val(_store_id).change();
+
+  
 _purchase_total_calculation();
 });
      

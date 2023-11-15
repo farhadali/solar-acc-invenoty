@@ -160,7 +160,7 @@ class ImportMRController extends Controller
     }
     public function purchaseInvoiceSerarch(Request $request){
         $_text_val = $request->_text_val ?? '';
-        $import_purchases =Purchase::with(['_import_purchase','_lighter_info'])->where('_order_number','like',"%$_text_val%")
+        $import_purchases =Purchase::with(['_import_purchase','_lighter_info','_vessel_detail'])->where('_order_number','like',"%$_text_val%")
         ->get();
 
         return json_encode($import_purchases);
@@ -278,8 +278,8 @@ class ImportMRController extends Controller
      */
      public function store(Request $request)
     {
-        // dump($request->all());
-        // die();
+        dump($request->all());
+        die();
 
 
         
@@ -358,7 +358,7 @@ class ImportMRController extends Controller
         $Purchase->_workorder_no    = $request->_workorder_no ?? $im_workorder_no;
         $Purchase->_lc_no           = $request->_lc_no ?? $im_lc_no;
 
-        //$Purchase->_capacity = $request->_capacity ?? $_capacity;
+        $Purchase->_capacity = $request->_capacity ?? $_capacity;
         // $Purchase->_loading_date_time = $request->_loading_date_time ?? '';
         // $Purchase->_arrival_date_time = $request->_arrival_date_time ?? '';
         // $Purchase->_discharge_date_time = $request->_discharge_date_time ?? '';
@@ -392,25 +392,54 @@ class ImportMRController extends Controller
             $ImportReceiveVesselInfo->_vessel_res_person = $request->_vessel_res_person ?? '';
             $ImportReceiveVesselInfo->_vessel_res_mobile = $request->_vessel_res_mobile ?? '';
             $ImportReceiveVesselInfo->_extra_instruction = $request->_extra_instruction ?? '';
+
+            $ImportReceiveVesselInfo->scott_name = $request->scott_name ?? '';
+            $ImportReceiveVesselInfo->scott_number = $request->scott_number ?? '';
+            $ImportReceiveVesselInfo->servey_name = $request->servey_name ?? '';
+            $ImportReceiveVesselInfo->servey_number = $request->servey_number ?? '';
+            $ImportReceiveVesselInfo->boat_no = $request->boat_no ?? '';
             $ImportReceiveVesselInfo->_status            = 1;
-            $ImportReceiveVesselInfo->save(); 
+            if($request->has('boat_file')){
+                $image_name = date('mdYHis').$query->getClientOriginalName();
+               $ext = strtolower($query->getClientOriginalExtension()); 
+               $image_full_name = $image_name.'.'.$ext;
+               $upload_path = 'boat-attachment/';
+               $boat_file = $upload_path.$image_full_name;
+               $success = $query->move($upload_path,$image_full_name);
+               $ImportReceiveVesselInfo->boat_file = $boat_file;
+            }
+            if($request->has('servey_file')){
+                $image_name = date('mdYHis').$query->getClientOriginalName();
+               $ext = strtolower($query->getClientOriginalExtension()); 
+               $image_full_name = $image_name.'.'.$ext;
+               $upload_path = 'servey-attachment/';
+               $servey_file = $upload_path.$image_full_name;
+               $success = $query->move($upload_path,$image_full_name);
+               $ImportReceiveVesselInfo->servey_file = $servey_file;
+            }
+
+            $ImportReceiveVesselInfo->save();
+
+
+           
+
         }
 
 
         //Vessel Route Information
 
-        $_loading_point         = $request->_loading_point ?? [];
+        $_loading_points         = $request->_loading_point ?? [];
         $_unloading_points      = $request->_unloading_point ?? [];
         $_loading_date_times    = $request->_loading_date_time ?? [];
         $_arrival_date_times    = $request->_arrival_date_time ?? [];
         $_discharge_date_times  = $request->_discharge_date_time ?? [];
         $_final_routes          = $request->_final_route ?? [];
 
-        if(sizeof($_loading_point) > 0){
-            for ($i=0; $i <sizeof($_loading_point); $i++) { 
+        if(sizeof($_loading_points) > 0){
+            for ($i=0; $i <sizeof($_loading_points); $i++) { 
                 $VesselRoute = new VesselRoute();
                 $VesselRoute->_purchase_no         = $purchase_id;
-                $VesselRoute->_loading_point       =$_loading_point[$i] ?? '';
+                $VesselRoute->_loading_point       =$_loading_points[$i] ?? '';
                 $VesselRoute->_loading_date_time   =$_loading_date_times[$i] ?? '';
                 $VesselRoute->_unloading_point     =$_unloading_points[$i] ?? '';
                 $VesselRoute->_discharge_date_time =$_discharge_date_times[$i] ?? '';
@@ -1076,7 +1105,11 @@ $store_houses = permited_stores(explode(',',$users->store_ids));
         //VesselRoute
         //ImportReceiveVesselInfo
         if($request->has('_vessel_no') && $request->_vessel_no !=''){
+
             $ImportReceiveVesselInfo = ImportReceiveVesselInfo::where('_purchase_no',$purchase_id)->first();
+            if(empty($ImportReceiveVesselInfo)){
+                $ImportReceiveVesselInfo = new ImportReceiveVesselInfo();
+            }
             $ImportReceiveVesselInfo->_purchase_no       = $purchase_id;
             $ImportReceiveVesselInfo->_vessel_no         = $request->_vessel_no ?? 0;
             $ImportReceiveVesselInfo->_capacity          = $request->_capacity ?? $_capacity;
@@ -1084,6 +1117,23 @@ $store_houses = permited_stores(explode(',',$users->store_ids));
             $ImportReceiveVesselInfo->_vessel_res_mobile = $request->_vessel_res_mobile ?? '';
             $ImportReceiveVesselInfo->_extra_instruction = $request->_extra_instruction ?? '';
             $ImportReceiveVesselInfo->_status            = 1;
+
+
+            $ImportReceiveVesselInfo->scott_name = $request->scott_name ?? '';
+            $ImportReceiveVesselInfo->scott_number = $request->scott_number ?? '';
+            $ImportReceiveVesselInfo->servey_name = $request->servey_name ?? '';
+            $ImportReceiveVesselInfo->servey_number = $request->servey_number ?? '';
+            $ImportReceiveVesselInfo->boat_no = $request->boat_no ?? '';
+            $ImportReceiveVesselInfo->_status            = 1;
+            if($request->has('boat_file')){
+                $boat_file = boat_attachment($request->_image); 
+               $ImportReceiveVesselInfo->boat_file = $boat_file;
+            }
+            if($request->has('servey_file')){
+               $servey_file = servey_attachment($request->servey_file); 
+               $ImportReceiveVesselInfo->servey_file = $servey_file;
+            }
+
             $ImportReceiveVesselInfo->save(); 
         }
 

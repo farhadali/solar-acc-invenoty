@@ -146,6 +146,13 @@ if (! function_exists('access_chain_types')) {
 
 
 
+if (! function_exists('_order_to_id')) {
+    function _order_to_id($_coloumn,$_order,$_table)
+    {
+      $data= \DB::table($_table)->where($_coloumn,$_order)->first();
+      return $data->id ?? 0;
+    }
+}
 if (! function_exists('access_chain_types')) {
     function access_chain_types()
     {
@@ -189,13 +196,39 @@ if (!function_exists('UserImageUpload')) {
     {
         
         $image_name = date('mdYHis').$query->getClientOriginalName();
-        $ext = strtolower($query->getClientOriginalExtension()); // You can use also getClientOriginalName()
-        
+        $ext = strtolower($query->getClientOriginalExtension()); 
         $image_full_name = $image_name.'.'.$ext;
-        $upload_path = 'images/';    //Creating Sub directory in Public folder to put image
+        $upload_path = 'images/';
         $image_url = $upload_path.$image_full_name;
         $success = $query->move($upload_path,$image_full_name);
- 
+        return $image_url; // Just return image
+    }
+}
+if (!function_exists('boat_attachment')) {
+
+  function boat_attachment($query) // Taking input image as parameter
+    {
+        
+        $image_name = date('mdYHis').$query->getClientOriginalName();
+        $ext = strtolower($query->getClientOriginalExtension()); 
+        $image_full_name = $image_name.'.'.$ext;
+        $upload_path = 'boat-attachment/';
+        $image_url = $upload_path.$image_full_name;
+        $success = $query->move($upload_path,$image_full_name);
+        return $image_url; // Just return image
+    }
+}
+if (!function_exists('servey_attachment')) {
+
+  function servey_attachment($query) // Taking input image as parameter
+    {
+        
+        $image_name = date('mdYHis').$query->getClientOriginalName();
+        $ext = strtolower($query->getClientOriginalExtension()); 
+        $image_full_name = $image_name.'.'.$ext;
+        $upload_path = 'servey-attachment/';
+        $image_url = $upload_path.$image_full_name;
+        $success = $query->move($upload_path,$image_full_name);
         return $image_url; // Just return image
     }
 }
@@ -295,6 +328,9 @@ function make_order_number($table,$organization_id,$branch_id){
     //                                         ->count();
     $row_counts = $counts[0]->_row_count ?? 0;
 
+    if($row_counts ==0){
+        $row_counts = 0;
+    }
     $row_counts = ($row_counts+1);                                   
     $org_code = \App\Models\hrm\Company::find($organization_id)->_code ?? '';
     $branch_code = \App\Models\Branch::find($branch_id)->_code ?? '';

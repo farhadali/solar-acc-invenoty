@@ -183,15 +183,6 @@
         </div>
         @endcan
         
-        
-        
-      
-         
-      
-         
-          
-        
-         
       </li>
     @endcan
        @can('account-menu') 
@@ -455,6 +446,12 @@
 
       </li>
     @endcan
+   <li class="nav-item " style="margin-top:5px;">
+           <a  href="{{url('report-panel')}}" class="dropdown-item custom_nav_item" >
+            <span >{{__('label.report_panel')}} </span>
+          </a>
+         
+       </li>
        @can('inventory-report') 
       <li class="nav-item dropdown remove_from_header">
         <a class="nav-link" data-toggle="dropdown" href="#">

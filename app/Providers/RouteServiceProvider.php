@@ -55,7 +55,7 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/rlp_web.php'));
             Route::middleware('web')
                 ->namespace($this->namespace)
-                ->group(base_path('routes/import_report_web.php'));
+                ->group(base_path('routes/report_web.php'));
         });
     }
 

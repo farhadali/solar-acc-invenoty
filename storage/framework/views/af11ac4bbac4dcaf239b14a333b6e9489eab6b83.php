@@ -841,11 +841,13 @@ console.log(result)
                                         <td>${isEmpty(data[i]?._order_number)}
 
                                         <input class="_import_purchase_invoice_no" value="${isEmpty(data[i]?._order_number)}" type="hidden" />
+                                        <input class="__lighter_id" value="${isEmpty(data[i]?._vessel_detail?._lighter_info?.id)}" type="hidden" />
                                         <input class="_import_purchase_invoice_id" value="${isEmpty(data[i]?.id)}" type="hidden" /></td>
                                         <td>${isEmpty(data[i]?._date)}</td>
                                         <td>${isEmpty(data[i]?._import_purchase?._mother_vessel?._name)}</td>
-                                        <td>${isEmpty(data[i]?._lighter_info?._name)}</td>
-                                   </tr>`;       
+                                        <td>${isEmpty(data[i]?._vessel_detail?._lighter_info?._name)}</td>
+
+                                   </tr>`;      
                         }                         
             search_html += ` </tbody> </table></div>`;
       }else{

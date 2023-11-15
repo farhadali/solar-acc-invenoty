@@ -197,15 +197,6 @@
         </div>
         <?php endif; ?>
         
-        
-        
-      
-         
-      
-         
-          
-        
-         
       </li>
     <?php endif; ?>
        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('account-menu')): ?> 
@@ -487,6 +478,12 @@
 
       </li>
     <?php endif; ?>
+   <li class="nav-item " style="margin-top:5px;">
+           <a  href="<?php echo e(url('report-panel')); ?>" class="dropdown-item custom_nav_item" >
+            <span ><?php echo e(__('label.report_panel')); ?> </span>
+          </a>
+         
+       </li>
        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('inventory-report')): ?> 
       <li class="nav-item dropdown remove_from_header">
         <a class="nav-link" data-toggle="dropdown" href="#">

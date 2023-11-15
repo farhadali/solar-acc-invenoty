@@ -45,15 +45,21 @@ class ImportReportController extends Controller
                                         ->whereIn('_branch_id',$_branch_ids)
                                         ->whereIn('_cost_center_id',$_cost_center_ids)
                                         ->get();
+
+        $report_title='Daily Servey Report Coal in Bulk';
+
+
         $datas=[];
+        $single_data='';
         if($request->has('import_invoice_no') && $request->import_invoice_no !=''){
-             $datas = Purchase::with(['_master_branch','_master_details','_ledger','_lighter_info'])->where('import_invoice_no',$request->import_invoice_no)->get();
+             $single_data = ImportPuchase::with(['_mother_vessel','_organization'])->find($request->import_invoice_no);
+               $datas = Purchase::with(['_master_branch','_vessel_detail','_route_info'])->where('import_invoice_no',$request->import_invoice_no)->get();
         }
 
 
 
 
 
-        return view('import-report.master_vessel_wise_ligther_report',compact('page_name','importInvoices','request','datas'));
+        return view('import-report.master_vessel_wise_ligther_report',compact('page_name','importInvoices','request','datas','single_data','report_title'));
     }
 }

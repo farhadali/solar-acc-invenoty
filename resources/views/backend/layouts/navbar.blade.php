@@ -173,16 +173,13 @@
         </div>
         @endcan
         
-        
-        
-      
-         
-      
-         
-          
-        
-         
       </li>
+       <li class="nav-item ">
+           <a  href="{{url('report-panel')}}" class="dropdown-item custom_nav_item" >
+            <span style="margin-bottom:9px;">{{__('label.report_panel')}} </span>
+          </a>
+         
+       </li>
     @endcan
        @can('account-menu') 
       <li class="nav-item dropdown remove_from_header">

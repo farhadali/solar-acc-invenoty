@@ -56,6 +56,8 @@ class Purchase extends Model
     }
 
     public function _vessel_detail(){
-        return $this->hasOne(ImportReceiveVesselInfo::class,'_purchase_no','id')->where('_status',1);
+        return $this->hasOne(ImportReceiveVesselInfo::class,'_purchase_no','id')
+        ->with(['_lighter_info'])
+        ->where('_status',1);
     }
 }
