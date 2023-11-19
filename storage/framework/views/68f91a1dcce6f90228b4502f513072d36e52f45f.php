@@ -5,6 +5,24 @@
 <?php
 $__user= Auth::user();
 ?>
+<div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-12" style="display: flex;">
+            <a class="m-0 _page_name" href="<?php echo e(route('import-material-receive.index')); ?>"><?php echo $page_name ?? ''; ?> </a>
+            <ol class="breadcrumb float-sm-right ml-2">
+               <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('import-material-receive-create')): ?>
+              <li class="breadcrumb-item active">
+                  <a title="Add New" class="btn btn-info btn-sm" href="<?php echo e(route('import-material-receive.create')); ?>"> Add New </a>
+               </li>
+              <?php endif; ?>
+            </ol>
+          </div>
+          
+         
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
 
     <?php echo $__env->make('backend.message.message', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <div class="content">
@@ -14,7 +32,7 @@ $__user= Auth::user();
             <div class="card">
               <div class="card-header border-0 mt-1">
                 <div class="row">
-                   <?php
+                    <?php
 
                      $currentURL = URL::full();
                      $current = URL::current();
@@ -28,10 +46,10 @@ $__user= Auth::user();
     
 
                    ?>
-                    <div class="col-md-6">
-                       <?php echo $__env->make('backend.import-material-receive.search', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                    <div class="col-md-4">
+                      <?php echo $__env->make('backend.import-material-receive.search', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-8">
                       <div class="d-flex flex-row justify-content-end">
                          <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('import-material-receive-print')): ?>
                         <li class="nav-item dropdown remove_from_header">
@@ -54,28 +72,15 @@ $__user= Auth::user();
                               
                                     
                             </li>
-                            <?php endif; ?>   
-                            <div class="form-group ml-2">
-                                <?php echo $datas->render(); ?>
+                            <?php endif; ?>    
+                         <?php echo $datas->render(); ?>
 
-                            </div>  
-                            <div class="form-group ml-2">
-                              <form action="" method="GET">
-                                  <?php echo csrf_field(); ?>
-                                <select name="limit" class="form-control" onchange="this.form.submit()">
-                                        <?php $__empty_1 = true; $__currentLoopData = filter_page_numbers(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $row): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                                         <option  <?php if($limit == $row): ?> selected <?php endif; ?>  value="<?php echo e($row); ?>"><?php echo e($row); ?></option>
-                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-                                        <?php endif; ?>
-                                </select>
-                              </form>
-                              </div>
-                             
-                         
                           </div>
                     </div>
                   </div>
               </div>
+
+             
               <div class="card-body">
                 <div class="">
 

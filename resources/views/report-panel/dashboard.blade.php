@@ -36,7 +36,7 @@ $__user= Auth::user();
                         <li><a target="__blank" href="{{url('group-ledger')}}">{{ __('label.Group Ledger Report') }}</a></li>
                         @endcan
                         @can('ledger-summary-report')
-                        <li><a target="__blank" href="{{url('ledger-summary-report')}}">{{ __('label.Ledger Summary Report') }}</a></li>
+                        <li><a target="__blank" href="{{url('filter-ledger-summary')}}">{{ __('label.Ledger Summary Report') }}</a></li>
                         @endcan
                         @can('trail-balance')
                         <li><a target="__blank" href="{{url('trail-balance')}}">{{ __('label.Trail Balance') }}</a></li>

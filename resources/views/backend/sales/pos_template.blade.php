@@ -17,28 +17,35 @@
 		
             <table class="table" style="border-collapse: collapse;">
             	<tr>
-            		<td colspan="6" style="text-align: center;">
-            			  {{ $settings->_top_title ?? '' }}<br>
-                   <img src="{{url('/')}}/{{$settings->logo}}" alt="{{$settings->name ?? '' }}" style="height: 60px;width: 60px"  ><br>
-            			<strong>{{ $settings->name ?? '' }}</strong><br>
-		         {{$settings->_address ?? '' }}<br>
-		        {{$settings->_phone ?? '' }}<br>
-		        {{$settings->_email ?? '' }}<br>
-            @php
-        $bin = $settings->_bin ?? '';
-      @endphp
-      @if($bin !='')
-      VAT REGISTRATION NO: {{ $settings->_bin ?? '' }}<br>
-      @endif
-		        <b>Invoice/Bill</b>
+            		<td colspan="2" style="text-align: left;">
+                   <img style="position: absolute;top: 5px;" src="{{url('/')}}/{{$settings->logo}}" alt="{{$settings->name ?? '' }}"   ><br>
+            		
+		        
             		</td>
+                <td colspan="4">
+                    <strong>{{ $data->_organization->_name ?? '' }}</strong><br>
+             {{$data->_organization->_address ?? '' }}<br>
+             {{$data->_organization->_bin ?? '' }}<br>
+         
+      Print Time: {{ date('d-m-Y h:i:sa ')}}
+                </td>
             	</tr>
+              <tr>
+                <td colspan="6" style="text-align:center;"><b>Bill / Invoice</b></td>
+              </tr>
                 <tr>
                
                 <td colspan="6" style="border: 1px dotted grey;">
                   <table style="text-align: left;">
-                    <tr> <td style="border:none;" > {{ invoice_barcode($data->_order_number ?? '') }}</td></tr>
-                    <tr> <td style="border:none;" > Invoice No: {{ $data->_order_number ?? '' }}</td></tr>
+                    <tr> 
+                      <td style="border:none;" >
+
+                       {{ invoice_barcode($data->_order_number ?? '') }}
+                      
+                    </td> 
+                    </tr>
+                    <tr> 
+                      <td style="border:none;" > Invoice No: {{ $data->_order_number ?? '' }}</td></tr>
                   <tr> <td style="border:none;" > Date: {{ _view_date_formate($data->_date ?? '') }}</td></tr>
                   </table>
                 </td>

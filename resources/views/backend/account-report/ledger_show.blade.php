@@ -140,64 +140,81 @@
                     <td class="text-left">
                     @if($detail->_table_name=="voucher_masters")
                  <a style="text-decoration: none;" target="__blank" href="{{ route('voucher.show',$detail->_id) }}">
-                {{ voucher_prefix() }}{!! $detail->_id ?? '' !!}</a>
+                   {!! _id_to_order_number($detail->_id,$detail->_table_name) !!}
+                </a>
                     @endif
                     @if($detail->_table_name=="purchases")
                  <a style="text-decoration: none;" target="__blank" href="{{ url('purchase/print',$detail->_id) }}">
-                  {{ _purchase_pfix() }}{!! $detail->_id ?? '' !!}</a>
+                    {!! _id_to_order_number($detail->_id,$detail->_table_name) !!}
+                  </a>
                     @endif
                     @if($detail->_table_name=="purchase_accounts")
                  <a style="text-decoration: none;" target="__blank" href="{{ url('purchase/print',$detail->_id) }}">
-                  {{ _purchase_pfix() }}{!! $detail->_id ?? '' !!}</a>
+                    {!! _id_to_order_number($detail->_id,'purchases') !!}
+                </a>
                     @endif
                     @if($detail->_table_name=="purchases_return")
                  <a style="text-decoration: none;" target="__blank" href="{{ url('purchase-return/print',$detail->_id) }}">
-                  {{ _purchase_return_pfix() }} {!! $detail->_id ?? '' !!}</a>
+                    {!! _id_to_order_number($detail->_id,$detail->_table_name) !!}
+                </a>
                     @endif
                     @if($detail->_table_name=="purchase_return_accounts")
                  <a style="text-decoration: none;" target="__blank" href="{{ url('purchase-return/print',$detail->_id) }}">
-                  {{ _purchase_return_pfix() }}{!! $detail->_id ?? '' !!}</a>
+                    {!! _id_to_order_number($detail->_id,'purchases_return') !!}
+                </a>
                     @endif
                     @if($detail->_table_name=="sales")
                  <a style="text-decoration: none;" target="__blank" href="{{ url('sales/print',$detail->_id) }}">
-                  {{ _sales_pfix() }} {!! $detail->_id ?? '' !!}</a>
+                   {!! _id_to_order_number($detail->_id,'sales') !!}
+                </a>
                     @endif
                     @if($detail->_table_name=="sales_accounts")
                  <a style="text-decoration: none;" target="__blank" href="{{ url('sales/print',$detail->_id) }}">
-                  {{ _sales_pfix() }}{!! $detail->_id ?? '' !!}</a>
+                  
+                   {!! _id_to_order_number($detail->_id,'sales') !!}
+                </a>
                     @endif
                     @if($detail->_table_name=="warranty_masters")
                  <a style="text-decoration: none;" target="__blank" href="{{ url('warranty-manage/print',$detail->_id) }}">
-                  {{ warranty_prefix() }} {!! $detail->_id ?? '' !!}</a> <br>
+                  {!! _id_to_order_number($detail->_id,'warranty_masters') !!}
+                </a> <br>
                     @endif
 
                     @if($detail->_table_name=="warranty_accounts")
                  <a style="text-decoration: none;" target="__blank" href="{{ url('warranty-manage/print',$detail->_id) }}">
-                   {{ warranty_prefix() }} {!! $detail->_id ?? '' !!}</a>
+                   {!! _id_to_order_number($detail->_id,'warranty_masters') !!}
+                 </a>
                     @endif
                     @if($detail->_table_name=="resturant_sales")
                  <a style="text-decoration: none;" target="__blank" href="{{ url('restaurant-sales/print',$detail->_id) }}">
-                  {{ resturant_prefix() }}{!! $detail->_id ?? '' !!}</a>
+                   {!! _id_to_order_number($detail->_id,'resturant_sales') !!}
+                </a>
                     @endif
                     @if($detail->_table_name=="restaurant_sales_accounts")
                  <a style="text-decoration: none;" target="__blank" href="{{ url('restaurant-sales/print',$detail->_id) }}">
-                  {{ resturant_prefix() }}{!! $detail->_id ?? '' !!}</a>
+                  
+                  {!! _id_to_order_number($detail->_id,'resturant_sales') !!}
+                </a>
                     @endif
                     @if($detail->_table_name=="resturant_sales_accounts")
                  <a style="text-decoration: none;" target="__blank" href="{{ url('restaurant-sales/print',$detail->_id) }}">
-                 {{ resturant_prefix() }}{!! $detail->_id ?? '' !!}</a>
+                  {!! _id_to_order_number($detail->_id,'resturant_sales') !!}
+               </a>
                     @endif
                     @if($detail->_table_name=="sales_return")
                  <a style="text-decoration: none;" target="__blank" href="{{ url('sales-return/print',$detail->_id) }}">
-                  {{ _sales_return_pfix() }} {!! $detail->_id ?? '' !!}</a>
+                   {!! _id_to_order_number($detail->_id,'sales_return') !!}
+                </a>
                     @endif
                     @if($detail->_table_name=="sales_return_accounts")
                  <a style="text-decoration: none;" target="__blank" href="{{ url('sales-return/print',$detail->_id) }}">
-                  {{ _sales_return_pfix() }}{!! $detail->_id ?? '' !!}</a>
+                  {!! _id_to_order_number($detail->_id,'sales_return') !!}
+                </a>
                     @endif
                     @if($detail->_table_name=="damage")
                  <a style="text-decoration: none;" target="__blank" href="{{ url('damage/print',$detail->_id) }}">
-                  {{ _damage_pfix() }} {!! $detail->_id ?? '' !!}</a>
+                  {!! _id_to_order_number($detail->_id,'damage_adjustments') !!}
+                </a>
                     @endif
 
                 @if($detail->_table_name=="transfer")

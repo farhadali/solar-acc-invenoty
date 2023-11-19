@@ -28,14 +28,8 @@
                 <div class="row">
                       <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
-                                <label>{{__('label._ledger')}}:</label>
-                                <select class="form-control select2" name="_ledger" required>
-                                  <option value="">Select Ledger</option>
-                                  @forelse($_all_ledgers as $val)
-                                  <option value="{{$val->id}}" @if($val->id==$data->_ledger) selected @endif >{!! $val->_name ?? '' !!}</option>
-                                  @empty
-                                  @endforelse
-                                </select>
+                                <label>{{__('label._payhead')}}:</label>
+                                <input type="text" name="_ledger" class="form-control" value="{{old('_ledger',$data->_ledger)}}">
                             </div>
                         </div>
                       <div class="col-xs-12 col-sm-12 col-md-12">
@@ -43,8 +37,8 @@
                                 <label>{{__('label._type')}}:</label>
                                 <select class="form-control " name="_type" required>
                                   <option value="">Select type</option>
-                                  @forelse(pay_head_types() as $val)
-                                  <option value="{{$val}}" @if($val==$data->_type) selected @endif>{!! $val ?? '' !!}</option>
+                                  @forelse($payhead_typs  as $key=> $val)
+                                  <option value="{{$val->id}}" @if($val->id==$data->_type) selected @endif>{!! $val->_name ?? '' !!}</option>
                                   @empty
                                   @endforelse
                                 </select>

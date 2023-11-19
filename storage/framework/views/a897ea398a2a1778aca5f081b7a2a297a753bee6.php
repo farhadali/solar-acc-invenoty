@@ -36,7 +36,7 @@ $__user= Auth::user();
                         <li><a target="__blank" href="<?php echo e(url('group-ledger')); ?>"><?php echo e(__('label.Group Ledger Report')); ?></a></li>
                         <?php endif; ?>
                         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('ledger-summary-report')): ?>
-                        <li><a target="__blank" href="<?php echo e(url('ledger-summary-report')); ?>"><?php echo e(__('label.Ledger Summary Report')); ?></a></li>
+                        <li><a target="__blank" href="<?php echo e(url('filter-ledger-summary')); ?>"><?php echo e(__('label.Ledger Summary Report')); ?></a></li>
                         <?php endif; ?>
                         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('trail-balance')): ?>
                         <li><a target="__blank" href="<?php echo e(url('trail-balance')); ?>"><?php echo e(__('label.Trail Balance')); ?></a></li>

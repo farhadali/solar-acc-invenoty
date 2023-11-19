@@ -889,9 +889,7 @@
             <i class="fa fa-fax mr-2" aria-hidden="true"></i> {{ __('label.Account Ledger') }}
           </a>
           
-           <a  href="{{route('account-ledger.create')}}" class="dropdown-item text-right attr_base_create_url" data-toggle="modal" 
-               data-target="#commonEntryModal_item"
-               attr_base_create_url="{{ route('account-ledger.create') }}" >
+           <a  href="{{route('account-ledger.create')}}"  >
             <i class="nav-icon fas fa-plus"></i>
           </a>
         </div>

@@ -88,10 +88,7 @@
                                             <th class="text-right @if($form_settings->_show_vat==0) display_none @endif"  >VAT%</th>
                                             <th class="text-right @if($form_settings->_show_vat==0) display_none @endif"  >VAT Amount</th>
                                             <th class="text-right "  >Value</th>
-                                            <th class="text-middle   @if(sizeof($permited_branch) ==1) display_none @endif "  >Branch</th>
-                                             <th class="text-middle   @if(sizeof($permited_costcenters) ==1) display_none @endif "  >Cost Center</th>
-                                             <th class="text-middle  @if(sizeof($store_houses) ==1) display_none @endif"  >Store</th>
-                                             <th class="text-middle @if($form_settings->_show_self==0) display_none @endif"  >Shelf</th>
+                                            
                                             
                                            
                                           </thead>
@@ -128,10 +125,7 @@
                                             <td class="text-right   @if($form_settings->_show_vat==0) display_none @endif" >{!! _report_amount($_item->_vat_amount ?? 0) !!}</td>
                                             
                                             <td class="text-right  " >{!! _report_amount($_item->_value ?? 0) !!}</td>
-                                            <td class=" @if(sizeof($permited_branch) == 1)  display_none @endif" >{!! $_item->_detail_branch->_name ?? '' !!}</td>
-                                             <td class="@if(sizeof($permited_costcenters) == 1)  display_none @endif" >{!! $_item->_detail_cost_center->_name ?? '' !!}</td>
-                                             <td class=" @if(sizeof($store_houses) == 1)  display_none @endif" >{!! $_item->_store->_name ?? '' !!}</td>
-                                             <td class="@if($form_settings->_show_self==0) display_none @endif" >{!! $_item->_store_salves_id ?? '' !!}</td>
+                                            
                                             
                                            
                                           </thead>
@@ -169,10 +163,7 @@
                                               <td class=" text-right">
                                                <b> {{ _report_amount($_value_total ?? 0) }}</b>
                                               </td>
-                                               <td class=" @if(sizeof($permited_branch) == 1) display_none @endif"></td>
-                                               <td class=" @if(sizeof($permited_costcenters) == 1) display_none @endif"></td>
-                                               <td class=" @if(sizeof($store_houses) == 1) display_none @endif"></td>
-                                              <td class="@if($form_settings->_show_self==0) display_none @endif "></td>
+                                               
                                              
                                             </tr>
                                 </tfoot>

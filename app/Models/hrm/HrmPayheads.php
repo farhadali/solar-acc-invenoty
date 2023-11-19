@@ -11,11 +11,16 @@ class HrmPayheads extends Model
 {
     use HasFactory;
 
-    public function _ledger_info(){
-    	return $this->hasOne(AccountLedger::class,'id','_ledger')->select('id','_name','_account_group_id','_account_head_id');
-    }
+   protected $table="hrm_payheads";
+   protected $fillable=['id', '_ledger', '_type', '_calculation', '_onhead', '_user', '_status', 'created_at', 'updated_at'];
+
+   
 
     public function _entry_by(){
     	return $this->hasOne(User::class,'id','_user')->select('id','name','email');
+    }
+
+    public function _payhead_type(){
+        return $this->hasOne(HrmPayHeadType::class,'id','_type');
     }
 }

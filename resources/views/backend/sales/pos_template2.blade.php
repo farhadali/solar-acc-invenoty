@@ -218,54 +218,38 @@
                                   @endforelse
                             <tr>
                               <td colspan="3" class="text-right " style="border: 1px solid silver;"><b>Total</b></td>
-                              <td class="text-right " style="border: 1px solid silver;"> <b>{{ _report_amount($_qty_total ?? 0)}}</b> </td>
+                              <td class="text-right " style="border: 1px solid silver;text-align:right;"> <b>{{ _report_amount($_qty_total ?? 0)}}</b> </td>
                               <td style="border: 1px solid silver;"></td>
                               <td class="text-right " style="border: 1px solid silver;display: none;"> <b>{{ _report_amount($_total_discount_amount ?? 0)}}</b> </td>
-                              <td class="text-right display_none" style="border: 1px solid silver;display: none;"> <b>{{ _report_amount($_vat_total ?? 0)}}</b> </td>
-                              <td class=" text-right" style="border: 1px solid silver;"><b> {{ _report_amount($_value_total ?? 0) }}</b>
+                              <td class="text-right display_none" style="border: 1px solid silver;display: none;text-align:right;"> <b>{{ _report_amount($_vat_total ?? 0)}}</b> </td>
+                              <td class=" text-right" style="border: 1px solid silver;text-align:right;"><b> {{ _report_amount($_value_total ?? 0) }}</b>
                               </td>
                             </tr>
-                            <tr>
-                              <td colspan="3" class="text-left " style="width: 50%;border:1px solid silver;">
-                              <table style="width: 100%;border-collapse: collapse;">
-                                <tr>
-                                  <td>
 
-                                    {{$settings->_sales_note ?? '' }}
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td><p class="lead"> In Words:  {{ nv_number_to_text($data->_total ?? 0) }} </p></td>
-                                </tr>
-                                <tr>
-                                  <td>
-                                    @include("backend.sales.invoice_history")
-                                  </td>
-                                </tr>
-                              </table>
-                              </td>
+                            <tr>
                               
-                              <td colspan="5" class=" text-right"  style="width: 50%;">
+                              
+                              <td colspan="8" class=" text-right"  style="width: 50%;">
                                   <table style="width: 100%;border-collapse: collapse;">
                                      <tr >
                                       <th style="border:1px solid silver;" class="text-right" ><b>Sub Total</b></th>
-                                      <th style="border:1px solid silver;" class="text-right">{!! _report_amount($data->_sub_total ?? 0) !!}</th>
+                                      <th style="border:1px solid silver;text-align:right;" class="text-right">{!! _report_amount($data->_sub_total ?? 0) !!}</th>
                                     </tr>
                                    
                                     <tr>
                                       <th style="border:1px solid silver;" class="text-right" ><b>Discount[-]</b></th>
-                                      <th style="border:1px solid silver;" class="text-right">{!! _report_amount($data->_total_discount ?? 0) !!}</th>
+                                      <th style="border:1px solid silver;text-align:right;" class="text-right">{!! _report_amount($data->_total_discount ?? 0) !!}</th>
                                     </tr>
                                    
                                     @if($form_settings->_show_vat==1)
                                     <tr>
                                       <th style="border:1px solid silver;" class="text-right" ><b>VAT[+]</b></th>
-                                      <th style="border:1px solid silver;" class="text-right">{!! _report_amount($data->_total_vat ?? 0) !!}</th>
+                                      <th style="border:1px solid silver;text-align:right;" class="text-right">{!! _report_amount($data->_total_vat ?? 0) !!}</th>
                                     </tr>
                                     @endif
                                     <tr>
                                       <th style="border:1px solid silver;" class="text-right" ><b>Net Total</b></th>
-                                      <th style="border:1px solid silver;" class="text-right">{!! _report_amount($data->_total ?? 0) !!}</th>
+                                      <th style="border:1px solid silver;text-align:right;" class="text-right">{!! _report_amount($data->_total ?? 0) !!}</th>
                                     </tr>
                                     @php
                                     $accounts = $data->s_account ?? [];
@@ -281,7 +265,7 @@
                                     <tr>
                                       <th style="border:1px solid silver;" class="text-right" ><b> {!! $ac_val->_ledger->_name ?? '' !!}[+]
                                         </b></th>
-                                      <th style="border:1px solid silver;" class="text-right">{!! _report_amount( $ac_val->_cr_amount ?? 0 ) !!}</th>
+                                      <th style="border:1px solid silver;text-align:right;" class="text-right">{!! _report_amount( $ac_val->_cr_amount ?? 0 ) !!}</th>
                                     </tr>
                                     @endif
                                     @if($ac_val->_dr_amount > 0)
@@ -291,7 +275,7 @@
                                     <tr>
                                       <th style="border:1px solid silver;" class="text-right" ><b> {!! $ac_val->_ledger->_name ?? '' !!}[+]
                                         </b></th>
-                                      <th style="border:1px solid silver;" class="text-right">{!! _report_amount( $ac_val->_dr_amount ?? 0 ) !!}</th>
+                                      <th style="border:1px solid silver;text-align:right;" class="text-right">{!! _report_amount( $ac_val->_dr_amount ?? 0 ) !!}</th>
                                     </tr>
                                     @endif
 
@@ -299,22 +283,43 @@
                                     @endforeach
                                     <tr>
                                       <th style="border:1px solid silver;" class="text-right" ><b>Invoice Due </b></th>
-                                      <th style="border:1px solid silver;" class="text-right">{!! _report_amount( $_due_amount) !!}</th>
+                                      <th style="border:1px solid silver;text-align:right;" class="text-right">{!! _report_amount( $_due_amount) !!}</th>
                                     </tr>
 
                                     @endif
                                     @if($form_settings->_show_p_balance==1)
                                     <tr>
                                       <th style="border:1px solid silver;" class="text-right" ><b>Previous Balance</b></th>
-                                      <th style="border:1px solid silver;" class="text-right">{!! _show_amount_dr_cr(_report_amount($data->_p_balance ?? 0)) !!}</th>
+                                      <th style="border:1px solid silver;text-align:right;" class="text-right">{!! _show_amount_dr_cr(_report_amount($data->_p_balance ?? 0)) !!}</th>
                                     </tr>
                                     <tr>
                                       <th style="border:1px solid silver;" class="text-right" ><b>Current Balance</b></th>
-                                      <th style="border:1px solid silver;" class="text-right">{!! _show_amount_dr_cr(_report_amount($data->_l_balance ?? 0)) !!}</th>
+                                      <th style="border:1px solid silver;text-align:right;" >{!! _show_amount_dr_cr(_report_amount($data->_l_balance ?? 0)) !!}</th>
                                     </tr>
                                     @endif
                                   </table>
 
+                              </td>
+                            </tr>
+                            <tr>
+                              <td colspan="8" class="text-left " style="width: 50%;border:1px solid silver;">
+                              <table style="width: 100%;border-collapse: collapse;">
+                                
+                                <tr>
+                                  <td><p class="lead"> In Words:  {{ nv_number_to_text($data->_total ?? 0) }} </p></td>
+                                </tr>
+                                <tr>
+                                  <td>
+
+                                    {{$settings->_sales_note ?? '' }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    @include("backend.sales.invoice_history")
+                                  </td>
+                                </tr>
+                              </table>
                               </td>
                             </tr>
          @endif

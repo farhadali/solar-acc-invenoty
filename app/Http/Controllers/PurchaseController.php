@@ -314,6 +314,11 @@ public function moneyReceipt($id){
         $Purchase->save();
         $purchase_id = $Purchase->id;
 
+         $__table="purchases";
+        $_p_p_l_order_number = _purchase_pfix().make_order_number($__table,$organization_id,$_main_branch_id);
+
+
+
         //###########################
         // Purchase Master information Save End
         //###########################
@@ -395,6 +400,7 @@ public function moneyReceipt($id){
 
                 $item_info = Inventory::where('id',$_item_ids[$i])->first();
                 $ProductPriceList = new ProductPriceList();
+                $ProductPriceList->_order_number = $_p_p_l_order_number ?? '';
                 $ProductPriceList->_item_id = $_item_ids[$i];
                 $ProductPriceList->_item = $item_info->_item ?? '';
 
@@ -995,7 +1001,7 @@ if($sales_number == 0 ){
                     $ProductPriceList->_created_by = $users->id."-".$users->name;
                 }
                 
-               // $ProductPriceList->_barcode =$barcode_string ?? '';
+                $ProductPriceList->_order_number =$request->_order_number ?? '';
 
                 $general_settings =GeneralSettings::select('_pur_base_model_barcode')->first();
                 if($general_settings->_pur_base_model_barcode==1){

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\hrm\HrmPayheads;
+use App\Models\hrm\HrmPayHeadType;
 use Illuminate\Http\Request;
-use App\Models\AccountLedger;
 use Session;
 use Auth;
 
@@ -29,7 +29,7 @@ class HrmPayheadsController extends Controller
    public function index(Request $request)
     {
         $page_name = $this->page_name;
-         $datas = HrmPayheads::with(['_ledger_info'])->orderBy('id','ASC')->get();
+         $datas = HrmPayheads::with(['_payhead_type'])->orderBy('id','ASC')->get();
 
         if($request->has('print')){
             if($request->print =="detail"){
@@ -48,8 +48,8 @@ class HrmPayheadsController extends Controller
     public function create()
     {
         $page_name = $this->page_name;
-        $_all_ledgers = AccountLedger::where('_status',1)->get();
-        return view('hrm.pay-heads.create',compact('page_name','_all_ledgers'));
+        $payhead_typs = HrmPayHeadType::where('_status',1)->get();
+        return view('hrm.pay-heads.create',compact('page_name','payhead_typs'));
     }
 
     /**
@@ -64,7 +64,7 @@ class HrmPayheadsController extends Controller
         // dump($request->all());
         // die();
          $this->validate($request, [
-            '_ledger' => 'required',
+            '_ledger' => 'required|unique:hrm_payheads,_ledger',
             '_type' => 'required',
         ]);
 
@@ -75,7 +75,7 @@ class HrmPayheadsController extends Controller
             $data->_ledger =$request->_ledger ?? 0;
             $data->_calculation =$request->_calculation ?? '';
             $data->_onhead =$request->_onhead ?? '';
-            $data->_status =$request->_status ?? 0;
+            $data->_status =$request->_status ?? 1;
           
             $data->_user = $_user->id;
             $data->save();
@@ -97,7 +97,7 @@ class HrmPayheadsController extends Controller
    public function show($id)
     {
         $page_name = $this->page_name;
-        $data = HrmPayheads::with(['_ledger_info'])->find($id);
+        $data = HrmPayheads::find($id);
 
         return view('hrm.pay-heads.show',compact('data','page_name'));
     }
@@ -111,10 +111,10 @@ class HrmPayheadsController extends Controller
     public function edit($id)
     {
         $page_name = $this->page_name;
-         $data = HrmPayheads::with(['_ledger_info'])->find($id);
-         $_all_ledgers = AccountLedger::where('_status',1)->get();
+         $data = HrmPayheads::find($id);
+         $payhead_typs = HrmPayHeadType::where('_status',1)->get();
 
-        return view('hrm.pay-heads.edit',compact('data','page_name','_all_ledgers'));
+        return view('hrm.pay-heads.edit',compact('data','page_name','payhead_typs'));
     }
 
     /**
@@ -127,7 +127,7 @@ class HrmPayheadsController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            '_ledger' => 'required',
+            '_ledger' => 'required|unique:hrm_payheads,_ledger,'.$id,
             '_type' => 'required',
         ]);
 
@@ -138,7 +138,7 @@ class HrmPayheadsController extends Controller
             $data->_ledger =$request->_ledger ?? 0;
             $data->_calculation =$request->_calculation ?? '';
             $data->_onhead =$request->_onhead ?? '';
-            $data->_status =$request->_status ?? 0;
+            $data->_status =$request->_status ?? 1;
           
             $data->_user = $_user->id;
             $data->save();
@@ -159,7 +159,7 @@ class HrmPayheadsController extends Controller
      */
      public function destroy($id)
     {
-        HrmPayheads::find($id)->delete();
+        HrmPayheads::find($id)->update(['_status'=>0]);
         return redirect('pay-heads')->with('success','Information deleted successfully');
     }
 }

@@ -78,7 +78,7 @@
                                
                             </td>
                             <td>{{ $data->id }}</td>
-                            <td>{{ $data->_ledger_info->_name ?? '' }}</td>
+                            <td>{{ $data->_ledger ?? '' }}</td>
                             <td>{{ $data->_type ?? '' }}</td>
                            <td>{{ selected_status($data->_status) }}</td>
                            <td>{{ $data->_entry_by->name ?? '' }}</td>

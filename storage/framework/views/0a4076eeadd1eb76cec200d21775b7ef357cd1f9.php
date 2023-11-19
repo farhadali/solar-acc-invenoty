@@ -101,7 +101,7 @@ $__user= Auth::user();
                       <div class="row">
 
                        <div class="col-xs-12 col-sm-12 col-md-2">
-                        <input type="hidden" name="_form_name" class="_form_name"  value="purchases">
+                        <input type="hidden" name="_form_name" class="_form_name"  value="import_puchases">
                             <div class="form-group">
                                 <label><?php echo e(__('label._date')); ?>:</label>
                                   <div class="input-group date" id="reservationdate" data-target-input="nearest">

@@ -542,6 +542,7 @@ class TransferController extends Controller
                 $item_info = Inventory::where('id',$_stock_in__item_ids[$i])->first();
 
                 $ProductPriceList = new ProductPriceList();
+                $ProductPriceList->_order_number = $_pfix;
                 $ProductPriceList->_item_id = $_stock_in__item_ids[$i];
                 $ProductPriceList->_item = $item_info->_item ?? '';
 
@@ -1199,6 +1200,7 @@ account_data_save($_ref_master_id,$_ref_detail_id,_find_ledger($_default_invento
 
                 $ProductPriceList->_item_id = $_stock_in__item_ids[$i];
                 $ProductPriceList->_item = $item_info->_item ?? '';
+                 $ProductPriceList->_order_number =$request->_order_number ?? '';
 
             $general_settings =GeneralSettings::select('_pur_base_model_barcode')->first();
             if($general_settings->_pur_base_model_barcode==1){

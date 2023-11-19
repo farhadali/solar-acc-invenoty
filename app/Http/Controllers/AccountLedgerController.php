@@ -710,6 +710,8 @@ DB::beginTransaction();
         \DB::table("sales_return_accounts")->where('_ledger_id',$data->id)->update(['_account_type_id'=>$request->_account_head_id,'_account_group_id'=>$request->_account_group_id]);
         
         \DB::table("warranty_accounts")->where('_ledger_id',$data->id)->update(['_account_type_id'=>$request->_account_head_id,'_account_group_id'=>$request->_account_group_id]);
+        
+        \DB::table("import_puchase_accounts")->where('_ledger_id',$data->id)->update(['_account_type_id'=>$request->_account_head_id,'_account_group_id'=>$request->_account_group_id]);
 
         return redirect()->back()->with('success','Information save successfully');
     }

@@ -458,10 +458,11 @@ class InventoryController extends Controller
         $permited_branch = permited_branch(explode(',',$users->branch_ids));
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
         $store_houses = permited_stores(explode(',',$users->store_ids));
+        $permited_organizations = permited_organization(explode(',',$users->organization_ids));
 
         
 
-       return view('backend.item-information.create',compact('page_name','categories','units','_warranties','permited_branch','permited_costcenters','store_houses'));
+       return view('backend.item-information.create',compact('page_name','categories','units','_warranties','permited_branch','permited_costcenters','store_houses','permited_organizations'));
     }
 
     public function showManufactureCompanys(Request $request){

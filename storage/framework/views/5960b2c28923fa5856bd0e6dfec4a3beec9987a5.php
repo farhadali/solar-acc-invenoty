@@ -159,7 +159,7 @@ if($currentURL === $current){
                               >Unit Conversions</button>
                             </td>
                             <td>
-                              <img class="myImage" src="<?php echo e(asset('/')); ?><?php echo e($data->_image ?? $default_image); ?>" alt="Click me to open modal" title="Click display Image" data-toggle="modal" data-target="#imageModal" style="max-height:50px;max-width: 50px;c " >
+                              <img class="myImage" src="<?php echo e(asset($data->_image ?? $default_image)); ?>" alt="Click me to open modal" title="Click display Image" data-toggle="modal" data-target="#imageModal" style="max-height:50px;max-width: 50px; " >
                               </td>
                             </td>
                             <td><?php echo e($data->_units->_name ?? ''); ?></td>

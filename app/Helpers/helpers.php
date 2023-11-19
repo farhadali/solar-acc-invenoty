@@ -153,6 +153,14 @@ if (! function_exists('_order_to_id')) {
       return $data->id ?? 0;
     }
 }
+
+if (! function_exists('_id_to_order_number')) {
+    function _id_to_order_number($id,$_table)
+    {
+      $data= \DB::table($_table)->where('id',$id)->first();
+      return $data->_order_number ?? 0;
+    }
+}
 if (! function_exists('access_chain_types')) {
     function access_chain_types()
     {
@@ -249,7 +257,18 @@ if (!function_exists('full_half')) {
 if (!function_exists('pay_head_types')) {
     function pay_head_types() 
     {
-        return ['Payable','Deduction'];
+        return [1=>'Salaries',2=>'Allowance',3=>'Deduction'];
+    }
+}
+if (!function_exists('selected_pay_head_type')) {
+    function selected_pay_head_type($id) 
+    {
+        foreach(pay_head_types() as $key=>$val){
+            if($key==$id){
+                return $val;
+            }
+        }
+        return '';
     }
 }
 
@@ -1396,6 +1415,15 @@ if (! function_exists('nv_number_to_text')) {
 
         $digit = new NumberFormatter("en", NumberFormatter::SPELLOUT);
         return prefix_taka().".  ".ucfirst($digit->format($amount ?? 0))." Only."; 
+        
+    }
+}
+if (! function_exists('only_number_to_text')) {
+    function  only_number_to_text($amount)
+    {
+
+        $digit = new NumberFormatter("en", NumberFormatter::SPELLOUT);
+        return ucfirst($digit->format($amount ?? 0))." Only."; 
         
     }
 }

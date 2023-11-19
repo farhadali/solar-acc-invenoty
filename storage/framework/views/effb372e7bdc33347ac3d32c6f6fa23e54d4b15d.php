@@ -60,6 +60,9 @@ $__user= Auth::user();
                     
               </div>
   <?php
+ 
+  $default_image = $settings->logo;
+                         
     $_show_barcode = $form_settings->_show_barcode ?? 0;
     $_show_short_note = $form_settings->_show_short_note ?? 0;
     $_show_cost_rate =  $form_settings->_show_cost_rate ?? 0;
@@ -196,7 +199,7 @@ $__user= Auth::user();
                         <div class="col-md-12 mt-2">
                           <div class="card ">
 
-                            <div class="row route_info_box" >
+                            <div class=" route_info_box" >
                               <table class="table" >
                                 <thead>
                                   <tr>
@@ -353,12 +356,14 @@ $__user= Auth::user();
                               <label class="mr-2" for="boat_file"><?php echo e(__('label.boat_file')); ?>:</label>
                               <input type="file" name="boat_file" class="form-control" placeholder="<?php echo e(__('label.boat_file')); ?>">
                             </div>
+                            <img id="output_1" class="myImage banner_image_create" src="<?php echo e(asset($default_image)); ?>"  title="attachment" data-toggle="modal" data-target="#imageModal" style="max-height:50px;max-width: 150px; " >
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-2  <?php if($_show_vn==0): ?> display_none <?php endif; ?>">
                             <div class="form-group">
                               <label class="mr-2" for="servey_file"><?php echo e(__('label.servey_file')); ?>:</label>
                               <input type="file" name="servey_file" class="form-control" placeholder="<?php echo e(__('label.servey_file')); ?>">
                             </div>
+                            <img id="output_2" class="myImage banner_image_create" src="<?php echo e(asset($default_image )); ?>"  title="attachment" data-toggle="modal" data-target="#imageModal" style="max-height:50px;max-width: 150px; " >
                         </div>
                     </div>
                   </div>
@@ -512,10 +517,10 @@ $__user= Auth::user();
                           </div>
                         </div>
                       <?php if($__user->_ac_type==1): ?>
-                      <?php echo $__env->make('backend.purchase.create_ac_cb', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                      <?php echo $__env->make('backend.import-material-receive.create_ac_cb', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                          
                       <?php else: ?>
-                       <?php echo $__env->make('backend.purchase.create_ac_detail', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                       <?php echo $__env->make('backend.import-material-receive.create_ac_detail', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                       <?php endif; ?>
                        
                           

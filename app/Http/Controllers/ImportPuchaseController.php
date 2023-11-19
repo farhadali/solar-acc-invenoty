@@ -265,8 +265,8 @@ class ImportPuchaseController extends Controller
     //###########################
     // Purchase Master information Save Start
     //###########################
-       // DB::beginTransaction();
-       //  try {
+       DB::beginTransaction();
+        try {
          $organization_id = $request->organization_id ?? 1;
          $_p_balance = _l_balance_update($request->_main_ledger_id);
          $__sub_total = (float) $request->_sub_total;
@@ -608,12 +608,12 @@ class ImportPuchaseController extends Controller
              }
              //End Sms Send to customer and Supplier
 
-           // DB::commit();
+            DB::commit();
             return redirect()->back()->with('success','Information save successfully')->with('_master_id',$purchase_id)->with('_print_value',$_print_value);
-       // } catch (\Exception $e) {
-       //     DB::rollback();
-       //     return redirect()->back()->with('danger','There is Something Wrong !');
-       //  }
+       } catch (\Exception $e) {
+           DB::rollback();
+           return redirect()->back()->with('danger','There is Something Wrong !');
+        }
 
        
     }
@@ -996,63 +996,6 @@ if($_unique_barcode ==1){
 }
                
 
-                 
-
-                
-/*
-    Barcode insert into database section
-*/
-
-
-                $ItemInventory = ItemInventory::where('_transection',"Purchase")
-                                    ->where('_transection_ref',$purchase_id)
-                                    ->where('_transection_detail_ref_id',$_purchase_detail_id)
-                                    ->first();
-                if(empty($ItemInventory)){
-                    $ItemInventory = new ItemInventory();
-                    $ItemInventory->_created_by = $users->id."-".$users->name;
-                }    
-
-
-                
-                $ItemInventory->_item_id =  $_item_ids[$i];
-                $ItemInventory->_item_name =  $item_info->_item ?? '';
-                $ItemInventory->_unit_id =  $item_info->_unit_id ?? '';
-                $ItemInventory->_category_id = _item_category($_item_ids[$i]);
-                $ItemInventory->_date = change_date_format($request->_date);
-                $ItemInventory->_time = date('H:i:s');
-                $ItemInventory->_transection = "Purchase";
-                $ItemInventory->_transection_ref = $purchase_id;
-                $ItemInventory->_transection_detail_ref_id = $_purchase_detail_id;
-
-                $ItemInventory->_qty = ($_qtys[$i] * $conversion_qtys[$i] ?? 1);
-                $ItemInventory->_rate = ($_sales_rates[$i] / $conversion_qtys[$i] ?? 1);
-                $ItemInventory->_cost_rate = ($_rates[$i] / $conversion_qtys[$i] ?? 1);
-                  //Unit Conversion section
-                $ItemInventory->_transection_unit = $_transection_units[$i] ?? 1;
-                $ItemInventory->_unit_conversion = $conversion_qtys[$i] ?? 1;
-                $ItemInventory->_base_unit = $_base_unit_ids[$i] ?? 1;
-                $ItemInventory->_unit_id = $item_info->_unit_id ?? 1;
-
-                
-                $ItemInventory->_cost_value = ($_qtys[$i]*$_rates[$i]);
-                $ItemInventory->_value = $_values[$i] ?? 0;
-                $ItemInventory->_branch_id = $_main_branch_id_detail[$i] ?? 1;
-                $ItemInventory->_store_id = $_store_ids[$i] ?? 1;
-                $ItemInventory->_cost_center_id = $_main_cost_center[$i] ?? 1;
-                $ItemInventory->_store_salves_id = $_store_salves_ids[$i] ?? '';
-                $ItemInventory->_status = 1;
-                $ItemInventory->_updated_by = $users->id."-".$users->name;
-                $ItemInventory->save(); 
-
-                // $last_price_rate = ($_rates[$i]/$conversion_qtys[$i]);
-                // _inventory_last_price($_item_ids[$i],$last_price_rate,$_sales_rates[$i]);
-
-                $last_price_rate = ($_rates[$i]/$conversion_qtys[$i]);
-                $last__sales_rates = ($_sales_rates[$i]/$conversion_qtys[$i]);
-                _inventory_last_price($_item_ids[$i],$last_price_rate,$last__sales_rates);
-                
-                inventory_stock_update($_item_ids[$i]);
             }
         }
 

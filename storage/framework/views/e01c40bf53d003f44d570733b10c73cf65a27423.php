@@ -27,7 +27,7 @@
                <form  action="<?php echo e(url('ledger-summary-report')); ?>" method="POST">
                 <?php echo csrf_field(); ?>
                     <div class="row">
-                    
+                    <?php echo $__env->make('basic.org_report', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
                       <div class="col-md-6">
                         <label>Branch:</label>

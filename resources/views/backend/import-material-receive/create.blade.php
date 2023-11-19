@@ -199,7 +199,7 @@ $__user= Auth::user();
                         <div class="col-md-12 mt-2">
                           <div class="card ">
 
-                            <div class="row route_info_box" >
+                            <div class=" route_info_box" >
                               <table class="table" >
                                 <thead>
                                   <tr>
@@ -517,10 +517,10 @@ $__user= Auth::user();
                           </div>
                         </div>
                       @if($__user->_ac_type==1)
-                      @include('backend.purchase.create_ac_cb')
+                      @include('backend.import-material-receive.create_ac_cb')
                          
                       @else
-                       @include('backend.purchase.create_ac_detail')
+                       @include('backend.import-material-receive.create_ac_detail')
                       @endif
                        
                           

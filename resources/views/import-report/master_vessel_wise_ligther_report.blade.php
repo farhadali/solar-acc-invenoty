@@ -54,7 +54,7 @@
 
           <div class="row">
             <div class="_report_button_header" style="width:100%;">
-                <a class="nav-link"  href="{{url('import-report-dashboard')}}" role="button">
+                <a class="nav-link"  href="{{url('report-panel')}}" role="button">
                       <i class="fa fa-arrow-left"></i>
                     </a>
              <a style="cursor: pointer;" class="nav-link"  title="Print" onclick="javascript:printDiv('printablediv')"><i class="fas fa-print"></i></a>

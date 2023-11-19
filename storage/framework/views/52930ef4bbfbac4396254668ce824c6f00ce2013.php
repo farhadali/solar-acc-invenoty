@@ -141,64 +141,96 @@
                     <td class="text-left">
                     <?php if($detail->_table_name=="voucher_masters"): ?>
                  <a style="text-decoration: none;" target="__blank" href="<?php echo e(route('voucher.show',$detail->_id)); ?>">
-                <?php echo e(voucher_prefix()); ?><?php echo $detail->_id ?? ''; ?></a>
+                   <?php echo _id_to_order_number($detail->_id,$detail->_table_name); ?>
+
+                </a>
                     <?php endif; ?>
                     <?php if($detail->_table_name=="purchases"): ?>
                  <a style="text-decoration: none;" target="__blank" href="<?php echo e(url('purchase/print',$detail->_id)); ?>">
-                  <?php echo e(_purchase_pfix()); ?><?php echo $detail->_id ?? ''; ?></a>
+                    <?php echo _id_to_order_number($detail->_id,$detail->_table_name); ?>
+
+                  </a>
                     <?php endif; ?>
                     <?php if($detail->_table_name=="purchase_accounts"): ?>
                  <a style="text-decoration: none;" target="__blank" href="<?php echo e(url('purchase/print',$detail->_id)); ?>">
-                  <?php echo e(_purchase_pfix()); ?><?php echo $detail->_id ?? ''; ?></a>
+                    <?php echo _id_to_order_number($detail->_id,'purchases'); ?>
+
+                </a>
                     <?php endif; ?>
                     <?php if($detail->_table_name=="purchases_return"): ?>
                  <a style="text-decoration: none;" target="__blank" href="<?php echo e(url('purchase-return/print',$detail->_id)); ?>">
-                  <?php echo e(_purchase_return_pfix()); ?> <?php echo $detail->_id ?? ''; ?></a>
+                    <?php echo _id_to_order_number($detail->_id,$detail->_table_name); ?>
+
+                </a>
                     <?php endif; ?>
                     <?php if($detail->_table_name=="purchase_return_accounts"): ?>
                  <a style="text-decoration: none;" target="__blank" href="<?php echo e(url('purchase-return/print',$detail->_id)); ?>">
-                  <?php echo e(_purchase_return_pfix()); ?><?php echo $detail->_id ?? ''; ?></a>
+                    <?php echo _id_to_order_number($detail->_id,'purchases_return'); ?>
+
+                </a>
                     <?php endif; ?>
                     <?php if($detail->_table_name=="sales"): ?>
                  <a style="text-decoration: none;" target="__blank" href="<?php echo e(url('sales/print',$detail->_id)); ?>">
-                  <?php echo e(_sales_pfix()); ?> <?php echo $detail->_id ?? ''; ?></a>
+                   <?php echo _id_to_order_number($detail->_id,'sales'); ?>
+
+                </a>
                     <?php endif; ?>
                     <?php if($detail->_table_name=="sales_accounts"): ?>
                  <a style="text-decoration: none;" target="__blank" href="<?php echo e(url('sales/print',$detail->_id)); ?>">
-                  <?php echo e(_sales_pfix()); ?><?php echo $detail->_id ?? ''; ?></a>
+                  
+                   <?php echo _id_to_order_number($detail->_id,'sales'); ?>
+
+                </a>
                     <?php endif; ?>
                     <?php if($detail->_table_name=="warranty_masters"): ?>
                  <a style="text-decoration: none;" target="__blank" href="<?php echo e(url('warranty-manage/print',$detail->_id)); ?>">
-                  <?php echo e(warranty_prefix()); ?> <?php echo $detail->_id ?? ''; ?></a> <br>
+                  <?php echo _id_to_order_number($detail->_id,'warranty_masters'); ?>
+
+                </a> <br>
                     <?php endif; ?>
 
                     <?php if($detail->_table_name=="warranty_accounts"): ?>
                  <a style="text-decoration: none;" target="__blank" href="<?php echo e(url('warranty-manage/print',$detail->_id)); ?>">
-                   <?php echo e(warranty_prefix()); ?> <?php echo $detail->_id ?? ''; ?></a>
+                   <?php echo _id_to_order_number($detail->_id,'warranty_masters'); ?>
+
+                 </a>
                     <?php endif; ?>
                     <?php if($detail->_table_name=="resturant_sales"): ?>
                  <a style="text-decoration: none;" target="__blank" href="<?php echo e(url('restaurant-sales/print',$detail->_id)); ?>">
-                  <?php echo e(resturant_prefix()); ?><?php echo $detail->_id ?? ''; ?></a>
+                   <?php echo _id_to_order_number($detail->_id,'resturant_sales'); ?>
+
+                </a>
                     <?php endif; ?>
                     <?php if($detail->_table_name=="restaurant_sales_accounts"): ?>
                  <a style="text-decoration: none;" target="__blank" href="<?php echo e(url('restaurant-sales/print',$detail->_id)); ?>">
-                  <?php echo e(resturant_prefix()); ?><?php echo $detail->_id ?? ''; ?></a>
+                  
+                  <?php echo _id_to_order_number($detail->_id,'resturant_sales'); ?>
+
+                </a>
                     <?php endif; ?>
                     <?php if($detail->_table_name=="resturant_sales_accounts"): ?>
                  <a style="text-decoration: none;" target="__blank" href="<?php echo e(url('restaurant-sales/print',$detail->_id)); ?>">
-                 <?php echo e(resturant_prefix()); ?><?php echo $detail->_id ?? ''; ?></a>
+                  <?php echo _id_to_order_number($detail->_id,'resturant_sales'); ?>
+
+               </a>
                     <?php endif; ?>
                     <?php if($detail->_table_name=="sales_return"): ?>
                  <a style="text-decoration: none;" target="__blank" href="<?php echo e(url('sales-return/print',$detail->_id)); ?>">
-                  <?php echo e(_sales_return_pfix()); ?> <?php echo $detail->_id ?? ''; ?></a>
+                   <?php echo _id_to_order_number($detail->_id,'sales_return'); ?>
+
+                </a>
                     <?php endif; ?>
                     <?php if($detail->_table_name=="sales_return_accounts"): ?>
                  <a style="text-decoration: none;" target="__blank" href="<?php echo e(url('sales-return/print',$detail->_id)); ?>">
-                  <?php echo e(_sales_return_pfix()); ?><?php echo $detail->_id ?? ''; ?></a>
+                  <?php echo _id_to_order_number($detail->_id,'sales_return'); ?>
+
+                </a>
                     <?php endif; ?>
                     <?php if($detail->_table_name=="damage"): ?>
                  <a style="text-decoration: none;" target="__blank" href="<?php echo e(url('damage/print',$detail->_id)); ?>">
-                  <?php echo e(_damage_pfix()); ?> <?php echo $detail->_id ?? ''; ?></a>
+                  <?php echo _id_to_order_number($detail->_id,'damage_adjustments'); ?>
+
+                </a>
                     <?php endif; ?>
 
                 <?php if($detail->_table_name=="transfer"): ?>

@@ -89,10 +89,7 @@
                                             <th class="text-right <?php if($form_settings->_show_vat==0): ?> display_none <?php endif; ?>"  >VAT%</th>
                                             <th class="text-right <?php if($form_settings->_show_vat==0): ?> display_none <?php endif; ?>"  >VAT Amount</th>
                                             <th class="text-right "  >Value</th>
-                                            <th class="text-middle   <?php if(sizeof($permited_branch) ==1): ?> display_none <?php endif; ?> "  >Branch</th>
-                                             <th class="text-middle   <?php if(sizeof($permited_costcenters) ==1): ?> display_none <?php endif; ?> "  >Cost Center</th>
-                                             <th class="text-middle  <?php if(sizeof($store_houses) ==1): ?> display_none <?php endif; ?>"  >Store</th>
-                                             <th class="text-middle <?php if($form_settings->_show_self==0): ?> display_none <?php endif; ?>"  >Shelf</th>
+                                            
                                             
                                            
                                           </thead>
@@ -129,10 +126,7 @@
                                             <td class="text-right   <?php if($form_settings->_show_vat==0): ?> display_none <?php endif; ?>" ><?php echo _report_amount($_item->_vat_amount ?? 0); ?></td>
                                             
                                             <td class="text-right  " ><?php echo _report_amount($_item->_value ?? 0); ?></td>
-                                            <td class=" <?php if(sizeof($permited_branch) == 1): ?>  display_none <?php endif; ?>" ><?php echo $_item->_detail_branch->_name ?? ''; ?></td>
-                                             <td class="<?php if(sizeof($permited_costcenters) == 1): ?>  display_none <?php endif; ?>" ><?php echo $_item->_detail_cost_center->_name ?? ''; ?></td>
-                                             <td class=" <?php if(sizeof($store_houses) == 1): ?>  display_none <?php endif; ?>" ><?php echo $_item->_store->_name ?? ''; ?></td>
-                                             <td class="<?php if($form_settings->_show_self==0): ?> display_none <?php endif; ?>" ><?php echo $_item->_store_salves_id ?? ''; ?></td>
+                                            
                                             
                                            
                                           </thead>
@@ -170,10 +164,7 @@
                                               <td class=" text-right">
                                                <b> <?php echo e(_report_amount($_value_total ?? 0)); ?></b>
                                               </td>
-                                               <td class=" <?php if(sizeof($permited_branch) == 1): ?> display_none <?php endif; ?>"></td>
-                                               <td class=" <?php if(sizeof($permited_costcenters) == 1): ?> display_none <?php endif; ?>"></td>
-                                               <td class=" <?php if(sizeof($store_houses) == 1): ?> display_none <?php endif; ?>"></td>
-                                              <td class="<?php if($form_settings->_show_self==0): ?> display_none <?php endif; ?> "></td>
+                                               
                                              
                                             </tr>
                                 </tfoot>

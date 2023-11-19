@@ -26,14 +26,8 @@
                 
                       <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
-                                <label><?php echo e(__('label._ledger')); ?>:</label>
-                                <select class="form-control select2" name="_ledger" required>
-                                  <option value="">Select Ledger</option>
-                                  <?php $__empty_1 = true; $__currentLoopData = $_all_ledgers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                                  <option value="<?php echo e($val->id); ?>"><?php echo $val->_name ?? ''; ?></option>
-                                  <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-                                  <?php endif; ?>
-                                </select>
+                                <label><?php echo e(__('label._payhead')); ?>:</label>
+                                <input type="text" name="_ledger" class="form-control" value="<?php echo e(old('_ledger')); ?>">
                             </div>
                         </div>
                       <div class="col-xs-12 col-sm-12 col-md-12">
@@ -41,8 +35,8 @@
                                 <label><?php echo e(__('label._type')); ?>:</label>
                                 <select class="form-control " name="_type" required>
                                   <option value="">Select type</option>
-                                  <?php $__empty_1 = true; $__currentLoopData = pay_head_types(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                                  <option value="<?php echo e($val); ?>"><?php echo $val ?? ''; ?></option>
+                                  <?php $__empty_1 = true; $__currentLoopData = $payhead_typs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=> $val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                                  <option value="<?php echo e($val->id); ?>"><?php echo $val->_name ?? ''; ?></option>
                                   <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                                   <?php endif; ?>
                                 </select>

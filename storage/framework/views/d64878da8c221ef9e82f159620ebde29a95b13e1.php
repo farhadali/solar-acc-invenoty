@@ -94,7 +94,7 @@ $currentURL = URL::full();
   <?php echo $__env->make('backend.layouts.main_sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper" style="padding-top: 60px;">
+  <div class="content-wrapper" style="">
     
 
     <!-- Main content -->
@@ -270,7 +270,7 @@ $(document).ready(function(){
     }
   };
 
-$("form  .card-header").css({"background-color": "#fff"});
+$("form  .card-header").css({"background-color": "#f5f5f5"});
 //$("form  .card-body").css({"margin-left":"-10px","margin-right":"-10px"});
 
 $(document).on('keyup','#opening_dr_amount',function(){

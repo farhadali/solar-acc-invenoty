@@ -987,6 +987,7 @@ $ProductPriceList->_barcode = $_new_last_barcode_string;
                 $ItemInventory->_date = change_date_format($request->_date);
                 $ItemInventory->_time = date('H:i:s');
                 $ItemInventory->_transection = "Damage";
+                $ItemInventory->_ledger_id = $request->_main_ledger_id ?? 0;
                 $ItemInventory->_transection_ref = $_master_id;
                 $ItemInventory->_transection_detail_ref_id = $_sales_details_id;
 

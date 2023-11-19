@@ -51,7 +51,7 @@
                                       </div>
                                   </div>
                       </div>
-
+<?php echo $__env->make('basic.org_report', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                       <div class="col-md-6">
                         <label>Branch:</label>
                         <select id="_branch_id" class="form-control _branch_id multiple_select" name="_branch_id[]" multiple size='2' >

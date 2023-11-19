@@ -83,7 +83,7 @@ $__user= Auth::user();
                         <tr>
                          <th class=""><b>##</b></th>
                          <th class=""><b>{{__('label.id')}}</b></th>
-                         <th class=""><b>{{__('label._ledger')}}</b></th>
+                         <th class=""><b>{{__('label._payhead')}}</b></th>
                          <th class=""><b>{{__('label._type')}}</b></th>
                          <th class=""><b>{{__('label._status')}}</b></th>
                          <th class=""><b>{{__('label.user')}}</b></th>
@@ -114,8 +114,8 @@ $__user= Auth::user();
                                
                             </td>
                             <td>{{ $data->id }}</td>
-                            <td>{{ $data->_ledger_info->_name ?? '' }}</td>
-                            <td>{{ $data->_type ?? '' }}</td>
+                            <td>{{ $data->_ledger ?? '' }}</td>
+                            <td>{{ $data->_payhead_type->_name ?? '' }}</td>
                            <td>{{ selected_status($data->_status) }}</td>
                             <td>{{ $data->_entry_by->name ?? '' }}</td>
                             

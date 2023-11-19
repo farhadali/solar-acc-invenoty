@@ -1165,11 +1165,11 @@ SELECT s1.id as _p_p_l_id,s1._item_id,s1._qty
        $text_val = trim($request->_text_val);
         if($text_val =='%'){ $text_val=''; }
         
-        $datas = DB::select(" SELECT s._name as _store_name, p.id, p._item as _name, p._item_id, p._unit_id, p._barcode,p._warranty, p._manufacture_date,p._unique_barcode, p._expire_date, p._qty, p._sales_rate, p._pur_rate, p._sales_discount, p._sales_vat, p._purchase_detail_id, p._master_id, p._branch_id, p._cost_center_id, p._store_id, p._store_salves_id,un._name as _unit_name
+        $datas = DB::select(" SELECT p._order_number, s._name as _store_name, p.id, p._item as _name, p._item_id, p._unit_id, p._barcode,p._warranty, p._manufacture_date,p._unique_barcode, p._expire_date, p._qty, p._sales_rate, p._pur_rate, p._sales_discount, p._sales_vat, p._purchase_detail_id, p._master_id, p._branch_id, p._cost_center_id, p._store_id, p._store_salves_id,un._name as _unit_name
          FROM  product_price_lists as p
          INNER JOIN units as un ON un.id=p._unit_id
          LEFT JOIN store_houses as s ON s.id=p._store_id
-           WHERE  p._status = 1 and  (p._barcode like '%$text_val%' OR p._item like '%$text_val%'  ) and p._branch_id in ($users->branch_ids) AND p._cost_center_id in ($users->cost_center_ids) AND p._store_id in ($users->store_ids) AND p._unique_barcode !=1 AND  p._qty > 0 order by $asc_cloumn $_asc_desc LIMIT $limit ");
+           WHERE  p._status = 1 and  (p._barcode like '%$text_val%' OR p._item like '%$text_val%' OR p._order_number like '%$text_val%'  ) and p._branch_id in ($users->branch_ids) AND p._cost_center_id in ($users->cost_center_ids) AND p._store_id in ($users->store_ids) AND p._unique_barcode !=1 AND  p._qty > 0 order by $asc_cloumn $_asc_desc LIMIT $limit ");
         $datas["data"]=$datas;
         return json_encode( $datas);
     }
@@ -1909,7 +1909,7 @@ public function Print($id){
         $permited_branch = permited_branch(explode(',',$users->branch_ids));
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
        
-        $data =  Sales::with(['_master_branch','_master_details','s_account','_ledger','_terms_con'])->find($id);
+        $data =  Sales::with(['_master_branch','_master_details','s_account','_ledger','_terms_con','_organization'])->find($id);
         $form_settings = SalesFormSetting::first();
            $permited_branch = permited_branch(explode(',',$users->branch_ids));
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
@@ -1987,7 +1987,7 @@ $store_houses = permited_stores(explode(',',$users->store_ids));
 
 
 
-
+Sales::where('id',$id)->update(['_print_counter'=>($data->_print_counter+1)]);
 
 
 
@@ -2002,7 +2002,8 @@ $store_houses = permited_stores(explode(',',$users->store_ids));
          }elseif($form_settings->_invoice_template==6){
             return view('backend.sales.print_4',compact('page_name','permited_branch','permited_costcenters','data','form_settings','permited_branch','permited_costcenters','store_houses','history_sales_invoices','_master_detail_reassign'));
          }elseif($form_settings->_invoice_template==5){
-            return view('backend.sales.pos_template2',compact('page_name','permited_branch','permited_costcenters','data','form_settings','permited_branch','permited_costcenters','store_houses','history_sales_invoices','_master_detail_reassign'));
+           // return $data;
+            return view('backend.sales.pos_template',compact('page_name','permited_branch','permited_costcenters','data','form_settings','permited_branch','permited_costcenters','store_houses','history_sales_invoices','_master_detail_reassign'));
          }else{
             return view('backend.sales.print',compact('page_name','permited_branch','permited_costcenters','data','form_settings','permited_branch','permited_costcenters','store_houses','history_sales_invoices','_master_detail_reassign'));
          }
@@ -2112,13 +2113,15 @@ $store_houses = permited_stores(explode(',',$users->store_ids));
         $permited_branch = permited_branch(explode(',',$users->branch_ids));
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
        
-         $data =  Sales::with(['_master_branch','_master_details','s_account','_ledger'])->find($id);
+         $data =  Sales::with(['_organization','_master_branch','_master_details','s_account','_ledger'])->find($id);
         $form_settings = SalesFormSetting::first();
            $permited_branch = permited_branch(explode(',',$users->branch_ids));
         $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
+
+        Sales::where('id',$id)->update(['_challan_counter'=>($data->_challan_counter+1)]);
         
         $store_houses = permited_stores(explode(',',$users->store_ids));
-            return view('backend.sales.challan',compact('page_name','permited_branch','permited_costcenters','data','form_settings','permited_branch','permited_costcenters','store_houses'));
+            return view('backend.sales.challan2',compact('page_name','permited_branch','permited_costcenters','data','form_settings','permited_branch','permited_costcenters','store_houses'));
         
        
     }

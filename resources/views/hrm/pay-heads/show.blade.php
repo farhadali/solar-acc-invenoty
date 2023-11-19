@@ -38,7 +38,7 @@
       </tr>
       <tr>
         <td>{{__('label._ledger')}}:</td>
-        <td>{{ $data->_ledger_info->_name ?? ''  }}</td>
+        <td>{{ $data->_ledger ?? ''  }}</td>
       </tr>
       <tr>
         <td>{{__('label._status')}}:</td>

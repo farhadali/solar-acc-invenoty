@@ -5,6 +5,24 @@
 @php
 $__user= Auth::user();
 @endphp
+<div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-12" style="display: flex;">
+            <a class="m-0 _page_name" href="{{ route('import-material-receive.index') }}">{!! $page_name ?? '' !!} </a>
+            <ol class="breadcrumb float-sm-right ml-2">
+               @can('import-material-receive-create')
+              <li class="breadcrumb-item active">
+                  <a title="Add New" class="btn btn-info btn-sm" href="{{ route('import-material-receive.create') }}"> Add New </a>
+               </li>
+              @endcan
+            </ol>
+          </div>
+          
+         
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
 
     @include('backend.message.message')
     <div class="content">
@@ -14,7 +32,7 @@ $__user= Auth::user();
             <div class="card">
               <div class="card-header border-0 mt-1">
                 <div class="row">
-                   @php
+                    @php
 
                      $currentURL = URL::full();
                      $current = URL::current();
@@ -28,10 +46,10 @@ $__user= Auth::user();
     
 
                    @endphp
-                    <div class="col-md-6">
-                       @include('backend.import-material-receive.search')
+                    <div class="col-md-4">
+                      @include('backend.import-material-receive.search')
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-8">
                       <div class="d-flex flex-row justify-content-end">
                          @can('import-material-receive-print')
                         <li class="nav-item dropdown remove_from_header">
@@ -54,27 +72,14 @@ $__user= Auth::user();
                               
                                     
                             </li>
-                            @endcan   
-                            <div class="form-group ml-2">
-                                {!! $datas->render() !!}
-                            </div>  
-                            <div class="form-group ml-2">
-                              <form action="" method="GET">
-                                  @csrf
-                                <select name="limit" class="form-control" onchange="this.form.submit()">
-                                        @forelse(filter_page_numbers() as $row)
-                                         <option  @if($limit == $row) selected @endif  value="{{ $row }}">{{$row}}</option>
-                                        @empty
-                                        @endforelse
-                                </select>
-                              </form>
-                              </div>
-                             
-                         
+                            @endcan    
+                         {!! $datas->render() !!}
                           </div>
                     </div>
                   </div>
               </div>
+
+             
               <div class="card-body">
                 <div class="">
 

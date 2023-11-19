@@ -13,6 +13,7 @@ use App\Http\Controllers\HrmGradeController;
 use App\Http\Controllers\HrmEmpCategoryController;
 use App\Http\Controllers\HrmEmpLocationController;
 use App\Http\Controllers\HrmDesignationController;
+use App\Http\Controllers\HrmCurrentSalaryStruController;
 
 
 //##########################
@@ -27,7 +28,10 @@ Route::get('employee-search','App\Http\Controllers\HrmEmployeesController@employ
 Route::get('employee-dataupdate','App\Http\Controllers\HrmEmployeesController@employeeDataUpdate');
 Route::resource('hrm-designation',HrmDesignationController::class);
 
+Route::resource('initial-salary-structure',HrmCurrentSalaryStruController::class);
+
 Route::resource('weekworkday',HrmWeekworkdayController::class);
+
 Route::resource('holidays',HrmHolidaysController::class);
 Route::resource('leave-type',HrmLeavetypesController::class);
 Route::resource('pay-heads',HrmPayheadsController::class);

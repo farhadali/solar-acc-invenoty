@@ -64,14 +64,7 @@
 
      </div>
 
-     <div class="row invoice-info">
-      
-
-      
-
-      
-
-     </div>
+     
 
 
      <div class="row">

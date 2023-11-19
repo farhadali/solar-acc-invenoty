@@ -77,14 +77,14 @@ $__user= Auth::user();
                   </div>
               </div>
               <div class="card-body">
-                <div class="table-responsive">
+                <div class="">
                   
                   <table class="table table-bordered _list_table">
                      <thead>
                         <tr>
                          <th class=""><b>##</b></th>
                          <th class=""><b><?php echo e(__('label.id')); ?></b></th>
-                         <th class=""><b><?php echo e(__('label._ledger')); ?></b></th>
+                         <th class=""><b><?php echo e(__('label._payhead')); ?></b></th>
                          <th class=""><b><?php echo e(__('label._type')); ?></b></th>
                          <th class=""><b><?php echo e(__('label._status')); ?></b></th>
                          <th class=""><b><?php echo e(__('label.user')); ?></b></th>
@@ -117,8 +117,8 @@ $__user= Auth::user();
                                
                             </td>
                             <td><?php echo e($data->id); ?></td>
-                            <td><?php echo e($data->_ledger_info->_name ?? ''); ?></td>
-                            <td><?php echo e($data->_type ?? ''); ?></td>
+                            <td><?php echo e($data->_ledger ?? ''); ?></td>
+                            <td><?php echo e($data->_payhead_type->_name ?? ''); ?></td>
                            <td><?php echo e(selected_status($data->_status)); ?></td>
                             <td><?php echo e($data->_entry_by->name ?? ''); ?></td>
                             

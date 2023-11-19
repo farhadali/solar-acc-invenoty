@@ -1384,7 +1384,7 @@ public function receiptPaymentFilterReset(){
         $_organization_id_rows = implode(',', $_organization_ids);
         //AND t1.organization_id IN(".$_organization_id_rows.")
 
-
+//return $ledger_id_rows;
       
      if($ledger_id_rows){
      $string_query = "  

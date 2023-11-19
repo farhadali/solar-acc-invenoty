@@ -278,8 +278,8 @@ class ImportMRController extends Controller
      */
      public function store(Request $request)
     {
-        dump($request->all());
-        die();
+        // dump($request->all());
+        // die();
 
 
         
@@ -381,6 +381,11 @@ class ImportMRController extends Controller
         $purchase_id            = $Purchase->id;
 
 
+
+        $__table="purchases";
+        $_p_p_l_order_number = _purchase_pfix().make_order_number($__table,$organization_id,$_main_branch_id);
+
+
         //Vessel Information Save
         //VesselRoute
         //ImportReceiveVesselInfo
@@ -399,7 +404,7 @@ class ImportMRController extends Controller
             $ImportReceiveVesselInfo->servey_number = $request->servey_number ?? '';
             $ImportReceiveVesselInfo->boat_no = $request->boat_no ?? '';
             $ImportReceiveVesselInfo->_status            = 1;
-            if($request->has('boat_file')){
+            if($request->hasFile('boat_file')){ 
                 $image_name = date('mdYHis').$query->getClientOriginalName();
                $ext = strtolower($query->getClientOriginalExtension()); 
                $image_full_name = $image_name.'.'.$ext;
@@ -408,7 +413,7 @@ class ImportMRController extends Controller
                $success = $query->move($upload_path,$image_full_name);
                $ImportReceiveVesselInfo->boat_file = $boat_file;
             }
-            if($request->has('servey_file')){
+            if($request->hasFile('servey_file')){
                 $image_name = date('mdYHis').$query->getClientOriginalName();
                $ext = strtolower($query->getClientOriginalExtension()); 
                $image_full_name = $image_name.'.'.$ext;
@@ -537,6 +542,7 @@ class ImportMRController extends Controller
 
                 $item_info = Inventory::where('id',$_item_ids[$i])->first();
                 $ProductPriceList = new ProductPriceList();
+                $ProductPriceList->_order_number = $_p_p_l_order_number ?? '';
                 $ProductPriceList->_item_id = $_item_ids[$i];
                 $ProductPriceList->_item = $item_info->_item ?? '';
 
@@ -1000,8 +1006,8 @@ $store_houses = permited_stores(explode(',',$users->store_ids));
     //###########################
     // Purchase Master information Save Start
     //###########################
-      // DB::beginTransaction();
-      //   try {
+      DB::beginTransaction();
+        try {
 
     if($sales_number == 0 ){
     PurchaseDetail::where('_no', $purchase_id)
@@ -1125,11 +1131,11 @@ $store_houses = permited_stores(explode(',',$users->store_ids));
             $ImportReceiveVesselInfo->servey_number = $request->servey_number ?? '';
             $ImportReceiveVesselInfo->boat_no = $request->boat_no ?? '';
             $ImportReceiveVesselInfo->_status            = 1;
-            if($request->has('boat_file')){
+            if($request->hasFile('boat_file')){
                 $boat_file = boat_attachment($request->_image); 
                $ImportReceiveVesselInfo->boat_file = $boat_file;
             }
-            if($request->has('servey_file')){
+            if($request->hasFile('servey_file')){
                $servey_file = servey_attachment($request->servey_file); 
                $ImportReceiveVesselInfo->servey_file = $servey_file;
             }
@@ -1260,7 +1266,7 @@ if($sales_number == 0 ){
                     $ProductPriceList->_created_by = $users->id."-".$users->name;
                 }
                 
-               // $ProductPriceList->_barcode =$barcode_string ?? '';
+                $ProductPriceList->_order_number =$request->_order_number ?? '';
 
                 $general_settings =GeneralSettings::select('_pur_base_model_barcode')->first();
                 if($general_settings->_pur_base_model_barcode==1){
@@ -1370,6 +1376,7 @@ if($_unique_barcode ==1){
                 $ItemInventory->_date = change_date_format($request->_date);
                 $ItemInventory->_time = date('H:i:s');
                 $ItemInventory->_transection = "Purchase";
+                $ItemInventory->_ledger_id = $request->_main_ledger_id ?? 0;
                 $ItemInventory->_transection_ref = $purchase_id;
                 $ItemInventory->_transection_detail_ref_id = $_purchase_detail_id;
 
@@ -1604,7 +1611,7 @@ if($_unique_barcode ==1){
              }
              //End Sms Send to customer and Supplier
 
-              // DB::commit();
+         DB::commit();
         if(($request->_lock ?? 0) ==1){
                 return redirect('import-material-receive/print/'.$purchase_id)
                 ->with('success','Information save successfully');
@@ -1616,10 +1623,10 @@ if($_unique_barcode ==1){
           }
 
         
-       // } catch (\Exception $e) {
-       //     DB::rollback();
-       //     return redirect()->back()->with('danger','There is Something Wrong !');
-       //  }
+       } catch (\Exception $e) {
+           DB::rollback();
+           return redirect()->back()->with('danger','There is Something Wrong !');
+        }
 
        
     }

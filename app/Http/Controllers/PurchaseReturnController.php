@@ -365,6 +365,12 @@ class PurchaseReturnController extends Controller
         $PurchaseReturn->save();
         $purchase_id = $PurchaseReturn->id;
 
+        $__table="purchase_returns";
+        $_p_p_l_order_number = _purchase_return_pfix().make_order_number($__table,$organization_id,$_main_branch_id);
+
+        
+
+
         //###########################
         // Purchase Master information Save End
         //###########################
@@ -685,7 +691,7 @@ $_l_balance = _l_balance_update($request->_main_ledger_id);
 $_pfix = _purchase_return_pfix().$purchase_id;
             $_main_branch_id = $request->_branch_id;
             $__table="purchase_returns";
-            $_pfix = make_order_number($__table,$organization_id,$_main_branch_id);
+            $_pfix = _purchase_return_pfix().make_order_number($__table,$organization_id,$_main_branch_id);
 
              \DB::table('purchase_returns')
              ->where('id',$purchase_id)

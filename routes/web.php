@@ -54,6 +54,7 @@ use App\Http\Controllers\WItemReceiveFromSupplierController;
 
 use App\Http\Controllers\VesselInfoController;
 use App\Http\Controllers\MotherVesselController;
+use App\Http\Controllers\ItemTypeController;
 
 
 
@@ -92,6 +93,9 @@ Route::get('/', 'App\Http\Controllers\FrontendController@index');
 Route::get('/lc-master', function(){
    return view('procurment.lc-management.create');
 });
+Route::get('/lc-entry', function(){
+   return view('procurment.lc-management.LCEntry');
+});
 
 
 Auth::routes();
@@ -118,6 +122,7 @@ Route::get('import-purchase-money-receipt/{id}', 'App\Http\Controllers\ImportPuc
 
 
 Route::resource('material-issue',MaterialIssueController::class);
+Route::resource('item-type',ItemTypeController::class);
 
 Route::post('material-issue-setting', 'App\Http\Controllers\MaterialIssueController@Settings');
 Route::get('material-issue-setting-modal', 'App\Http\Controllers\MaterialIssueController@formSettingAjax');

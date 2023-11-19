@@ -226,55 +226,38 @@
                                   <?php endif; ?>
                             <tr>
                               <td colspan="3" class="text-right " style="border: 1px solid silver;"><b>Total</b></td>
-                              <td class="text-right " style="border: 1px solid silver;"> <b><?php echo e(_report_amount($_qty_total ?? 0)); ?></b> </td>
+                              <td class="text-right " style="border: 1px solid silver;text-align:right;"> <b><?php echo e(_report_amount($_qty_total ?? 0)); ?></b> </td>
                               <td style="border: 1px solid silver;"></td>
                               <td class="text-right " style="border: 1px solid silver;display: none;"> <b><?php echo e(_report_amount($_total_discount_amount ?? 0)); ?></b> </td>
-                              <td class="text-right display_none" style="border: 1px solid silver;display: none;"> <b><?php echo e(_report_amount($_vat_total ?? 0)); ?></b> </td>
-                              <td class=" text-right" style="border: 1px solid silver;"><b> <?php echo e(_report_amount($_value_total ?? 0)); ?></b>
+                              <td class="text-right display_none" style="border: 1px solid silver;display: none;text-align:right;"> <b><?php echo e(_report_amount($_vat_total ?? 0)); ?></b> </td>
+                              <td class=" text-right" style="border: 1px solid silver;text-align:right;"><b> <?php echo e(_report_amount($_value_total ?? 0)); ?></b>
                               </td>
                             </tr>
+
                             <tr>
-                              <td colspan="3" class="text-left " style="width: 50%;border:1px solid silver;">
-                              <table style="width: 100%;border-collapse: collapse;">
-                                <tr>
-                                  <td>
-
-                                    <?php echo e($settings->_sales_note ?? ''); ?>
-
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td><p class="lead"> In Words:  <?php echo e(nv_number_to_text($data->_total ?? 0)); ?> </p></td>
-                                </tr>
-                                <tr>
-                                  <td>
-                                    <?php echo $__env->make("backend.sales.invoice_history", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-                                  </td>
-                                </tr>
-                              </table>
-                              </td>
                               
-                              <td colspan="5" class=" text-right"  style="width: 50%;">
+                              
+                              <td colspan="8" class=" text-right"  style="width: 50%;">
                                   <table style="width: 100%;border-collapse: collapse;">
                                      <tr >
                                       <th style="border:1px solid silver;" class="text-right" ><b>Sub Total</b></th>
-                                      <th style="border:1px solid silver;" class="text-right"><?php echo _report_amount($data->_sub_total ?? 0); ?></th>
+                                      <th style="border:1px solid silver;text-align:right;" class="text-right"><?php echo _report_amount($data->_sub_total ?? 0); ?></th>
                                     </tr>
                                    
                                     <tr>
                                       <th style="border:1px solid silver;" class="text-right" ><b>Discount[-]</b></th>
-                                      <th style="border:1px solid silver;" class="text-right"><?php echo _report_amount($data->_total_discount ?? 0); ?></th>
+                                      <th style="border:1px solid silver;text-align:right;" class="text-right"><?php echo _report_amount($data->_total_discount ?? 0); ?></th>
                                     </tr>
                                    
                                     <?php if($form_settings->_show_vat==1): ?>
                                     <tr>
                                       <th style="border:1px solid silver;" class="text-right" ><b>VAT[+]</b></th>
-                                      <th style="border:1px solid silver;" class="text-right"><?php echo _report_amount($data->_total_vat ?? 0); ?></th>
+                                      <th style="border:1px solid silver;text-align:right;" class="text-right"><?php echo _report_amount($data->_total_vat ?? 0); ?></th>
                                     </tr>
                                     <?php endif; ?>
                                     <tr>
                                       <th style="border:1px solid silver;" class="text-right" ><b>Net Total</b></th>
-                                      <th style="border:1px solid silver;" class="text-right"><?php echo _report_amount($data->_total ?? 0); ?></th>
+                                      <th style="border:1px solid silver;text-align:right;" class="text-right"><?php echo _report_amount($data->_total ?? 0); ?></th>
                                     </tr>
                                     <?php
                                     $accounts = $data->s_account ?? [];
@@ -290,7 +273,7 @@
                                     <tr>
                                       <th style="border:1px solid silver;" class="text-right" ><b> <?php echo $ac_val->_ledger->_name ?? ''; ?>[+]
                                         </b></th>
-                                      <th style="border:1px solid silver;" class="text-right"><?php echo _report_amount( $ac_val->_cr_amount ?? 0 ); ?></th>
+                                      <th style="border:1px solid silver;text-align:right;" class="text-right"><?php echo _report_amount( $ac_val->_cr_amount ?? 0 ); ?></th>
                                     </tr>
                                     <?php endif; ?>
                                     <?php if($ac_val->_dr_amount > 0): ?>
@@ -300,7 +283,7 @@
                                     <tr>
                                       <th style="border:1px solid silver;" class="text-right" ><b> <?php echo $ac_val->_ledger->_name ?? ''; ?>[+]
                                         </b></th>
-                                      <th style="border:1px solid silver;" class="text-right"><?php echo _report_amount( $ac_val->_dr_amount ?? 0 ); ?></th>
+                                      <th style="border:1px solid silver;text-align:right;" class="text-right"><?php echo _report_amount( $ac_val->_dr_amount ?? 0 ); ?></th>
                                     </tr>
                                     <?php endif; ?>
 
@@ -308,22 +291,44 @@
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     <tr>
                                       <th style="border:1px solid silver;" class="text-right" ><b>Invoice Due </b></th>
-                                      <th style="border:1px solid silver;" class="text-right"><?php echo _report_amount( $_due_amount); ?></th>
+                                      <th style="border:1px solid silver;text-align:right;" class="text-right"><?php echo _report_amount( $_due_amount); ?></th>
                                     </tr>
 
                                     <?php endif; ?>
                                     <?php if($form_settings->_show_p_balance==1): ?>
                                     <tr>
                                       <th style="border:1px solid silver;" class="text-right" ><b>Previous Balance</b></th>
-                                      <th style="border:1px solid silver;" class="text-right"><?php echo _show_amount_dr_cr(_report_amount($data->_p_balance ?? 0)); ?></th>
+                                      <th style="border:1px solid silver;text-align:right;" class="text-right"><?php echo _show_amount_dr_cr(_report_amount($data->_p_balance ?? 0)); ?></th>
                                     </tr>
                                     <tr>
                                       <th style="border:1px solid silver;" class="text-right" ><b>Current Balance</b></th>
-                                      <th style="border:1px solid silver;" class="text-right"><?php echo _show_amount_dr_cr(_report_amount($data->_l_balance ?? 0)); ?></th>
+                                      <th style="border:1px solid silver;text-align:right;" ><?php echo _show_amount_dr_cr(_report_amount($data->_l_balance ?? 0)); ?></th>
                                     </tr>
                                     <?php endif; ?>
                                   </table>
 
+                              </td>
+                            </tr>
+                            <tr>
+                              <td colspan="8" class="text-left " style="width: 50%;border:1px solid silver;">
+                              <table style="width: 100%;border-collapse: collapse;">
+                                
+                                <tr>
+                                  <td><p class="lead"> In Words:  <?php echo e(nv_number_to_text($data->_total ?? 0)); ?> </p></td>
+                                </tr>
+                                <tr>
+                                  <td>
+
+                                    <?php echo e($settings->_sales_note ?? ''); ?>
+
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    <?php echo $__env->make("backend.sales.invoice_history", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                                  </td>
+                                </tr>
+                              </table>
                               </td>
                             </tr>
          <?php endif; ?>

@@ -2454,6 +2454,7 @@ if(_cash_customers.length > 0){
       $(document).find('._search_main_ledger_id').focus().addClass('required_border');
       return false;
     }else{
+      $('.submit-button').attr('disabled','true');
       $(document).find('.purchase_form').submit();
     }
   })

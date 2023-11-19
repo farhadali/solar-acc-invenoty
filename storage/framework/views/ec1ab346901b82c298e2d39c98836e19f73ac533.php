@@ -17,28 +17,37 @@
 		
             <table class="table" style="border-collapse: collapse;">
             	<tr>
-            		<td colspan="6" style="text-align: center;">
-            			  <?php echo e($settings->_top_title ?? ''); ?><br>
-                   <img src="<?php echo e(url('/')); ?>/<?php echo e($settings->logo); ?>" alt="<?php echo e($settings->name ?? ''); ?>" style="height: 60px;width: 60px"  ><br>
-            			<strong><?php echo e($settings->name ?? ''); ?></strong><br>
-		         <?php echo e($settings->_address ?? ''); ?><br>
-		        <?php echo e($settings->_phone ?? ''); ?><br>
-		        <?php echo e($settings->_email ?? ''); ?><br>
-            <?php
-        $bin = $settings->_bin ?? '';
-      ?>
-      <?php if($bin !=''): ?>
-      VAT REGISTRATION NO: <?php echo e($settings->_bin ?? ''); ?><br>
-      <?php endif; ?>
-		        <b>Invoice/Bill</b>
+            		<td colspan="2" style="text-align: left;">
+                   <img style="position: absolute;top: 5px;" src="<?php echo e(url('/')); ?>/<?php echo e($settings->logo); ?>" alt="<?php echo e($settings->name ?? ''); ?>"   ><br>
+            		
+		        
             		</td>
+                <td colspan="4">
+                    <strong><?php echo e($data->_organization->_name ?? ''); ?></strong><br>
+             <?php echo e($data->_organization->_address ?? ''); ?><br>
+             <?php echo e($data->_organization->_bin ?? ''); ?><br>
+         
+      Print Time: <?php echo e(date('d-m-Y h:i:sa ')); ?>
+
+                </td>
             	</tr>
+              <tr>
+                <td colspan="6" style="text-align:center;"><b>Bill / Invoice</b></td>
+              </tr>
                 <tr>
                
                 <td colspan="6" style="border: 1px dotted grey;">
                   <table style="text-align: left;">
-                    <tr> <td style="border:none;" > <?php echo e(invoice_barcode($data->_order_number ?? '')); ?></td></tr>
-                    <tr> <td style="border:none;" > Invoice No: <?php echo e($data->_order_number ?? ''); ?></td></tr>
+                    <tr> 
+                      <td style="border:none;" >
+
+                       <?php echo e(invoice_barcode($data->_order_number ?? '')); ?>
+
+                      
+                    </td> 
+                    </tr>
+                    <tr> 
+                      <td style="border:none;" > Invoice No: <?php echo e($data->_order_number ?? ''); ?></td></tr>
                   <tr> <td style="border:none;" > Date: <?php echo e(_view_date_formate($data->_date ?? '')); ?></td></tr>
                   </table>
                 </td>

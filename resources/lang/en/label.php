@@ -19,6 +19,12 @@ return [
 
 
 
+
+    'initial-salary-structure' => 'Initial Salary Structure',
+    '_payhead' => 'Payhead',
+    '_category_id' => 'Category',
+    '_detail' => 'Detail',
+    'item_type' => 'Item Type',
     'scott_name' => 'Scott Name',
     'scott_number' => 'Scott Number',
     'servey_name' => 'Survey. Name',

@@ -1622,7 +1622,7 @@ _purchase_total_calculation();
                             <tbody>`;
                         for (var i = 0; i < data.length; i++) {
                          search_html += `<tr class="search_row_item" >
-                                        <td>${data[i]._master_id}
+                                        <td>${data[i]?._order_number}
                                         <input type="hidden" name="_id_item" class="_id_item" value="${data[i]._item_id}">
                                         </td><td>${data[i]._name}
                       <input type="hidden" name="_p_item_row_id" class="_p_item_row_id" value="${data[i].id}">
@@ -1737,7 +1737,7 @@ var find_counter_id = $(this).parent().parent().parent().parent().parent().paren
 var _new_name_for_barcode = `${find_counter_id}__barcode__${row_id}`;
 $(this).parent().parent().parent().parent().parent().parent().find('.'+find_counter_id+"__barcode").attr('name',_new_name_for_barcode); 
   $(this).parent().parent().parent().parent().parent().parent().find('._item_id').val(_p_item_item_id);
-  var _id_name = `${_master_id} ,${_name}, ${_qty}`;
+  var _id_name = `${_name}, ${_qty}`;
   $(this).parent().parent().parent().parent().parent().parent().find('._search_item_id').val(_id_name);
   $(this).parent().parent().parent().parent().parent().parent().find('._p_p_l_id').val(row_id);
   $(this).parent().parent().parent().parent().parent().parent().find('._purchase_invoice_no').val(_master_id);
@@ -2329,6 +2329,7 @@ if(_cash_customers.length > 0){
       $(document).find('._search_main_ledger_id').focus().addClass('required_border');
       return false;
     }else{
+      $('.submit-button').attr('disabled','true');
       $(document).find('.purchase_form').submit();
     }
   })

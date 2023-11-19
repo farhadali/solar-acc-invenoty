@@ -180,30 +180,22 @@
       </div>
                   <form action="" method="GET">
                     <?php echo csrf_field(); ?>
-
-                        <div class="row">
-                          <div class="col-md-12 d-flex">
-                            <div class="form-group">
-                                <a class="m-0 _page_name" href="<?php echo e(route('import-material-receive.index')); ?>"><?php echo $page_name ?? ''; ?> </a>
-                              </div>
-                            <div class="form-group ml-2">
-                                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('import-material-receive-create')): ?>
-                             
-                                    <a title="Add New" class="btn btn-info btn-sm mr-1" href="<?php echo e(route('import-material-receive.create')); ?>"><i class="nav-icon fas fa-plus"></i> Create New </a>
-                                  <?php endif; ?>
-                              </div>
+                    <div class="d-flex">
+                                <select name="limit" class="form-control" onchange="this.form.submit()">
+                                        <?php $__empty_1 = true; $__currentLoopData = filter_page_numbers(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $row): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                                         <option  <?php if($limit == $row): ?> selected <?php endif; ?>  value="<?php echo e($row); ?>"><?php echo e($row); ?></option>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                                        <?php endif; ?>
+                                </select>
+                              
                             
                           
-                              <div class="form-group ml-2">
+                              <div class="form-group ml-2 d-flex">
                                     <button type="button" class="btn btn-sm btn-warning mr-3" data-toggle="modal" data-target="#modal-default" title="Advance Search"><i class="fa fa-search mr-2"></i> </button>
                                      <a href="<?php echo e(url('import-material-receive')); ?>" class="btn btn-sm btn-danger" title="Search Reset"><i class="fa fa-retweet mr-2"></i> </a>
                               </div>
 
-                              
+                         </div>     
 
-
-                          </div>
-                        </div><!-- end row -->
-                   
                   </form>
                 </div><?php /**PATH D:\xampp\htdocs\own\inv-acc-hrm\resources\views/backend/import-material-receive/search.blade.php ENDPATH**/ ?>

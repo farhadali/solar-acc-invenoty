@@ -180,30 +180,22 @@
       </div>
                   <form action="" method="GET">
                     @csrf
-
-                        <div class="row">
-                          <div class="col-md-12 d-flex">
-                            <div class="form-group">
-                                <a class="m-0 _page_name" href="{{ route('import-material-receive.index') }}">{!! $page_name ?? '' !!} </a>
-                              </div>
-                            <div class="form-group ml-2">
-                                @can('import-material-receive-create')
-                             
-                                    <a title="Add New" class="btn btn-info btn-sm mr-1" href="{{ route('import-material-receive.create') }}"><i class="nav-icon fas fa-plus"></i> Create New </a>
-                                  @endcan
-                              </div>
+                    <div class="d-flex">
+                                <select name="limit" class="form-control" onchange="this.form.submit()">
+                                        @forelse(filter_page_numbers() as $row)
+                                         <option  @if($limit == $row) selected @endif  value="{{ $row }}">{{$row}}</option>
+                                        @empty
+                                        @endforelse
+                                </select>
+                              
                             
                           
-                              <div class="form-group ml-2">
+                              <div class="form-group ml-2 d-flex">
                                     <button type="button" class="btn btn-sm btn-warning mr-3" data-toggle="modal" data-target="#modal-default" title="Advance Search"><i class="fa fa-search mr-2"></i> </button>
                                      <a href="{{url('import-material-receive')}}" class="btn btn-sm btn-danger" title="Search Reset"><i class="fa fa-retweet mr-2"></i> </a>
                               </div>
 
-                              
+                         </div>     
 
-
-                          </div>
-                        </div><!-- end row -->
-                   
                   </form>
                 </div>
