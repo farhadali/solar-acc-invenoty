@@ -25,50 +25,52 @@
 <div class="card ">
 <div class="card-body">
                  <?php echo $__env->make('backend.message.message', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-                <?php echo Form::open(array('route' => 'initial-salary-structure.store','method'=>'POST','enctype'=>'multipart/form-data')); ?>
+                <?php echo Form::model($data, ['method' => 'PATCH','route' => ['initial-salary-structure.update', $data->id]]); ?>
 
                 <div class="form-group row pt-2">
                             <label class="col-sm-2 col-form-label" ><?php echo e(__('EMP ID')); ?>:</label>
                              <div class="col-sm-6">
-                                <input type="hidden" name="_employee_id" class="_employee_id" value="">
-                                <input type="hidden" name="_employee_ledger_id" class="_employee_ledger_id" value="">
-                                <input type="text" name="_employee_id_text" class="form-control _employee_id_text" placeholder="<?php echo e(__('EMP ID')); ?>">
+                                <input type="hidden" name="_employee_id" class="_employee_id" value="<?php echo e($data->_employee_id); ?>">
+                                <input type="hidden" name="_employee_ledger_id" class="_employee_ledger_id" value="<?php echo e($data->_employee_ledger_id); ?>">
+                                <input type="text" name="_employee_id_text" class="form-control _employee_id_text" placeholder="<?php echo e(__('EMP ID')); ?>" value="<?php echo e($data->_employee->_code ?? ''); ?>">
                                <div class="search_box_employee"> </div>
                             </div>
                         </div>
                 <div class="form-group row pt-2">
                             <label class="col-sm-2 col-form-label" ><?php echo e(__('Employee Name')); ?>:</label>
                              <div class="col-sm-6">
-                                <input type="text" name="_employee_name_text" class="form-control _employee_name_text" placeholder="<?php echo e(__('Employee')); ?>">
+                                <input type="text" name="_employee_name_text" class="form-control _employee_name_text" placeholder="<?php echo e(__('Employee')); ?>" value="<?php echo e($data->_employee->_name ?? ''); ?>">
                                <div class="search_box_employee"> </div>
                             </div>
                         </div>
                 <div class="form-group row pt-2">
                     <label class="col-sm-2 col-form-label" ><?php echo e(__('Department')); ?>:</label>
                      <div class="col-sm-6">
-                        <input type="text" name="_department" class="form-control _department" placeholder="<?php echo e(__('Department')); ?>" readonly>
+                        <input type="text" name="_department" class="form-control _department" placeholder="<?php echo e(__('Department')); ?>" readonly value="<?php echo e($data->_employee->_emp_department->_name ?? ''); ?>">
                     </div>
                 </div>
                 <div class="form-group row pt-2">
                     <label class="col-sm-2 col-form-label" ><?php echo e(__('Designation')); ?>:</label>
                      <div class="col-sm-6">
-                        <input type="text" name="_emp_designation" class="form-control _emp_designation" placeholder="<?php echo e(__('Designation')); ?>" readonly>
+                        <input type="text" name="_emp_designation" class="form-control _emp_designation" placeholder="<?php echo e(__('Designation')); ?>" value="<?php echo e($data->_employee->_emp_designation->_name ?? ''); ?>" readonly>
                     </div>
                 </div>
                 <div class="form-group row pt-2">
                     <label class="col-sm-2 col-form-label" ><?php echo e(__('Grade')); ?>:</label>
                      <div class="col-sm-6">
-                        <input type="text" name="_emp_grade" class="form-control _emp_grade" placeholder="<?php echo e(__('Grade')); ?>" readonly>
+                        <input type="text" name="_emp_grade" class="form-control _emp_grade" placeholder="<?php echo e(__('Grade')); ?>"  value="<?php echo e($data->_employee->_emp_grade->_name ?? ''); ?>" readonly>
                     </div>
                 </div>
                 <div class="form-group row pt-2">
                     <label class="col-sm-2 col-form-label" ><?php echo e(__('Emp Category')); ?>:</label>
                      <div class="col-sm-6">
-                        <input type="text" name="_employee_cat" class="form-control _employee_cat" placeholder="<?php echo e(__('Emp Category')); ?>" readonly>
+                        <input type="text" name="_employee_cat" class="form-control _employee_cat" value="<?php echo e($data->_employee_cat->_emp_grade->_name ?? ''); ?>" placeholder="<?php echo e(__('Emp Category')); ?>" readonly>
                     </div>
                 </div>
 
-
+<?php
+    $previous_detail = $data->_details ?? [];
+?>
 
                 <div class="row">
                     <?php $__empty_1 = true; $__currentLoopData = $payheads; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $p_key=>$p_val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
@@ -84,7 +86,27 @@
                              <div class="col-sm-6">
                                 <input type="hidden" name="_payhead_id[]" class="_payhead_id" value="<?php echo e($l_val->id); ?>">
                                 <input type="hidden" name="_payhead_type_id[]" class="_payhead_type_id" value="<?php echo e($l_val->_type); ?>">
-                              <input type="number"  name="_amount[]" class="form-control payhead_amount <?php if($l_val->_payhead_type->cal_type==1): ?> _add_salary <?php endif; ?>  <?php if($l_val->_payhead_type->cal_type==2): ?> _deduction_salary <?php endif; ?>" value="0" placeholder="<?php echo e(__('label._amount')); ?>" >
+                               
+                              <input type="number"  name="_amount[]" class="form-control payhead_amount <?php if($l_val->_payhead_type->cal_type==1): ?> _add_salary <?php endif; ?>  <?php if($l_val->_payhead_type->cal_type==2): ?> _deduction_salary <?php endif; ?>"
+                               <?php $__empty_3 = true; $__currentLoopData = $previous_detail; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $p_val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_3 = false; ?>
+                                <?php if($p_val->_payhead_id==$l_val->id): ?>
+                                value="<?php echo e($p_val->_amount ?? 0); ?>"
+                               <?php endif; ?>
+                              <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_3): ?>
+                              <?php endif; ?>
+
+                                placeholder="<?php echo e(__('label._amount')); ?>" >
+                              <input type="hidden" name="_detail_row_id[]" class="_detail_row_id" 
+                              <?php $__empty_3 = true; $__currentLoopData = $previous_detail; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $p_val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_3 = false; ?>
+                                <?php if($p_val->_payhead_id==$l_val->id): ?>
+                              value="<?php echo e($p_val->id ?? 0); ?>"
+
+                               <?php endif; ?>
+                              <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_3): ?>
+                              <?php endif; ?>
+
+                               >
+                              
                             </div>
                         </div>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_2): ?>
@@ -100,19 +122,19 @@
               <div class="form-group row pt-2">
                         <label class="col-sm-2 col-form-label" >Total Earnings:</label>
                          <div class="col-sm-6">
-                            <input type="text" name="total_earnings" class="form-control total_earnings" value="0"  readonly>
+                            <input type="text" name="total_earnings" class="form-control total_earnings" value="<?php echo e($data->total_earnings ?? 0); ?>"  readonly>
                         </div>
                     </div>
                     <div class="form-group row pt-2">
                         <label class="col-sm-2 col-form-label" >Total Deduction:</label>
                          <div class="col-sm-6">
-                            <input type="text" name="total_deduction" class="form-control total_deduction" value="0"  readonly>
+                            <input type="text" name="total_deduction" class="form-control total_deduction" value="<?php echo e($data->total_deduction ?? 0); ?>"  readonly>
                         </div>
                     </div>
                     <div class="form-group row pt-2">
                         <label class="col-sm-2 col-form-label" >Net Total Salary:</label>
                          <div class="col-sm-6">
-                            <input type="text" name="net_total_earning" class="form-control net_total_earning" value="0"  readonly>
+                            <input type="text" name="net_total_earning" class="form-control net_total_earning" value="<?php echo e($data->net_total_earning ?? 0); ?>"  readonly>
                         </div>
                     </div>
 
@@ -227,4 +249,4 @@ $(document).find("._employee_cat").val(data?._employee_cat?._name);
 
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make('backend.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\xampp\htdocs\own\inv-acc-hrm\resources\views/hrm/initial-salary-structure/create.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('backend.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\xampp\htdocs\own\inv-acc-hrm\resources\views/hrm/initial-salary-structure/edit.blade.php ENDPATH**/ ?>

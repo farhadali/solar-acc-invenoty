@@ -12,7 +12,8 @@
     <ul class="navbar-nav ml-auto">
      
  <!-- Messages Dropdown Menu -->
-     <?php echo $__env->make('backend.layouts.hrm_module', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    
+      <?php echo $__env->make('backend.layouts.hrm_module', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
      <?php echo $__env->make('backend.layouts.account_module', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
      <?php echo $__env->make('backend.layouts.rlp_module', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
      

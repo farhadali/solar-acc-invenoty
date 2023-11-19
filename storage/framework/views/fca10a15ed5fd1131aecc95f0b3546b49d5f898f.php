@@ -1,0 +1,1 @@
+<?php /**PATH D:\xampp\htdocs\own\inv-acc-hrm\resources\views/hrm/initial-salary-structure/search.blade.php ENDPATH**/ ?>

@@ -2,7 +2,7 @@
     <!-- Brand Logo -->
     <a href="{{url('home')}}" class="brand-link">
       <img src="{{asset('/')}}{{$settings->logo ?? ''}}" alt="{{$settings->name ?? '' }}" class="brand-image  elevation-3" >
-      <span class="brand-text font-weight-light">{{$settings->title ?? '' }}</span>
+      <span class="brand-text font-weight-light"></span>
     </a>
 @php
    $current_url = Route::current()->getName();

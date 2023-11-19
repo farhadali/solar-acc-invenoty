@@ -1,5 +1,5 @@
  <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('hrm-module')): ?> 
-      <li class="nav-item dropdown remove_from_header display_none">
+      <li class="nav-item dropdown remove_from_header ">
         <a class="nav-link" data-toggle="dropdown" href="#">
            <?php echo e(__('label.hrm')); ?> <i class="right fas fa-angle-down"></i>
         </a>

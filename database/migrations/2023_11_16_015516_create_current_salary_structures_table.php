@@ -15,6 +15,7 @@ class CreateCurrentSalaryStructuresTable extends Migration
     {
         Schema::create('current_salary_structures', function (Blueprint $table) {
             $table->id();
+            $table->integer('_master_id');
             $table->integer('_employee_id');
             $table->integer('_employee_ledger_id')->nullable();
             $table->integer('_payhead_id');

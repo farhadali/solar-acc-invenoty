@@ -6,13 +6,13 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-12" style="display: flex;">
-            <a class="m-0 _page_name" href="{{ route('item-information.index') }}">{!! $page_name ?? '' !!} </a>
+            <a class="m-0 _page_name" href="{{ route('initial-salary-structure.index') }}">{!! $page_name ?? '' !!} </a>
             <ol class="breadcrumb float-sm-right ml-2">
-               @can('item-information-create')
+               @can('initial-salary-structure-create')
                 <a 
                class="btn btn-sm btn-info active " 
                
-               href="{{ route('item-information.create') }}">
+               href="{{ route('initial-salary-structure.create') }}">
                    <i class="nav-icon fas fa-plus"></i> Create New
                 </a>
               
@@ -52,25 +52,11 @@ if($currentURL === $current){
 
                    @endphp
                     <div class="col-md-4">
-                      @include('backend.item-information.search')
+                      @include('hrm.initial-salary-structure.search')
                     </div>
                     <div class="col-md-8">
                       <div class="d-flex flex-row justify-content-end">
-                         @can('voucher-print')
-                        <li class="nav-item dropdown remove_from_header">
-                              <a class="nav-link" data-toggle="dropdown" href="#">
-                                
-                                <i class="fa fa-print " aria-hidden="true"></i> <i class="right fas fa-angle-down "></i>
-                              </a>
-                              <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                               
-                                <div class="dropdown-divider"></div>
-                                
-                                <a target="__blank" href="{{$print_url}}" class="dropdown-item">
-                                  <i class="fa fa-print mr-2" aria-hidden="true"></i> Print
-                                </a>  
-                            </li>
-                             @endcan   
+                           
                          {!! $datas->render() !!}
                           </div>
                     </div>
@@ -82,30 +68,16 @@ if($currentURL === $current){
                       <thead>
                         <tr>
                          
-                         <th class="">Action</th>
-                         <th>SL</th>
-                         <th>ID</th>
-                         <th>Item</th>
-                         <th>Unit Conversion</th>
-                         <th>Image</th>
-                         <th>Unit</th>
-                         <th>Code</th>
-                         <th>Serial</th>
-                         <th>Barcode</th>
-                         <th>Warranty</th>
-                         <th>Category</th>
-                         
-                         <th>Discount</th>
-                         <th>Vat</th>
-                         <th>Purchase Rate</th>
-                         <th>Sales Rate</th>
-                         <th>Stock</th>
-                         <th>Reorder Level</th>
-                         <th>Order Qty</th>
-                         <th>Manufacture Company</th>
-                         <th>Created At</th>
-                         <th>Updated At</th>
-                         <th>Status</th> 
+                         <th>{{__('Action')}}</th>
+                         <th>{{__('SL')}}</th>
+                         <th>{{__('EMP ID')}}</th>
+                         <th>{{__('label.Employee Name')}}</th>
+                         <th>{{__('Gross Earnings')}}</th>
+                         <th>{{__('Gross Deduction')}}</th>
+                         <th>{{__('Net Deduction')}}</th>
+                         <th>{{__('Created At')}}</th>
+                         <th>{{__('Updated At')}}</th>
+                         <th>{{__('label._status')}}</th>
                          @php
                          $default_image = $settings->logo;
                          @endphp           
@@ -117,62 +89,32 @@ if($currentURL === $current){
                           <td style="display: flex;">
                            
                                 <a   
-                                  href="{{ route('item-information.show',$data->id) }}"
+                                  href="{{ route('initial-salary-structure.show',$data->id) }}"
                                   
                                   class="btn btn-sm btn-default  mr-1"><i class="fa fa-eye"></i></a>
 
 
-                                  @can('item-information-edit')
+                                  @can('initial-salary-structure-edit')
                                   <a   
-                                  href="{{ route('item-information.edit',$data->id) }}"
+                                  href="{{ route('initial-salary-structure.edit',$data->id) }}"
                                   
                                   class="btn btn-sm btn-default  mr-1"><i class="fa fa-pen "></i></a>
 
                                     
                                   @endcan
-                                @can('item-information-delete')
-                                 {!! Form::open(['method' => 'DELETE','route' => ['item-information.destroy', $data->id],'style'=>'display:inline']) !!}
-                                      <button onclick="return confirm('Are you sure?')" type="submit" class="btn btn-sm btn-default"><i class="fa fa-trash _required"></i></button>
-                                  {!! Form::close() !!}
-                               @endcan  
+                                
                                
                         </td>
 
                              
                             
                             <td>{{ ($key+1) }}</td>
-                            <td>{{ $data->id ?? '' }}</td>
-                            <td>{{ $data->_item ?? '' }}<br>
-                              <b>Production Item:</b> {{selected_yes_no($data->_kitchen_item ?? 0)}}<br>
-                              <b>Unique Barcode: </b>{{selected_yes_no($data->_unique_barcode ?? 0)}}<br>
-
-                            </td>
-                            <td>
-                              <button type="button" class="btn btn-info showUnitConversion" data-toggle="modal" data-target="#unitConversionModal" 
-                              attr_item_id="{{$data->id}}"  
-                              attr_item_name="{{$data->_item}}" 
-                              attr_base_unit="{{$data->_unit_id}}" 
-                              attr_base_unit_name="{{ $data->_units->_name ?? '' }}" 
-                              >Unit Conversions</button>
-                            </td>
-                            <td>
-                              <img class="myImage" src="{{asset($data->_image ?? $default_image)}}" alt="Click me to open modal" title="Click display Image" data-toggle="modal" data-target="#imageModal" style="max-height:50px;max-width: 50px; " >
-                              </td>
-                            </td>
-                            <td>{{ $data->_units->_name ?? '' }}</td>
-                            <td>{{ $data->_code ?? '' }}</td>
-                            <td>{{ $data->_serial ?? '' }}</td>
-                            <td>{{ $data->_barcode ?? '' }}</td>
-                            <td>{{ $data->_warranty_name->_name ?? '' }}</td>
-                            <td>{{ $data->_category->_parents->_name ?? 'C' }}-{{ $data->_category->_name ?? '' }}</td>
-                            <td>{{ _report_amount( $data->_discount ?? 0 ) }}</td>
-                            <td>{{ _report_amount( $data->_vat ?? 0 ) }}</td>
-                            <td>{{ _report_amount($data->_pur_rate ?? 0 ) }}</td>
-                            <td>{{ _report_amount($data->_sale_rate ?? 0 ) }}</td>
-                            <td>{{ $data->_balance ?? 0 }}</td>
-                            <td>{{ $data->_reorder ?? 0 }}</td>
-                            <td>{{ $data->_order_qty ?? 0 }}</td>
-                            <td>{{ $data->_manufacture_company ?? '' }}</td>
+                            <td>{{ $data->_emp_code ?? '' }}</td>
+                            <td>{{ $data->_employee->_name ?? '' }}</td>
+                            <td>{{ _report_amount($data->total_earnings ?? 0) }}</td>
+                            <td>{{ _report_amount($data->total_deduction ?? 0) }}</td>
+                            <td>{{ _report_amount($data->net_total_earning ?? 0) }}</td>
+                            
                             <td>{{ $data->created_at ?? '' }}</td>
                             <td>{{ $data->updated_at ?? '' }}</td>
                            <td>{{ selected_status($data->_status) }}</td>
@@ -198,153 +140,14 @@ if($currentURL === $current){
         <!-- /.row -->
       </div>
 
-       <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <img class="img-fluid" id="modalImage" src="">
-                </div>
-            </div>
-        </div>
-    </div>
+      
       <!-- /.container-fluid -->
     </div>
 </div>
-@include("backend.item-information.unit_conversion")
 @endsection
 
 
 @section("script")
 
-<script type="text/javascript">
 
-  $('.myImage').on('click', function() {
-        var imgSrc = $(this).attr('src');
-        $('#modalImage').attr('src', imgSrc);
-    });
-
-
-  var base_unit_name="";
-  var item_id="";
-  var item_name="";
-  var base_unit="";
-  $(document).on("click",".showUnitConversion",function(){
-     item_id = $(this).attr("attr_item_id");
-     item_name = $(this).attr("attr_item_name");
-    base_unit = $(this).attr("attr_base_unit");
-     base_unit_name = $(this).attr("attr_base_unit_name");
-    $(document).find(".unitConversionItem").text(item_name);
-    $(document).find(".baseUnitName").text(base_unit_name);
-    console.log(item_id)
-
-    var request = $.ajax({
-      url: "{{url('item-wise-unit-conversion')}}",
-      method: "GET",
-      data: { item_id,base_unit_name },
-       dataType: "html"
-    });
-     
-    request.done(function( response ) {
-      console.log(response)
-      $(document).find(".unitConversionArea").html(response);
-      
-    });
-     
-    request.fail(function( jqXHR, textStatus ) {
-      alert( "Request failed: " + textStatus );
-    });
-
-  })
-
-  $(document).on('click','.unitConversionSave',function(){
-
-
-    var conversion_id =[];
-    var conversion_item_id=[];
-    var _base_unit_id =[];
-    var _conversion_qty=[];
-    var _conversion_unit=[];
-    var _converted_unit_names=[];
-    $(document).find(".conversion_id").each(function(){
-        conversion_id.push($(this).val());
-    })
-    $(document).find(".conversion_item_id").each(function(){
-        conversion_item_id.push(item_id);
-    })
-    $(document).find("._base_unit_id").each(function(){
-        _base_unit_id.push(base_unit);
-    })
-    $(document).find("._conversion_qty").each(function(){
-        _conversion_qty.push($(this).val());
-    })
-    $(document).find("._conversion_unit").each(function(){
-        _conversion_unit.push($(this).val());
-        _converted_unit_names.push($(this).text());
-    })
-   // console.log(_converted_unit_names)
-
-    var request = $.ajax({
-      url: "{{url('item-wise-unit-conversion-save')}}",
-      method: "GET",
-      data: { item_id,conversion_id,conversion_item_id,_base_unit_id,_conversion_qty,_conversion_unit,_converted_unit_names },
-      dataType: "json"
-    });
-     
-    request.done(function( response ) {
-      console.log(response)
-      alert(response.message)
-      $('#exampleModal').modal('hide');
-      
-    });
-     
-    request.fail(function( jqXHR, textStatus ) {
-      alert( "Request failed: " + textStatus );
-    });
-
-
-    
-  })
-
-  $(document).on("click",".unitRemoveButton",function(){
-    if(confirm("Are You Sure !")){
-      $(this).closest("tr").remove();
-    }
-  })
-
-  $(document).on("click",".addNewRow",function(){
-    $(document).find(".unitConversionArea").append(`<tr>
-                  
-                  <td>
-                    <input type="number" name="_conversion_qty[]" min="0" step="any" class="form-control _conversion_qty" value="">
-                  </td>
-                  <td>
-                    <span class="baseUnitName"></span> <b>=</b>
-                    <input type="hidden" name="conversion_id[]" class="conversion_id" value="0">
-                    <input type="hidden" name="conversion_item_id[]" class="conversion_item_id" value="0">
-                    <input type="hidden" name="_base_unit_id[]" class="_base_unit_id" value="0">
-                  </td>
-                  <td>
-                    <select class="form-control _conversion_unit" id="_conversion_unit" name="_conversion_unit[]" >
-                      <option value="" >--Units--</option>
-                      @foreach($units as $unit)
-                       <option value="{{$unit->id}}" >{{ $unit->_name ?? '' }}</option>
-                      @endforeach
-                    </select>
-                  </td>
-                  <td>
-                    <button type="button" class="btn btn-sm btn-danger unitRemoveButton">X</button>
-                    
-                  </td>
-                </tr>`);
-    $(document).find(".baseUnitName").text(base_unit_name);
-    $(document).find("._base_unit_id").text(base_unit);
-    $(document).find(".conversion_item_id").text(item_id);
-    
-  })
-</script>
 @endsection

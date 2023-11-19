@@ -144,7 +144,14 @@ class HrmEmployeesController extends Controller
         $text_val = trim($request->_text_val);
         if($text_val =='%'){ $text_val=''; }
 
-         $datas = HrmEmployees::with(['_emp_designation','_emp_department'])->where('_status',1)
+
+
+
+
+
+
+
+         $datas = HrmEmployees::with(['_organization','_branch','_cost_center','_employee_cat','_emp_department','_emp_designation','_emp_grade','_emp_location'])->where('_status',1)
         ->where(function ($query) use ($text_val) {
                 $query->orWhere('_code','like',"%$text_val%")
                       ->orWhere('_name','like',"%$text_val%");

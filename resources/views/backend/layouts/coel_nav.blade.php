@@ -12,7 +12,8 @@
     <ul class="navbar-nav ml-auto">
      
  <!-- Messages Dropdown Menu -->
-     @include('backend.layouts.hrm_module')
+    
+      @include('backend.layouts.hrm_module')
      @include('backend.layouts.account_module')
      @include('backend.layouts.rlp_module')
      

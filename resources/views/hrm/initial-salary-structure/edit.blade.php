@@ -5,251 +5,245 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <a class="m-0 _page_name" href="{{ route('item-information.index') }}">{!! $page_name ?? '' !!} </a>
-            <ol class="breadcrumb float-sm-right ml-2">
-               
+            <a class="m-0 _page_name" href="{{ route('initial-salary-structure.index') }}">{!! $page_name ?? '' !!} </a>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              @can('item-information-list')
+             @can('initial-salary-structure-list')
               <li class="breadcrumb-item active">
-                 <a class="btn btn-info" href="{{ route('item-information.index') }}"> <i class="fa fa-th-list" aria-hidden="true"></i></a>
+                 <a class="btn btn-info" href="{{ route('initial-salary-structure.index') }}"> <i class="fa fa-th-list" aria-hidden="true"></i></a>
                </li>
                @endcan
-               
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
-   
+    
     <div class="content">
       <div class="container-fluid">
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="card">
-             <div class="card-header">
-                   @include('backend.message.message')
-              </div>
-              <div class="card-body">
-               
-                 <form action="{{ url('item-information/update') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <div class="row">
-                       <div class="col-xs-12 col-sm-12 col-md-3">
-                            <div class="form-group">
-                                <label>Category: <span class="_required">*</span></label>
-                               <select  class="form-control _category_id " name="_category_id" required>
-                                  <option value="">--Select Category--</option>
-                                  @forelse($categories as $category )
-                                  <option value="{{$category->id}}" @if(isset($data->_category_id)) @if($data->_category_id == $category->id) selected @endif   @endif>{{ $category->_parents->_name ?? 'C' }}->{{ $category->_name ?? '' }}</option>
-                                  @empty
-                                  @endforelse
-                                </select>
+<div class="card ">
+<div class="card-body">
+                 @include('backend.message.message')
+                {!! Form::model($data, ['method' => 'PATCH','route' => ['initial-salary-structure.update', $data->id]]) !!}
+                <div class="form-group row pt-2">
+                            <label class="col-sm-2 col-form-label" >{{__('EMP ID')}}:</label>
+                             <div class="col-sm-6">
+                                <input type="hidden" name="_employee_id" class="_employee_id" value="{{$data->_employee_id}}">
+                                <input type="hidden" name="_employee_ledger_id" class="_employee_ledger_id" value="{{$data->_employee_ledger_id}}">
+                                <input type="text" name="_employee_id_text" class="form-control _employee_id_text" placeholder="{{__('EMP ID')}}" value="{{$data->_employee->_code ?? '' }}">
+                               <div class="search_box_employee"> </div>
                             </div>
                         </div>
-                       
-                      
-                       
-                        <div class="col-xs-12 col-sm-12 col-md-3">
-                            <div class="form-group">
-                                <label for="_item">Item:<span class="_required">*</span></label>
-                                <input type="text" id="_item" name="_item" class="form-control" value="{{old('_item',$data->_item)}}" placeholder="Item" required>
-                                <input type="hidden" name="id" value="{{$data->id}}">
+                <div class="form-group row pt-2">
+                            <label class="col-sm-2 col-form-label" >{{__('Employee Name')}}:</label>
+                             <div class="col-sm-6">
+                                <input type="text" name="_employee_name_text" class="form-control _employee_name_text" placeholder="{{__('Employee')}}" value="{{$data->_employee->_name ?? '' }}">
+                               <div class="search_box_employee"> </div>
                             </div>
                         </div>
-                        
-                       
-                        
-                        <div class="col-xs-12 col-sm-12 col-md-3">
-                            <div class="form-group">
-                                <label for="_unit">Unit:<span class="_required">*</span></label>
-
-                                <select class="form-control _unit_id " id="_unit_id" name="_unit_id" required>
-                                  <option value="" >--Units--</option>
-                                  @foreach($units as $unit)
-                                   <option value="{{$unit->id}}" @if(isset($data->_unit_id)) @if($data->_unit_id==$unit->id) selected @endif @endif >{{$unit->_name ?? ''}}</option>
-                                  @endforeach
-                                </select>
-                            </div>
-                        </div>
-                         <div class="col-xs-12 col-sm-12 col-md-3">
-                            <div class="form-group">
-                                <label>Warranty: </label>
-                               <select  class="form-control _warranty " name="_warranty" >
-                                  <option value="0">--None--</option>
-                                  @forelse($_warranties as $_warranty )
-                                  <option value="{{$_warranty->id}}" @if(isset($data->_warranty)) @if($data->_warranty == $_warranty->id) selected @endif   @endif>{{ $_warranty->_name ?? '' }}</option>
-                                  @empty
-                                  @endforelse
-                                </select>
-                            </div>
-                        </div>
-                         <div class="col-xs-12 col-sm-12 col-md-3">
-                            <div class="form-group">
-                                <label>Previous Sales Item Overwrite: </label>
-                               <select  class="form-control _update_all_item_name " name="_update_all_item_name" >
-                                  <option value="0">No</option>
-                                  <option value="1">Yes</option>
-                               </select>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-3">
-                            <div class="form-group">
-                                <label for="_manufacture_company">Manufacture Company:</label>
-                                <input type="text" id="_manufacture_company" name="_manufacture_company" class="form-control _manufacture_company" value="{{old('_manufacture_company',$data->_manufacture_company)}}" placeholder="Manufacture Company" >
-                                <div class="search_boxManufacCompany"></div>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-3">
-                            <div class="form-group">
-                                <label for="_code">Code:</label>
-                                <input type="text" id="_code" name="_code" class="form-control" value="{{old('_code',$data->_code)}}" placeholder="Code" >
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-3">
-                            <div class="form-group">
-                                <label for="_barcode">Model:</label>
-                                <input type="text" id="_barcode" name="_barcode" class="form-control" value="{{old('_barcode',$data->_barcode)}}" placeholder="Model" >
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-2">
-                            <div class="form-group">
-                                <label for="_discount">Discount Rate:</label>
-                                <input type="text" id="_discount" name="_discount" class="form-control" value="{{old('_discount',$data->_discount)}}" placeholder="Discount Rate" >
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-2">
-                            <div class="form-group">
-                                <label for="_vat">Vat Rate:</label>
-                                <input type="text" id="_vat" name="_vat" class="form-control" value="{{old('_vat',$data->_vat)}}" placeholder="Vat Rate" >
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-2">
-                            <div class="form-group">
-                                <label for="_sd">{{__('label._sd')}}:</label>
-                                <input type="text" id="_sd" name="_sd" class="form-control" value="{{old('_sd',$data->_sd)}}" placeholder="{{__('label._sd')}}" >
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-2">
-                            <div class="form-group">
-                                <label for="_cd">{{__('label._cd')}}:</label>
-                                <input type="text" id="_cd" name="_cd" class="form-control" value="{{old('_cd',$data->_cd)}}" placeholder="{{__('label._cd')}}" >
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-2">
-                            <div class="form-group">
-                                <label for="_ait">{{__('label._ait')}}:</label>
-                                <input type="text" id="_ait" name="_ait" class="form-control" value="{{old('_ait',$data->_ait)}}" placeholder="{{__('label._ait')}}" >
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-2">
-                            <div class="form-group">
-                                <label for="_rd">{{__('label._rd')}}:</label>
-                                <input type="text" id="_rd" name="_rd" class="form-control" value="{{old('_rd',$data->_rd)}}" placeholder="{{__('label._rd')}}" >
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-2">
-                            <div class="form-group">
-                                <label for="_at">{{__('label._at')}}:</label>
-                                <input type="text" id="_at" name="_at" class="form-control" value="{{old('_at',$data->_at)}}" placeholder="{{__('label._at')}}" >
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-2">
-                            <div class="form-group">
-                                <label for="_tti">{{__('label._tti')}}:</label>
-                                <input type="text" id="_tti" name="_tti" class="form-control" value="{{old('_tti',$data->_tti)}}" placeholder="{{__('label._tti')}}" >
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-2">
-                            <div class="form-group">
-                                <label for="_opening_qty">Opening QTY:</label>
-                                <input type="text" id="_opening_qty" name="_opening_qty" class="form-control" value="{{old('_opening_qty',$data->_opening_qty ?? 0)}}" placeholder="Opening QTY" >
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-2">
-                            <div class="form-group">
-                                <label for="_pur_rate">Purchase Rate:</label>
-                                <input type="text" id="_pur_rate" name="_pur_rate" class="form-control" value="{{old('_pur_rate',$data->_pur_rate)}}" placeholder="Purchase Rate" >
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-2">
-                            <div class="form-group">
-                                <label for="_sale_rate">Sales Rate:</label>
-                                <input type="text" id="_sale_rate" name="_sale_rate" class="form-control" value="{{old('_sale_rate',$data->_sale_rate)}}" placeholder="Sales Rate" >
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-2">
-                            <div class="form-group">
-                                <label for="_reorder">Reorder Level:</label>
-                                <input type="text" id="_reorder" name="_reorder" class="form-control" value="{{old('_reorder',$data->_reorder)}}" placeholder="Reorder Level" >
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-2">
-                            <div class="form-group">
-                                <label for="_order_qty">Order Qty:</label>
-                                <input type="text" id="_order_qty" name="_order_qty" class="form-control" value="{{old('_order_qty',$data->_order_qty)}}" placeholder="Order Qty" >
-                            </div>
-                        </div>
-                        
-                        @can('restaurant-module') 
-                         <div class="col-xs-12 col-sm-12 col-md-2">
-                            <div class="form-group">
-                                <label for="_kitchen_item" class="_required" title="if Yes then this item will send to kitchen to cook/production for sales and store deduct as per item ingredient wise automaticaly">Kitchen/Production Item ?:</label>
-                                <select class="form-control" name="_kitchen_item" id="_kitchen_item">
-                                  <option value="0" @if($data->_kitchen_item==0) selected @endif>No</option>
-                                  <option value="1" @if($data->_kitchen_item==1) selected @endif>Yes</option>
-                                </select>
-                            </div>
-                        </div>
-                        @endcan
-                         <div class="col-xs-12 col-sm-12 col-md-2">
-                            <div class="form-group">
-                                <label for="_unique_barcode" class="_required">Use Unique Barcode ?:</label>
-                                <select class="form-control" name="_unique_barcode" id="_unique_barcode">
-                                 <option value="1" @if($data->_unique_barcode==1) selected @endif >Yes</option>
-                                  <option value="0" @if($data->_unique_barcode==0) selected @endif >No</option>
-                                </select>
-                            </div>
-                        </div>
-                         <div class="col-xs-12 col-sm-12 col-md-2">
-                            <div class="form-group">
-                                <label for="_status">Status:</label>
-                                <select class="form-control" name="_status" id="_status">
-                                 <option value="1" @if($data->_status==1) selected @endif >Active</option>
-                                  <option value="0" @if($data->_status==0) selected @endif >In Active</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-3 mb-10">
-                            <div class="form-group">
-                                <label>Image:</label>
-                               <input type="file" accept="image/*" onchange="loadFile(event,1 )"  name="_image" class="form-control">
-                               
-                               <img id="output_1" class="banner_image_create" src="{{asset($data->_image)}}"  style="max-height:100px;max-width: 100px; " />
-                               
-                            </div>
-                        </div>
-                        
-                        
-                       <div class="col-xs-12 col-sm-12 col-md-12 bottom_save_section text-middle">
-                            <button type="submit" class="btn btn-success  ml-5"><i class="fa fa-credit-card mr-2" aria-hidden="true"></i> Save</button>
-                           
-                        </div>
-                        <br><br>
+                <div class="form-group row pt-2">
+                    <label class="col-sm-2 col-form-label" >{{__('Department')}}:</label>
+                     <div class="col-sm-6">
+                        <input type="text" name="_department" class="form-control _department" placeholder="{{__('Department')}}" readonly value="{{$data->_employee->_emp_department->_name ?? '' }}">
                     </div>
-                    </form>
-                
-              </div>
-            </div>
-            <!-- /.card -->
+                </div>
+                <div class="form-group row pt-2">
+                    <label class="col-sm-2 col-form-label" >{{__('Designation')}}:</label>
+                     <div class="col-sm-6">
+                        <input type="text" name="_emp_designation" class="form-control _emp_designation" placeholder="{{__('Designation')}}" value="{{$data->_employee->_emp_designation->_name ?? '' }}" readonly>
+                    </div>
+                </div>
+                <div class="form-group row pt-2">
+                    <label class="col-sm-2 col-form-label" >{{__('Grade')}}:</label>
+                     <div class="col-sm-6">
+                        <input type="text" name="_emp_grade" class="form-control _emp_grade" placeholder="{{__('Grade')}}"  value="{{$data->_employee->_emp_grade->_name ?? '' }}" readonly>
+                    </div>
+                </div>
+                <div class="form-group row pt-2">
+                    <label class="col-sm-2 col-form-label" >{{__('Emp Category')}}:</label>
+                     <div class="col-sm-6">
+                        <input type="text" name="_employee_cat" class="form-control _employee_cat" value="{{$data->_employee_cat->_emp_grade->_name ?? '' }}" placeholder="{{__('Emp Category')}}" readonly>
+                    </div>
+                </div>
 
-            
-        </div>
-        <!-- /.row -->
-      </div>
-      <!-- /.container-fluid -->
-    </div>
-</div>
+@php
+    $previous_detail = $data->_details ?? [];
+@endphp
+
+                <div class="row">
+                    @forelse($payheads as $p_key=>$p_val)
+                    <div class="col-md-4 ">
+                        <h3>{!! $p_key ?? '' !!}</h3>
+                        @if(sizeof($p_val) > 0)
+                            @forelse($p_val as $l_val)
+                            @php
+                            //dump($l_val);
+                            @endphp
+                            <div class="form-group row ">
+                            <label class="col-sm-6 col-form-label" for="_item">{{$l_val->_ledger ?? '' }}:</label>
+                             <div class="col-sm-6">
+                                <input type="hidden" name="_payhead_id[]" class="_payhead_id" value="{{$l_val->id}}">
+                                <input type="hidden" name="_payhead_type_id[]" class="_payhead_type_id" value="{{$l_val->_type}}">
+                               
+                              <input type="number"  name="_amount[]" class="form-control payhead_amount @if($l_val->_payhead_type->cal_type==1) _add_salary @endif  @if($l_val->_payhead_type->cal_type==2) _deduction_salary @endif"
+                               @forelse($previous_detail as $p_val)
+                                @if($p_val->_payhead_id==$l_val->id)
+                                value="{{$p_val->_amount ?? 0}}"
+                               @endif
+                              @empty
+                              @endforelse
+
+                                placeholder="{{__('label._amount')}}" >
+                              <input type="hidden" name="_detail_row_id[]" class="_detail_row_id" 
+                              @forelse($previous_detail as $p_val)
+                                @if($p_val->_payhead_id==$l_val->id)
+                              value="{{$p_val->id ?? 0}}"
+
+                               @endif
+                              @empty
+                              @endforelse
+
+                               >
+                              
+                            </div>
+                        </div>
+                        @empty
+                        @endforelse
+                        @endif
+                    </div>
+
+                        @empty
+                        @endforelse
+                    
+                </div>
+
+              <div class="form-group row pt-2">
+                        <label class="col-sm-2 col-form-label" >Total Earnings:</label>
+                         <div class="col-sm-6">
+                            <input type="text" name="total_earnings" class="form-control total_earnings" value="{{$data->total_earnings ?? 0}}"  readonly>
+                        </div>
+                    </div>
+                    <div class="form-group row pt-2">
+                        <label class="col-sm-2 col-form-label" >Total Deduction:</label>
+                         <div class="col-sm-6">
+                            <input type="text" name="total_deduction" class="form-control total_deduction" value="{{$data->total_deduction ?? 0}}"  readonly>
+                        </div>
+                    </div>
+                    <div class="form-group row pt-2">
+                        <label class="col-sm-2 col-form-label" >Net Total Salary:</label>
+                         <div class="col-sm-6">
+                            <input type="text" name="net_total_earning" class="form-control net_total_earning" value="{{$data->net_total_earning ?? 0}}"  readonly>
+                        </div>
+                    </div>
+
+
+<div class="col-xs-12 col-sm-12 col-md-12 bottom_save_section text-middle">
+                            <button type="submit" class="btn btn-success submit-button ml-5" ><i class="fa fa-credit-card mr-2" aria-hidden="true"></i> Save</button>
+                            
+                        </div>
+
+
+</form> <!-- End of form -->
+</div><!-- End of Card body -->
+</div><!-- End of Card -->
+</div><!-- End of Container -->
+</div><!-- End of Content -->
+
+
+
+@endsection
+@section('script')
+<script type="text/javascript">
+
+$(document).on('keyup','.payhead_amount',function(){
+    var total_earnings =0;
+    var total_deduction=0;
+    $(document).find('._deduction_salary').each(function(){
+        var deduction = parseFloat(isEmpty($(this).val()));
+        total_deduction +=parseFloat(deduction);
+    })
+    $(document).find('._add_salary').each(function(){
+        var earning = parseFloat(isEmpty($(this).val()));
+        total_earnings +=parseFloat(earning);
+    })
+    var net_total_earning = (parseFloat(total_earnings)-parseFloat(total_deduction));
+
+    $(document).find(".total_earnings").val(total_earnings);
+    $(document).find(".total_deduction").val(total_deduction);
+    $(document).find(".net_total_earning").val(net_total_earning);
+
+})
+
+
+$(document).on('keyup','._employee_id_text',delay(function(e){
+    
+  var _gloabal_this = $(this);
+  var _text_val = $(this).val().trim();
+  var request = $.ajax({
+      url: "{{url('employee-search')}}",
+      method: "GET",
+      data: { _text_val : _text_val },
+      dataType: "JSON"
+    });
+     
+    request.done(function( result ) {
+      var search_html =``;
+      var data = result.data; 
+      if(data.length > 0 ){
+            search_html +=`<div class="card"><table style="width: 300px;"> <tbody>`;
+                        for (var i = 0; i < data.length; i++) {
+                         search_html += `<tr class="_employee_search_row_em _cursor_pointer" >
+                                        <td>${data[i]._code}
+                                        <input type="hidden" name="_emp_all_data" class="_emp_all_data" attr_value='${JSON.stringify(data[i])}'>
+                                        <input type="hidden" name="_emplyee_row_id" class="_emplyee_row_id" value="${data[i].id}">
+                                        <input type="hidden" name="_emplyee_row_code_id" class="_emplyee_row_code_id" value="${data[i]._code}">
+                                        </td>
+                                        <td>${data[i]._name}
+                                        <input type="hidden" name="_search_employee_name" class="_search_employee_name" value="${data[i]._name}">
+                                        
+                                        </td>
+                                        
+                                       
+                                        </tr>`;
+                        }                         
+            search_html += ` </tbody> </table></div>`;
+      }else{
+        search_html +=`<div class="card"><table style="width: 300px;"> 
+        <thead><th colspan="3">No Data Found</th></thead><tbody></tbody></table></div>`;
+      }   
+
+       _gloabal_this.parent('div').find('.search_box_employee').html(search_html);
+      _gloabal_this.parent('div').find('.search_box_employee').addClass('search_box_show').show();  
+      
+      
+    });
+     
+    request.fail(function( jqXHR, textStatus ) {
+      alert( "Request failed: " + textStatus );
+    });
+}, 500));
+
+    
+
+
+$(document).on('click','._employee_search_row_em',function(){
+ var _emp_all_data = $(this).children('td').find('._emp_all_data').attr('attr_value');
+
+var data = JSON.parse(_emp_all_data);
+console.log(data)
+$(document).find("._employee_name_text").val(data?._name);
+$(document).find("._employee_id").val(data?.id);
+$(document).find("._employee_id_text").val(data?._code);
+$(document).find("._employee_ledger_id").val(data?._ledger_id);
+$(document).find("._department").val(data?._emp_department?._name);
+$(document).find("._emp_designation").val(data?._emp_designation?._name);
+$(document).find("._emp_grade").val(data?._emp_grade?._name);
+$(document).find("._employee_cat").val(data?._employee_cat?._name);
+
+  $(document).find('.search_box_employee').hide();
+  $(document).find('.search_box_employee').removeClass('search_box_show').hide();
+})
+</script>
 
 @endsection
