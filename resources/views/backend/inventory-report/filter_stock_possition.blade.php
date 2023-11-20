@@ -43,10 +43,9 @@
                                   </div>
                       </div>
                       @include('basic.org_report')
-                    @if(sizeof($permited_branch) > 1)
                       <div class="col-md-12">
                         <label>Branch:</label>
-                        <select id="_branch_id" class="form-control _branch_id multiple_select" name="_branch_id[]" multiple size='2' >
+                        <select id="_branch_id" class="form-control _branch_id multiple_select" name="_branch_id[]" multiple  >
                           @forelse($permited_branch as $branch )
                           <option value="{{$branch->id}}" 
                             @if(isset($previous_filter["_branch_id"])) 
@@ -57,11 +56,11 @@
                           @endforelse
                          </select>
                       </div>
-                  @endif
+                  
                   @if(sizeof($stores) > 1)
-                      <div class="col-md-6">
+                      <div class="col-md-12">
                         <label>Store:</label>
-                         <select class="form-control width_150_px _store multiple_select" multiple name="_store[]" size='2'  >
+                         <select class="form-control width_150_px _store multiple_select" multiple name="_store[]"   >
                                             
                             @forelse($stores as $store )
                             <option value="{{$store->id}}" 

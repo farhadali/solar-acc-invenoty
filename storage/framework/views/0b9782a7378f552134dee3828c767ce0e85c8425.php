@@ -135,7 +135,14 @@
               <?php if($g_value->_transection=="Purchase"): ?>
                  <a style="text-decoration: none;" target="__blank" href="<?php echo e(url('purchase/print',$g_value->_transection_ref)); ?>">
                   P-<?php echo $g_value->_transection_ref ?? ''; ?></a>
-                    <?php endif; ?>
+               <?php endif; ?>
+              <?php if($g_value->_transection=="import_purchase"): ?>
+                 <a style="text-decoration: none;" target="__blank" href="<?php echo e(url('import-material-receive/print',$g_value->_transection_ref)); ?>">
+                  <?php echo e(_id_to_order_number($g_value->_transection_ref,'purchases')); ?>
+
+                 
+                </a>
+               <?php endif; ?>
                    
                     <?php if($g_value->_transection=="Purchase Return"): ?>
                  <a style="text-decoration: none;" target="__blank" href="<?php echo e(url('purchase-return/print',$g_value->_transection_ref)); ?>">
@@ -144,7 +151,8 @@
                     
                     <?php if($g_value->_transection=="Sales"): ?>
                  <a style="text-decoration: none;" target="__blank" href="<?php echo e(url('sales/print',$g_value->_transection_ref)); ?>">
-                  S-<?php echo $g_value->_transection_ref ?? ''; ?></a>
+                  <?php echo e(_id_to_order_number($g_value->_transection_ref,'sales')); ?>
+
                     <?php endif; ?>
                     
                     <?php if($g_value->_transection=="Restaurant Sales"): ?>

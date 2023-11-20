@@ -145,7 +145,22 @@ class HrmCurrentSalaryStruController extends Controller
      */
     public function show($id)
     {
-        //
+        $page_name = $this->page_name;
+         $data = CurrentSalaryMaster::with(['_details','_employee'])->find($id);
+         $page_name = $this->page_name;
+        $payheads_data = HrmPayheads::with(['_payhead_type'])->where('_status',1)->get();
+        $payheads =array();
+        $payhead_types=array();
+        foreach($payheads_data as $key=>$val){
+            if(!in_array($val->_payhead_type->_name ?? '', $payhead_types)){
+                array_push($payhead_types,$val->_payhead_type->_name ?? '');
+            }
+            $payheads[$val->_payhead_type->_name ?? ''][]=$val;
+        }
+
+       // return $payheads;
+
+         return view('hrm.initial-salary-structure.show',compact('page_name','data','payheads','payhead_types'));
     }
 
     /**

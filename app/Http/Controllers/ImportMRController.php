@@ -642,7 +642,7 @@ class ImportMRController extends Controller
                 $ItemInventory->_category_id = _item_category($_item_ids[$i]);
                 $ItemInventory->_date = change_date_format($request->_date);
                 $ItemInventory->_time = date('H:i:s');
-                $ItemInventory->_transection = "Purchase";
+                $ItemInventory->_transection = "import_purchase";
                 $ItemInventory->_transection_ref = $purchase_id;
                 $ItemInventory->_transection_detail_ref_id = $_purchase_detail_id;
 
@@ -698,7 +698,7 @@ class ImportMRController extends Controller
         $_short_narration='N/A';
         $_narration = $request->_note;
         $_reference= $request->_referance;
-        $_transaction= 'Purchase';
+        $_transaction= 'import_purchase';
         $_date = change_date_format($request->_date);
         $_table_name = $request->_form_name;
         $_branch_id = $request->_branch_id;
@@ -789,7 +789,7 @@ class ImportMRController extends Controller
                         $_short_narration=$_short_narr[$i] ?? 'N/A';
                         $_narration = $request->_note;
                         $_reference= $request->_referance;
-                        $_transaction= 'Purchase';
+                        $_transaction= 'import_purchase';
                         $_date = change_date_format($request->_date);
                         $_table_name ='purchase_accounts';
                         $_account_ledger = $_ledger_id[$i];
@@ -831,7 +831,7 @@ class ImportMRController extends Controller
                         $_short_narration='N/A';
                         $_narration = $request->_note;
                         $_reference= $request->_referance;
-                        $_transaction= 'Purchase';
+                        $_transaction= 'import_purchase';
                         $_date = change_date_format($request->_date);
                         $_table_name ='purchase_accounts';
                         $_account_ledger = $request->_main_ledger_id;
@@ -1375,7 +1375,7 @@ if($_unique_barcode ==1){
                 $ItemInventory->_category_id = _item_category($_item_ids[$i]);
                 $ItemInventory->_date = change_date_format($request->_date);
                 $ItemInventory->_time = date('H:i:s');
-                $ItemInventory->_transection = "Purchase";
+                $ItemInventory->_transection = "import_purchase";
                 $ItemInventory->_ledger_id = $request->_main_ledger_id ?? 0;
                 $ItemInventory->_transection_ref = $purchase_id;
                 $ItemInventory->_transection_detail_ref_id = $_purchase_detail_id;
@@ -1434,7 +1434,7 @@ if($_unique_barcode ==1){
         $_short_narration='N/A';
         $_narration = $request->_note;
         $_reference= $request->_referance;
-        $_transaction= 'Purchase';
+        $_transaction= 'import_purchase';
         $_date = change_date_format($request->_date);
         $_table_name = $request->_form_name;
         $_branch_id = $request->_branch_id;
@@ -1537,7 +1537,7 @@ if($_unique_barcode ==1){
                         $_short_narration=$_short_narr[$i] ?? 'N/A';
                         $_narration = $request->_note;
                         $_reference= $request->_referance;
-                        $_transaction= 'Purchase';
+                        $_transaction= 'import_purchase';
                         $_date = change_date_format($request->_date);
                         $_table_name ='purchase_accounts';
                         $_account_ledger = $_ledger_id[$i];
@@ -1579,7 +1579,7 @@ if($_unique_barcode ==1){
                         $_short_narration='N/A';
                         $_narration = $request->_note;
                         $_reference= $request->_referance;
-                        $_transaction= 'Purchase';
+                        $_transaction= 'import_purchase';
                         $_date = change_date_format($request->_date);
                         $_table_name ='purchase_accounts';
                         $_account_ledger = $request->_main_ledger_id;

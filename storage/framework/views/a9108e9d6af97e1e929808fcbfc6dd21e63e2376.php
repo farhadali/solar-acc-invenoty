@@ -43,10 +43,9 @@
                                   </div>
                       </div>
                       <?php echo $__env->make('basic.org_report', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-                    <?php if(sizeof($permited_branch) > 1): ?>
                       <div class="col-md-12">
                         <label>Branch:</label>
-                        <select id="_branch_id" class="form-control _branch_id multiple_select" name="_branch_id[]" multiple size='2' >
+                        <select id="_branch_id" class="form-control _branch_id multiple_select" name="_branch_id[]" multiple  >
                           <?php $__empty_1 = true; $__currentLoopData = $permited_branch; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $branch): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                           <option value="<?php echo e($branch->id); ?>" 
                             <?php if(isset($previous_filter["_branch_id"])): ?> 
@@ -57,11 +56,11 @@
                           <?php endif; ?>
                          </select>
                       </div>
-                  <?php endif; ?>
+                  
                   <?php if(sizeof($stores) > 1): ?>
-                      <div class="col-md-6">
+                      <div class="col-md-12">
                         <label>Store:</label>
-                         <select class="form-control width_150_px _store multiple_select" multiple name="_store[]" size='2'  >
+                         <select class="form-control width_150_px _store multiple_select" multiple name="_store[]"   >
                                             
                             <?php $__empty_1 = true; $__currentLoopData = $stores; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $store): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                             <option value="<?php echo e($store->id); ?>" 

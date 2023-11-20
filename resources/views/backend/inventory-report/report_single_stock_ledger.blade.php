@@ -134,7 +134,13 @@
               @if($g_value->_transection=="Purchase")
                  <a style="text-decoration: none;" target="__blank" href="{{ url('purchase/print',$g_value->_transection_ref) }}">
                   P-{!! $g_value->_transection_ref ?? '' !!}</a>
-                    @endif
+               @endif
+              @if($g_value->_transection=="import_purchase")
+                 <a style="text-decoration: none;" target="__blank" href="{{ url('import-material-receive/print',$g_value->_transection_ref) }}">
+                  {{_id_to_order_number($g_value->_transection_ref,'purchases')}}
+                 
+                </a>
+               @endif
                    
                     @if($g_value->_transection=="Purchase Return")
                  <a style="text-decoration: none;" target="__blank" href="{{ url('purchase-return/print',$g_value->_transection_ref) }}">
@@ -143,7 +149,7 @@
                     
                     @if($g_value->_transection=="Sales")
                  <a style="text-decoration: none;" target="__blank" href="{{ url('sales/print',$g_value->_transection_ref) }}">
-                  S-{!! $g_value->_transection_ref ?? '' !!}</a>
+                  {{_id_to_order_number($g_value->_transection_ref,'sales')}}
                     @endif
                     
                     @if($g_value->_transection=="Restaurant Sales")

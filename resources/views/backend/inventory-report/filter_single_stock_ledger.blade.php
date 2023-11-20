@@ -43,7 +43,7 @@
                                   </div>
                       </div>
                       @include('basic.org_report')
-                    @if(sizeof($permited_branch) > 1)
+                   
                       <div class="col-md-12">
                         <label>Branch:</label>
                         <select id="_branch_id" class="form-control _branch_id multiple_select" name="_branch_id[]" multiple size='2' >
@@ -57,27 +57,9 @@
                           @endforelse
                          </select>
                       </div>
-                  @endif
-                  @if(sizeof($stores) > 1)
-                      <div class="col-md-6">
-                        <label>Store:</label>
-                         <select class="form-control width_150_px _store multiple_select" multiple name="_store[]" size='2'  >
-                                            
-                            @forelse($stores as $store )
-                            <option value="{{$store->id}}" 
-                              @if(isset($previous_filter["_store"]))
-                              @if(in_array($store->id,$previous_filter["_store"])) selected @endif
-                                 @endif
-                              > {{ $store->_name ?? '' }}</option>
-                            @empty
-                            @endforelse
-                          </select>
-                      </div>
-                   @endif 
-                  @if(sizeof($permited_costcenters) > 1) 
-                      <div class="col-md-6">
+                       <div class="col-md-12">
                         <label>Cost Center:</label>
-                         <select class="form-control width_150_px _cost_center multiple_select" multiple name="_cost_center[]" size='2'  >
+                         <select class="form-control width_150_px _cost_center multiple_select" multiple name="_cost_center[]"   >
                                             
                             @forelse($permited_costcenters as $costcenter )
                             <option value="{{$costcenter->id}}" 
@@ -89,7 +71,25 @@
                             @endforelse
                           </select>
                       </div>
-                  @endif
+                  
+                      <div class="col-md-12">
+                        <label>Store:</label>
+                         <select class="form-control width_150_px _store multiple_select" multiple name="_store[]"   >
+                                            
+                            @forelse($stores as $store )
+                            <option value="{{$store->id}}" 
+                              @if(isset($previous_filter["_store"]))
+                              @if(in_array($store->id,$previous_filter["_store"])) selected @endif
+                                 @endif
+                              > {{ $store->_name ?? '' }}</option>
+                            @empty
+                            @endforelse
+                          </select>
+                      </div>
+                  
+                 
+                     
+                 
                     </div>
                     
                     <div class="row">

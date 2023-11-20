@@ -43,7 +43,7 @@
                                   </div>
                       </div>
                       <?php echo $__env->make('basic.org_report', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-                    <?php if(sizeof($permited_branch) > 1): ?>
+                   
                       <div class="col-md-12">
                         <label>Branch:</label>
                         <select id="_branch_id" class="form-control _branch_id multiple_select" name="_branch_id[]" multiple size='2' >
@@ -57,27 +57,9 @@
                           <?php endif; ?>
                          </select>
                       </div>
-                  <?php endif; ?>
-                  <?php if(sizeof($stores) > 1): ?>
-                      <div class="col-md-6">
-                        <label>Store:</label>
-                         <select class="form-control width_150_px _store multiple_select" multiple name="_store[]" size='2'  >
-                                            
-                            <?php $__empty_1 = true; $__currentLoopData = $stores; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $store): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                            <option value="<?php echo e($store->id); ?>" 
-                              <?php if(isset($previous_filter["_store"])): ?>
-                              <?php if(in_array($store->id,$previous_filter["_store"])): ?> selected <?php endif; ?>
-                                 <?php endif; ?>
-                              > <?php echo e($store->_name ?? ''); ?></option>
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-                            <?php endif; ?>
-                          </select>
-                      </div>
-                   <?php endif; ?> 
-                  <?php if(sizeof($permited_costcenters) > 1): ?> 
-                      <div class="col-md-6">
+                       <div class="col-md-12">
                         <label>Cost Center:</label>
-                         <select class="form-control width_150_px _cost_center multiple_select" multiple name="_cost_center[]" size='2'  >
+                         <select class="form-control width_150_px _cost_center multiple_select" multiple name="_cost_center[]"   >
                                             
                             <?php $__empty_1 = true; $__currentLoopData = $permited_costcenters; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $costcenter): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                             <option value="<?php echo e($costcenter->id); ?>" 
@@ -89,7 +71,25 @@
                             <?php endif; ?>
                           </select>
                       </div>
-                  <?php endif; ?>
+                  
+                      <div class="col-md-12">
+                        <label>Store:</label>
+                         <select class="form-control width_150_px _store multiple_select" multiple name="_store[]"   >
+                                            
+                            <?php $__empty_1 = true; $__currentLoopData = $stores; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $store): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                            <option value="<?php echo e($store->id); ?>" 
+                              <?php if(isset($previous_filter["_store"])): ?>
+                              <?php if(in_array($store->id,$previous_filter["_store"])): ?> selected <?php endif; ?>
+                                 <?php endif; ?>
+                              > <?php echo e($store->_name ?? ''); ?></option>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                            <?php endif; ?>
+                          </select>
+                      </div>
+                  
+                 
+                     
+                 
                     </div>
                     
                     <div class="row">
