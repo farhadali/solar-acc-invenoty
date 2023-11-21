@@ -20,6 +20,7 @@ return [
 
 
 
+    'hrm-attandance' => 'Attandance',
     'initial-salary-structure' => 'Initial Salary Structure',
     '_payhead' => 'Payhead',
     '_category_id' => 'Category',

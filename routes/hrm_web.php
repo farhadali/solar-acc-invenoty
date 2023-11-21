@@ -14,6 +14,7 @@ use App\Http\Controllers\HrmEmpCategoryController;
 use App\Http\Controllers\HrmEmpLocationController;
 use App\Http\Controllers\HrmDesignationController;
 use App\Http\Controllers\HrmCurrentSalaryStruController;
+use App\Http\Controllers\HrmAttendanceController;
 
 
 //##########################
@@ -23,6 +24,7 @@ use App\Http\Controllers\HrmCurrentSalaryStruController;
 
 Route::group(['middleware' => ['auth']], function() {
 Route::resource('hrm-employee',HrmEmployeesController::class);
+Route::resource('attandance',HrmAttendanceController::class);
 
 Route::get('employee-search','App\Http\Controllers\HrmEmployeesController@employeeSearch');
 Route::get('employee-dataupdate','App\Http\Controllers\HrmEmployeesController@employeeDataUpdate');
