@@ -1,211 +1,135 @@
+<div>
 
+<div onload="window.print();" class="print_invoice" id="print_invoice" style="box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5);
+  padding:2mm;
+  margin: 0 auto;
+  width: 250px;
+  background: #FFF;">
+    <div class="ticket">
 
-<div class="_report_button_header">
- <a class="nav-link"  href="{{url('sales')}}" role="button"><i class="fa fa-arrow-left"></i></a>
- @can('sales-edit')
-    <a class="nav-link"  title="Edit" href="{{ route('sales.edit',$data->id) }}">
-                                      <i class="nav-icon fas fa-edit"></i>
-     </a>
-  @endcan
-    
-    <a style="cursor: pointer;" class="nav-link"  title="Print" onclick="javascript:printDiv('printablediv')"><i class="fas fa-print"></i></a>
-      <a style="cursor: pointer;" onclick="fnExcelReport();" class="nav-link"  title="Excel Download" ><i class="fa fa-file-excel" aria-hidden="true"></i></a>
-         @include('backend.message.message')
-  </div>
-
-<section class="invoice" id="printablediv" style="">
-		
-            <table class="table" style="border-collapse: collapse;">
-            	<tr>
-            		<td colspan="6" style="text-align: center;">
-            			  {{ $settings->_top_title ?? '' }}<br>
-                   <img src="{{url('/')}}/{{$settings->logo}}" alt="{{$settings->name ?? '' }}" style="height: 60px;width: 60px"  ><br>
-            			<strong>{{ $settings->name ?? '' }}</strong><br>
-		         {{$settings->_address ?? '' }}<br>
-		        {{$settings->_phone ?? '' }}<br>
-		        {{$settings->_email ?? '' }}<br>
-            @php
-        $bin = $settings->_bin ?? '';
-      @endphp
-      @if($bin !='')
-      VAT REGISTRATION NO: {{ $settings->_bin ?? '' }}<br>
-      @endif
-		        <b>Invoice/Bill</b>
-            		</td>
-            	</tr>
-                <tr>
-               
-                <td colspan="6" style="border: 1px dotted grey;">
-                  <table style="text-align: left;">
-                    <tr> <td style="border:none;" > {{ invoice_barcode($data->_order_number ?? '') }}</td></tr>
-                    <tr> <td style="border:none;" > Invoice No: {{ $data->_order_number ?? '' }}</td></tr>
-                  <tr> <td style="border:none;" > Date: {{ _view_date_formate($data->_date ?? '') }}</td></tr>
-                  </table>
-                </td>
-              </tr>
-            	<tr>
-            		<td colspan="6" style="text-align: left;border: 1px dotted grey;">
-            			<table style="">
-            				 <tr> <td style="border:none;" > <b>Customer:</b> @if($form_settings->_defaut_customer ==$data->_ledger_id)
+            <p class="centered" style="font-size: .7em;color: #666;line-height: 1.2em;text-align:center;">
+        <span> <img src="{{asset($settings->logo)}}" style="width: 200px;margin-top: -50px;margin-bottom: -37px;"><br>
+        <span style="text-align:center;font-weight:bold;">{{ $data->_organization->_name ?? '' }}</span>
+                
+        <br>{!! $data->_organization->_address ?? '' !!}
+        <br>{{$settings->_phone ?? '' }}<br>
+         
+        <br>
+        {{ invoice_barcode($data->_order_number ?? '') }}
+        <br>
+  <span style="font-size:22px;font-weight:bold;color:#000;">{{ $data->_order_number ?? '' }}</span>
+              <br><br><span style="font-size:1em;font-weight:bold;color:#000;"> Date: {{ _view_date_formate($data->_date ?? '') }} </span>
+      </p>
+              
+      
+       <p class="centered" style="font-size: .7em;color: #666;line-height: 1.2em;margin-top:-15px;">
+        
+                
+                <br>Customer: @if($form_settings->_defaut_customer ==$data->_ledger_id)
                       {{ $data->_referance ?? $data->_ledger->_name }}
                   @else
                   {{$data->_ledger->_name ?? '' }}
-                  @endif</td></tr>
-            				
-			                <tr> <td style="border:none;" >Phone:{{$data->_phone ?? '' }} </td></tr>
-			                <tr> <td style="border:none;" >Address:{{$data->_address ?? '' }} </td></tr>
-            			</table>
-            		</td>
-            	
-            	</tr>
-               
-               
-                <tbody>
-                   <tr>
-                   	<td style="text-align: left;border:1px dotted grey;width:5%;">SL</td>
-                   	<td style="text-align: left;border:1px dotted grey;width:55%;">Item</td>
-                    <td style="text-align: left;border:1px dotted grey;width:10%;">Unit</td>
-                   	<td style="text-align: right;border:1px dotted grey;width:10%;">QTY</td>
-                   	<td style="text-align: right;border:1px dotted grey;width:10%;">Rate</td>
-                   	<td style="text-align: right;border:1px dotted grey;width:10%;">Amount</td>
-                   </tr>
-                   @php
-                                    $_value_total = 0;
-                                    $_vat_total = 0;
-                                    $_qty_total = 0;
-                                    $_total_discount_amount = 0;
-                                  @endphp
-                                  @forelse($data->_master_details AS $item_key=>$_item )
-                                  <tr>
-                                  
-                                     @php
-                                      $_value_total +=$_item->_value ?? 0;
-                                      $_vat_total += $_item->_vat_amount ?? 0;
-                                      $_qty_total += $_item->_qty ?? 0;
-                                      $_total_discount_amount += $_item->_discount_amount ?? 0;
-                                     @endphp
-<td class="text-left" style="border:1px dotted grey;" >{{($item_key+1)}}</td>
-<td  class="text-left" style="border:1px dotted grey;">{!! $_item->_items->_name ?? '' !!}<br>
-   @php 
-                                                  $_barcodes_string = $_item->_barcode ?? '';
-                                                  $_barcodes_string_length = strlen($_item->_barcode ?? '');
-                                                  $_barcodes = explode(",",$_barcodes_string);
-                                              @endphp
-                                              @if($_barcodes_string_length > 0)
-                                              <b>SN:</b>
-                                                  @forelse($_barcodes as $barcode)
-                                                    <span style="background: #f5f5f5;">{{$barcode ?? '' }},</span>
-                                                  @empty
-                                                  @endforelse
-                                              @endif
-
-</td>
-<td  class="text-left" style="border:1px dotted grey;">{!! $_item->_trans_unit->_name ?? '' !!}</td>
-<td  style="border:1px dotted grey;text-align: right;" >{!! _report_amount($_item->_qty ?? 0) !!}</td>
-<td  style="border:1px dotted grey;text-align: right;">{!! _report_amount($_item->_sales_rate ?? 0) !!}</td>
-<td  style="border:1px dotted grey;text-align: right;" >{!! _report_amount($_item->_value ?? 0) !!}</td>
-                                  </tr>
-                                  @empty
-                                  @endforelse
-                                   <tr>
-                              <td style="border:1px dotted grey;" colspan="3" class="text-right "><b>Sub Total</b></td>
-
-                              <td style="border:1px dotted grey;text-align: right;" class="text-right "> <b>{{ _report_amount($_qty_total ?? 0) }}</b> </td>
-                              <td style="border:1px dotted grey;text-align: right;"></td>
-                              <td style="border:1px dotted grey;text-align: right;" class=" text-right"><b> {{ _report_amount($_value_total ?? 0) }}</b>
-                              </td>
-                            </tr>
-   
-<tr>
-  <td style="border:1px dotted grey;text-align: right;" colspan="5" class="text-right" ><b>Discount[-]</b></td>
-  <td  style="border:1px dotted grey;text-align: right;" class="text-right">{!! _report_amount($data->_total_discount ?? 0) !!}</td>
-</tr>
-
-@if($form_settings->_show_vat==1)
-<tr>
-  <td style="border:1px dotted grey;text-align: right;" colspan="5" class="text-right" ><b>VAT[+]</b></td>
-  <td style="border:1px dotted grey;text-align: right;" class="text-right">{!! _report_amount($data->_total_vat ?? 0) !!}</td>
-</tr>
-@endif
-<tr>
-  <td style="border:1px dotted grey;text-align: right;" colspan="5" class="text-right" ><b>Net Total</b></td>
-  <td style="border:1px dotted grey;text-align: right;" class="text-right">{!! _report_amount($data->_total ?? 0) !!}</td>
-</tr>
-@php
-$accounts = $data->s_account ?? [];
-$_due_amount =$data->_total ?? 0;
-@endphp
-@if(sizeof($accounts) > 0)
-@foreach($accounts as $ac_val)
-@if($ac_val->_ledger->id !=$data->_ledger_id)
- @if($ac_val->_cr_amount > 0)
- @php
-  $_due_amount +=$ac_val->_cr_amount ?? 0;
- @endphp
-<tr>
-  <td style="border:1px dotted grey;text-align: right;" colspan="5" class="text-right" ><b> {!! $ac_val->_ledger->_name ?? '' !!}[+]
-    </b></td>
-  <td style="border:1px dotted grey;text-align: right;" class="text-right">{!! _report_amount( $ac_val->_cr_amount ?? 0 ) !!}</td>
-</tr>
-@endif
-@if($ac_val->_dr_amount > 0)
- @php
-  $_due_amount -=$ac_val->_dr_amount ?? 0;
- @endphp
-<tr>
-  <td style="border:1px dotted grey;text-align: right;" colspan="5" class="text-right"><b> {!! $ac_val->_ledger->_name ?? '' !!}[-]
-    </b></td>
-  <td style="border:1px dotted grey;text-align: right;" class="text-right">{!! _report_amount( $ac_val->_dr_amount ?? 0 ) !!}</td>
-</tr>
-@endif
-
-@endif
-@endforeach
-@if($_due_amount >= 0)
-<tr>
-  <td style="border:1px dotted grey;text-align: right;" colspan="5" class="text-right" ><b>Invoice Due </b></td>
-  <td style="border:1px dotted grey;text-align: right;" class="text-right">{!! _report_amount( $_due_amount) !!}</td>
-</tr>
-@else
-<tr>
-  <td style="border:1px dotted grey;text-align: right;" colspan="5" class="text-right" ><b>Advance </b></td>
-  <td style="border:1px dotted grey;text-align: right;" class="text-right">{!! _report_amount( -($_due_amount)) !!}</td>
-</tr>
-  
-  @endif
-
-@endif
-@if($form_settings->_show_p_balance==1)
-<tr>
-  <td style="border:1px dotted grey;text-align: right;" colspan="5" class="text-right" ><b>Previous Balance</b></td>
-  <td  style="border:1px dotted grey;text-align: right;" class="text-right">{!! _show_amount_dr_cr(_report_amount($data->_p_balance ?? 0)) !!}</td>
-</tr>
-<tr>
-  <td style="border:1px dotted grey;text-align: right;" colspan="5" class="text-right" ><b>Current Balance</b></td>
-  <td style="border:1px dotted grey;text-align: right;"class="text-right">{!! _show_amount_dr_cr(_report_amount($data->_l_balance ?? 0)) !!}</td>
-</tr>
-@endif
-<tr>
-  <td style="border:1px dotted grey;" colspan="6" class="text-left" >In Words:  {{ nv_number_to_text($data->_total ?? 0) }}</td>
-</tr>
-
-<tr>
-  <td style="border:1px dotted grey;" colspan="6" class="text-left" >  {{$settings->_sales_note ?? '' }}</td>
-</tr>
-<tr>
-  <td colspan="6">
-    @include("backend.sales.invoice_history")
-  </td>
-</tr>
-
-                   
+                  @endif  
+                <br>Phone: {{$data->_phone ?? '' }}  
+                <br> Address:{{$data->_address ?? '' }}   
                 
-				</tbody>
-            </table>
-            
-        </section>
-	
 
+      </p> 
+      
+         
+                    
+            
+            <table style="width: 100%">
+                <thead>
+                    <tr style="border-top:1px solid #666;">
+            
+                        <th style="width: 40%;text-align:left;"><h2 style="font-size: .7em;color: #666;line-height: 1.2em;">Item</h2></th>
+                        <th style="width: 20%;text-align:left;"><h2 style="font-size: .7em;color: #666;line-height: 1.2em;">Qty</h2></th>
+                        <th style="width: 20%;text-align:center;"><h2 style="font-size: .7em;color: #666;line-height: 1.2em;">Rate</h2></th>
+                        <th style="width: 20%;text-align:center;"><h2 style="font-size: .7em;color: #666;line-height: 1.2em;">Total</h2></th>
+                    </tr>
+                </thead>
+        
+                <tbody id="cartItems">
+                 @php
+                  $_total_qty = 0;
+                  @endphp
+                 @foreach($orderdetail as $detail)
+                  @php
+                  $_total_qty +=$detail->qty ?? 0;
+                  @endphp
+            <tr >
+              <td style="font-size: .7em;color: #666;line-height: 1.2em; border-top:1px solid #a19898;">
+                {{ $detail->item_name->category->parent_cat->label ?? '' }} / {{ $detail->item_name->category->label ?? '' }} / {{ $detail->item_name->label ?? '' }}
+              </td>
+              <td style="font-size: .7em;color: #666;line-height: 1.2em;border-top:1px solid #a19898;">
+                {!! $detail->qty ?? ""  !!}
+              </td>
+              <td style="font-size: .7em;color: #666;line-height: 1.2em;border-top:1px solid #a19898;">
+                {!! $detail->unit_price ?? ""  !!}
+              </td>
+              <td style="font-size: .7em;color: #666;line-height: 1.2em;border-top:1px solid #a19898;text-align:right;">
+                {!! $detail->total_price ?? 0  !!}
+              </td>
+            </tr> 
+
+        @endforeach     
+                 
+                </tbody>
+        <tr>
+          <td  style="font-size: .7em;color: #666;line-height: 1.5em;border-top:1px solid #000;">Sub Total: </td>
+          <td  style="font-size: .7em;color: #666;line-height: 1.5em;text-align: left;border-top:1px solid #000;"> {{$_total_qty}}</td>
+          <td  style="font-size: .7em;color: #666;line-height: 1.5em;border-top:1px solid #000;"> </td>
+          <td style="font-size: .7em;color: #666;line-height: 1.5em;text-align:right;border-top:1px solid #000;">
+            {{ $order->total_amount ?? '' }}
+          </td>
+        </tr>
+        <tr>
+          <td colspan="3" style="font-size: .7em;color: #666;line-height: 1.5em;">Coupon</td>
+          <td style="font-size: .7em;color: #666;line-height: 1.5em;text-align:right"><span id="print_discount">
+            {{ $order->coupon_calculated_amount ?? 0 }}
+          </span></td>
+        </tr>
+        <tr>
+          <td style="font-size: .7em;color: #666;line-height: 1.5em;" colspan="3">@lang('lang.other_discount') </td>
+          <td style="font-size: .7em;color: #666;line-height: 1.5em;text-align:right"><span id="print_tax">{{ $order->other_discount ?? 0 }}</span></td>
+        </tr>
+        <tr>
+          <td style="font-size: .7em;color: #666;line-height: 1.5em;" colspan="3">@lang('lang.service_charge') </td>
+          <td style="font-size: .7em;color: #666;line-height: 1.5em;text-align:right"><span id="print_tax">{{ $order->service_charge ?? 0 }}</span></td>
+        </tr>
+        <tr>
+          <td style="font-size: .7em;color: #666;line-height: 1.5em;" colspan="3">@lang('lang._other_charge') </td>
+          <td style="font-size: .7em;color: #666;line-height: 1.5em;text-align:right"><span id="print_tax">{{ $order->_other_charge ?? 0 }}</span></td>
+        </tr>
+        <tr style="border-top:1px solid #666;">
+          <td  style="font-size: .7em;color: #666;line-height: 1.5em;border-top:1px solid #000;"colspan="3">Net Total </td>
+          <td style="font-size: .7em;color: #666;line-height: 1.5em;border-top:1px solid #000;text-align:right"><span id="print_shipping_charge">{{ $order->net_total_amount  }}</span></td>
+        </tr>
+        <tr>
+        <td  style="text-align:left;border-top:1px solid #000;">
+           <small>@lang('lang.invoice_note')</small> 
+        </td>
+                  <td  style="text-align:left;border-top:1px solid #000;">
+           <img src="{{asset('images/google_play_qr_code.png')}}" style="width: 100%; height: auto;border-radius: 20px;" />
+                    <br>
+                    Your Smile Our Confidence
+        </td>
+        </tr>
+        
+            </table>
+      <div style="text-align:center;font-size: .6em;">
+          
+          {!!  DNS1D::getBarcodeSVG($order->id, 'PHARMA'); !!}<br>
+          <small>This is computer generated invoice. No signature required.</small>
+      </div>    
+            
+        </div>
+  </div>
+  
+</div>
 <script type="text/javascript">
-  window.print();
+
+window.print();
+
 </script>

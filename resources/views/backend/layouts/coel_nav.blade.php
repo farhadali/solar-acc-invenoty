@@ -16,10 +16,8 @@
       @include('backend.layouts.hrm_module')
      @include('backend.layouts.account_module')
      @include('backend.layouts.rlp_module')
-     
-      <!-- Messages Dropdown Menu -->
-      <li class="nav-item dropdown"> </li>
       @include('backend.layouts.inventory_module')
+      @include('backend.layouts.sales_module')
    <li class="nav-item " style="margin-top:5px;">
            <a  href="{{url('report-panel')}}" class="dropdown-item custom_nav_item" >
             <span >{{__('label.report_panel')}} </span>

@@ -28,10 +28,10 @@ $__user= Auth::user();
     
 
                    @endphp
-                    <div class="col-md-6">
+                    <div class="col-md-8">
                        @include('backend.import-purchase.search')
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                       <div class="d-flex flex-row justify-content-end">
                          @can('import-purchase-print')
                         <li class="nav-item dropdown remove_from_header">
@@ -55,9 +55,7 @@ $__user= Auth::user();
                                     
                             </li>
                             @endcan   
-                            <div class="form-group ml-2">
-                                {!! $datas->render() !!}
-                            </div>  
+                             
                             <div class="form-group ml-2">
                               <form action="" method="GET">
                                   @csrf
@@ -76,6 +74,7 @@ $__user= Auth::user();
                   </div>
               </div>
               <div class="card-body">
+
                 <div class="">
                   
                   <table class="table table-bordered table-striped table-hover _list_table">
@@ -202,10 +201,13 @@ $__user= Auth::user();
                           <td></td>
                         </tr>
                         </tbody>
+                        
                     </table>
                 </div>
                 <!-- /.d-flex -->
-                
+                <div class="d-flex flex-row justify-content-end">
+                 {!! $datas->render() !!}
+                </div>
               </div>
             </div>
             <!-- /.card -->

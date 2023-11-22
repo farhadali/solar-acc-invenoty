@@ -16,10 +16,8 @@
       <?php echo $__env->make('backend.layouts.hrm_module', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
      <?php echo $__env->make('backend.layouts.account_module', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
      <?php echo $__env->make('backend.layouts.rlp_module', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-     
-      <!-- Messages Dropdown Menu -->
-      <li class="nav-item dropdown"> </li>
       <?php echo $__env->make('backend.layouts.inventory_module', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+      <?php echo $__env->make('backend.layouts.sales_module', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
    <li class="nav-item " style="margin-top:5px;">
            <a  href="<?php echo e(url('report-panel')); ?>" class="dropdown-item custom_nav_item" >
             <span ><?php echo e(__('label.report_panel')); ?> </span>

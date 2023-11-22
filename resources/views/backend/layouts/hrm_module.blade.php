@@ -6,6 +6,16 @@
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
        <p style="padding-left: 20px;"><b>{{__('label.leave')}}</b></p>
        <div class="dropdown-divider"></div>
+       @can('hrm-attandance-list')
+        <div style="display: flex;">
+         <a href="{{url('attandance')}}" class="dropdown-item">
+            <i class="fa fa-fax mr-2" aria-hidden="true"></i> {{ __('label.hrm-attandance') }}
+          </a>
+          <a  href="{{route('attandance.create')}}" class="dropdown-item text-right">
+            <i class="nav-icon fas fa-plus"></i>
+          </a>
+        </div>
+        @endcan
         @can('week-work-day')
         <div style="display: flex;">
          <a href="{{url('weekworkday')}}" class="dropdown-item">

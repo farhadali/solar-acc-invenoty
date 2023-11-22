@@ -110,7 +110,7 @@
             <a href="#" class="nav-link <?php echo e(Route::is('purchase-return.*')    ? 'main_nav_active' : ''); ?>">
               <i class="fa fa-coins nav-icon" aria-hidden="true"></i>
               <p>
-                 <?php echo e(__('label.Accounts')); ?>
+                 <?php echo e(__('label.receive_payment')); ?>
 
                 <i class="right fas fa-angle-left"></i>
               </p>

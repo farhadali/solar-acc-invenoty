@@ -46,10 +46,10 @@ $__user= Auth::user();
     
 
                    ?>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                       <?php echo $__env->make('backend.import-material-receive.search', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-6">
                       <div class="d-flex flex-row justify-content-end">
                          <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('import-material-receive-print')): ?>
                         <li class="nav-item dropdown remove_from_header">

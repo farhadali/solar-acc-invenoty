@@ -46,10 +46,10 @@ $__user= Auth::user();
     
 
                    @endphp
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                       @include('backend.import-material-receive.search')
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-6">
                       <div class="d-flex flex-row justify-content-end">
                          @can('import-material-receive-print')
                         <li class="nav-item dropdown remove_from_header">

@@ -19,13 +19,13 @@ use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
 
-    // function __construct()
-    // {
-    //      $this->middleware('permission:user-list|user-create|user-edit|user-delete', ['only' => ['index','store']]);
-    //      $this->middleware('permission:user-create', ['only' => ['create','store']]);
-    //      $this->middleware('permission:user-edit', ['only' => ['edit','update']]);
-    //      $this->middleware('permission:user-delete', ['only' => ['destroy']]);
-    // }
+    function __construct()
+    {
+         $this->middleware('permission:user-list|user-create|user-edit|user-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:user-create', ['only' => ['create','store']]);
+         $this->middleware('permission:user-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:user-delete', ['only' => ['destroy']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -71,7 +71,7 @@ class UserController extends Controller
     {
         
         $limit = $request->limit ?? 10;
-        $data = User::where('name','!=','');
+        $data = User::status()->where('name','!=','');
         if($request->has('name') && $request->name !=''){
             $data = $data->where('name','like',"%$request->name%");
         }
@@ -288,7 +288,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        User::where('id',$id)->update(['status'=>0]);
+        User::where('id',$id)->update(['_is_delete'=>1]);
         return redirect()->back()->with('success','User deleted successfully');
     }
 }

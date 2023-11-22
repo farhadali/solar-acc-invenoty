@@ -95,7 +95,7 @@
          <div class="dropdown-divider"></div>
         <div style="display: flex;">
           <a href="{{url('store-house')}}" class="dropdown-item">
-           <i class="fa fa-adjust mr-2" aria-hidden="true"></i> {{ __('label.Store House') }} 
+           <i class="fa fa-adjust mr-2" aria-hidden="true"></i> {{ __('label._store_id') }} 
           </a>
             <a   
           class="dropdown-item text-right "
