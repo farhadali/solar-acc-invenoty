@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\hrm\HrmEmpaddress;
+use App\Models\HRM\HrmEmpaddress;
 use Illuminate\Http\Request;
 
 class HrmEmpaddressController extends Controller
@@ -41,7 +41,7 @@ class HrmEmpaddressController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\hrm\HrmEmpaddress  $hrmEmpaddress
+     * @param  \App\Models\HRM\HrmEmpaddress  $hrmEmpaddress
      * @return \Illuminate\Http\Response
      */
     public function show(HrmEmpaddress $hrmEmpaddress)
@@ -52,7 +52,7 @@ class HrmEmpaddressController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\hrm\HrmEmpaddress  $hrmEmpaddress
+     * @param  \App\Models\HRM\HrmEmpaddress  $hrmEmpaddress
      * @return \Illuminate\Http\Response
      */
     public function edit(HrmEmpaddress $hrmEmpaddress)
@@ -64,7 +64,7 @@ class HrmEmpaddressController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\hrm\HrmEmpaddress  $hrmEmpaddress
+     * @param  \App\Models\HRM\HrmEmpaddress  $hrmEmpaddress
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, HrmEmpaddress $hrmEmpaddress)
@@ -75,7 +75,7 @@ class HrmEmpaddressController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\hrm\HrmEmpaddress  $hrmEmpaddress
+     * @param  \App\Models\HRM\HrmEmpaddress  $hrmEmpaddress
      * @return \Illuminate\Http\Response
      */
     public function destroy(HrmEmpaddress $hrmEmpaddress)

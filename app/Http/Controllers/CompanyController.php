@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\hrm\Company;
+use App\Models\HRM\Company;
 use Illuminate\Http\Request;
 use Auth;
 use Session;
@@ -89,7 +89,7 @@ class CompanyController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\hrm\Company  $Company
+     * @param  \App\Models\HRM\Company  $Company
      * @return \Illuminate\Http\Response
      */
    public function show($id)
@@ -103,7 +103,7 @@ class CompanyController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\hrm\Company  $Company
+     * @param  \App\Models\HRM\Company  $Company
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -119,7 +119,7 @@ class CompanyController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\hrm\Company  $Company
+     * @param  \App\Models\HRM\Company  $Company
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -152,7 +152,7 @@ class CompanyController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\hrm\Company  $Company
+     * @param  \App\Models\HRM\Company  $Company
      * @return \Illuminate\Http\Response
      */
      public function destroy($id)

@@ -33,7 +33,7 @@ use App\Models\BarcodeDetail;
 use App\Models\SalesBarcode;
 use App\Models\Warranty;
 use App\Models\TransectionTerms;
-use App\Models\hrm\Company;
+use App\Models\HRM\Company;
 use Auth;
 use DB;
 use Illuminate\Http\Request;

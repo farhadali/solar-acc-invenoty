@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\hrm\HrmLeaveentitlement;
+use App\Models\HRM\HrmLeaveentitlement;
 use Illuminate\Http\Request;
 
 class HrmLeaveentitlementController extends Controller
@@ -41,7 +41,7 @@ class HrmLeaveentitlementController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\hrm\HrmLeaveentitlement  $hrmLeaveentitlement
+     * @param  \App\Models\HRM\HrmLeaveentitlement  $hrmLeaveentitlement
      * @return \Illuminate\Http\Response
      */
     public function show(HrmLeaveentitlement $hrmLeaveentitlement)
@@ -52,7 +52,7 @@ class HrmLeaveentitlementController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\hrm\HrmLeaveentitlement  $hrmLeaveentitlement
+     * @param  \App\Models\HRM\HrmLeaveentitlement  $hrmLeaveentitlement
      * @return \Illuminate\Http\Response
      */
     public function edit(HrmLeaveentitlement $hrmLeaveentitlement)
@@ -64,7 +64,7 @@ class HrmLeaveentitlementController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\hrm\HrmLeaveentitlement  $hrmLeaveentitlement
+     * @param  \App\Models\HRM\HrmLeaveentitlement  $hrmLeaveentitlement
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, HrmLeaveentitlement $hrmLeaveentitlement)
@@ -75,7 +75,7 @@ class HrmLeaveentitlementController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\hrm\HrmLeaveentitlement  $hrmLeaveentitlement
+     * @param  \App\Models\HRM\HrmLeaveentitlement  $hrmLeaveentitlement
      * @return \Illuminate\Http\Response
      */
     public function destroy(HrmLeaveentitlement $hrmLeaveentitlement)

@@ -33,7 +33,7 @@ class MaterialIssueReturn extends Model
         return $this->hasOne(CostCenter::class,'id','_cost_center_id');
     }
    public function _organization(){
-        return $this->hasOne(\App\Models\hrm\Company::class,'id','organization_id');
+        return $this->hasOne(\App\Models\HRM\Company::class,'id','organization_id');
     }
 
    

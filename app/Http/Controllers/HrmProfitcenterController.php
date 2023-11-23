@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\hrm\HrmProfitcenter;
+use App\Models\HRM\HrmProfitcenter;
 use Illuminate\Http\Request;
 
 class HrmProfitcenterController extends Controller
@@ -41,7 +41,7 @@ class HrmProfitcenterController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\hrm\HrmProfitcenter  $hrmProfitcenter
+     * @param  \App\Models\HRM\HrmProfitcenter  $hrmProfitcenter
      * @return \Illuminate\Http\Response
      */
     public function show(HrmProfitcenter $hrmProfitcenter)
@@ -52,7 +52,7 @@ class HrmProfitcenterController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\hrm\HrmProfitcenter  $hrmProfitcenter
+     * @param  \App\Models\HRM\HrmProfitcenter  $hrmProfitcenter
      * @return \Illuminate\Http\Response
      */
     public function edit(HrmProfitcenter $hrmProfitcenter)
@@ -64,7 +64,7 @@ class HrmProfitcenterController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\hrm\HrmProfitcenter  $hrmProfitcenter
+     * @param  \App\Models\HRM\HrmProfitcenter  $hrmProfitcenter
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, HrmProfitcenter $hrmProfitcenter)
@@ -75,7 +75,7 @@ class HrmProfitcenterController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\hrm\HrmProfitcenter  $hrmProfitcenter
+     * @param  \App\Models\HRM\HrmProfitcenter  $hrmProfitcenter
      * @return \Illuminate\Http\Response
      */
     public function destroy(HrmProfitcenter $hrmProfitcenter)

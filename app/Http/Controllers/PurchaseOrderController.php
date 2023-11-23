@@ -10,7 +10,7 @@ use App\Models\AccountGroup;
 use App\Models\AccountHead;
 use App\Models\Accounts;
 use App\Models\Branch;
-use App\Models\hrm\Company;
+use App\Models\HRM\Company;
 use App\Models\VoucherType;
 use App\Models\VoucherMasterDetail;
 use App\Models\StoreHouse;

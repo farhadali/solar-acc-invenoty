@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\hrm;
+namespace App\Models\HRM;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -31,6 +31,6 @@ class HrmAttendance extends Model implements Auditable
             return $this->hasOne(\App\Models\CostCenter::class,'id','_cost_center_id')->select('id','_name');
     }
     public function _organization(){
-            return $this->hasOne(\App\Models\hrm\Company::class,'id','organization_id')->select('id','_name');
+            return $this->hasOne(\App\Models\HRM\Company::class,'id','organization_id')->select('id','_name');
     }
 }

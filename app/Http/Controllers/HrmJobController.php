@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\hrm\HrmJob;
+use App\Models\HRM\HrmJob;
 use Illuminate\Http\Request;
 
 class HrmJobController extends Controller
@@ -41,7 +41,7 @@ class HrmJobController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\hrm\HrmJob  $hrmJob
+     * @param  \App\Models\HRM\HrmJob  $hrmJob
      * @return \Illuminate\Http\Response
      */
     public function show(HrmJob $hrmJob)
@@ -52,7 +52,7 @@ class HrmJobController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\hrm\HrmJob  $hrmJob
+     * @param  \App\Models\HRM\HrmJob  $hrmJob
      * @return \Illuminate\Http\Response
      */
     public function edit(HrmJob $hrmJob)
@@ -64,7 +64,7 @@ class HrmJobController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\hrm\HrmJob  $hrmJob
+     * @param  \App\Models\HRM\HrmJob  $hrmJob
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, HrmJob $hrmJob)
@@ -75,7 +75,7 @@ class HrmJobController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\hrm\HrmJob  $hrmJob
+     * @param  \App\Models\HRM\HrmJob  $hrmJob
      * @return \Illuminate\Http\Response
      */
     public function destroy(HrmJob $hrmJob)

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\hrm\HrmRecruitment;
+use App\Models\HRM\HrmRecruitment;
 use Illuminate\Http\Request;
 
 class HrmRecruitmentController extends Controller
@@ -41,7 +41,7 @@ class HrmRecruitmentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\hrm\HrmRecruitment  $hrmRecruitment
+     * @param  \App\Models\HRM\HrmRecruitment  $hrmRecruitment
      * @return \Illuminate\Http\Response
      */
     public function show(HrmRecruitment $hrmRecruitment)
@@ -52,7 +52,7 @@ class HrmRecruitmentController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\hrm\HrmRecruitment  $hrmRecruitment
+     * @param  \App\Models\HRM\HrmRecruitment  $hrmRecruitment
      * @return \Illuminate\Http\Response
      */
     public function edit(HrmRecruitment $hrmRecruitment)
@@ -64,7 +64,7 @@ class HrmRecruitmentController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\hrm\HrmRecruitment  $hrmRecruitment
+     * @param  \App\Models\HRM\HrmRecruitment  $hrmRecruitment
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, HrmRecruitment $hrmRecruitment)
@@ -75,7 +75,7 @@ class HrmRecruitmentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\hrm\HrmRecruitment  $hrmRecruitment
+     * @param  \App\Models\HRM\HrmRecruitment  $hrmRecruitment
      * @return \Illuminate\Http\Response
      */
     public function destroy(HrmRecruitment $hrmRecruitment)

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\hrm\HrmEmergency;
+use App\Models\HRM\HrmEmergency;
 use Illuminate\Http\Request;
 
 class HrmEmergencyController extends Controller
@@ -41,7 +41,7 @@ class HrmEmergencyController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\hrm\HrmEmergency  $hrmEmergency
+     * @param  \App\Models\HRM\HrmEmergency  $hrmEmergency
      * @return \Illuminate\Http\Response
      */
     public function show(HrmEmergency $hrmEmergency)
@@ -52,7 +52,7 @@ class HrmEmergencyController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\hrm\HrmEmergency  $hrmEmergency
+     * @param  \App\Models\HRM\HrmEmergency  $hrmEmergency
      * @return \Illuminate\Http\Response
      */
     public function edit(HrmEmergency $hrmEmergency)
@@ -64,7 +64,7 @@ class HrmEmergencyController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\hrm\HrmEmergency  $hrmEmergency
+     * @param  \App\Models\HRM\HrmEmergency  $hrmEmergency
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, HrmEmergency $hrmEmergency)
@@ -75,7 +75,7 @@ class HrmEmergencyController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\hrm\HrmEmergency  $hrmEmergency
+     * @param  \App\Models\HRM\HrmEmergency  $hrmEmergency
      * @return \Illuminate\Http\Response
      */
     public function destroy(HrmEmergency $hrmEmergency)

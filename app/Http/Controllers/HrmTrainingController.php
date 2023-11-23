@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\hrm\HrmTraining;
+use App\Models\HRM\HrmTraining;
 use Illuminate\Http\Request;
 
 class HrmTrainingController extends Controller
@@ -41,7 +41,7 @@ class HrmTrainingController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\hrm\HrmTraining  $hrmTraining
+     * @param  \App\Models\HRM\HrmTraining  $hrmTraining
      * @return \Illuminate\Http\Response
      */
     public function show(HrmTraining $hrmTraining)
@@ -52,7 +52,7 @@ class HrmTrainingController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\hrm\HrmTraining  $hrmTraining
+     * @param  \App\Models\HRM\HrmTraining  $hrmTraining
      * @return \Illuminate\Http\Response
      */
     public function edit(HrmTraining $hrmTraining)
@@ -64,7 +64,7 @@ class HrmTrainingController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\hrm\HrmTraining  $hrmTraining
+     * @param  \App\Models\HRM\HrmTraining  $hrmTraining
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, HrmTraining $hrmTraining)
@@ -75,7 +75,7 @@ class HrmTrainingController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\hrm\HrmTraining  $hrmTraining
+     * @param  \App\Models\HRM\HrmTraining  $hrmTraining
      * @return \Illuminate\Http\Response
      */
     public function destroy(HrmTraining $hrmTraining)

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\hrm\HrmGuarantor;
+use App\Models\HRM\HrmGuarantor;
 use Illuminate\Http\Request;
 
 class HrmGuarantorController extends Controller
@@ -41,7 +41,7 @@ class HrmGuarantorController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\hrm\HrmGuarantor  $hrmGuarantor
+     * @param  \App\Models\HRM\HrmGuarantor  $hrmGuarantor
      * @return \Illuminate\Http\Response
      */
     public function show(HrmGuarantor $hrmGuarantor)
@@ -52,7 +52,7 @@ class HrmGuarantorController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\hrm\HrmGuarantor  $hrmGuarantor
+     * @param  \App\Models\HRM\HrmGuarantor  $hrmGuarantor
      * @return \Illuminate\Http\Response
      */
     public function edit(HrmGuarantor $hrmGuarantor)
@@ -64,7 +64,7 @@ class HrmGuarantorController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\hrm\HrmGuarantor  $hrmGuarantor
+     * @param  \App\Models\HRM\HrmGuarantor  $hrmGuarantor
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, HrmGuarantor $hrmGuarantor)
@@ -75,7 +75,7 @@ class HrmGuarantorController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\hrm\HrmGuarantor  $hrmGuarantor
+     * @param  \App\Models\HRM\HrmGuarantor  $hrmGuarantor
      * @return \Illuminate\Http\Response
      */
     public function destroy(HrmGuarantor $hrmGuarantor)

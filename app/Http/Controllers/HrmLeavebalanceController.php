@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\hrm\HrmLeavebalance;
+use App\Models\HRM\HrmLeavebalance;
 use Illuminate\Http\Request;
 
 class HrmLeavebalanceController extends Controller
@@ -41,7 +41,7 @@ class HrmLeavebalanceController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\hrm\HrmLeavebalance  $hrmLeavebalance
+     * @param  \App\Models\HRM\HrmLeavebalance  $hrmLeavebalance
      * @return \Illuminate\Http\Response
      */
     public function show(HrmLeavebalance $hrmLeavebalance)
@@ -52,7 +52,7 @@ class HrmLeavebalanceController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\hrm\HrmLeavebalance  $hrmLeavebalance
+     * @param  \App\Models\HRM\HrmLeavebalance  $hrmLeavebalance
      * @return \Illuminate\Http\Response
      */
     public function edit(HrmLeavebalance $hrmLeavebalance)
@@ -64,7 +64,7 @@ class HrmLeavebalanceController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\hrm\HrmLeavebalance  $hrmLeavebalance
+     * @param  \App\Models\HRM\HrmLeavebalance  $hrmLeavebalance
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, HrmLeavebalance $hrmLeavebalance)
@@ -75,7 +75,7 @@ class HrmLeavebalanceController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\hrm\HrmLeavebalance  $hrmLeavebalance
+     * @param  \App\Models\HRM\HrmLeavebalance  $hrmLeavebalance
      * @return \Illuminate\Http\Response
      */
     public function destroy(HrmLeavebalance $hrmLeavebalance)

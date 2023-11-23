@@ -46,7 +46,7 @@ class Budgets extends Model implements Auditable
         return $this->hasOne(CostCenter::class,'id','_cost_center_id')->select('id','_name');
     }
    public function _organization(){
-        return $this->hasOne(\App\Models\hrm\Company::class,'id','organization_id')->select('id','_name');
+        return $this->hasOne(\App\Models\HRM\Company::class,'id','organization_id')->select('id','_name');
     }
 
     public function budget_authorised_order(){

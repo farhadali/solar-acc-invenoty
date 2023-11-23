@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\hrm\CurrentSalaryStructure;
-use App\Models\hrm\HrmPayheads;
-use App\Models\hrm\CurrentSalaryMaster;
+use App\Models\HRM\CurrentSalaryStructure;
+use App\Models\HRM\HrmPayheads;
+use App\Models\HRM\CurrentSalaryMaster;
 
 use Illuminate\Http\Request;
 use Auth;

@@ -15,7 +15,7 @@ class RlpAcknowledgement extends Model
 
 
     public function _employee(){
-        return $this->hasOne(\App\Models\hrm\HrmEmployees::class,'id','user_id')->with(['_emp_department','_emp_designation']);
+        return $this->hasOne(\App\Models\HRM\HrmEmployees::class,'id','user_id')->with(['_emp_department','_emp_designation']);
     }
 
 

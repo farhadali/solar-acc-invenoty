@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\hrm\HrmPayunit;
+use App\Models\HRM\HrmPayunit;
 use Illuminate\Http\Request;
 
 class HrmPayunitController extends Controller
@@ -41,7 +41,7 @@ class HrmPayunitController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\hrm\HrmPayunit  $hrmPayunit
+     * @param  \App\Models\HRM\HrmPayunit  $hrmPayunit
      * @return \Illuminate\Http\Response
      */
     public function show(HrmPayunit $hrmPayunit)
@@ -52,7 +52,7 @@ class HrmPayunitController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\hrm\HrmPayunit  $hrmPayunit
+     * @param  \App\Models\HRM\HrmPayunit  $hrmPayunit
      * @return \Illuminate\Http\Response
      */
     public function edit(HrmPayunit $hrmPayunit)
@@ -64,7 +64,7 @@ class HrmPayunitController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\hrm\HrmPayunit  $hrmPayunit
+     * @param  \App\Models\HRM\HrmPayunit  $hrmPayunit
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, HrmPayunit $hrmPayunit)
@@ -75,7 +75,7 @@ class HrmPayunitController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\hrm\HrmPayunit  $hrmPayunit
+     * @param  \App\Models\HRM\HrmPayunit  $hrmPayunit
      * @return \Illuminate\Http\Response
      */
     public function destroy(HrmPayunit $hrmPayunit)

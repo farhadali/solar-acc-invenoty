@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\hrm;
+namespace App\Models\HRM;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,7 +17,7 @@ class CurrentSalaryMaster extends Model implements Auditable{
 
 
     public function _employee(){
-        return $this->hasOne(\App\Models\hrm\HrmEmployees::class,'id','_employee_id')->with(['_organization','_branch','_cost_center','_employee_cat','_emp_department','_emp_designation','_emp_grade','_emp_location']);
+        return $this->hasOne(\App\Models\HRM\HrmEmployees::class,'id','_employee_id')->with(['_organization','_branch','_cost_center','_employee_cat','_emp_department','_emp_designation','_emp_grade','_emp_location']);
     }
 
     public function _details(){

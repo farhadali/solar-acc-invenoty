@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\hrm\HrmHolidays;
-use App\Models\hrm\HrmHolidayDetail;
+use App\Models\HRM\HrmHolidays;
+use App\Models\HRM\HrmHolidayDetail;
 use Illuminate\Http\Request;
 use Session;
 use Auth;
@@ -113,7 +113,7 @@ class HrmHolidaysController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\hrm\HrmHolidays  $hrmHolidays
+     * @param  \App\Models\HRM\HrmHolidays  $hrmHolidays
      * @return \Illuminate\Http\Response
      */
     public function show( $id)
@@ -128,7 +128,7 @@ class HrmHolidaysController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\hrm\HrmHolidays  $hrmHolidays
+     * @param  \App\Models\HRM\HrmHolidays  $hrmHolidays
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -143,7 +143,7 @@ class HrmHolidaysController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\hrm\HrmHolidays  $hrmHolidays
+     * @param  \App\Models\HRM\HrmHolidays  $hrmHolidays
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -227,7 +227,7 @@ class HrmHolidaysController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\hrm\HrmHolidays  $hrmHolidays
+     * @param  \App\Models\HRM\HrmHolidays  $hrmHolidays
      * @return \Illuminate\Http\Response
      */
     public function destroy(HrmHolidays $hrmHolidays)

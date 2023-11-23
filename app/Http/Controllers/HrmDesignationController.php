@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\hrm\Designation;
+use App\Models\HRM\Designation;
 use Illuminate\Http\Request;
 use Auth;
 use Session;
@@ -95,7 +95,7 @@ class HrmDesignationController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\hrm\Designation  $Designation
+     * @param  \App\Models\HRM\Designation  $Designation
      * @return \Illuminate\Http\Response
      */
    public function show($id)
@@ -109,7 +109,7 @@ class HrmDesignationController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\hrm\Designation  $Designation
+     * @param  \App\Models\HRM\Designation  $Designation
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -125,7 +125,7 @@ class HrmDesignationController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\hrm\Designation  $Designation
+     * @param  \App\Models\HRM\Designation  $Designation
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -154,7 +154,7 @@ class HrmDesignationController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\hrm\Designation  $Designation
+     * @param  \App\Models\HRM\Designation  $Designation
      * @return \Illuminate\Http\Response
      */
      public function destroy($id)

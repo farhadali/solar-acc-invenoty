@@ -328,7 +328,7 @@ function make_po_number($organization_id,$branch_id){
                                             ->where('_branch_id',$branch_id)
                                             ->count();
      $row_counts = ($row_counts+1);                                   
-    $org_code = \App\Models\hrm\Company::find($organization_id)->_code ?? '';
+    $org_code = \App\Models\HRM\Company::find($organization_id)->_code ?? '';
     $branch_code = \App\Models\Branch::find($branch_id)->_code ?? '';
     if(strlen($row_counts)==1){
         $last_row_number = "0".$row_counts;
@@ -351,7 +351,7 @@ function make_order_number($table,$organization_id,$branch_id){
         $row_counts = 0;
     }
     $row_counts = ($row_counts+1);                                   
-    $org_code = \App\Models\hrm\Company::find($organization_id)->_code ?? '';
+    $org_code = \App\Models\HRM\Company::find($organization_id)->_code ?? '';
     $branch_code = \App\Models\Branch::find($branch_id)->_code ?? '';
     if(strlen($row_counts)==1){
         $last_row_number = "0".$row_counts;
@@ -952,7 +952,7 @@ if (! function_exists('permited_stores')) {
 if (! function_exists('permited_organization')) {
     function permited_organization($ids)
     {
-        return \App\Models\hrm\Company::whereIn('id',$ids)->select('id','_name')->get();
+        return \App\Models\HRM\Company::whereIn('id',$ids)->select('id','_name')->get();
     }
 }
 

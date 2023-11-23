@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\hrm\HrmItaxledger;
+use App\Models\HRM\HrmItaxledger;
 use Illuminate\Http\Request;
 
 class HrmItaxledgerController extends Controller
@@ -41,7 +41,7 @@ class HrmItaxledgerController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\hrm\HrmItaxledger  $hrmItaxledger
+     * @param  \App\Models\HRM\HrmItaxledger  $hrmItaxledger
      * @return \Illuminate\Http\Response
      */
     public function show(HrmItaxledger $hrmItaxledger)
@@ -52,7 +52,7 @@ class HrmItaxledgerController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\hrm\HrmItaxledger  $hrmItaxledger
+     * @param  \App\Models\HRM\HrmItaxledger  $hrmItaxledger
      * @return \Illuminate\Http\Response
      */
     public function edit(HrmItaxledger $hrmItaxledger)
@@ -64,7 +64,7 @@ class HrmItaxledgerController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\hrm\HrmItaxledger  $hrmItaxledger
+     * @param  \App\Models\HRM\HrmItaxledger  $hrmItaxledger
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, HrmItaxledger $hrmItaxledger)
@@ -75,7 +75,7 @@ class HrmItaxledgerController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\hrm\HrmItaxledger  $hrmItaxledger
+     * @param  \App\Models\HRM\HrmItaxledger  $hrmItaxledger
      * @return \Illuminate\Http\Response
      */
     public function destroy(HrmItaxledger $hrmItaxledger)

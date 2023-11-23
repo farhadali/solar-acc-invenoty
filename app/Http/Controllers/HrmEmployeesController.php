@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\hrm\HrmEmployees;
-use App\Models\hrm\HrmEmpCategory;
-use App\Models\hrm\HrmDepartment;
-use App\Models\hrm\Designation;
-use App\Models\hrm\HrmGrade;
-use App\Models\hrm\HrmEmpLocation;
+use App\Models\HRM\HrmEmployees;
+use App\Models\HRM\HrmEmpCategory;
+use App\Models\HRM\HrmDepartment;
+use App\Models\HRM\Designation;
+use App\Models\HRM\HrmGrade;
+use App\Models\HRM\HrmEmpLocation;
 use App\Models\AccountLedger;
 use App\Models\GeneralSettings;
 use Illuminate\Http\Request;
@@ -282,7 +282,7 @@ class HrmEmployeesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\hrm\HrmEmployees  $HrmEmployees
+     * @param  \App\Models\HRM\HrmEmployees  $HrmEmployees
      * @return \Illuminate\Http\Response
      */
    public function show($id)
@@ -296,7 +296,7 @@ class HrmEmployeesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\hrm\HrmEmployees  $HrmEmployees
+     * @param  \App\Models\HRM\HrmEmployees  $HrmEmployees
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -318,7 +318,7 @@ class HrmEmployeesController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\hrm\HrmEmployees  $HrmEmployees
+     * @param  \App\Models\HRM\HrmEmployees  $HrmEmployees
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -434,7 +434,7 @@ class HrmEmployeesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\hrm\HrmEmployees  $HrmEmployees
+     * @param  \App\Models\HRM\HrmEmployees  $HrmEmployees
      * @return \Illuminate\Http\Response
      */
      public function destroy($id)

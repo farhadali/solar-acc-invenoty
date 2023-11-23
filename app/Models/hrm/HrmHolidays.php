@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Models\hrm;
+namespace App\Models\HRM;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\hrm\HrmHolidayDetail;
+use App\Models\HRM\HrmHolidayDetail;
 use App\Models\User;
 
 class HrmHolidays extends Model

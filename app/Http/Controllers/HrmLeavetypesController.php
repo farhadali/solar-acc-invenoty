@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\hrm\HrmLeavetypes;
+use App\Models\HRM\HrmLeavetypes;
 use Illuminate\Http\Request;
 use Session;
 use Auth;
@@ -81,7 +81,7 @@ class HrmLeavetypesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\hrm\HrmLeavetypes  $hrmLeavetypes
+     * @param  \App\Models\HRM\HrmLeavetypes  $hrmLeavetypes
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -95,7 +95,7 @@ class HrmLeavetypesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\hrm\HrmLeavetypes  $hrmLeavetypes
+     * @param  \App\Models\HRM\HrmLeavetypes  $hrmLeavetypes
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -110,7 +110,7 @@ class HrmLeavetypesController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\hrm\HrmLeavetypes  $hrmLeavetypes
+     * @param  \App\Models\HRM\HrmLeavetypes  $hrmLeavetypes
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -139,7 +139,7 @@ class HrmLeavetypesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\hrm\HrmLeavetypes  $hrmLeavetypes
+     * @param  \App\Models\HRM\HrmLeavetypes  $hrmLeavetypes
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

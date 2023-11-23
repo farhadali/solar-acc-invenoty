@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\hrm\HrmGrade;
+use App\Models\HRM\HrmGrade;
 use Illuminate\Http\Request;
 use Auth;
 use Session;
@@ -84,7 +84,7 @@ class HrmGradeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\hrm\HrmGrade  $HrmGrade
+     * @param  \App\Models\HRM\HrmGrade  $HrmGrade
      * @return \Illuminate\Http\Response
      */
    public function show($id)
@@ -98,7 +98,7 @@ class HrmGradeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\hrm\HrmGrade  $HrmGrade
+     * @param  \App\Models\HRM\HrmGrade  $HrmGrade
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -114,7 +114,7 @@ class HrmGradeController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\hrm\HrmGrade  $HrmGrade
+     * @param  \App\Models\HRM\HrmGrade  $HrmGrade
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -143,7 +143,7 @@ class HrmGradeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\hrm\HrmGrade  $HrmGrade
+     * @param  \App\Models\HRM\HrmGrade  $HrmGrade
      * @return \Illuminate\Http\Response
      */
      public function destroy($id)
