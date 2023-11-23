@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\hrm\HrmReward;
+use App\Models\HRM\HrmReward;
 use Illuminate\Http\Request;
 
 class HrmRewardController extends Controller
@@ -41,7 +41,7 @@ class HrmRewardController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\hrm\HrmReward  $hrmReward
+     * @param  \App\Models\HRM\HrmReward  $hrmReward
      * @return \Illuminate\Http\Response
      */
     public function show(HrmReward $hrmReward)
@@ -52,7 +52,7 @@ class HrmRewardController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\hrm\HrmReward  $hrmReward
+     * @param  \App\Models\HRM\HrmReward  $hrmReward
      * @return \Illuminate\Http\Response
      */
     public function edit(HrmReward $hrmReward)
@@ -64,7 +64,7 @@ class HrmRewardController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\hrm\HrmReward  $hrmReward
+     * @param  \App\Models\HRM\HrmReward  $hrmReward
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, HrmReward $hrmReward)
@@ -75,7 +75,7 @@ class HrmRewardController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\hrm\HrmReward  $hrmReward
+     * @param  \App\Models\HRM\HrmReward  $hrmReward
      * @return \Illuminate\Http\Response
      */
     public function destroy(HrmReward $hrmReward)

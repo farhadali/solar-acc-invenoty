@@ -19,6 +19,6 @@ class VoucherMaster extends Model
     }
 
     public function _organization(){
-        return $this->hasOne(\App\Models\hrm\Company::class,'id','organization_id')->select('id','_name');
+        return $this->hasOne(\App\Models\HRM\Company::class,'id','organization_id')->select('id','_name');
     }
 }

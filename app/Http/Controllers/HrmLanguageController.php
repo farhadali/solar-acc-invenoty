@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\hrm\HrmLanguage;
+use App\Models\HRM\HrmLanguage;
 use Illuminate\Http\Request;
 
 class HrmLanguageController extends Controller
@@ -41,7 +41,7 @@ class HrmLanguageController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\hrm\HrmLanguage  $hrmLanguage
+     * @param  \App\Models\HRM\HrmLanguage  $hrmLanguage
      * @return \Illuminate\Http\Response
      */
     public function show(HrmLanguage $hrmLanguage)
@@ -52,7 +52,7 @@ class HrmLanguageController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\hrm\HrmLanguage  $hrmLanguage
+     * @param  \App\Models\HRM\HrmLanguage  $hrmLanguage
      * @return \Illuminate\Http\Response
      */
     public function edit(HrmLanguage $hrmLanguage)
@@ -64,7 +64,7 @@ class HrmLanguageController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\hrm\HrmLanguage  $hrmLanguage
+     * @param  \App\Models\HRM\HrmLanguage  $hrmLanguage
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, HrmLanguage $hrmLanguage)
@@ -75,7 +75,7 @@ class HrmLanguageController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\hrm\HrmLanguage  $hrmLanguage
+     * @param  \App\Models\HRM\HrmLanguage  $hrmLanguage
      * @return \Illuminate\Http\Response
      */
     public function destroy(HrmLanguage $hrmLanguage)

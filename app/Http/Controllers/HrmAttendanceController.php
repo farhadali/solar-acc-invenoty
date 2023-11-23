@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\hrm\HrmAttendance;
-use App\Models\hrm\HrmEmployees;
+use App\Models\HRM\HrmAttendance;
+use App\Models\HRM\HrmEmployees;
 use Auth;
 use Session;
 use DB;

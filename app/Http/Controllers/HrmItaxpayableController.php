@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\hrm\HrmItaxpayable;
+use App\Models\HRM\HrmItaxpayable;
 use Illuminate\Http\Request;
 
 class HrmItaxpayableController extends Controller
@@ -41,7 +41,7 @@ class HrmItaxpayableController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\hrm\HrmItaxpayable  $hrmItaxpayable
+     * @param  \App\Models\HRM\HrmItaxpayable  $hrmItaxpayable
      * @return \Illuminate\Http\Response
      */
     public function show(HrmItaxpayable $hrmItaxpayable)
@@ -52,7 +52,7 @@ class HrmItaxpayableController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\hrm\HrmItaxpayable  $hrmItaxpayable
+     * @param  \App\Models\HRM\HrmItaxpayable  $hrmItaxpayable
      * @return \Illuminate\Http\Response
      */
     public function edit(HrmItaxpayable $hrmItaxpayable)
@@ -64,7 +64,7 @@ class HrmItaxpayableController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\hrm\HrmItaxpayable  $hrmItaxpayable
+     * @param  \App\Models\HRM\HrmItaxpayable  $hrmItaxpayable
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, HrmItaxpayable $hrmItaxpayable)
@@ -75,7 +75,7 @@ class HrmItaxpayableController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\hrm\HrmItaxpayable  $hrmItaxpayable
+     * @param  \App\Models\HRM\HrmItaxpayable  $hrmItaxpayable
      * @return \Illuminate\Http\Response
      */
     public function destroy(HrmItaxpayable $hrmItaxpayable)

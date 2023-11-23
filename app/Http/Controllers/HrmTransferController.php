@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\hrm\HrmTransfer;
+use App\Models\HRM\HrmTransfer;
 use Illuminate\Http\Request;
 
 class HrmTransferController extends Controller
@@ -41,7 +41,7 @@ class HrmTransferController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\hrm\HrmTransfer  $hrmTransfer
+     * @param  \App\Models\HRM\HrmTransfer  $hrmTransfer
      * @return \Illuminate\Http\Response
      */
     public function show(HrmTransfer $hrmTransfer)
@@ -52,7 +52,7 @@ class HrmTransferController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\hrm\HrmTransfer  $hrmTransfer
+     * @param  \App\Models\HRM\HrmTransfer  $hrmTransfer
      * @return \Illuminate\Http\Response
      */
     public function edit(HrmTransfer $hrmTransfer)
@@ -64,7 +64,7 @@ class HrmTransferController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\hrm\HrmTransfer  $hrmTransfer
+     * @param  \App\Models\HRM\HrmTransfer  $hrmTransfer
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, HrmTransfer $hrmTransfer)
@@ -75,7 +75,7 @@ class HrmTransferController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\hrm\HrmTransfer  $hrmTransfer
+     * @param  \App\Models\HRM\HrmTransfer  $hrmTransfer
      * @return \Illuminate\Http\Response
      */
     public function destroy(HrmTransfer $hrmTransfer)

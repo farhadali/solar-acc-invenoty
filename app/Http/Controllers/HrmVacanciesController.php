@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\hrm\HrmVacancies;
+use App\Models\HRM\HrmVacancies;
 use Illuminate\Http\Request;
 
 class HrmVacanciesController extends Controller
@@ -41,7 +41,7 @@ class HrmVacanciesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\hrm\HrmVacancies  $hrmVacancies
+     * @param  \App\Models\HRM\HrmVacancies  $hrmVacancies
      * @return \Illuminate\Http\Response
      */
     public function show(HrmVacancies $hrmVacancies)
@@ -52,7 +52,7 @@ class HrmVacanciesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\hrm\HrmVacancies  $hrmVacancies
+     * @param  \App\Models\HRM\HrmVacancies  $hrmVacancies
      * @return \Illuminate\Http\Response
      */
     public function edit(HrmVacancies $hrmVacancies)
@@ -64,7 +64,7 @@ class HrmVacanciesController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\hrm\HrmVacancies  $hrmVacancies
+     * @param  \App\Models\HRM\HrmVacancies  $hrmVacancies
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, HrmVacancies $hrmVacancies)
@@ -75,7 +75,7 @@ class HrmVacanciesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\hrm\HrmVacancies  $hrmVacancies
+     * @param  \App\Models\HRM\HrmVacancies  $hrmVacancies
      * @return \Illuminate\Http\Response
      */
     public function destroy(HrmVacancies $hrmVacancies)

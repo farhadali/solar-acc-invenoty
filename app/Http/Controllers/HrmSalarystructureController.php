@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\hrm\HrmSalarystructure;
+use App\Models\HRM\HrmSalarystructure;
 use Illuminate\Http\Request;
 
 class HrmSalarystructureController extends Controller
@@ -41,7 +41,7 @@ class HrmSalarystructureController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\hrm\HrmSalarystructure  $hrmSalarystructure
+     * @param  \App\Models\HRM\HrmSalarystructure  $hrmSalarystructure
      * @return \Illuminate\Http\Response
      */
     public function show(HrmSalarystructure $hrmSalarystructure)
@@ -52,7 +52,7 @@ class HrmSalarystructureController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\hrm\HrmSalarystructure  $hrmSalarystructure
+     * @param  \App\Models\HRM\HrmSalarystructure  $hrmSalarystructure
      * @return \Illuminate\Http\Response
      */
     public function edit(HrmSalarystructure $hrmSalarystructure)
@@ -64,7 +64,7 @@ class HrmSalarystructureController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\hrm\HrmSalarystructure  $hrmSalarystructure
+     * @param  \App\Models\HRM\HrmSalarystructure  $hrmSalarystructure
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, HrmSalarystructure $hrmSalarystructure)
@@ -75,7 +75,7 @@ class HrmSalarystructureController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\hrm\HrmSalarystructure  $hrmSalarystructure
+     * @param  \App\Models\HRM\HrmSalarystructure  $hrmSalarystructure
      * @return \Illuminate\Http\Response
      */
     public function destroy(HrmSalarystructure $hrmSalarystructure)

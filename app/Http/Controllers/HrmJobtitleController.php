@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\hrm\HrmJobtitle;
+use App\Models\HRM\HrmJobtitle;
 use Illuminate\Http\Request;
 use Auth;
 use Session;
@@ -86,7 +86,7 @@ class HrmJobtitleController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\hrm\HrmJobtitle  $HrmJobtitle
+     * @param  \App\Models\HRM\HrmJobtitle  $HrmJobtitle
      * @return \Illuminate\Http\Response
      */
    public function show($id)
@@ -100,7 +100,7 @@ class HrmJobtitleController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\hrm\HrmJobtitle  $HrmJobtitle
+     * @param  \App\Models\HRM\HrmJobtitle  $HrmJobtitle
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -116,7 +116,7 @@ class HrmJobtitleController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\hrm\HrmJobtitle  $HrmJobtitle
+     * @param  \App\Models\HRM\HrmJobtitle  $HrmJobtitle
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -145,7 +145,7 @@ class HrmJobtitleController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\hrm\HrmJobtitle  $HrmJobtitle
+     * @param  \App\Models\HRM\HrmJobtitle  $HrmJobtitle
      * @return \Illuminate\Http\Response
      */
      public function destroy($id)

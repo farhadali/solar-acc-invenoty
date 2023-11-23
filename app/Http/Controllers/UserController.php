@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Branch;
 use App\Models\CostCenter;
-use App\Models\hrm\Company;
+use App\Models\HRM\Company;
 use App\Models\StoreHouse;
 use Spatie\Permission\Models\Role;
 use DB;

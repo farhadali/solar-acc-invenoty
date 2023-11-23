@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\hrm\HrmDepartment;
+use App\Models\HRM\HrmDepartment;
 use Illuminate\Http\Request;
 use Auth;
 use Session;
@@ -85,7 +85,7 @@ class HrmDepartmentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\hrm\HrmDepartment  $HrmDepartment
+     * @param  \App\Models\HRM\HrmDepartment  $HrmDepartment
      * @return \Illuminate\Http\Response
      */
    public function show($id)
@@ -99,7 +99,7 @@ class HrmDepartmentController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\hrm\HrmDepartment  $HrmDepartment
+     * @param  \App\Models\HRM\HrmDepartment  $HrmDepartment
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -115,7 +115,7 @@ class HrmDepartmentController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\hrm\HrmDepartment  $HrmDepartment
+     * @param  \App\Models\HRM\HrmDepartment  $HrmDepartment
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -145,7 +145,7 @@ class HrmDepartmentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\hrm\HrmDepartment  $HrmDepartment
+     * @param  \App\Models\HRM\HrmDepartment  $HrmDepartment
      * @return \Illuminate\Http\Response
      */
      public function destroy($id)

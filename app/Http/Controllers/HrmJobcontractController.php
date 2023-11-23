@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\hrm\HrmJobcontract;
+use App\Models\HRM\HrmJobcontract;
 use Illuminate\Http\Request;
 
 class HrmJobcontractController extends Controller
@@ -41,7 +41,7 @@ class HrmJobcontractController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\hrm\HrmJobcontract  $hrmJobcontract
+     * @param  \App\Models\HRM\HrmJobcontract  $hrmJobcontract
      * @return \Illuminate\Http\Response
      */
     public function show(HrmJobcontract $hrmJobcontract)
@@ -52,7 +52,7 @@ class HrmJobcontractController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\hrm\HrmJobcontract  $hrmJobcontract
+     * @param  \App\Models\HRM\HrmJobcontract  $hrmJobcontract
      * @return \Illuminate\Http\Response
      */
     public function edit(HrmJobcontract $hrmJobcontract)
@@ -64,7 +64,7 @@ class HrmJobcontractController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\hrm\HrmJobcontract  $hrmJobcontract
+     * @param  \App\Models\HRM\HrmJobcontract  $hrmJobcontract
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, HrmJobcontract $hrmJobcontract)
@@ -75,7 +75,7 @@ class HrmJobcontractController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\hrm\HrmJobcontract  $hrmJobcontract
+     * @param  \App\Models\HRM\HrmJobcontract  $hrmJobcontract
      * @return \Illuminate\Http\Response
      */
     public function destroy(HrmJobcontract $hrmJobcontract)

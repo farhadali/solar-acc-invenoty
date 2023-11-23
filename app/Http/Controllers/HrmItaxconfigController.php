@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\hrm\HrmItaxconfig;
+use App\Models\HRM\HrmItaxconfig;
 use Illuminate\Http\Request;
 
 class HrmItaxconfigController extends Controller
@@ -41,7 +41,7 @@ class HrmItaxconfigController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\hrm\HrmItaxconfig  $hrmItaxconfig
+     * @param  \App\Models\HRM\HrmItaxconfig  $hrmItaxconfig
      * @return \Illuminate\Http\Response
      */
     public function show(HrmItaxconfig $hrmItaxconfig)
@@ -52,7 +52,7 @@ class HrmItaxconfigController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\hrm\HrmItaxconfig  $hrmItaxconfig
+     * @param  \App\Models\HRM\HrmItaxconfig  $hrmItaxconfig
      * @return \Illuminate\Http\Response
      */
     public function edit(HrmItaxconfig $hrmItaxconfig)
@@ -64,7 +64,7 @@ class HrmItaxconfigController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\hrm\HrmItaxconfig  $hrmItaxconfig
+     * @param  \App\Models\HRM\HrmItaxconfig  $hrmItaxconfig
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, HrmItaxconfig $hrmItaxconfig)
@@ -75,7 +75,7 @@ class HrmItaxconfigController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\hrm\HrmItaxconfig  $hrmItaxconfig
+     * @param  \App\Models\HRM\HrmItaxconfig  $hrmItaxconfig
      * @return \Illuminate\Http\Response
      */
     public function destroy(HrmItaxconfig $hrmItaxconfig)

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\hrm\HrmPayheads;
-use App\Models\hrm\HrmPayHeadType;
+use App\Models\HRM\HrmPayheads;
+use App\Models\HRM\HrmPayHeadType;
 use Illuminate\Http\Request;
 use Session;
 use Auth;
@@ -91,7 +91,7 @@ class HrmPayheadsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\hrm\HrmPayheads  $hrmPayheads
+     * @param  \App\Models\HRM\HrmPayheads  $hrmPayheads
      * @return \Illuminate\Http\Response
      */
    public function show($id)
@@ -105,7 +105,7 @@ class HrmPayheadsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\hrm\HrmPayheads  $hrmPayheads
+     * @param  \App\Models\HRM\HrmPayheads  $hrmPayheads
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -121,7 +121,7 @@ class HrmPayheadsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\hrm\HrmPayheads  $hrmPayheads
+     * @param  \App\Models\HRM\HrmPayheads  $hrmPayheads
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -154,7 +154,7 @@ class HrmPayheadsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\hrm\HrmPayheads  $hrmPayheads
+     * @param  \App\Models\HRM\HrmPayheads  $hrmPayheads
      * @return \Illuminate\Http\Response
      */
      public function destroy($id)

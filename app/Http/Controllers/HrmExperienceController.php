@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\hrm\HrmExperience;
+use App\Models\HRM\HrmExperience;
 use Illuminate\Http\Request;
 
 class HrmExperienceController extends Controller
@@ -41,7 +41,7 @@ class HrmExperienceController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\hrm\HrmExperience  $hrmExperience
+     * @param  \App\Models\HRM\HrmExperience  $hrmExperience
      * @return \Illuminate\Http\Response
      */
     public function show(HrmExperience $hrmExperience)
@@ -52,7 +52,7 @@ class HrmExperienceController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\hrm\HrmExperience  $hrmExperience
+     * @param  \App\Models\HRM\HrmExperience  $hrmExperience
      * @return \Illuminate\Http\Response
      */
     public function edit(HrmExperience $hrmExperience)
@@ -64,7 +64,7 @@ class HrmExperienceController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\hrm\HrmExperience  $hrmExperience
+     * @param  \App\Models\HRM\HrmExperience  $hrmExperience
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, HrmExperience $hrmExperience)
@@ -75,7 +75,7 @@ class HrmExperienceController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\hrm\HrmExperience  $hrmExperience
+     * @param  \App\Models\HRM\HrmExperience  $hrmExperience
      * @return \Illuminate\Http\Response
      */
     public function destroy(HrmExperience $hrmExperience)

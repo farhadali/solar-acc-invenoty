@@ -29,14 +29,14 @@ class RlpMaster extends Model
     }
 
     public function _rlp_req_user(){
-        return $this->hasOne(\App\Models\hrm\HrmEmployees::class,'id','rlp_user_id');
+        return $this->hasOne(\App\Models\HRM\HrmEmployees::class,'id','rlp_user_id');
     }
 
     public function _emp_department(){
-    return $this->hasOne(\App\Models\hrm\HrmDepartment::class,'id','request_department')->select('id','_department as _name');
+    return $this->hasOne(\App\Models\HRM\HrmDepartment::class,'id','request_department')->select('id','_department as _name');
     }
     public function _emp_designation(){
-        return $this->hasOne(\App\Models\hrm\Designation::class,'id','designation')->select('id','_name');
+        return $this->hasOne(\App\Models\HRM\Designation::class,'id','designation')->select('id','_name');
     }
      public function _branch(){
             return $this->hasOne(\App\Models\Branch::class,'id','_branch_id')->select('id','_name');
@@ -45,7 +45,7 @@ class RlpMaster extends Model
             return $this->hasOne(\App\Models\CostCenter::class,'id','_cost_center_id')->select('id','_name');
     }
     public function _organization(){
-            return $this->hasOne(\App\Models\hrm\Company::class,'id','organization_id')->select('id','_name');
+            return $this->hasOne(\App\Models\HRM\Company::class,'id','organization_id')->select('id','_name');
     }
 
     public function _entry_by(){

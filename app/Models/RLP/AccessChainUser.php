@@ -18,7 +18,7 @@ class AccessChainUser extends Model
     }
 
     public function _user_info(){
-        return $this->hasOne(\App\Models\hrm\HrmEmployees::class,'id','user_row_id')->select('id','_code','_name');
+        return $this->hasOne(\App\Models\HRM\HrmEmployees::class,'id','user_row_id')->select('id','_code','_name');
     }
 
 }

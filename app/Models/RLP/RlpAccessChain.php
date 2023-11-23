@@ -18,7 +18,7 @@ class RlpAccessChain extends Model
                 return $this->hasOne(\App\Models\CostCenter::class,'id','_cost_center_id')->select('id','_name');
         }
         public function _organization(){
-                return $this->hasOne(\App\Models\hrm\Company::class,'id','organization_id')->select('id','_name');
+                return $this->hasOne(\App\Models\HRM\Company::class,'id','organization_id')->select('id','_name');
         }
 
         public function _chain_user(){

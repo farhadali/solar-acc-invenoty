@@ -85,7 +85,7 @@ class HrmEmpLocationController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\hrm\HrmEmpLocation  $HrmEmpLocation
+     * @param  \App\Models\HRM\HrmEmpLocation  $HrmEmpLocation
      * @return \Illuminate\Http\Response
      */
    public function show($id)
@@ -99,7 +99,7 @@ class HrmEmpLocationController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\hrm\HrmEmpLocation  $HrmEmpLocation
+     * @param  \App\Models\HRM\HrmEmpLocation  $HrmEmpLocation
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -115,7 +115,7 @@ class HrmEmpLocationController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\hrm\HrmEmpLocation  $HrmEmpLocation
+     * @param  \App\Models\HRM\HrmEmpLocation  $HrmEmpLocation
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -144,7 +144,7 @@ class HrmEmpLocationController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\hrm\HrmEmpLocation  $HrmEmpLocation
+     * @param  \App\Models\HRM\HrmEmpLocation  $HrmEmpLocation
      * @return \Illuminate\Http\Response
      */
      public function destroy($id)
