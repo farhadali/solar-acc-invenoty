@@ -20,7 +20,12 @@ return [
 
 
 
+
     'hrm-attandance' => 'Attandance',
+    'receive_payment' => 'Receive & Payment',
+    '_is_direct_sales' => 'Sales Type',
+    '_store_sales' => 'Stockpile Sales',
+    '_direct_sales' => 'Direct Sales',
     'initial-salary-structure' => 'Initial Salary Structure',
     '_payhead' => 'Payhead',
     '_category_id' => 'Category',
@@ -53,7 +58,7 @@ return [
     'mrr_number' => 'MRR Number',
     '_mother_vessel_receive_qty' => 'Total Receive Qty',
     'import_invoice_no' => 'Import Invoice No',
-    'import-material-receive' => 'Import Material Receive',
+    'import-material-receive' => 'Material Receive (Lighter) From Mother Vessel',
     'mother-vessel-info' => 'Mother Vessel',
     '_mother_vessel_no' => 'Mother Vessel',
     'mushak_six_three' => 'Mushak 6.3',
@@ -127,7 +132,7 @@ return [
     '_shelf' => 'Shelf',
     '_store_id' => 'Stockpile',
     '_expected_qty' => 'Sur. Qty',
-    'import-purchase' => 'Import Purchase Invoice',
+    'import-purchase' => 'Mother Vessel BL Receive Information',
     'notesheet' => 'Notesheet',
     'Cr. Amount' => 'Cr. Amount',
     'Dr. Amount' => 'Dr. Amount',
@@ -209,7 +214,7 @@ return [
     '_lock' => 'Lock',
     '_item' => 'Item Name',
     '_unit' => 'Unit',
-    '_qty' => 'Scal. QTY',
+    '_qty' => 'Acc. QTY',
     '_cost_rate' => 'Cost Rate',
     '_issue_rate' => 'Issue Rate',
     '_value' => 'Amount',
@@ -289,7 +294,7 @@ return [
     'material_receive' => 'Material Received',
     'material_return' => 'Material Return',
     'finished_goods_fabrication' => 'FG Fabrication',
-    'material_issue' => 'Sales',
+    'material_issue' => 'Sales Invoice',
     'issued_material_return' => 'Sales Return',
     'damage_adjustment' => 'Disposal of material',
     'project_to_transfer' => 'Project to project transfer',

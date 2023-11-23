@@ -6,6 +6,17 @@
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
        <p style="padding-left: 20px;"><b><?php echo e(__('label.leave')); ?></b></p>
        <div class="dropdown-divider"></div>
+       <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('hrm-attandance-list')): ?>
+        <div style="display: flex;">
+         <a href="<?php echo e(url('attandance')); ?>" class="dropdown-item">
+            <i class="fa fa-fax mr-2" aria-hidden="true"></i> <?php echo e(__('label.hrm-attandance')); ?>
+
+          </a>
+          <a  href="<?php echo e(route('attandance.create')); ?>" class="dropdown-item text-right">
+            <i class="nav-icon fas fa-plus"></i>
+          </a>
+        </div>
+        <?php endif; ?>
         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('week-work-day')): ?>
         <div style="display: flex;">
          <a href="<?php echo e(url('weekworkday')); ?>" class="dropdown-item">

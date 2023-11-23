@@ -1,7 +1,7 @@
  <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('account-menu')): ?> 
       <li class="nav-item dropdown remove_from_header">
         <a class="nav-link" data-toggle="dropdown" href="#">
-           <?php echo e(__('label.Accounts')); ?> <i class="right fas fa-angle-down"></i>
+           <?php echo e(__('label.receive_payment')); ?> <i class="right fas fa-angle-down"></i>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
        

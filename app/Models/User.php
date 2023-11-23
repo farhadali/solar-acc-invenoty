@@ -12,6 +12,11 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable, HasRoles;
 
+    public function scopeStatus($query)
+    {
+        return $query->where('_is_delete', '=',0);
+    }
+
     /**
      * The attributes that are mass assignable.
      *
@@ -31,6 +36,7 @@ class User extends Authenticatable
         'organization_ids',
         'store_ids',
         '_ac_type',
+        '_is_delete',
     ];
 
     /**

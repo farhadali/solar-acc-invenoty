@@ -1486,9 +1486,8 @@ where  t1._status = 1 and  (t1._barcode like '%$text_val%' OR t2._item like '%$t
         $Sales->_delivery_details = $request->_delivery_details ?? '';
 
         $Sales->_direct_purchase_no = $request->_direct_purchase_no ?? '';
-        if(isset($request->_direct_purchase_no) && $request->_direct_purchase_no !=''){
-            $Sales->_is_direct_sales = $request->_is_direct_sales ?? 1;
-        }
+        $Sales->_is_direct_sales = $request->_is_direct_sales ?? 1;
+        
         
         $Sales->_vessel_no = $request->_vessel_no ?? 0;
         $Sales->_arrival_date_time = $request->_arrival_date_time ?? '';

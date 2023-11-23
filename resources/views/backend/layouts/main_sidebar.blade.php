@@ -108,7 +108,7 @@
             <a href="#" class="nav-link {{ Route::is('purchase-return.*')    ? 'main_nav_active' : '' }}">
               <i class="fa fa-coins nav-icon" aria-hidden="true"></i>
               <p>
-                 {{ __('label.Accounts') }}
+                 {{ __('label.receive_payment') }}
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>

@@ -123,8 +123,18 @@ $__user= Auth::user();
                         
                         <div class="col-xs-12 col-sm-12 col-md-2 ">
                             <div class="form-group">
+                              <label class="mr-2" for="_is_direct_sales">{{__('label._is_direct_sales')}}:</label>
+                              <select id="_is_direct_sales" class="form-control _is_direct_sales" name="_is_direct_sales">
+                                <option value="0">{{__('label._store_sales')}}</option>
+                                <option value="1">{{__('label._direct_sales')}}</option>
+                              </select>
+                              
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-2 ">
+                            <div class="form-group">
                               <label class="mr-2" for="_direct_purchase_no">{{__('label._direct_purchase_no')}}:</label>
-                              <input type="text" id="_direct_purchase_no" name="_direct_purchase_no" class="form-control _direct_purchase_no" value="{{old('_direct_purchase_no')}}" placeholder="{{__('label._direct_purchase_no')}}"  >
+                              <input type="text" id="_direct_purchase_no" name="_direct_purchase_no" class="form-control _direct_purchase_no" value="{{old('_direct_purchase_no')}}" placeholder="{{__('label._direct_purchase_no')}}"  readonly>
 
                               <input type="hidden" id="_ref_master_id" name="_ref_master_id" class="form-control _ref_master_id"   >
                               <div class="search_box_master_purchase"></div>
@@ -686,6 +696,20 @@ $("#_serach_baorce").focus();
               $(document).find(".display_form_setting_info").html(result);
          })
   }
+
+
+  //Change Sales Type
+  $(document).on('change','._is_direct_sales',function(){
+    var sales_type = $(this).val();
+    if(sales_type ==0){
+      $("#_direct_purchase_no").attr('readonly',true);
+      $('._ref_master_id').val(0);
+      $('._direct_purchase_no').val('');
+    }else{
+      $("#_direct_purchase_no").attr('readonly',false);
+    }
+
+  })
 
 
 $(document).on('keyup','#_serach_baorce',delay(function(event){
