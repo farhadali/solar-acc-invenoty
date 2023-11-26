@@ -69,9 +69,9 @@ class HrmEmployeesController extends Controller
        // return $request->all();
        if($request->has('limit')){
             $limit = $request->limit ??  default_pagination();
-            session()->put('_u_limit', $request->limit);
+            session()->put('_employee_list', $request->limit);
         }else{
-             $limit= Session::get('_u_limit') ??  default_pagination();
+             $limit= Session::get('_employee_list') ??  default_pagination();
             
         }
        
@@ -333,7 +333,7 @@ class HrmEmployeesController extends Controller
             
         ]);
         
-       // return dump($request->all());
+        //return $request->_ledger_id;
 
         try {
 
@@ -345,6 +345,9 @@ class HrmEmployeesController extends Controller
                 $data = new AccountLedger();
             }else{
                 $data = AccountLedger::find($request->_ledger_id);
+                if(empty($data)){
+                    $data = new AccountLedger();
+                }
             }
             
             $data->_account_head_id = $_account_head_id;

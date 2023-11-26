@@ -252,8 +252,8 @@ class TransferController extends Controller
             '_p_status' => 'required',
         ]);
 
-         DB::beginTransaction();
-        try {
+        //  DB::beginTransaction();
+        // try {
 
             $__total = (float) $request->_total;
             $_stock_in__total = (float) $request->_stock_in__total;
@@ -736,14 +736,14 @@ account_data_save($_ref_master_id,$_ref_detail_id,_find_ledger($_default_invento
 
 
 
-           DB::commit();
+           //DB::commit();
             return redirect()->back()->with('success','Information save successfully')->with('_master_id',$production_id)->with('_print_value',$_print_value);
-       } catch (\Exception $e) {
-           DB::rollback();
-           return redirect()->back()
-           ->with('danger','There is Something Wrong !')
-           ->whit('request',$request->all());
-        }
+       // } catch (\Exception $e) {
+       //     DB::rollback();
+       //     return redirect()->back()
+       //     ->with('danger','There is Something Wrong !')
+       //     ->whit('request',$request->all());
+       //  }
 
 
     }

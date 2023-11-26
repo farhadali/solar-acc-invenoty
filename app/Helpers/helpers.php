@@ -341,7 +341,15 @@ function make_po_number($organization_id,$branch_id){
 
 function make_order_number($table,$organization_id,$branch_id){
 
-    $counts = \DB::select("SELECT COUNT(id) as _row_count FROM ".$table." WHERE `organization_id`=".$organization_id." AND _branch_id=".$branch_id." ");
+    if($table=="productions"){
+        $org_cloumn_name="_from_organization_id";
+        $branch_cloumn_name="_from_branch";
+    }else{
+        $org_cloumn_name="organization_id";
+        $branch_cloumn_name="_branch_id";
+    }
+
+    $counts = \DB::select("SELECT COUNT(id) as _row_count FROM ".$table." WHERE $org_cloumn_name=".$organization_id." AND $branch_cloumn_name=".$branch_id." ");
     // $row_counts = \DB::table($table)->where('organization_id',$organization_id)
     //                                         ->where('_branch_id',$branch_id)
     //                                         ->count();

@@ -1340,6 +1340,8 @@ var _serach_baorce = $("#_serach_baorce").val()
        $(document).find('._note').focus().addClass('required_border');
       return false;
     }else{
+
+      $('.submit-button').attr('disabled','true');
       $(document).find('.purchase_form').submit();
     }
   
