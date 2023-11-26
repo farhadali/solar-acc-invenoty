@@ -109,7 +109,7 @@ class RlpController extends Controller
         if($request->has('_cost_center_id') && $request->_cost_center_id !=''){
             $datas = $datas->where('_cost_center_id','=',$request->_cost_center_id);
         }
-        $datas = $datas->orderBy($asc_cloumn,$_asc_desc)
+			$datas = $datas->orderBy($asc_cloumn,$_asc_desc)
                         ->paginate($limit);
 
         return view('rlp-module.rlp.index',compact('page_name','datas','limit','request'));
