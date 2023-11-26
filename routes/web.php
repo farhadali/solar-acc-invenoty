@@ -65,7 +65,6 @@ use App\Http\Controllers\MaterialIssueController;
 use App\Http\Controllers\MaterialIssueReturnController;
 
 
-use App\Http\Controllers\PM\ProjectManagementController;
 
 
 
@@ -162,8 +161,7 @@ Route::get('budget-compare', 'App\Http\Controllers\BudgetsController@budgetCompa
 
 
 
-//PM SECTION
-Route::resource('project_management',ProjectManagementController::class);
+
 
 /* HRM SECTION END*/
 

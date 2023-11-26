@@ -1,5 +1,5 @@
 
-<?php $__env->startSection('title',$settings->title); ?>
+<?php $__env->startSection('title',$page_name ?? ''); ?>
 
 <?php $__env->startSection('content'); ?>
 <div class="content-header">
@@ -53,22 +53,19 @@
                             <td><?php echo e(++$i); ?></td>
                             <td style="display: flex;">
                            
-                                <button  type="button" 
-                                  attr_base_edit_url="<?php echo e(route('roles.show',$role->id)); ?>"
-                                  data-toggle="modal" 
-                                  data-target="#commonEntryModal_item" 
-                                  class="btn btn-sm btn-default attr_base_edit_url mr-1"><i class="fa fa-eye"></i></button>
+                                <a  href="<?php echo e(route('roles.show',$role->id)); ?>" 
+                                   
+                                  class="btn btn-sm btn-default  mr-1"><i class="fa fa-eye"></i></a>
 
 
-                                  <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('role-edit')): ?>
-                                  <button  type="button" 
-                                  attr_base_edit_url="<?php echo e(route('roles.edit',$role->id)); ?>"
-                                  data-toggle="modal" 
-                                  data-target="#commonEntryModal_item" 
-                                  class="btn btn-sm btn-default attr_base_edit_url mr-1"><i class="fa fa-pen "></i></button>
+                                  
+                                  <a   
+                                  href="<?php echo e(route('roles.edit',$role->id)); ?>"
+                                  
+                                  class="btn btn-sm btn-default  mr-1"><i class="fa fa-pen "></i></a>
 
                                     
-                                  <?php endif; ?>
+                                 
                                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('role-delete')): ?>
                                  <?php echo Form::open(['method' => 'DELETE','route' => ['roles.destroy', $role->id],'style'=>'display:inline']); ?>
 

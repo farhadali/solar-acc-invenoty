@@ -15,6 +15,7 @@
     
       @include('backend.layouts.hrm_module')
      @include('backend.layouts.account_module')
+     @include('backend.layouts.pm_module')
      @include('backend.layouts.rlp_module')
       @include('backend.layouts.inventory_module')
       @include('backend.layouts.sales_module')
