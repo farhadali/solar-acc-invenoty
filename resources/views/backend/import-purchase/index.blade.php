@@ -55,7 +55,9 @@ $__user= Auth::user();
                                     
                             </li>
                             @endcan   
-                             
+                            <div class="form-group ml-2">
+                                {!! $datas->render() !!}
+                            </div>  
                             <div class="form-group ml-2">
                               <form action="" method="GET">
                                   @csrf
@@ -74,7 +76,6 @@ $__user= Auth::user();
                   </div>
               </div>
               <div class="card-body">
-
                 <div class="">
                   
                   <table class="table table-bordered table-striped table-hover _list_table">
@@ -201,13 +202,10 @@ $__user= Auth::user();
                           <td></td>
                         </tr>
                         </tbody>
-                        
                     </table>
                 </div>
                 <!-- /.d-flex -->
-                <div class="d-flex flex-row justify-content-end">
-                 {!! $datas->render() !!}
-                </div>
+                
               </div>
             </div>
             <!-- /.card -->

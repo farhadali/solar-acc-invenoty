@@ -95,7 +95,15 @@ $currentURL = URL::full();
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper" style="">
-    
+      <h5 style='text-align:center;color:#000;padding-top:10px;'>
+    <?php
+    $auth_user = \Auth::user();
+ $permited_stores = permited_stores(explode(',',$auth_user->store_ids));
+ if(sizeof($permited_stores)==1){
+  foreach($permited_stores as $pkey=>$sval){ ?>
+ <small>You are working on</small> <span style="font-weight: bold;color:#d61212">{{$sval->_name ?? ''}}</span> 
+<?php } } ?>
+</h5>
 
     <!-- Main content -->
     @yield('content')
@@ -103,11 +111,7 @@ $currentURL = URL::full();
   </div>
   <!-- /.content-wrapper -->
 
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-  </aside>
-  <!-- /.control-sidebar -->
+ 
 
   <!-- Main Footer -->
  
@@ -256,9 +260,7 @@ $(document).ready(function(){
       alert( "Request failed: " + textStatus );
     });
   })
-</script>
 
-<script>
 
   var loadFile = function(event,_id) {
     var ids = `output_${_id}`;
@@ -1431,9 +1433,7 @@ function after_request_date__today(_date){
       }
     })
 
-</script>
 
-<script type="text/javascript">
 
  function printDiv(divID) {
             var divElements = document.getElementById(divID).innerHTML;

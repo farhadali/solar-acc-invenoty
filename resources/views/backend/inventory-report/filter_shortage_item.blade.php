@@ -35,10 +35,10 @@
                          </select>
                       </div>
                   @endif
-                  @if(sizeof($stores) > 1)
-                      <div class="col-md-6">
+                
+                      <div class="col-md-12">
                         <label>Store:</label>
-                         <select class="form-control width_150_px _store multiple_select" multiple name="_store[]" size='2'  >
+                         <select class="form-control width_150_px _store multiple_select" multiple name="_store[]" size='2' required >
                                             
                             @forelse($stores as $store )
                             <option value="{{$store->id}}" 
@@ -50,9 +50,9 @@
                             @endforelse
                           </select>
                       </div>
-                   @endif 
-                  @if(sizeof($permited_costcenters) > 1) 
-                      <div class="col-md-6">
+                   
+                  
+                      <div class="col-md-12">
                         <label>Cost Center:</label>
                          <select class="form-control width_150_px _cost_center multiple_select" multiple name="_cost_center[]" size='2'  >
                                             
@@ -66,7 +66,7 @@
                             @endforelse
                           </select>
                       </div>
-                  @endif
+                 
                     </div>
                     <div class="row">
                       <label>Categories:<span class="_required">*</span></label><br>

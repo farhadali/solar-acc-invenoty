@@ -28,21 +28,20 @@
           </a>
         </div>
          <?php endif; ?>
-        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('role-list')): ?>
+       <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('role-list')): ?>
          <div class="dropdown-divider"></div>
         <div style="display: flex;">
          <a href="<?php echo e(url('roles')); ?>" class="dropdown-item">
           <i class="fa fa-server  mr-2" aria-hidden="true"></i><?php echo e(__('label.Roles')); ?>
 
           </a>
-           <a   href="#None" 
-          class="dropdown-item text-right attr_base_create_url"
-            data-toggle="modal" data-target="#commonEntryModal_item" 
-            attr_base_create_url="<?php echo e(route('roles.create')); ?>"> 
+           <a    
+          class="dropdown-item text-right "
+           
+            href="<?php echo e(route('roles.create')); ?>"> 
             <i class="nav-icon fas fa-plus"></i> </a>
         </div>
-          
-         <?php endif; ?>
+        <?php endif; ?>
         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('user-list')): ?>
          <div class="dropdown-divider"></div>
         <div style="display: flex;">
@@ -51,9 +50,8 @@
 
           </a>
           <a   href="#None" 
-          class="dropdown-item text-right attr_base_create_url"
-            data-toggle="modal" data-target="#commonEntryModal_item" 
-            attr_base_create_url="<?php echo e(route('users.create')); ?>"> 
+          class="dropdown-item text-right "
+            href="<?php echo e(route('users.create')); ?>"> 
             <i class="nav-icon fas fa-plus"></i> </a>
         </div>
           
@@ -75,10 +73,9 @@
           <a href="<?php echo e(url('branch')); ?>" class="dropdown-item">
             <i class="fa fa-share-alt mr-2" aria-hidden="true"></i> <?php echo e(__('label.Branch')); ?> 
           </a>
-           <a   href="#None" 
-          class="dropdown-item text-right attr_base_create_url"
-            data-toggle="modal" data-target="#commonEntryModal_item" 
-            attr_base_create_url="<?php echo e(route('branch.create')); ?>"> 
+           <a   
+          class="dropdown-item text-right "
+            href="<?php echo e(route('branch.create')); ?>"> 
             <i class="nav-icon fas fa-plus"></i> </a>
         </div>
          

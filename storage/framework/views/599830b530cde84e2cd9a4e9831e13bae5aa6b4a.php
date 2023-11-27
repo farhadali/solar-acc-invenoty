@@ -185,10 +185,10 @@ $__user= Auth::user();
                                               
                                             
                                               <td>
-                                                <input type="number" name="_qty[]" class="form-control _qty _common_keyup" >
+                                                <input type="number" name="_qty[]" class="form-control _qty _common_keyup" step="any" min="0">
                                               </td>
                                               <td>
-                                                <input type="number" name="_rate[]" class="form-control _rate _common_keyup" >
+                                                <input type="number" name="_rate[]" class="form-control _rate "  step="any" min="0">
                                                 <input type="hidden" name="_base_rate[]" class="form-control _base_rate _common_keyup" >
                                               </td>
                                              
@@ -526,6 +526,39 @@ $(document).on('change','._unit_id',function(){
     _purchase_total_calculation();
 })
 
+$(document).on('keyup','._rate',function(){
+  var __this = $(this);
+  var _vat_amount =0;
+  var _qty = __this.closest('tr').find('._qty').val();
+  var _rate = __this.closest('tr').find('._rate').val();
+  var _base_rate = __this.closest('tr').find('._base_rate').val();
+  var _item_vat = __this.closest('tr').find('._vat').val();
+  var conversion_qty = parseFloat(__this.closest('tr').find('.conversion_qty').val());
+
+
+   if(isNaN(_item_vat)){ _item_vat   = 0 }
+
+  if(isNaN(conversion_qty)){ conversion_qty   = 1 }
+  var converted_price_rate = (( conversion_qty/1)*_rate);
+
+   if(isNaN(_qty)){ _qty   = 0 }
+   if(isNaN(_rate)){ _rate =0 }
+   if(isNaN(_base_rate)){ _base_rate =_rate }
+
+  if(converted_price_rate ==0){
+    converted_price_rate = _rate;
+  }
+
+
+   var _value = parseFloat(converted_price_rate*_qty).toFixed(2);
+   _vat_amount = Math.ceil(((_qty*_base_rate)*_item_vat)/100);
+  __this.closest('tr').find('._base_rate').val(converted_price_rate);
+  __this.closest('tr').find('._vat_amount').val(_vat_amount);
+  __this.closest('tr').find('._value').val(_value);
+
+  _purchase_total_calculation();
+
+})
 
 function converted_qty_value(__this){
 
@@ -733,10 +766,10 @@ var _purchase_row_single =`<tr class="_purchase_row">
                                               </td>
                                               
                                               <td>
-                                                <input type="number" name="_qty[]" class="form-control _qty _common_keyup" >
+                                                <input type="number" name="_qty[]" class="form-control _qty _common_keyup"  step="any" min="0">
                                               </td>
                                               <td>
-                                                <input type="number" name="_rate[]" class="form-control _rate _common_keyup" >
+                                                <input type="number" name="_rate[]" class="form-control _rate "  step="any" min="0">
                                                 <input type="hidden" name="_base_rate[]" class="form-control _base_rate _common_keyup" >
                                               </td>
                                               

@@ -74,7 +74,7 @@
                   
                       <div class="col-md-12">
                         <label>Store:</label>
-                         <select class="form-control width_150_px _store multiple_select" multiple name="_store[]"   >
+                         <select class="form-control width_150_px _store multiple_select" multiple name="_store[]"   required>
                                             
                             @forelse($stores as $store )
                             <option value="{{$store->id}}" 

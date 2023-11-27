@@ -38,11 +38,11 @@ class ImportMRController extends Controller
 
      function __construct()
     {
-         $this->middleware('permission:import-purchase-list|import-purchase-create|import-purchase-edit|import-purchase-delete|import-purchase-print', ['only' => ['index','store']]);
-         $this->middleware('permission:import-purchase-print', ['only' => ['importPurchasePrint']]);
-         $this->middleware('permission:import-purchase-create', ['only' => ['create','store']]);
-         $this->middleware('permission:import-purchase-edit', ['only' => ['edit','update']]);
-         $this->middleware('permission:import-purchase-delete', ['only' => ['destroy']]);
+         $this->middleware('permission:import-material-receive-list|import-material-receive-create|import-material-receive-edit|import-material-receive-delete|import-material-receive-print', ['only' => ['index','store']]);
+         $this->middleware('permission:import-material-receive-print', ['only' => ['importPurchasePrint']]);
+         $this->middleware('permission:import-material-receive-create', ['only' => ['create','store']]);
+         $this->middleware('permission:import-material-receive-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:import-material-receive-delete', ['only' => ['destroy']]);
          $this->page_name = __('label.import-material-receive');
     }
     /**
@@ -306,6 +306,7 @@ class ImportMRController extends Controller
 
          $_cost_center_id = $request->_cost_center_id;
          $_branch_id = $request->_branch_id;
+         $_main_branch_id = $request->_branch_id;
          $master_store_id = $request->_store_id ?? 1;
 
          
@@ -867,7 +868,7 @@ class ImportMRController extends Controller
              }
              //End Sms Send to customer and Supplier
 
-            DB::commit();
+           DB::commit();
             return redirect()->back()->with('success','Information save successfully')->with('_master_id',$purchase_id)->with('_print_value',$_print_value);
        } catch (\Exception $e) {
            DB::rollback();
@@ -1014,7 +1015,7 @@ $store_houses = permited_stores(explode(',',$users->store_ids));
             ->update(['_status'=>0]);
     ProductPriceList::where('_master_id',$purchase_id)
                     ->update(['_status'=>0]);
-    ItemInventory::where('_transection',"Purchase")
+    ItemInventory::where('_transection',"import_purchase")
         ->where('_transection_ref',$purchase_id)
         ->update(['_status'=>0]);
     }
@@ -1055,7 +1056,7 @@ $store_houses = permited_stores(explode(',',$users->store_ids));
         $Purchase->_user_id = $users->id;
         $Purchase->_created_by = $users->id."-".$users->name;
         $Purchase->_updated_by = $users->id."-".$users->name;
-        $Purchase->_user_id = $users->id;
+        //$Purchase->_user_id = $users->id;
         $Purchase->_user_name = $users->name;
         $Purchase->_note = $request->_note;
         $Purchase->_sub_total = $request->_sub_total;
@@ -1358,7 +1359,7 @@ if($_unique_barcode ==1){
 */
 
 
-                $ItemInventory = ItemInventory::where('_transection',"Purchase")
+                $ItemInventory = ItemInventory::where('_transection',"import_purchase")
                                     ->where('_transection_ref',$purchase_id)
                                     ->where('_transection_detail_ref_id',$_purchase_detail_id)
                                     ->first();

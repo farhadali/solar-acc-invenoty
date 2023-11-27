@@ -25,20 +25,19 @@
           </a>
         </div>
          @endcan
-        @can('role-list')
+       @can('role-list')
          <div class="dropdown-divider"></div>
         <div style="display: flex;">
          <a href="{{url('roles')}}" class="dropdown-item">
           <i class="fa fa-server  mr-2" aria-hidden="true"></i>{{ __('label.Roles') }}
           </a>
-           <a   href="#None" 
-          class="dropdown-item text-right attr_base_create_url"
-            data-toggle="modal" data-target="#commonEntryModal_item" 
-            attr_base_create_url="{{route('roles.create')}}"> 
+           <a    
+          class="dropdown-item text-right "
+           
+            href="{{route('roles.create')}}"> 
             <i class="nav-icon fas fa-plus"></i> </a>
         </div>
-          
-         @endcan
+        @endcan
         @can('user-list')
          <div class="dropdown-divider"></div>
         <div style="display: flex;">
@@ -46,9 +45,8 @@
             <i class="fas fa-users  mr-2"></i> {{ __('label.Users') }}
           </a>
           <a   href="#None" 
-          class="dropdown-item text-right attr_base_create_url"
-            data-toggle="modal" data-target="#commonEntryModal_item" 
-            attr_base_create_url="{{route('users.create')}}"> 
+          class="dropdown-item text-right "
+            href="{{route('users.create')}}"> 
             <i class="nav-icon fas fa-plus"></i> </a>
         </div>
           
@@ -69,10 +67,9 @@
           <a href="{{url('branch')}}" class="dropdown-item">
             <i class="fa fa-share-alt mr-2" aria-hidden="true"></i> {{ __('label.Branch') }} 
           </a>
-           <a   href="#None" 
-          class="dropdown-item text-right attr_base_create_url"
-            data-toggle="modal" data-target="#commonEntryModal_item" 
-            attr_base_create_url="{{route('branch.create')}}"> 
+           <a   
+          class="dropdown-item text-right "
+            href="{{route('branch.create')}}"> 
             <i class="nav-icon fas fa-plus"></i> </a>
         </div>
          

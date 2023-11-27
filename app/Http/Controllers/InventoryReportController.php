@@ -1023,7 +1023,7 @@ public function filterStockPossition(Request $request){
       $datas=[];
       $_datex =  change_date_format($request->_datex);
       $_datey=  change_date_format($request->_datey);
-      $stores = StoreHouse::get();
+      $stores = StoreHouse::whereIn('id',explode(',',$users->store_ids))->get();
       $categories = DB::select( " SELECT DISTINCT t1._category_id FROM item_inventories AS t1" );
       $_categories_ids = [];
       foreach ($categories as $value) {
@@ -1168,7 +1168,7 @@ public function filterStockLedger(Request $request){
       $datas=[];
       $_datex =  change_date_format($request->_datex);
       $_datey=  change_date_format($request->_datey);
-      $stores = StoreHouse::get();
+     $stores = StoreHouse::whereIn('id',explode(',',$users->store_ids))->get();
        $categories = DB::select( " SELECT DISTINCT t1._category_id FROM item_inventories AS t1" );
       $_categories_ids = [];
       foreach ($categories as $value) {
@@ -1302,7 +1302,7 @@ public function filterStockLedgerHistory(Request $request){
       $datas=[];
       $_datex =  change_date_format($request->_datex);
       $_datey=  change_date_format($request->_datey);
-      $stores = StoreHouse::get();
+      $stores = StoreHouse::whereIn('id',explode(',',$users->store_ids))->get();
        $categories = DB::select( " SELECT DISTINCT t1._category_id FROM item_inventories AS t1" );
       $_categories_ids = [];
       foreach ($categories as $value) {
@@ -1399,7 +1399,7 @@ public function filterSingleStockLedger(Request $request){
       $datas=[];
       $_datex =  change_date_format($request->_datex);
       $_datey=  change_date_format($request->_datey);
-      $stores = StoreHouse::get();
+     $stores = StoreHouse::whereIn('id',explode(',',$users->store_ids))->get();
        
        $items = DB::select( " SELECT DISTINCT t1._item_id,t1._item_name FROM item_inventories AS t1" );
         return view('backend.inventory-report.filter_single_stock_ledger',compact('page_name','previous_filter','permited_branch','permited_costcenters','_datex','_datey','request','stores','items'));
@@ -1525,7 +1525,7 @@ public function filterStockValueRegister(Request $request){
       $datas=[];
       $_datex =  change_date_format($request->_datex);
       $_datey=  change_date_format($request->_datey);
-      $stores = StoreHouse::get();
+     $stores = StoreHouse::whereIn('id',explode(',',$users->store_ids))->get();
        $categories = DB::select( " SELECT DISTINCT t1._category_id FROM item_inventories AS t1" );
       $_categories_ids = [];
       foreach ($categories as $value) {
@@ -1649,7 +1649,7 @@ public function filterStockValue(Request $request){
       $datas=[];
       $_datex =  change_date_format($request->_datex);
       $_datey=  change_date_format($request->_datey);
-      $stores = StoreHouse::get();
+      $stores = StoreHouse::whereIn('id',explode(',',$users->store_ids))->get();
       $categories = DB::select( " SELECT DISTINCT t1._category_id FROM item_inventories AS t1" );
       $_categories_ids = [];
       foreach ($categories as $value) {
@@ -1776,7 +1776,7 @@ public function filterGrossProfit(Request $request){
       $datas=[];
       $_datex =  change_date_format($request->_datex);
       $_datey=  change_date_format($request->_datey);
-      $stores = StoreHouse::get();
+      $stores = StoreHouse::whereIn('id',explode(',',$users->store_ids))->get();
        $categories = DB::select( " SELECT DISTINCT t1._category_id FROM item_inventories AS t1" );
       $_categories_ids = [];
       foreach ($categories as $value) {
@@ -1908,7 +1908,7 @@ public function filterExpiredItem(Request $request){
       $datas=[];
       $_datex =  change_date_format($request->_datex);
       $_datey=  change_date_format($request->_datey);
-      $stores = StoreHouse::get();
+      $stores = StoreHouse::whereIn('id',explode(',',$users->store_ids))->get();
        $categories = DB::select( " SELECT DISTINCT t1._category_id FROM item_inventories AS t1" );
       $_categories_ids = [];
       foreach ($categories as $value) {
@@ -2042,7 +2042,7 @@ public function filterShortageItem(Request $request){
       $datas=[];
       $_datex =  change_date_format($request->_datex);
       $_datey=  change_date_format($request->_datey);
-      $stores = StoreHouse::get();
+      $stores = StoreHouse::whereIn('id',explode(',',$users->store_ids))->get();
       $categories = DB::select( " SELECT DISTINCT t1._category_id FROM item_inventories AS t1" );
       $_categories_ids = [];
       foreach ($categories as $value) {

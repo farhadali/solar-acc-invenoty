@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
 use App\Models\GeneralSettings;
+use Illuminate\Support\Facades\DB;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -34,5 +35,7 @@ class AppServiceProvider extends ServiceProvider
        // ini_set('max_execution_time', '120');
 
         view()->share(compact('settings'));
+
+       
     }
 }

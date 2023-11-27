@@ -188,7 +188,9 @@ $__user= Auth::user();
                     <div class="card bg-default">
                     <h4><?php echo e(__('label._import_report')); ?></h4>
                     <ul>
+                      <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('master_vessel_wise_ligther_report')): ?>
                         <li><a target="__blank" href="<?php echo e(url('master_vessel_wise_ligther_report')); ?>"><?php echo e(__('label.master_vessel_wise_ligther_report')); ?></a></li>
+                      <?php endif; ?>
                     </ul>
                    </div>
                 </div>

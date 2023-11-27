@@ -167,7 +167,7 @@ return [
         /*
          * Package Service Providers...
          */
-
+Barryvdh\Debugbar\ServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -231,6 +231,7 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
         'Arr' => Illuminate\Support\Arr::class,
         'Str' => Illuminate\Support\Str::class,
+        'Debugbar' => Barryvdh\Debugbar\Facades\Debugbar::class,
 
     ],
 

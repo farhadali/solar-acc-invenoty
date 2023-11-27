@@ -171,7 +171,9 @@ $__user= Auth::user();
                     <div class="card bg-default">
                     <h4>{{__('label._import_report')}}</h4>
                     <ul>
+                      @can('master_vessel_wise_ligther_report')
                         <li><a target="__blank" href="{{url('master_vessel_wise_ligther_report')}}">{{__('label.master_vessel_wise_ligther_report')}}</a></li>
+                      @endcan
                     </ul>
                    </div>
                 </div>
