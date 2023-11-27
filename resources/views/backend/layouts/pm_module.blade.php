@@ -27,6 +27,16 @@
           </a>
         </div>
         @endcan
+        @can('tender-list')
+         <div style="display: flex;">
+         <a href="{{route('tender.index')}}" class="dropdown-item">
+            <i class="fa fa-fax mr-2" aria-hidden="true"></i> {{ __('label.tender-info') }}
+          </a>
+          <a  href="{{route('tender.create')}}" class="dropdown-item text-right">
+            <i class="nav-icon fas fa-plus"></i>
+          </a>
+        </div>
+        @endcan
        
       </li>
     @endcan
