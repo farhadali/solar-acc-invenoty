@@ -21,6 +21,8 @@ return [
 
 
 
+    'pm_module' => 'PM',
+    'tender-info' => 'Tender Info',
     'hrm-attandance' => 'Attandance',
     'receive_payment' => 'Receive & Payment',
     '_is_direct_sales' => 'Sales Type',
