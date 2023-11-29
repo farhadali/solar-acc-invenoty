@@ -74,7 +74,7 @@
                   
                       <div class="col-md-12">
                         <label>Store:</label>
-                         <select class="form-control width_150_px _store multiple_select" multiple name="_store[]"   >
+                         <select class="form-control width_150_px _store multiple_select" multiple name="_store[]"   required>
                                             
                             <?php $__empty_1 = true; $__currentLoopData = $stores; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $store): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                             <option value="<?php echo e($store->id); ?>" 

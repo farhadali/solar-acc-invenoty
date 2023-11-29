@@ -57,6 +57,12 @@
                   <i class="fa fa-arrow-right nav-icon"></i><p>{{ __('label.hrm-employee') }}</p></a>
               </li>
               @endcan
+            @can('monthly-salary-structure-list')
+              <li class="nav-item" >
+                  <a href="{{url('monthly-salary-structure')}}" class="nav-link " >
+                  <i class="fa fa-arrow-right nav-icon"></i><p>{{ __('label.monthly-salary-structure') }}</p></a>
+              </li>
+              @endcan
             @can('initial-salary-structure-list')
               <li class="nav-item" >
                   <a href="{{url('initial-salary-structure')}}" class="nav-link " >

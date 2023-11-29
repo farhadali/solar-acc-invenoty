@@ -55,6 +55,16 @@
         @endcan
         <p style="padding-left: 20px;"><b>{{__('label.payrol-information')}}</b></p>
        <div class="dropdown-divider"></div>
+        @can('monthly-salary-structure-list')
+        <div style="display: flex;">
+         <a href="{{url('monthly-salary-structure')}}" class="dropdown-item">
+            <i class="fa fa-fax mr-2" aria-hidden="true"></i> {{ __('label.monthly-salary-structure') }}
+          </a>
+          <a  href="{{route('initial-salary-structure.create')}}" class="dropdown-item text-right">
+            <i class="nav-icon fas fa-plus"></i>
+          </a>
+        </div>
+        @endcan
         @can('initial-salary-structure-list')
         <div style="display: flex;">
          <a href="{{url('initial-salary-structure')}}" class="dropdown-item">

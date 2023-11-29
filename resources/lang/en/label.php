@@ -21,6 +21,7 @@ return [
 
 
 
+    'monthly-salary-structure' => 'Monthly Salary Structure',
     'pm_module' => 'PM',
     'tender-info' => 'Tender Info',
     'hrm-attandance' => 'Attandance',

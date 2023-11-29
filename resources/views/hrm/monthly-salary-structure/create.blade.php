@@ -5,13 +5,13 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <a class="m-0 _page_name" href="{{ route('initial-salary-structure.index') }}">{!! $page_name ?? '' !!} </a>
+            <a class="m-0 _page_name" href="{{ route('monthly-salary-structure.index') }}">{!! $page_name ?? '' !!} </a>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-             @can('initial-salary-structure-list')
+             @can('monthly-salary-structure-list')
               <li class="breadcrumb-item active">
-                 <a class="btn btn-info" href="{{ route('initial-salary-structure.index') }}"> <i class="fa fa-th-list" aria-hidden="true"></i></a>
+                 <a class="btn btn-info" href="{{ route('monthly-salary-structure.index') }}"> <i class="fa fa-th-list" aria-hidden="true"></i></a>
                </li>
                @endcan
             </ol>
@@ -25,51 +25,49 @@
 <div class="card ">
 <div class="card-body">
                  @include('backend.message.message')
-                {!! Form::model($data, ['method' => 'PATCH','route' => ['initial-salary-structure.update', $data->id]]) !!}
-                <div class="form-group row pt-2">
+                {!! Form::open(array('route' => 'monthly-salary-structure.store','method'=>'POST','enctype'=>'multipart/form-data')) !!}
+                <div class="form-group row ">
                             <label class="col-sm-2 col-form-label" >{{__('EMP ID')}}:</label>
                              <div class="col-sm-6">
-                                <input type="hidden" name="_employee_id" class="_employee_id" value="{{$data->_employee_id}}">
-                                <input type="hidden" name="_employee_ledger_id" class="_employee_ledger_id" value="{{$data->_employee_ledger_id}}">
-                                <input type="text" name="_employee_id_text" class="form-control _employee_id_text" placeholder="{{__('EMP ID')}}" value="{{$data->_employee->_code ?? '' }}">
+                                <input type="hidden" name="_employee_id" class="_employee_id" value="">
+                                <input type="hidden" name="_employee_ledger_id" class="_employee_ledger_id" value="">
+                                <input type="text" name="_employee_id_text" class="form-control _employee_id_text" placeholder="{{__('EMP ID')}}">
                                <div class="search_box_employee"> </div>
                             </div>
                         </div>
-                <div class="form-group row pt-2">
+                <div class="form-group row ">
                             <label class="col-sm-2 col-form-label" >{{__('Employee Name')}}:</label>
                              <div class="col-sm-6">
-                                <input type="text" name="_employee_name_text" class="form-control _employee_name_text" placeholder="{{__('Employee')}}" value="{{$data->_employee->_name ?? '' }}">
+                                <input type="text" name="_employee_name_text" class="form-control _employee_name_text" placeholder="{{__('Employee')}}">
                                <div class="search_box_employee"> </div>
                             </div>
                         </div>
-                <div class="form-group row pt-2">
+                <div class="form-group row ">
                     <label class="col-sm-2 col-form-label" >{{__('Department')}}:</label>
                      <div class="col-sm-6">
-                        <input type="text" name="_department" class="form-control _department" placeholder="{{__('Department')}}" readonly value="{{$data->_employee->_emp_department->_name ?? '' }}">
+                        <input type="text" name="_department" class="form-control _department" placeholder="{{__('Department')}}" readonly>
                     </div>
                 </div>
-                <div class="form-group row pt-2">
+                <div class="form-group row ">
                     <label class="col-sm-2 col-form-label" >{{__('Designation')}}:</label>
                      <div class="col-sm-6">
-                        <input type="text" name="_emp_designation" class="form-control _emp_designation" placeholder="{{__('Designation')}}" value="{{$data->_employee->_emp_designation->_name ?? '' }}" readonly>
+                        <input type="text" name="_emp_designation" class="form-control _emp_designation" placeholder="{{__('Designation')}}" readonly>
                     </div>
                 </div>
-                <div class="form-group row pt-2">
+                <div class="form-group row ">
                     <label class="col-sm-2 col-form-label" >{{__('Grade')}}:</label>
                      <div class="col-sm-6">
-                        <input type="text" name="_emp_grade" class="form-control _emp_grade" placeholder="{{__('Grade')}}"  value="{{$data->_employee->_emp_grade->_name ?? '' }}" readonly>
+                        <input type="text" name="_emp_grade" class="form-control _emp_grade" placeholder="{{__('Grade')}}" readonly>
                     </div>
                 </div>
-                <div class="form-group row pt-2">
+                <div class="form-group row ">
                     <label class="col-sm-2 col-form-label" >{{__('Emp Category')}}:</label>
                      <div class="col-sm-6">
-                        <input type="text" name="_employee_cat" class="form-control _employee_cat" value="{{$data->_employee_cat->_emp_grade->_name ?? '' }}" placeholder="{{__('Emp Category')}}" readonly>
+                        <input type="text" name="_employee_cat" class="form-control _employee_cat" placeholder="{{__('Emp Category')}}" readonly>
                     </div>
                 </div>
 
-@php
-    $previous_detail = $data->_details ?? [];
-@endphp
+
 
                 <div class="row">
                     @forelse($payheads as $p_key=>$p_val)
@@ -85,27 +83,7 @@
                              <div class="col-sm-6">
                                 <input type="hidden" name="_payhead_id[]" class="_payhead_id" value="{{$l_val->id}}">
                                 <input type="hidden" name="_payhead_type_id[]" class="_payhead_type_id" value="{{$l_val->_type}}">
-                               
-                              <input type="number"  name="_amount[]" class="form-control payhead_amount @if(isset($l_val->_payhead_type) && $l_val->_payhead_type->cal_type==1) _add_salary @endif  @if($l_val->_payhead_type->cal_type==2) _deduction_salary @endif"
-                               @forelse($previous_detail as $p_val)
-                                @if($p_val->_payhead_id==$l_val->id)
-                                value="{{$p_val->_amount ?? 0}}"
-                               @endif
-                              @empty
-                              @endforelse
-
-                                placeholder="{{__('label._amount')}}" >
-                              <input type="hidden" name="_detail_row_id[]" class="_detail_row_id" 
-                              @forelse($previous_detail as $p_val)
-                                @if($p_val->_payhead_id==$l_val->id)
-                              value="{{$p_val->id ?? 0}}"
-
-                               @endif
-                              @empty
-                              @endforelse
-
-                               >
-                              
+                              <input type="number"  name="_amount[]" class="form-control payhead_amount @if($l_val->_payhead_type->cal_type==1) _add_salary @endif  @if($l_val->_payhead_type->cal_type==2) _deduction_salary @endif" value="0" placeholder="{{__('label._amount')}}" >
                             </div>
                         </div>
                         @empty
@@ -118,22 +96,22 @@
                     
                 </div>
 
-              <div class="form-group row pt-2">
+              <div class="form-group row ">
                         <label class="col-sm-2 col-form-label" >Total Earnings:</label>
                          <div class="col-sm-6">
-                            <input type="text" name="total_earnings" class="form-control total_earnings" value="{{$data->total_earnings ?? 0}}"  readonly>
+                            <input type="text" name="total_earnings" class="form-control total_earnings" value="0"  readonly>
                         </div>
                     </div>
-                    <div class="form-group row pt-2">
+                    <div class="form-group row ">
                         <label class="col-sm-2 col-form-label" >Total Deduction:</label>
                          <div class="col-sm-6">
-                            <input type="text" name="total_deduction" class="form-control total_deduction" value="{{$data->total_deduction ?? 0}}"  readonly>
+                            <input type="text" name="total_deduction" class="form-control total_deduction" value="0"  readonly>
                         </div>
                     </div>
-                    <div class="form-group row pt-2">
+                    <div class="form-group row ">
                         <label class="col-sm-2 col-form-label" >Net Total Salary:</label>
                          <div class="col-sm-6">
-                            <input type="text" name="net_total_earning" class="form-control net_total_earning" value="{{$data->net_total_earning ?? 0}}"  readonly>
+                            <input type="text" name="net_total_earning" class="form-control net_total_earning" value="0"  readonly>
                         </div>
                     </div>
 

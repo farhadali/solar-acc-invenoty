@@ -60,6 +60,17 @@
         <?php endif; ?>
         <p style="padding-left: 20px;"><b><?php echo e(__('label.payrol-information')); ?></b></p>
        <div class="dropdown-divider"></div>
+        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('monthly-salary-structure-list')): ?>
+        <div style="display: flex;">
+         <a href="<?php echo e(url('monthly-salary-structure')); ?>" class="dropdown-item">
+            <i class="fa fa-fax mr-2" aria-hidden="true"></i> <?php echo e(__('label.monthly-salary-structure')); ?>
+
+          </a>
+          <a  href="<?php echo e(route('initial-salary-structure.create')); ?>" class="dropdown-item text-right">
+            <i class="nav-icon fas fa-plus"></i>
+          </a>
+        </div>
+        <?php endif; ?>
         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('initial-salary-structure-list')): ?>
         <div style="display: flex;">
          <a href="<?php echo e(url('initial-salary-structure')); ?>" class="dropdown-item">

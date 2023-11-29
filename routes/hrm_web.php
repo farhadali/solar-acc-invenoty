@@ -15,6 +15,7 @@ use App\Http\Controllers\HrmEmpLocationController;
 use App\Http\Controllers\HrmDesignationController;
 use App\Http\Controllers\HrmCurrentSalaryStruController;
 use App\Http\Controllers\HrmAttendanceController;
+use App\Http\Controllers\HrmMonthlySalaryController;
 
 
 //##########################
@@ -31,6 +32,7 @@ Route::get('employee-dataupdate','App\Http\Controllers\HrmEmployeesController@em
 Route::resource('hrm-designation',HrmDesignationController::class);
 
 Route::resource('initial-salary-structure',HrmCurrentSalaryStruController::class);
+Route::resource('monthly-salary-structure',HrmMonthlySalaryController::class);
 
 Route::resource('weekworkday',HrmWeekworkdayController::class);
 

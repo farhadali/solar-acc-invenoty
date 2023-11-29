@@ -11,6 +11,8 @@ class HrmEmployees extends Model
 
     //HrmEmpCategory
 
+    protected $table="hrm_employees";
+
 
 
 

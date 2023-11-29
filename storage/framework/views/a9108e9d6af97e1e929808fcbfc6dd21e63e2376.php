@@ -57,7 +57,7 @@
                          </select>
                       </div>
                   
-                  <?php if(sizeof($stores) > 1): ?>
+                 
                       <div class="col-md-12">
                         <label>Store:</label>
                          <select class="form-control width_150_px _store multiple_select" multiple name="_store[]"   >
@@ -72,9 +72,9 @@
                             <?php endif; ?>
                           </select>
                       </div>
-                   <?php endif; ?> 
-                  <?php if(sizeof($permited_costcenters) > 1): ?> 
-                      <div class="col-md-6">
+                  
+                 
+                      <div class="col-md-12">
                         <label>Cost Center:</label>
                          <select class="form-control width_150_px _cost_center multiple_select" multiple name="_cost_center[]" size='2'  >
                                             
@@ -88,7 +88,7 @@
                             <?php endif; ?>
                           </select>
                       </div>
-                  <?php endif; ?>
+                  
                     </div>
                     <div class="row">
                       <label>Categories:</label><br>

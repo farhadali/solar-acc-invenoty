@@ -59,6 +59,12 @@
                   <i class="fa fa-arrow-right nav-icon"></i><p><?php echo e(__('label.hrm-employee')); ?></p></a>
               </li>
               <?php endif; ?>
+            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('monthly-salary-structure-list')): ?>
+              <li class="nav-item" >
+                  <a href="<?php echo e(url('monthly-salary-structure')); ?>" class="nav-link " >
+                  <i class="fa fa-arrow-right nav-icon"></i><p><?php echo e(__('label.monthly-salary-structure')); ?></p></a>
+              </li>
+              <?php endif; ?>
             <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('initial-salary-structure-list')): ?>
               <li class="nav-item" >
                   <a href="<?php echo e(url('initial-salary-structure')); ?>" class="nav-link " >

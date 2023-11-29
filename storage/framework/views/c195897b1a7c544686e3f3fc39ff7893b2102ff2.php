@@ -10,13 +10,12 @@
             <ol class="breadcrumb float-sm-right ml-2">
                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('role-create')): ?>
               <li class="breadcrumb-item active">
-                <button type="button" 
-               class="btn btn-sm btn-info active attr_base_create_url" 
-               data-toggle="modal" 
-               data-target="#commonEntryModal_item" 
-               attr_base_create_url="<?php echo e(route('roles.create')); ?>">
+                <a type="button" 
+               class="btn btn-sm btn-info active " 
+               
+               href="<?php echo e(route('roles.create')); ?>">
                    <i class="nav-icon fas fa-plus"></i> Create New
-                </button>
+                </a>
 
                </li>
               <?php endif; ?>
@@ -58,12 +57,12 @@
                                   class="btn btn-sm btn-default  mr-1"><i class="fa fa-eye"></i></a>
 
 
-                                  
+                                  <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('role-edit')): ?>
                                   <a   
                                   href="<?php echo e(route('roles.edit',$role->id)); ?>"
                                   
                                   class="btn btn-sm btn-default  mr-1"><i class="fa fa-pen "></i></a>
-
+                                  <?php endif; ?>
                                     
                                  
                                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('role-delete')): ?>

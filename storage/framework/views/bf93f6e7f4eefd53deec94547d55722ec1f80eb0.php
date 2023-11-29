@@ -29,6 +29,17 @@
           </a>
         </div>
         <?php endif; ?>
+        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('tender-list')): ?>
+         <div style="display: flex;">
+         <a href="<?php echo e(route('tender.index')); ?>" class="dropdown-item">
+            <i class="fa fa-fax mr-2" aria-hidden="true"></i> <?php echo e(__('label.tender-info')); ?>
+
+          </a>
+          <a  href="<?php echo e(route('tender.create')); ?>" class="dropdown-item text-right">
+            <i class="nav-icon fas fa-plus"></i>
+          </a>
+        </div>
+        <?php endif; ?>
        
       </li>
     <?php endif; ?><?php /**PATH D:\xampp\htdocs\own\inv-acc-hrm\resources\views/backend/layouts/pm_module.blade.php ENDPATH**/ ?>
