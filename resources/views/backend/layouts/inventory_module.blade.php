@@ -1,8 +1,8 @@
- @can('inventory-menu') 
+ @can('import-purchase-list') 
       <li class="nav-item dropdown remove_from_header">
         <a class="nav-link" data-toggle="dropdown" href="#">
           
-          {{ __('label.Inventory') }} <i class="right fas fa-angle-down"></i>
+          {{ __('label.import Entry') }} <i class="right fas fa-angle-down"></i>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
            

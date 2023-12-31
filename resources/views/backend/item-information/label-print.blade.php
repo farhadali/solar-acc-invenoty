@@ -51,10 +51,12 @@ $__user= Auth::user();
                                             <th class="text-left" >Sales Rate</th>
                                             <th class="text-left " >VAT%</th>
                                             <th class="text-left " >Dis%</th>
+                                            <th class="text-left " >MFG Date:</th>
+                                            <th class="text-left " >EXP Date:</th>
                                           </thead>
                                           <tbody class="area__purchase_details" id="area__purchase_details">
                                             @php
-                                            $_master_details = $datas->_master_details ?? [];
+                                            $_master_details = $datas ??  [];
                                             @endphp
                                             @forelse($_master_details as $key=>$val)
                                             @php
@@ -94,6 +96,12 @@ $__user= Auth::user();
                                               <td class=" " >
                                                 <input type="number" name="_discount[]" class="form-control  _discount _common_keyup" value="{{$val->_discount ?? 0}}" >
                                               </td>
+                                              <td class=" " >
+                                                <input type="date" name="_manufacture_date[]" class="form-control  _discount " value="{{$val->_manufacture_date ?? ''}}" >
+                                              </td>
+                                              <td class=" " >
+                                                <input type="date" name="_expire_date[]" class="form-control  _expire_date " value="{{$val->_expire_date ?? ''}}" >
+                                              </td>
                                             </tr>
                                             @empty
                                             
@@ -113,19 +121,19 @@ $__user= Auth::user();
                                         <tr>
                                           <td>
                                             <div class="form-check">
-                                                <input type="checkbox" class="form-check-input" name="_product_name_check" id="_product_name_check">
+                                                <input type="checkbox" class="form-check-input" name="_product_name_check" id="_product_name_check" checked>
                                                 <label class="form-check-label" for="_product_name_check"> Product Name</label>
                                               </div>
                                           </td>
                                           <td>
                                             <div class="form-check">
-                                                <input type="checkbox" class="form-check-input" name="_product_price_check" id="_product_price_check">
+                                                <input type="checkbox" class="form-check-input" name="_product_price_check" id="_product_price_check" checked>
                                                 <label class="form-check-label" for="_product_price_check"> Product Price</label>
                                               </div>
                                           </td>
                                           <td>
                                             <div class="form-check">
-                                                <input type="checkbox" class="form-check-input" name="_bussiness_name" id="_bussiness_name">
+                                                <input type="checkbox" class="form-check-input" name="_bussiness_name" id="_bussiness_name" checked>
                                                 <label class="form-check-label" for="_bussiness_name"> Business name</label>
                                               </div>
                                           </td>
@@ -141,32 +149,56 @@ $__user= Auth::user();
                                                 <label class="form-check-label" for="_discount_check"> Discount%</label>
                                               </div>
                                           </td>
+                                          <td>
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" name="_manufacture_date_check" id="_manufacture_date_check">
+                                                <label class="form-check-label" for="_manufacture_date_check"> MFG date</label>
+                                              </div>
+                                          </td>
+                                          <td>
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" name="_expire_date_check" id="_expire_date_check">
+                                                <label class="form-check-label" for="_expire_date_check"> EXP</label>
+                                              </div>
+                                          </td>
                                         </tr>
                                         <tr>
                                           <td>
                                             <div class="form-group">
-                                                <input type="text" class="form-control" name="_product_name_size" id="_product_name_size" placeholder="Product Name Size" value="17">
+                                                <input type="text" class="form-control" name="_product_name_size" id="_product_name_size" placeholder="Product Name Size" value="8">
                                             </div>
                                           </td>
                                           <td>
                                             <div class="form-group">
-                                                <input type="text" class="form-control" name="_product_price_size" id="_product_price_size" placeholder="Product Price Size" value="15">
+                                                <input type="text" class="form-control" name="_product_price_size" id="_product_price_size" placeholder="Product Price Size" value="8">
                                             </div>
                                           </td>
                                           <td>
                                             <div class="form-group">
-                                                <input type="text" class="form-control" name="_bussiness_name_size" id="_bussiness_name_size" placeholder="Business name size" value="18">
+                                                <input type="text" class="form-control" name="_bussiness_name_size" id="_bussiness_name_size" placeholder="Business name size" value="8">
                                             </div>
                                           </td>
                                           <td>
                                             <div class="form-group">
-                                                <input type="text" class="form-control" name="_vat_size" id="_vat_size" placeholder="VAT size" value="14">
+                                                <input type="text" class="form-control" name="_vat_size" id="_vat_size" placeholder="VAT size" value="8">
                                             </div>
                                            
                                           </td>
                                           <td>
                                              <div class="form-group">
-                                                <input type="text" class="form-control" name="_discount_size" id="_discount_size" placeholder="Discount size" value="14">
+                                                <input type="text" class="form-control" name="_discount_size" id="_discount_size" placeholder="Discount size" value="8">
+                                            </div>
+                                            
+                                          </td>
+                                          <td>
+                                             <div class="form-group">
+                                                <input type="text" class="form-control" name="_discount_size" id="_discount_size" placeholder="Discount size" value="8">
+                                            </div>
+                                            
+                                          </td>
+                                          <td>
+                                             <div class="form-group">
+                                                <input type="text" class="form-control" name="_discount_size" id="_discount_size" placeholder="Discount size" value="8">
                                             </div>
                                             
                                           </td>
@@ -195,8 +227,8 @@ $__user= Auth::user();
                       
                         <div class="col-xs-12 col-sm-12 col-md-12 bottom_save_section text-middle">
                           
-                            <button type="submit" class="btn btn-success submit-button ml-5"><i class="fa fa-credit-card mr-2" aria-hidden="true"></i> Save</button>
-                            <button type="submit" class="btn btn-warning submit-button _save_and_print"><i class="fa fa-print mr-2" aria-hidden="true"></i> Save & Print</button>
+                            <button type="submit" class="btn btn-success submit-button ml-5"><i class="fa fa-credit-card mr-2" aria-hidden="true"></i> Print</button>
+                            
                         </div>
                         <br><br>
                         

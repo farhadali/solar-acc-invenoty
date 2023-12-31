@@ -21,13 +21,14 @@ return [
 
 
 
+    'import Entry' => 'Import Entry',
     'monthly-salary-structure' => 'Monthly Salary Structure',
     'pm_module' => 'PM',
     'tender-info' => 'Tender Info',
     'hrm-attandance' => 'Attandance',
     'receive_payment' => 'Receive & Payment',
     '_is_direct_sales' => 'Sales Type',
-    '_store_sales' => 'Stockpile Sales',
+    '_store_sales' => 'Store/Warehouse Sales',
     '_direct_sales' => 'Direct Sales',
     'initial-salary-structure' => 'Initial Salary Structure',
     '_payhead' => 'Payhead',
@@ -133,7 +134,7 @@ return [
     '_tti' => 'TTI',
     '_tti_amount' => 'TTI Amount',
     '_shelf' => 'Shelf',
-    '_store_id' => 'Stockpile',
+    '_store_id' => 'Store/Warehouse',
     '_expected_qty' => 'Sur. Qty',
     'import-purchase' => 'Mother Vessel BL Receive Information',
     'notesheet' => 'Notesheet',
@@ -217,7 +218,7 @@ return [
     '_lock' => 'Lock',
     '_item' => 'Item Name',
     '_unit' => 'Unit',
-    '_qty' => 'Acc. QTY',
+    '_qty' => 'QTY',
     '_cost_rate' => 'Cost Rate',
     '_issue_rate' => 'Issue Rate',
     '_value' => 'Amount',

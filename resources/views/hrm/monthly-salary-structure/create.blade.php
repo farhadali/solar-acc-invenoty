@@ -168,18 +168,21 @@ $(document).on('keyup','._employee_id_text',delay(function(e){
     request.done(function( result ) {
       var search_html =``;
       var data = result.data; 
+      console.log(data)
       if(data.length > 0 ){
             search_html +=`<div class="card"><table style="width: 300px;"> <tbody>`;
                         for (var i = 0; i < data.length; i++) {
                          search_html += `<tr class="_employee_search_row_em _cursor_pointer" >
-                                        <td>${data[i]._code}
+                                        <td style="border:1px solid #000;">${data[i]._code}
                                         <input type="hidden" name="_emp_all_data" class="_emp_all_data" attr_value='${JSON.stringify(data[i])}'>
                                         <input type="hidden" name="_emplyee_row_id" class="_emplyee_row_id" value="${data[i].id}">
                                         <input type="hidden" name="_emplyee_row_code_id" class="_emplyee_row_code_id" value="${data[i]._code}">
                                         </td>
-                                        <td>${data[i]._name}
+                                        <td style="border:1px solid #000;">${data[i]._name}
                                         <input type="hidden" name="_search_employee_name" class="_search_employee_name" value="${data[i]._name}">
                                         
+                                        </td>
+                                        <td style="border:1px solid #000;">${data[i]?._emp_designation?._name}
                                         </td>
                                         
                                        
@@ -219,8 +222,28 @@ $(document).find("._emp_designation").val(data?._emp_designation?._name);
 $(document).find("._emp_grade").val(data?._emp_grade?._name);
 $(document).find("._employee_cat").val(data?._employee_cat?._name);
 
-  $(document).find('.search_box_employee').hide();
-  $(document).find('.search_box_employee').removeClass('search_box_show').hide();
+var _gloabal_this = $(this);
+  var _text_val = $(this).val().trim();
+  var request = $.ajax({
+      url: "{{url('employee-search')}}",
+      method: "GET",
+      data: { _text_val : _text_val },
+      dataType: "JSON"
+    });
+     
+    request.done(function( result ) {
+        
+    });
+     
+    request.fail(function( jqXHR, textStatus ) {
+      alert( "Request failed: " + textStatus );
+    });
+
+
+$(document).find('.search_box_employee').hide();
+$(document).find('.search_box_employee').removeClass('search_box_show').hide();
+
+
 })
 </script>
 

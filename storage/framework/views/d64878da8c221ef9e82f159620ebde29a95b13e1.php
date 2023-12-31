@@ -97,15 +97,15 @@ $currentURL = URL::full();
   <div class="content-wrapper" style="">
     <input type="hidden" class="project_base_url" id="project_base_url" value="<?php echo e(url('/')); ?>">
     <input type="hidden" class="default_date_formate" id="default_date_formate" value="<?php echo e(default_date_formate()); ?>">
-      <h5 style='text-align:center;color:#000;padding-top:10px;'>
+    <!--   <h5 style='text-align:center;color:#000;padding-top:10px;'>
     <?php
-    $auth_user = \Auth::user();
- $permited_stores = permited_stores(explode(',',$auth_user->store_ids));
- if(sizeof($permited_stores)==1){
-  foreach($permited_stores as $pkey=>$sval){ ?>
+   // $auth_user = \Auth::user();
+ //$permited_stores = permited_stores(explode(',',$auth_user->store_ids));
+ //if(sizeof($permited_stores)==1){
+  //foreach($permited_stores as $pkey=>$sval){ ?>
  <small>You are working on</small> <span style="font-weight: bold;color:#d61212"><?php echo e($sval->_name ?? ''); ?></span> 
-<?php } } ?>
-</h5>
+<?php //} } ?>
+</h5> -->
 
     <!-- Main content -->
     <?php echo $__env->yieldContent('content'); ?>
@@ -141,7 +141,9 @@ $currentURL = URL::full();
 
 
 
-
+<script type="text/javascript">
+  
+</script>
 
 
 

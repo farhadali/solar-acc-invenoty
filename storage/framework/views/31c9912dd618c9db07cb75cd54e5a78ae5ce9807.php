@@ -443,6 +443,8 @@ $(document).find(".attr_rlp_action_title_action_app_reject").val(attr_rlp_action
            url:"<?php echo e(url('rlp-approve-reject')); ?>",
            data:{rlp_id,rlp_no,rlp_action,rlp_remarks},
            success:function(data){
+            alert(data?.message);
+            location.reload();
               console.log(data);
            }
         });

@@ -340,8 +340,9 @@ $(document).on('keyup','._search_main_delivery_man',delay(function(e){
     $(document).find('._search_main_delivery_man').removeClass('required_border');
   var _gloabal_this = $(this);
   var _text_val = $(this).val().trim();
+  var action_url = project_base_url+"/"+'ledger-search';
   var request = $.ajax({
-      url: "{{url('ledger-search')}}",
+      url: action_url,
       method: "GET",
       data: { _text_val : _text_val },
       dataType: "JSON"
@@ -387,8 +388,9 @@ $(document).on('keyup','._search_main_delivery_man',delay(function(e){
     $(document).find('._search_main_delivery_man').removeClass('required_border');
   var _gloabal_this = $(this);
   var _text_val = $(this).val().trim();
+  var action_url = project_base_url+"/"+'ledger-search';
   var request = $.ajax({
-      url: "{{url('ledger-search')}}",
+      url: action_url,
       method: "GET",
       data: { _text_val : _text_val },
       dataType: "JSON"
@@ -432,8 +434,9 @@ $(document).on('keyup','._search_main_delivery_man',delay(function(e){
 $(document).on('keyup','._manufacture_company',delay(function(e){
   var _gloabal_this = $(this);
   var _text_val = $(this).val().trim();
+  var action_url = project_base_url+"/"+'manufacture-comapany-search';
   var request = $.ajax({
-      url: "{{url('manufacture-comapany-search')}}",
+      url: action_url,
       method: "GET",
       data: { _text_val : _text_val },
       dataType: "JSON"
@@ -489,8 +492,9 @@ $(document).on('keyup','._search_main_sales_man',delay(function(e){
     $(document).find('._search_main_sales_man').removeClass('required_border');
   var _gloabal_this = $(this);
   var _text_val = $(this).val().trim();
+  var action_url = project_base_url+"/"+'ledger-search';
   var request = $.ajax({
-      url: "{{url('ledger-search')}}",
+      url: action_url,
       method: "GET",
       data: { _text_val : _text_val },
       dataType: "JSON"
@@ -550,10 +554,11 @@ $(document).on('click','.search_row_sales_man',function(){
 
 $(document).on('keyup','.user_id_name',delay(function(e){
     
+    var action_url = project_base_url+"/"+'employee-search';
   var _gloabal_this = $(this);
   var _text_val = $(this).val().trim();
   var request = $.ajax({
-      url: "{{url('employee-search')}}",
+      url: action_url,
       method: "GET",
       data: { _text_val : _text_val },
       dataType: "JSON"

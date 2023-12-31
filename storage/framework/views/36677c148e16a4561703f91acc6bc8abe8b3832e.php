@@ -157,9 +157,21 @@ $users = Auth::user();
           </div>
           <?php endif; ?>
 
+          <div class="container">
+            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('rlp-list')): ?>
+            <div class="col-md-3">
+              <div class="card bg-success text-white">
+                <div class="card-body">
+                  <a href="<?php echo e(url('rlp')); ?>"><?php echo e(__('label.rlp-info')); ?></a>
+                </div>
+              </div>
+            </div>
+            <?php endif; ?>
+          </div>
+
 
     
-</script>
+
 
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('backend.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\xampp\htdocs\own\inv-acc-hrm\resources\views/backend/dashboard/index.blade.php ENDPATH**/ ?>

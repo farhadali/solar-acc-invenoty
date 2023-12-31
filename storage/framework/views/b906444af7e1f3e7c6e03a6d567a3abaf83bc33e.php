@@ -124,11 +124,13 @@ if($currentURL === $current){
                              <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('item-sales-price-update')): ?>
                             <a class="nav-link"  href="<?php echo e(url('item-sales-price-edit')); ?>/<?php echo e($data->id); ?>" role="button"><i class="nav-icon fas fa-edit"></i></a>
                             <?php endif; ?>
+
+
                           </td>
                             <td class="_list_table_td"><?php echo e(($key+1)); ?></td>
                             <td class="_list_table_td"><?php echo e($data->id ?? ''); ?></td>
                             
-                            <td class="_list_table_td">
+                            <td class="_list_table_td" style="display:flex;">
                               <?php if($data->_input_type=='purchase'): ?>
                               <a class="" href="<?php echo e(url('purchase/print')); ?>/<?php echo e($data->_master_id); ?>">
                                      <?php echo e(_purchase_pfix()); ?> <?php echo e($data->_master_id); ?>
@@ -142,6 +144,10 @@ if($currentURL === $current){
 
                                     </a>
                             <?php endif; ?>
+                            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('labels-print')): ?>
+                                    <a title="Model Barcode Print" target="__blank" class="btn btn-default" href="<?php echo e(url('labels-print')); ?>?_id=<?php echo e($data->_master_id); ?>&_type=purchase&_item_id=<?php echo e($data->_item_id); ?>"><i class=" fas fa-barcode"></i></a>
+                                  <?php endif; ?>
+
                               </td>
                             
                             

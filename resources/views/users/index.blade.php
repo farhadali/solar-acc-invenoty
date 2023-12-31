@@ -64,11 +64,11 @@
                                   class="btn btn-sm btn-default  mr-1"><i class="fa fa-eye"></i></a>
 
 
-                                  
+                                @can('user-edit')  
                                   <a  type="button" 
                                   href="{{ route('users.edit',$user->id) }}"
                                   class="btn btn-sm btn-default  mr-1"><i class="fa fa-pen "></i></a>
-
+                                  @endcan
                                     
                                 
                                 @can('user-delete')

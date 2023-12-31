@@ -12,11 +12,16 @@
 	$_bussiness_name = $data["_bussiness_name"] ?? '';
 	$_vat_check = $data["_vat_check"] ?? '';
 	$_discount_check = $data["_discount_check"] ?? '';
-	$_product_name_size = $data["_product_name_size"] ?? 14;
-	$_product_price_size = $data["_product_price_size"] ?? 14;
-	$_bussiness_name_size = $data["_bussiness_name_size"] ?? 14;
-	$_vat_size = $data["_vat_size"] ?? 14;
-	$_discount_size = $data["_discount_size"] ?? 14;
+	$_product_name_size = $data["_product_name_size"] ?? 8;
+	$_product_price_size = $data["_product_price_size"] ?? 8;
+	$_bussiness_name_size = $data["_bussiness_name_size"] ?? 8;
+	$_vat_size = $data["_vat_size"] ?? 8;
+	$_discount_size = $data["_discount_size"] ?? 8;
+
+	$_manufacture_date = $data["_manufacture_date"] ?? [];
+	$_expire_date = $data["_expire_date"] ?? [];
+	$_manufacture_date_check = $data["_manufacture_date_check"] ?? '';
+	$_expire_date_check = $data["_expire_date_check"] ?? '';
 	@endphp
 	@forelse($items as $key=>$item)
 	@php
@@ -35,10 +40,13 @@
 			<div style="overflow: hidden !important;display: flex; flex-wrap: wrap;align-content: center;width: 1.25in; height: 1in; justify-content: center;">
 				<div> 
 					 @if($_bussiness_name !='') <b style="display: block !important; font-size: {{$_bussiness_name_size}}px">{{$settings->name ?? '' }}</b> @endif 
-					@if($_product_name_check !='')<span style="display: block !important; font-size: 15px">{{$items[$key]}} </span>  @endif
+					@if($_product_name_check !='')<span style="display: block !important; font-size: {{$_product_name_size}}px">{{$items[$key]}} </span>  @endif
 					@if($_product_price_check !='')<span style="font-size: {{$_product_price_size}}px;">Price:<b>{{prefix_taka()}}.{{$_sales_rates[$key]}}</b></span>  @endif
 					@if($_vat_check !='')<span style="font-size: {{$_vat_size}}px;">VAT:<b>{{$_vats[$key]}}</b></span> @endif
 					@if($_discount_check !='')<span style="font-size: {{$_discount_size}}px;">Discount:<b>{{$_discounts[$key]}}</b></span> @endif
+
+					@if($_manufacture_date_check !='')<span style="font-size: {{$_discount_size}}px;">MFG:<b>{{$_manufacture_date[$key] ?? ''}}</b></span> @endif
+			@if($_expire_date_check !='')<span style="font-size: {{$_discount_size}}px;">EXP:<b>{{$_expire_date[$key] ?? ''}}</b></span> @endif
 					<br> <?php echo  '<img style="max-width:90% !important;height: 0.24in !important; display: block;;"  src="data:image/png;base64,' . base64_encode($generator->getBarcode('"'.$_barcodes[$key].'"', $generator::TYPE_CODE_128)) . '">'; ?>
 					 <span style="font-size: 10px !important">{{$_barcodes[$key]}}</span> 
 

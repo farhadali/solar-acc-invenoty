@@ -707,7 +707,7 @@ SELECT 'B. Receipt & Payment' as _type,t1._date, t1._account_ledger AS _account_
             INNER JOIN account_ledgers as t3 ON t3.id=t1._account_ledger
                WHERE t1._status=1 AND t1._date <= '".$_datey."'  AND t1._account_ledger IN(".$ledger_id_rows.") AND t1.organization_id IN(".$_organization_id_rows.")
                AND  t1._branch_id IN(".$_branch_ids_rows.") AND  t1._cost_center IN(".$_cost_center_id_rows.")
-                 GROUP BY t1._account_ledger ) AS l1 ORDER By l1._type,l1._date ASC ";
+                 GROUP BY t1._account_ledger ) AS l1 ORDER By l1._type,l1._id,l1._date ASC ";
 
          $_opening_balance =  DB::select($opening_query_sting);
          $_result_group =array();

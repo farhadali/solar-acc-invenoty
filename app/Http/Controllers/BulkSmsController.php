@@ -63,11 +63,12 @@ class BulkSmsController extends Controller
         foreach ($_account_ledgers as $value) {
             $ledger_info = AccountLedger::select('_phone')->find($value);
             if($ledger_info->_phone !=""){
-             sms_send($_message, $ledger_info->_phone);
+            $es= sms_send($_message, $ledger_info->_phone);
+            return dump($es);
             }
         }
 
-        return redirect()->back()->with('success','SMS Send successfully');
+       // return redirect()->back()->with('success','SMS Send successfully');
 
     }
 

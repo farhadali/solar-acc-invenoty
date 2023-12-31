@@ -123,11 +123,13 @@ if($currentURL === $current){
                              @can('item-sales-price-update')
                             <a class="nav-link"  href="{{url('item-sales-price-edit')}}/{{$data->id}}" role="button"><i class="nav-icon fas fa-edit"></i></a>
                             @endcan
+
+
                           </td>
                             <td class="_list_table_td">{{ ($key+1) }}</td>
                             <td class="_list_table_td">{{ $data->id ?? '' }}</td>
                             
-                            <td class="_list_table_td">
+                            <td class="_list_table_td" style="display:flex;">
                               @if($data->_input_type=='purchase')
                               <a class="" href="{{ url('purchase/print') }}/{{$data->_master_id}}">
                                      {{ _purchase_pfix()}} {{$data->_master_id}}
@@ -139,6 +141,10 @@ if($currentURL === $current){
                                       RP-{{$data->_master_id}}
                                     </a>
                             @endif
+                            @can('labels-print')
+                                    <a title="Model Barcode Print" target="__blank" class="btn btn-default" href="{{url('labels-print')}}?_id={{$data->_master_id}}&_type=purchase&_item_id={{$data->_item_id}}"><i class=" fas fa-barcode"></i></a>
+                                  @endcan
+
                               </td>
                             
                             

@@ -153,8 +153,20 @@ $users = Auth::user();
           </div>
           @endcan
 
+          <div class="container">
+            @can('rlp-list')
+            <div class="col-md-3">
+              <div class="card bg-success text-white">
+                <div class="card-body">
+                  <a href="{{url('rlp')}}">{{ __('label.rlp-info') }}</a>
+                </div>
+              </div>
+            </div>
+            @endcan
+          </div>
+
 
     
-</script>
+
 
 @endsection

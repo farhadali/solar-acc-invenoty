@@ -130,6 +130,7 @@ $__user= Auth::user();
                             <td>
 
     @if($find_group_and_permision ==2 || $find_group_and_permision ==3 || $find_group_and_permision ==4)
+    @if($data->rlp_status !=1)
                                <a  type="button" 
                                   href="#None"
                                   attr_rlp_id="{{$data->id}}"
@@ -162,6 +163,7 @@ $__user= Auth::user();
                                  data-toggle="modal" data-target="#ApproveModal" data-whatever="@mdo"
                                  
                                   class="btn btn-sm btn-info approve_reject_revert_button  mr-1"><i class="fa fa-undo "></i> {{__('label.revert')}}</a>
+                      @endif
 @endif
 <a class="btn btn-sm btn-default _action_button" data-toggle="collapse" href="#collapseExample__{{$key}}" role="button" aria-expanded="false" aria-controls="collapseExample">
                                       <i class=" fas fa-angle-down"></i>
@@ -237,9 +239,9 @@ $__user= Auth::user();
                       <tr>
                         <td>{{$sl}}</td>
                         <td>
-                          @if($data->rlp_status==1)
+                          <!-- @if($data->rlp_status==1)
                           <a target="__blank" class="btn btn-primary" href="{{url('rlp-to-notesheet')}}?rlp_no={{$data->rlp_no}}&rlp_id={{$data->id}}&supplier_id={{$data->_ledger_id ?? ''}}">{{__('label.notesheet')}}</a>
-                          @endif
+                          @endif -->
                         </td>
                         <td>
                          
@@ -437,6 +439,8 @@ $(document).find(".attr_rlp_action_title_action_app_reject").val(attr_rlp_action
            url:"{{ url('rlp-approve-reject') }}",
            data:{rlp_id,rlp_no,rlp_action,rlp_remarks},
            success:function(data){
+            alert(data?.message);
+            location.reload();
               console.log(data);
            }
         });

@@ -29,7 +29,7 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="{{asset('dist/css/adminlte.min.css')}}">
 <link rel="stylesheet" href="{{asset('backend/amsify.suggestags.css')}}">
-<link rel="stylesheet" href="{{asset('backend/style.css?v=9')}}">
+<link rel="stylesheet" href="{{asset('backend/style.css?v=1.4')}}">
 
 
 
@@ -97,15 +97,15 @@ $currentURL = URL::full();
   <div class="content-wrapper" style="">
     <input type="hidden" class="project_base_url" id="project_base_url" value="{{url('/')}}">
     <input type="hidden" class="default_date_formate" id="default_date_formate" value="{{default_date_formate()}}">
-      <h5 style='text-align:center;color:#000;padding-top:10px;'>
+    <!--   <h5 style='text-align:center;color:#000;padding-top:10px;'>
     <?php
-    $auth_user = \Auth::user();
- $permited_stores = permited_stores(explode(',',$auth_user->store_ids));
- if(sizeof($permited_stores)==1){
-  foreach($permited_stores as $pkey=>$sval){ ?>
+   // $auth_user = \Auth::user();
+ //$permited_stores = permited_stores(explode(',',$auth_user->store_ids));
+ //if(sizeof($permited_stores)==1){
+  //foreach($permited_stores as $pkey=>$sval){ ?>
  <small>You are working on</small> <span style="font-weight: bold;color:#d61212">{{$sval->_name ?? ''}}</span> 
-<?php } } ?>
-</h5>
+<?php //} } ?>
+</h5> -->
 
     <!-- Main content -->
     @yield('content')
@@ -138,12 +138,6 @@ $currentURL = URL::full();
 <!-- AdminLTE for demo purposes -->
 <script src="{{asset('dist/js/demo.js')}}"></script>
 <script src="{{asset('backend/js/main.js')}}"></script>
-
-
-
-
-
-
 
 @yield('script')
 </body>

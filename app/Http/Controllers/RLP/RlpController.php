@@ -70,7 +70,9 @@ class RlpController extends Controller
 
         $datas = RlpMaster::with(['_emp_department','_emp_designation','_branch','_cost_center','_organization','_entry_by','_item_detail','_account_detail'])
          ->where('is_delete',0);
-        if($auth_user->user_type !='admin'){
+         if($request->has('rlp_status') && $request->rlp_status !=''){
+            $datas = $datas->where('rlp_status','=',$request->rlp_status);
+        }elseif($auth_user->user_type !='admin'){
                 $datas = $datas->whereIn('id',$rlp_ids);  
         }
          if($request->has('_user_date') && $request->_user_date=="yes" && $request->_datex !="" && $request->_datex !=""){
@@ -85,6 +87,7 @@ class RlpController extends Controller
              $ids =  array_map('intval', explode(',', $request->id ));
             $datas = $datas->where('id', $ids); 
         }
+        
         if($request->has('_lock') && $request->_lock !=''){
             $datas = $datas->where('_lock','=',$request->_lock);
         }
@@ -112,7 +115,10 @@ class RlpController extends Controller
 			$datas = $datas->orderBy($asc_cloumn,$_asc_desc)
                         ->paginate($limit);
 
-        return view('rlp-module.rlp.index',compact('page_name','datas','limit','request'));
+
+        $status_details =\DB::table('status_details')->get();
+
+        return view('rlp-module.rlp.index',compact('page_name','datas','limit','request','status_details'));
     }
 
      public function reset(){
@@ -491,7 +497,7 @@ class RlpController extends Controller
 
         $user_assign_rlp_chain = \DB::select("SELECT DISTINCT t1.id FROM `rlp_access_chains` as t1
                 INNER JOIN rlp_access_chain_users as t2 ON t1.id=t2.chain_id
-                    WHERE t2.user_id='".$emp_id."'   AND t2.user_group=1 "); // user group 1=Rlp Creator
+                    WHERE t2.user_id ='".$emp_id."'    "); // user group 1=Rlp Creator
     $rlp_ids = array();
     foreach($user_assign_rlp_chain as $key=>$val){
         array_push($rlp_ids,$val->id);
@@ -500,7 +506,7 @@ class RlpController extends Controller
    
 
     $rlp_chains = RlpAccessChain::whereIn('id',$rlp_ids)->get();
-     $data =RlpMaster::with(['_item_detail','_account_detail','_rlp_remarks','_rlp_ack','_rlp_ack_app','_rlp_req_user','_emp_department','_emp_designation','_branch','_cost_center','_organization'])->where('is_delete',0)->find($id);
+    $data =RlpMaster::with(['_item_detail','_account_detail','_rlp_remarks','_rlp_ack','_rlp_ack_app','_rlp_req_user','_emp_department','_emp_designation','_branch','_cost_center','_organization'])->where('is_delete',0)->find($id);
 
         return view('rlp-module.rlp.edit',compact('page_name','permited_branch','permited_costcenters','permited_organizations','rlp_chains','data'));
     }

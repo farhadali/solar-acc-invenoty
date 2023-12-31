@@ -372,8 +372,9 @@ class HrmEmployeesController extends Controller
             $_ledger_id = $data->id;
             $request->_ledger_id=$_ledger_id;
 
-
-            $user_id = create_update_user($request);
+            if($request->_ledger_is_user ==1){ 
+                $user_id = create_update_user($request);
+            }
         
 
             $data = HrmEmployees::find($id);

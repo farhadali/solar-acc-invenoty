@@ -116,7 +116,9 @@ if (! function_exists('create_update_user')) {
 
         $user->status = 0;
         $user->save();
-        $user->assignRole('user');
+        if($user_id ==0){
+            $user->assignRole('user');
+        }
         $user_id = $user->id;
 
         return $user_id;
@@ -528,10 +530,28 @@ if (!function_exists('sms_send')) {
         }
 
         if($phone_numbers !=""){
-            $api_key ="F54d7hem0z1h8SrN9HAt4hvhJZzd0gB1vgUW935O"; 
-            $url="https://api.sms.net.bd/sendsms?api_key=".$api_key."&msg=".$messages."&to=".$phone_numbers."";  
-            $curl = curl_init();
+
+
+            // $api_key ="F54d7hem0z1h8SrN9HAt4hvhJZzd0gB1vgUW935O"; 
+            // $url="https://api.sms.net.bd/sendsms?api_key=".$api_key."&msg=".$messages."&to=".$phone_numbers."";  
+            // $curl = curl_init();
             
+            // curl_setopt($curl, CURLOPT_URL, $url);
+            // curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+            // curl_setopt($curl, CURLOPT_CONNECTTIMEOUT , 30);
+            // curl_setopt($curl, CURLOPT_USERAGENT , "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)");
+            // curl_setopt($curl, CURLOPT_HEADER, 0);
+            // $result = curl_exec($curl);
+            // $err = curl_error($curl);
+            // curl_close($curl);
+           $apikey ="9e47053b71ab28ff";
+           $secretkey ="a4eb9bb9";
+           $sender ="01969910564";
+           $toUser =$phone_numbers;
+
+            $url="http://188.138.41.146:7788/sendtext?apikey=".$apikey."&secretkey=".$secretkey."&callerID=".$sender."&toUser=".$toUser."&messageContent=".$messages."";  
+            $curl = curl_init();
+
             curl_setopt($curl, CURLOPT_URL, $url);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($curl, CURLOPT_CONNECTTIMEOUT , 30);
@@ -540,6 +560,7 @@ if (!function_exists('sms_send')) {
             $result = curl_exec($curl);
             $err = curl_error($curl);
             curl_close($curl);
+
 
             if($err)
                 return $err;
@@ -1261,7 +1282,12 @@ if (! function_exists('change_date_format')) {
     }
 }
 
-
+if (! function_exists('default_des')) {
+    function default_des()
+    {
+      return 2;
+    }
+}
 
 if (! function_exists('_report_amount')) {
     function _report_amount($_amount)
@@ -1331,12 +1357,7 @@ if (! function_exists('selected_rlp_status')) {
 
 
 
-if (! function_exists('default_des')) {
-    function default_des()
-    {
-      return 2;
-    }
-}
+
 if (! function_exists('_date_diff')) {
     function _date_diff($date1,$date2)
     {
@@ -1562,7 +1583,7 @@ if (! function_exists('database_backup_info')) {
             readfile($file_name);
             unlink($file_name);
 
-
+            //return redirect('dashboard');
         }
 }
 

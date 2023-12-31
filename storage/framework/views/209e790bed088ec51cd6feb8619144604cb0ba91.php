@@ -12,11 +12,16 @@
 	$_bussiness_name = $data["_bussiness_name"] ?? '';
 	$_vat_check = $data["_vat_check"] ?? '';
 	$_discount_check = $data["_discount_check"] ?? '';
-	$_product_name_size = $data["_product_name_size"] ?? 14;
-	$_product_price_size = $data["_product_price_size"] ?? 14;
-	$_bussiness_name_size = $data["_bussiness_name_size"] ?? 14;
-	$_vat_size = $data["_vat_size"] ?? 14;
-	$_discount_size = $data["_discount_size"] ?? 14;
+	$_product_name_size = $data["_product_name_size"] ?? 8;
+	$_product_price_size = $data["_product_price_size"] ?? 8;
+	$_bussiness_name_size = $data["_bussiness_name_size"] ?? 8;
+	$_vat_size = $data["_vat_size"] ?? 8;
+	$_discount_size = $data["_discount_size"] ?? 8;
+
+	$_manufacture_date = $data["_manufacture_date"] ?? [];
+	$_expire_date = $data["_expire_date"] ?? [];
+	$_manufacture_date_check = $data["_manufacture_date_check"] ?? '';
+	$_expire_date_check = $data["_expire_date_check"] ?? '';
 	?>
 	<?php $__empty_1 = true; $__currentLoopData = $items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
 	<?php
@@ -35,10 +40,13 @@
 			<div style="overflow: hidden !important;display: flex; flex-wrap: wrap;align-content: center;width: 1.25in; height: 1in; justify-content: center;">
 				<div> 
 					 <?php if($_bussiness_name !=''): ?> <b style="display: block !important; font-size: <?php echo e($_bussiness_name_size); ?>px"><?php echo e($settings->name ?? ''); ?></b> <?php endif; ?> 
-					<?php if($_product_name_check !=''): ?><span style="display: block !important; font-size: 15px"><?php echo e($items[$key]); ?> </span>  <?php endif; ?>
+					<?php if($_product_name_check !=''): ?><span style="display: block !important; font-size: <?php echo e($_product_name_size); ?>px"><?php echo e($items[$key]); ?> </span>  <?php endif; ?>
 					<?php if($_product_price_check !=''): ?><span style="font-size: <?php echo e($_product_price_size); ?>px;">Price:<b><?php echo e(prefix_taka()); ?>.<?php echo e($_sales_rates[$key]); ?></b></span>  <?php endif; ?>
 					<?php if($_vat_check !=''): ?><span style="font-size: <?php echo e($_vat_size); ?>px;">VAT:<b><?php echo e($_vats[$key]); ?></b></span> <?php endif; ?>
 					<?php if($_discount_check !=''): ?><span style="font-size: <?php echo e($_discount_size); ?>px;">Discount:<b><?php echo e($_discounts[$key]); ?></b></span> <?php endif; ?>
+
+					<?php if($_manufacture_date_check !=''): ?><span style="font-size: <?php echo e($_discount_size); ?>px;">MFG:<b><?php echo e($_manufacture_date[$key] ?? ''); ?></b></span> <?php endif; ?>
+			<?php if($_expire_date_check !=''): ?><span style="font-size: <?php echo e($_discount_size); ?>px;">EXP:<b><?php echo e($_expire_date[$key] ?? ''); ?></b></span> <?php endif; ?>
 					<br> <?php echo  '<img style="max-width:90% !important;height: 0.24in !important; display: block;;"  src="data:image/png;base64,' . base64_encode($generator->getBarcode('"'.$_barcodes[$key].'"', $generator::TYPE_CODE_128)) . '">'; ?>
 					 <span style="font-size: 10px !important"><?php echo e($_barcodes[$key]); ?></span> 
 

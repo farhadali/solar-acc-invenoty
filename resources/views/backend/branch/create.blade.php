@@ -47,6 +47,7 @@
                                 <input type="text" name="_name" class="form-control" placeholder="Name" required="true" value="{{old('_name')}}">
                             </div>
                         </div>
+                        
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
                                 <label>Code:<span class="_required">*</span></label>

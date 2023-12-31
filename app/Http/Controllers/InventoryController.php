@@ -258,13 +258,36 @@ class InventoryController extends Controller
         $page_name="Label Print";
          $_id = $request->_id ?? 0;
          $_type = $request->_type;
+         $_item_id=$request->_item_id ?? '';
+
         $datas = [];
-        if($_id !=0 && $_type =='purchase'){
-              $datas = \App\Models\Purchase::with(['_master_details'])->find($_id);
+        if($_id !=0 && $_type =='purchase' && $_item_id ==''){
+              $datas = \App\Models\PurchaseDetail::with(['_items'])->where('_status',1)
+               ->where('_no',$_id)
+               ->get();
         }
-        if($_id !=0 && $_type =='production'){
-              $datas = \App\Models\Production::with(['_master_details'])->find($_id);
+        if($_id !=0 && $_type =='production' && $_item_id ==''){
+              $datas = \App\Models\StockIn::with(['_items'])->where('_status',1)
+               ->where('_no',$_id)
+               ->get();
         }
+
+        if($_id !=0 && $_type =='purchase' && $_item_id !=''){
+               $datas = \App\Models\PurchaseDetail::with(['_items'])->where('_status',1)
+               ->where('_no',$_id)
+               ->where('_item_id',$_item_id)
+               ->get();
+        }
+
+        
+
+        if($_id !=0 && $_type =='production' && $_item_id !=''){
+              $datas = \App\Models\StockIn::with(['_items'])->where('_status',1)
+               ->where('_no',$_id)
+               ->where('_item_id',$_item_id)
+               ->get();
+        }
+        
         
         return view('backend.item-information.label-print',compact('page_name','datas'));
     }
@@ -1054,7 +1077,7 @@ class InventoryController extends Controller
     {
        $this->validate($request, [
             '_category_id' => 'required',
-            '_item' => 'required|unique:inventories,_item,'.$request->id,
+            '_item' => 'required',
             '_unit_id' => 'required',
             'id' => 'required',
             '_status' => 'required'

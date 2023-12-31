@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class HrmMonthlySalaryMaster extends Model
 {
     use HasFactory;
+
+    
 }

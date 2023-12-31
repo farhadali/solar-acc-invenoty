@@ -10,7 +10,7 @@ class StockIn extends Model
     use HasFactory;
 
       public function _items(){
-    	return $this->hasOne(Inventory::class,'id','_item_id')->select('id','_item as _name','_unit_id','_unique_barcode','_pur_rate')->with(['_units']);
+    	return $this->hasOne(Inventory::class,'id','_item_id')->select('id','_item as _name','_unit_id','_unique_barcode','_pur_rate','_barcode')->with(['_units']);
     }
 
     public function _units(){

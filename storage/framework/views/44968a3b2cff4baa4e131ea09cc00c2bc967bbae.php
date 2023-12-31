@@ -1,9 +1,6 @@
 <aside class="main-sidebar sidebar-dark-primary ">
     <!-- Brand Logo -->
-    <a href="<?php echo e(url('home')); ?>" class="brand-link">
-      <img src="<?php echo e(asset('/')); ?><?php echo e($settings->logo ?? ''); ?>" alt="<?php echo e($settings->name ?? ''); ?>" class="brand-image  elevation-3" >
-      <span class="brand-text font-weight-light"></span>
-    </a>
+    
 <?php
    $current_url = Route::current()->getName();
 ?>
@@ -13,6 +10,12 @@
      
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <li>
+            <a href="<?php echo e(url('home')); ?>" class="brand-link">
+      <img src="<?php echo e(asset('/')); ?><?php echo e($settings->logo ?? ''); ?>" alt="<?php echo e($settings->name ?? ''); ?>" class="brand-image  elevation-3" >
+      <span class="brand-text font-weight-light"></span>
+    </a>
+          </li>
           <li class="nav-item ">
             <a href="<?php echo e(url('home')); ?>" class="nav-link <?php echo e(( $current_url=='home' ) ? 'nest_active' : ''); ?>"  >
               <i class="fa fa-credit-card nav-icon" aria-hidden="true"></i>
