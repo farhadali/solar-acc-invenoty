@@ -1118,6 +1118,10 @@ class InventoryController extends Controller
         }
         $data->save();
 
+
+        DB::table('item_inventories')->where('_item_id',$data->id)
+                                    ->update(['_category_id'=>$data->_category_id]);
+
         
             $UnitConversion = UnitConversion::where('_item_id',$request->id)
                                             ->where('_base_unit_id',$request->_unit_id)

@@ -65,14 +65,15 @@
     16 => 'Maatwebsite\\Excel\\ExcelServiceProvider',
     17 => 'Carbon\\Laravel\\ServiceProvider',
     18 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
-    19 => 'Spatie\\Permission\\PermissionServiceProvider',
-    20 => 'Intervention\\Image\\ImageServiceProvider',
-    21 => 'Barryvdh\\Debugbar\\ServiceProvider',
-    22 => 'App\\Providers\\AppServiceProvider',
-    23 => 'App\\Providers\\AuthServiceProvider',
-    24 => 'App\\Providers\\EventServiceProvider',
-    25 => 'App\\Providers\\RouteServiceProvider',
-    26 => 'Spatie\\Permission\\PermissionServiceProvider',
+    19 => 'OwenIt\\Auditing\\AuditingServiceProvider',
+    20 => 'Spatie\\Permission\\PermissionServiceProvider',
+    21 => 'Intervention\\Image\\ImageServiceProvider',
+    22 => 'Barryvdh\\Debugbar\\ServiceProvider',
+    23 => 'App\\Providers\\AppServiceProvider',
+    24 => 'App\\Providers\\AuthServiceProvider',
+    25 => 'App\\Providers\\EventServiceProvider',
+    26 => 'App\\Providers\\RouteServiceProvider',
+    27 => 'Spatie\\Permission\\PermissionServiceProvider',
   ),
   'deferred' => 
   array (
@@ -201,7 +202,6 @@
     'form' => 'Collective\\Html\\HtmlServiceProvider',
     'Collective\\Html\\HtmlBuilder' => 'Collective\\Html\\HtmlServiceProvider',
     'Collective\\Html\\FormBuilder' => 'Collective\\Html\\HtmlServiceProvider',
-    'OwenIt\\Auditing\\Contracts\\Auditor' => 'OwenIt\\Auditing\\AuditingServiceProvider',
   ),
   'when' => 
   array (
@@ -245,9 +245,6 @@
     array (
     ),
     'Collective\\Html\\HtmlServiceProvider' => 
-    array (
-    ),
-    'OwenIt\\Auditing\\AuditingServiceProvider' => 
     array (
     ),
   ),
