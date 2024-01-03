@@ -52,6 +52,7 @@ class CreateNotesheetsMasterTable extends Migration
             $table->string('attached_file')->nullable();
             $table->tinyInteger('is_viewed')->default(0);
             $table->tinyInteger('is_ns')->default(0);
+            $table->tinyInteger('_ns_complete')->default(0);
             $table->integer('_status');
             $table->integer('_lock');
             $table->integer('created_by');

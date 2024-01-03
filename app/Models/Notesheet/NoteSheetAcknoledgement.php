@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class NoteSheetAcknoledgement extends Model
 {
     use HasFactory;
+
+    protected $table="notesheet_acknowledgement";
 }

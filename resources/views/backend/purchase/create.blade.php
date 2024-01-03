@@ -407,6 +407,7 @@ $__user= Auth::user();
                             </div>
                           </div>
                         </div>
+                        
                       @if($__user->_ac_type==1)
                       @include('backend.purchase.create_ac_cb')
                          
@@ -414,6 +415,7 @@ $__user= Auth::user();
                        @include('backend.purchase.create_ac_detail')
                       @endif
                        
+
                           
 
                         <div class="col-xs-12 col-sm-12 col-md-12 mb-10">

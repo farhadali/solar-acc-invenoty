@@ -52,7 +52,7 @@ $__user= Auth::user();
 
                    @endphp
                     <div class="col-md-4">
-                      @include('rlp-module.rlp.search')
+                      @include('rlp-module.notesheet.search')
                     </div>
                     <div class="col-md-8">
                       <div class="d-flex flex-row justify-content-end">
@@ -123,11 +123,7 @@ $__user= Auth::user();
 
                               <a target="__blank"  type="button" 
                                   href="{{ route('rlp.show',$data->id) }}"
-                                  class="btn btn-sm btn-default  mr-1"><i class="fa fa-eye"> {{__('label._details')}}</i></a>
-
-                                  @if($data->rlp_status==1)
-                          <a target="__blank" class="btn btn-primary" href="{{url('rlp-to-notesheet')}}?rlp_no={{$data->rlp_no}}&rlp_id={{$data->id}}&supplier_id={{$data->_ledger_id ?? ''}}">{{__('label.notesheet')}}</a>
-                          @endif  
+                                  class="btn btn-sm btn-default  mr-1"><i class="fa fa-eye"> {{__('label._details')}}</i></a> 
                                
                             </td>
 
@@ -243,7 +239,9 @@ $__user= Auth::user();
                       <tr>
                         <td>{{$sl}}</td>
                         <td>
-                          
+                          <!-- @if($data->rlp_status==1)
+                          <a target="__blank" class="btn btn-primary" href="{{url('rlp-to-notesheet')}}?rlp_no={{$data->rlp_no}}&rlp_id={{$data->id}}&supplier_id={{$data->_ledger_id ?? ''}}">{{__('label.notesheet')}}</a>
+                          @endif -->
                         </td>
                         <td>
                          

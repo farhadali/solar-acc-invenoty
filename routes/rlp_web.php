@@ -13,6 +13,9 @@ use App\Http\Controllers\Notesheet\NoteSheetMasterController;
 //#########
 Route::group(['middleware' => ['auth']], function() {
 
+
+Route::get('rlp-to-notesheet',[NoteSheetMasterController::class,'create']);
+
 Route::resource('rlp',RlpController::class);
 Route::get('rlp-chain-wise-detail',[RlpController::class,'chainWiseDetail']);
 Route::get('rlp-reset',[RlpController::class,'reset']);

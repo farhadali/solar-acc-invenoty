@@ -21,20 +21,19 @@ class CreateNotesheetsTable extends Migration
             $table->integer('rlp_id');
             $table->integer('item');
             $table->string('item_name');
+            $table->integer('unit')->nullable();
             $table->string('part_no')->nullable();
+            $table->double('quantity',15,4)->default(0);
+            $table->double('unit_price',15,4)->default(0);
+            $table->double('total',15,4)->default(0);
+            $table->longText('remarks')->nullable();
+            $table->string('status');
+            $table->integer('_status');
+            $table->integer('_lock');
+            $table->integer('created_by');
+            $table->integer('updated_by')->nullable();
+            $table->tinyInteger('is_delete')->default(0);
             $table->timestamps();
-
-  `` varchar(500) NOT NULL,
-  `` varchar(100) NOT NULL,
-  `unit` varchar(15) NOT NULL,
-  `quantity` varchar(20) NOT NULL,
-  `unit_price` varchar(20) NOT NULL,
-  `total` varchar(20) NOT NULL,
-  `remarks` varchar(500) NOT NULL,
-  `status` varchar(15) NOT NULL,
-  `created_at` datetime NOT NULL,
-  `created_by` int(20) NOT NULL
-
         });
     }
 

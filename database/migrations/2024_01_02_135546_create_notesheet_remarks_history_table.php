@@ -15,9 +15,17 @@ class CreateNotesheetRemarksHistoryTable extends Migration
     {
         Schema::create('notesheet_remarks_history', function (Blueprint $table) {
             $table->id();
+            $table->integer('notesheet_id');
+            $table->integer('user_id');
+            $table->string('user_office_id')->nullable();
+            $table->text('remarks')->nullable();
+            $table->date('remarks_date')->nullable();
+            $table->tinyInteger('_status')->default(1);
             $table->timestamps();
         });
     }
+
+   
 
     /**
      * Reverse the migrations.
