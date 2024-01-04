@@ -1,79 +1,80 @@
 @extends('backend.layouts.app')
 @section('title',$page_name)
 
+
 @section('content')
 
-  <div class="content ">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-md-12">
-          <div class="card">
-           <div class="row mb-2">
-                  <div class="col-sm-6">
-                    <a class="m-0 _page_name" href="{{ route('rlp.index') }}">{!! $page_name !!} </a>
-                  </div><!-- /.col -->
-                  <div class="col-sm-6">
-                    
-                  </div><!-- /.col -->
-                </div><!-- /.row -->
-          <div class="message-area">
-    @include('backend.message.message')
-    </div>
-         
-            <div class="card-body p-4" >
-                {!! Form::open(array('route' => 'rlp.store','method'=>'POST')) !!}
-                
-            <div class="row" >
-            <div class="col-xs-12 col-sm-12 col-md-2">
-              <input type="hidden" name="_form_name" class="_form_name" value="rlp_create">
-                  <div class="form-group">
-                      <label>Date:</label>
-                        <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                            <input type="text" name="request_date" class="form-control datetimepicker-input" data-target="#reservationdate"/>
+<div class="nav_div">
+  
+
+  <nav class="second_nav" aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{url('home')}}">
+      <i class="fa fa-credit-card nav-icon" aria-hidden="true"></i>
+    </a></li>
+    <li class="breadcrumb-item"><a href="{{url('notesheet')}}">{{$page_name ?? ''}}</a></li>
+    <li class="breadcrumb-item " aria-current="page">{{__('Add New')}}</li>
+
+    
+  </ol>
+  <ol class="breadcrumb print_tools">
+    <li class="breadcrumb-item" title="{{__('Print')}}">
+     <a href="#"><i class="fa fa-print" aria-hidden="true"></i></a> 
+    </li>
+    <li class="breadcrumb-item" title="{{__('Excel Download')}}">
+      <a href="#"><i class="fa fa-file-excel" aria-hidden="true"></i></a> 
+    </li>
+    <li class="breadcrumb-item" title="{{__('Search')}}">
+      <a href="#"><i class="fa fa-search" aria-hidden="true"></i></a> 
+    </li>
+    <li class="breadcrumb-item " title="{{__('HISTORY')}}" aria-current="page"><a href="#">H</a> </li>
+
+    
+  </ol>
+</nav>
+</div>
+<div class="form_div container">
+  <form class="form-horizontal entry_form">
+  <table style="width:100%;overflow-y: auto;">
+    <tr class="row ">
+      <td class="col-sm-2 col-md-2"><label>{{__('label._date')}}:<span class="_required">*</span></label></td>
+      <td class="col-sm-10 col-md-4">
+        <div class="input-group date" id="reservationdate" data-target-input="nearest" style="width: 255px !important;">
+                            <input type="text" name="request_date" class="form-control datetimepicker-input" data-target="#reservationdate" style="width: 120px !important;" />
                             <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
                                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                             </div>
                         </div>
-                    </div>
-              </div>
-            
-            <div class="col-xs-12 col-sm-12 col-md-2">
-              <div class="form-group ">
-                <label>Priority:<span class="_required">*</span></label>
-                <select class="form-control priority" name="priority" required >
+      </td>
+    </tr>
+
+    <tr class="row ">
+      <td class="col-sm-2 col-md-2"><label>Priority:<span class="_required">*</span></label></td>
+      <td class="col-sm-4 col-md-4">
+        <select class="form-control priority" name="priority" required >
                   <option value="">{{__('label.select')}}</option>
                   @forelse(priorities() as $p_key=>$p_val)
                   <option value="{{$p_key}}">{{$p_val}}</option>
                   @empty
                   @endforelse
                 </select>
-              </div>
-            </div>
-            <!-- <div class="col-xs-12 col-sm-12 col-md-2">
-                  <div class="form-group">
-                      <label>RLP No:</label>
-                        <div class="input-group" id="rlp_no" >
-                          <input type="text" name="rlp_no" class="form-control" readonly />
-                        </div>
-                    </div>
-              </div> -->
-
-            <div class="col-xs-12 col-sm-12 col-md-2 ">
-              <div class="form-group ">
-                  <label>{!! __('label.rlp-chain') !!}:<span class="_required">*</span></label>
-                  <select class="form-control _master_rlp_chain_id" name="chain_id" required >
+      </td>
+    
+      <td class="col-sm-2 col-md-2"><label>{!! __('label.rlp-chain') !!}:<span class="_required">*</span></label></td>
+      <td class="col-sm-4 col-md-4">
+        <select class="form-control _master_rlp_chain_id" name="chain_id" required >
                     <option value="">{{__('label.select')}} {{__('label.rlp-chain')}}</option>
                      @forelse($rlp_chains as $val )
                      <option value="{{$val->id}}" >{{ $val->chain_name ?? '' }}</option>
                      @empty
                      @endforelse
                    </select>
-               </div>
-              </div>
-            <div class="col-xs-12 col-sm-12 col-md-2 ">
-              <div class="form-group ">
-                  <label>{!! __('label.organization') !!}:<span class="_required">*</span></label>
-                  <select class="form-control _master_organization_id" name="organization_id" required >
+      </td>
+    </tr>
+    <tr class="row ">
+      <td class="col-sm-2 col-md-2"><label>{!! __('label.organization') !!}:<span class="_required">*</span></label></td>
+      <td class="col-sm-4 col-md-4">
+        <select class="form-control _master_organization_id" name="organization_id" required >
                    
 @if(sizeof($permited_organizations) > 0)
        <option value="">{{__('label.select')}} {{__('label.organization')}}</option>
@@ -83,12 +84,11 @@
                      @empty
                      @endforelse
                    </select>
-               </div>
-              </div>
-              <div class="col-xs-12 col-sm-12 col-md-2 ">
-                  <div class="form-group ">
-                      <label>{{__('label.Branch')}}:<span class="_required">*</span></label>
-                     <select class="form-control _master_branch_id" name="_branch_id" required >
+      </td>
+    
+      <td class="col-sm-2 col-md-2"><label>{{__('label.Branch')}}:<span class="_required">*</span></label></td>
+      <td class="col-sm-4 col-md-4">
+        <select class="form-control _master_branch_id" name="_branch_id" required >
 @if(sizeof($permited_branch) > 0)
        <option value="">{{__('label.select')}} {{__('label.Branch')}}</option>
 @endif
@@ -97,85 +97,72 @@
                         @empty
                         @endforelse
                       </select>
-                  </div>
-              </div>
-              <div class="col-xs-12 col-sm-12 col-md-2 ">
-                  <div class="form-group ">
-                      <label>{{__('label.Cost center')}}:<span class="_required">*</span></label>
-                     <select class="form-control _cost_center_id" name="_cost_center_id" required >
+      </td>
+    </tr>
+    <tr class="row">
+      <td class="col-sm-2 col-md-2"><label>{{__('label.Cost center')}}:<span class="_required">*</span></label></td>
+      <td class="col-sm-4 col-md-4">
+        <select class="form-control _cost_center_id" name="_cost_center_id" required >
 @if(sizeof($permited_costcenters) > 0)
        <option value="">{{__('label.select')}} {{__('label.Cost center')}}</option>
 @endif
-                        @forelse($permited_costcenters as $cost_center )
-                        <option value="{{$cost_center->id}}" @if(isset($data->_cost_center_id)) @if($data->_cost_center_id == $cost_center->id) selected @endif   @endif>{{ $cost_center->id ?? '' }} - {{ $cost_center->_name ?? '' }}</option>
-                        @empty
-                        @endforelse
-                      </select>
-                  </div>
-              </div>
-              <div class="col-xs-12 col-sm-12 col-md-2 ">
-                  <div class="form-group ">
-                      <label>{{__('Type')}}:<span class="_required">*</span></label>
-                     <select class="form-control rlp_prefix" name="rlp_prefix" required >
+              @forelse($permited_costcenters as $cost_center )
+              <option value="{{$cost_center->id}}" @if(isset($data->_cost_center_id)) @if($data->_cost_center_id == $cost_center->id) selected @endif   @endif>{{ $cost_center->id ?? '' }} - {{ $cost_center->_name ?? '' }}</option>
+              @empty
+              @endforelse
+            </select>
+      </td>
+    
+      <td class="col-sm-2 col-md-2"><label>{{__('Type')}}:<span class="_required">*</span></label></td>
+      <td class="col-sm-4 col-md-4">
+        <select class="form-control rlp_prefix" name="rlp_prefix" required >
                         <option value="">{{__('Select')}}</option>
                         @forelse(access_chain_types() as $key=> $val )
                         <option value="{{$key}}" > {{ $val }}</option>
                         @empty
                         @endforelse
                       </select>
-                  </div>
-              </div>
-              <div class="col-md-2">
-                <div class="form-group">
-                  <label>{{__('label.request_person')}}</label>
-                  <input type="text" name="requested_user_name" class="form-control requested_user_name" placeholder="{{__('label.request_person')}}">
+      </td>
+    </tr>
+    <tr class="row ">
+      <td class="col-sm-2 col-md-2"><label>{{__('label.request_person')}}:</label></td>
+      <td class="col-sm-4 col-md-4">
+        <input type="text" name="requested_user_name" class="form-control requested_user_name" placeholder="{{__('label.request_person')}}">
                   <input type="hidden" name="request_person" class="request_person">
                   <input type="hidden" name="request_person_user_id" class="request_person_user_id">
                   <div class="search_box_employee"></div>
-
-                </div>
-              </div>
-              <div class="col-md-2">
-                <div class="form-group">
-                  <label>{{__('label.request_department')}}</label>
-                  <input type="text" name="request_department_name" class="form-control employee_request_department_name" placeholder="{{__('label.request_department')}}" readonly >
-                  <input type="hidden" name="request_department" class="form-control employee_request_department" placeholder="{{__('label.request_department')}}" >
-                  
-                </div>
-              </div>
-              <div class="col-md-2">
-                <div class="form-group">
-                  <label>{{__('label.designation')}}</label>
-                  <input type="text" name="designation_name" class="form-control employee_designation_name" placeholder="{{__('label.designation')}}" readonly>
-                  <input type="hidden" name="designation" class="form-control employee_designation" placeholder="{{__('label.designation')}}" >
-                  
-                </div>
-              </div>
-              <div class="col-md-2">
-                <div class="form-group">
-                  <label>{{__('label.email')}}</label>
-                  <input type="text" name="email" class="form-control employee_email" placeholder="{{__('label.email')}}" >
-                  
-                </div>
-              </div>
-              <div class="col-md-2">
-                <div class="form-group">
-                  <label>{{__('label.contact_number')}}</label>
-                  <input type="text" name="contact_number" class="form-control employee_contact_number" placeholder="{{__('label.contact_number')}}" >
-                  
-                </div>
-              </div>
-
+      </td>
     
-              
-                <div class="col-md-12  ">
-                             <div class="card">
-                              <div class="card-header">
-                                <strong>Item Details</strong>
-
-                              </div>
-                             
-                              <div class="card-body">
+      <td class="col-sm-2 col-md-2"><label>{{__('label.request_department')}}</label></td>
+      <td class="col-sm-4 col-md-4">
+        <input type="text" name="request_department_name" class="form-control employee_request_department_name" placeholder="{{__('label.request_department')}}" readonly >
+                  <input type="hidden" name="request_department" class="form-control employee_request_department" placeholder="{{__('label.request_department')}}" >
+      </td>
+    </tr>
+    <tr class="row ">
+      <td class="col-sm-2 col-md-2"><label>{{__('label.designation')}}</label></td>
+      <td class="col-sm-4 col-md-4">
+        <input type="text" name="designation_name" class="form-control employee_designation_name" placeholder="{{__('label.designation')}}" readonly>
+                  <input type="hidden" name="designation" class="form-control employee_designation" placeholder="{{__('label.designation')}}" >
+      </td>
+    
+      <td class="col-sm-2 col-md-2"><label>{{__('label.email')}}</label></td>
+      <td class="col-sm-4 col-md-4">
+        <input type="text" name="email" class="form-control employee_email" placeholder="{{__('label.email')}}" >
+      </td>
+    </tr>
+    <tr class="row ">
+      <td class="col-sm-2 col-md-2"><label>{{__('label.contact_number')}}</label></td>
+      <td class="col-sm-4 col-md-4">
+        <input type="text" name="contact_number" class="form-control employee_contact_number width_200_px" placeholder="{{__('label.contact_number')}}" >
+      </td>
+    </tr>
+    <tr class="row ">
+      <td class="col-sm-2 col-md-2"><label>Item Details:</label></td>
+      <td class="col-sm-10 col-md-4"></td>
+    </tr>
+      <tr>
+      <td class="col-sm-10 col-md-10">
                                 <div class="table-responsive">
                                       <table class="table table-bordered" >
                                           <thead >
@@ -243,115 +230,49 @@
                                           </tfoot>
                                       </table>
                                 </div>
-                            </div>
+      </td>
+    </tr>
+    <tr class="row">
+      <td class="col-sm-2 col-md-2">
+        <label>{{__('label.remarks')}}:</label>
+      </td>
+      <td class="col-md-8">
+        <textarea class="form-control" name="user_remarks"></textarea>
+      </td>
+    </tr>
+    <tr class="row">
+      <td class="col-sm-2 col-md-2">
+        <label>{{__('label._terms_condition')}}:</label>
+      </td>
+      <td class="col-md-8">
+         <textarea class="form-control summernote" name="_terms_condition"></textarea>
+      </td>
+    </tr>
+    <tr class="row">
+      <td class="col-sm-2 col-md-2">
+        <label>Apporoval Chain Details:</label>
+      </td>
+      <td class="col-md-8">
+         <div class="card">
+               <div class="card-body chain_detail_section"></div>
                           </div>
-                        </div>
-                        <div class="col-md-12  ">
-                             <div class="card">
-                              <div class="card-header">
-                                <strong>Others Expenses </strong>
-
-                              </div>
-                             
-                              <div class="card-body">
-                                <div class="table-responsive">
-                                      <table class="table table-bordered" >
-                                          <thead >
-                                            <th class="text-left" >&nbsp;</th>
-                                            <th class="text-left" >{{__('label._ledger')}}</th>
-                                            <th class="text-left" >{{__('label._details')}}</th>
-                                            <th class="text-left" >{{__('label.purpose')}}</th>
-                                            <th class="text-left" >{{__('label._value')}}</th>
-                                          </thead>
-                                          <tbody class="area__rlp_ledger_details" id="area__rlp_ledger_details">
-                                            <tr class="_purchase_row">
-                                              <td>
-                                                <a  href="#none" class="btn btn-default _rlp_ledger_row_remove" ><i class="fa fa-trash"></i></a>
-                                                <input type="hidden" name="_rlp_ledger_row_id[]" class="form-control _rlp_ledger_row_id" value="0">
-                                              </td>
-                                              <td>
-                                                <input type="text" name="_search_rlp_ledger_id[]" class="form-control _search_rlp_ledger_id width_280_px" placeholder="{{__('label._ledger_id')}}">
-                                                <input type="hidden" name="_rlp_ledger_id[]" class="form-control _rlp_ledger_id width_200_px" value="0">
-                                                <div class="search_box_ledger"></div>
-                                              </td>
-                                              <td>
-                                                <textarea class="form-control _rlp_ledger_description" name="_rlp_ledger_description[]"></textarea>
-                                              </td>
-                                              <td>
-                                                <input type="text" name="_ledger_purpose[]" class="form-control _ledger_purpose" placeholder="{{__('label.purpose')}}">
-                                              </td>
-                                              <td>
-                                                <input type="number" name="_ledger_amount[]" class="form-control _ledger_amount " value="0" >
-                                            </tr>
-                                          </tbody>
-                                          <tfoot>
-                                            <tr>
-                                              <td>
-                                                <a href="#none"  class="btn btn-default btn-sm" onclick="_ledger_add_new_row(event)"><i class="fa fa-plus"></i></a>
-                                              </td>
-                                              <td colspan="3"  class="text-right"><b>Total</b></td>
-                                            
-                                              <td>
-                                                <input type="number" step="any" min="0" name="_total_ledger_amount" class="form-control _total_ledger_amount" value="0" readonly required>
-                                              </td>
-                                             
-                                            </tr>
-                                          </tfoot>
-                                      </table>
-                                </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12">
-                            <div class="form-group">
-                                <label>{{__('label.remarks')}}:</label>
-                                <textarea class="form-control" name="user_remarks"></textarea>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12">
-                            <div class="form-group">
-                                <label>{{__('label._terms_condition')}}:</label>
-                                <textarea class="form-control summernote" name="_terms_condition"></textarea>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                          <div class="card">
-                            <div class="card-header">
-                              <h3>Apporoval Chain Details</h3>
-                            </div>
-                            <div class="card-body chain_detail_section"></div>
-                          </div>
-                        </div>
-
-                      <!-- <div class="col-xs-12 col-sm-12 col-md-12">
-                            <div class="form-group">
-                                <label>{{__('label._status')}}:</label>
-                                <select class="form-control" name="_status">
-                                  <option value="1">Active</option>
-                                  <option value="0">In Active</option>
-                                </select>
-                            </div>
-                        </div> -->
-                
-                        <div class="col-xs-12 col-sm-12 col-md-12  text-middle">
+      </td>
+    </tr>
+    <tr class="row">
+      <td class=" col-md-6 text-middle">
                             <button type="submit" class="btn btn-success  ml-5"><i class="fa fa-credit-card mr-2" aria-hidden="true"></i> {{__('label.save')}}</button>
                            
-                        </div>
-                        <br><br>
-                    {!! Form::close() !!}
-                
-              </div>
-              </div>
-          
-          </div>
-        </div>
-        <!-- /.row -->
-      </div>
-    </div>  
+      </td>
+      <td class="col-md-8"></td>
+    </tr>
+    <tr class="row">
+      <td class=" col-md-12" style="height:100px;"></td>
+    </tr>
+    
+    
+  </table>
+  </form>
 </div>
-
-
-
 @endsection
 
 @section('script')
@@ -882,4 +803,3 @@ function _rlp_total_calculation(){
 
 </script>
 @endsection
-

@@ -2,25 +2,27 @@
 @section('title',$page_name)
 
 @section('content')
+<div class="nav_div">
+  
 
-  <div class="content ">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-md-12">
-          <div class="card">
-           <div class="row mb-2">
-                  <div class="col-sm-6">
-                    <a class="m-0 _page_name" href="{{ route('hrm-employee.index') }}">{!! $page_name !!} </a>
-                  </div><!-- /.col -->
-                  <div class="col-sm-6">
-                    
-                  </div><!-- /.col -->
-                </div><!-- /.row -->
-          
-         <div class="message-area">
-    @include('backend.message.message')
-    </div>
-            <div class="card-body p-4" >
+  <nav class="second_nav" aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{url('home')}}">
+      <i class="fa fa-credit-card nav-icon" aria-hidden="true"></i>
+    </a></li>
+    <li class="breadcrumb-item"><a href="{{ route('hrm-employee.index') }}">{{$page_name ?? ''}}</a></li>
+    
+
+    
+  </ol>
+  
+  
+                                  
+</nav>
+</div>
+   <div class="form_div container-fluid">
+           
+                <div class="">
                 {!! Form::open(array('route' => 'hrm-employee.store','method'=>'POST','enctype'=>'multipart/form-data')) !!}
                 <div class="row">
                         
@@ -316,11 +318,7 @@ $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids
               </div>
           
           </div>
-        </div>
-        <!-- /.row -->
-      </div>
-    </div>  
-</div>
+        
 
 
 

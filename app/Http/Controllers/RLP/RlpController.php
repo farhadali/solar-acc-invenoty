@@ -57,9 +57,8 @@ class RlpController extends Controller
         $page_name=$this->page_name;
         $rlp_ids = [];
 
-        $RlpAcknowledgements = RlpAcknowledgement::select('id','rlp_info_id')->where('user_office_id',$auth_user->user_name)
-        ->where('is_visible',1)
-        ->where('_is_approve',0)
+        $RlpAcknowledgements = RlpAcknowledgement::select('id','rlp_info_id')
+        ->where('user_office_id',$auth_user->user_name)
         ->get();
 
         foreach($RlpAcknowledgements as $val){
@@ -485,8 +484,19 @@ class RlpController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id){
-        $data =  RlpMaster::where('_lock',0)->find($id);
-         if(!$data){ return redirect()->back()->with('danger','You have no permission to edit or update !'); }
+
+        $data =  RlpMaster::find($id);
+        $rlp_status = $data->rlp_status ?? 0;
+        $_lock = $data->_lock ?? 0;
+       if($rlp_status ==1){
+        return redirect()->back()
+                ->with('danger','RLP Already Approved'); 
+        }
+        if($_lock==1){ 
+            return redirect()
+            ->back()->with('danger','You have no permission to edit or update !'); 
+        }
+       
         $page_name=$this->page_name;
         $users = \Auth::user();
         $permited_branch = permited_branch(explode(',',$users->branch_ids));

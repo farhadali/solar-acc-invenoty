@@ -1,26 +1,29 @@
 @extends('backend.layouts.app')
 @section('title',$page_name)
-
+@section('css')
+<!-- <link rel="stylesheet" href="{{asset('backend/new_style.css?v=1.4')}}"> -->
+@endsection
 @section('content')
+<div class="nav_div">
+  
 
-  <div class="content ">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-md-12">
-          <div class="card">
-           <div class="row mb-2">
-                  <div class="col-sm-6">
-                    <a class="m-0 _page_name" href="{{ route('rlp.index') }}">{!! $page_name !!} </a>
-                  </div><!-- /.col -->
-                  <div class="col-sm-6">
-                    
-                  </div><!-- /.col -->
-                </div><!-- /.row -->
-          <div class="message-area">
+  <nav class="second_nav" aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{url('home')}}">
+      <i class="fa fa-credit-card nav-icon" aria-hidden="true"></i>
+    </a></li>
+    <li class="breadcrumb-item"><a href="{{ route('rlp.index') }}">{{$page_name ?? ''}}</a></li>
+    
+
+    
+  </ol>                                  
+</nav>
+
+</div>
+<div class="message-area">
     @include('backend.message.message')
     </div>
-         
-            <div class="card-body p-4" >
+  <div class="form_div container">
                 {!! Form::open(array('route' => 'rlp.store','method'=>'POST')) !!}
                 
             <div class="row" >
@@ -341,14 +344,6 @@
                     {!! Form::close() !!}
                 
               </div>
-              </div>
-          
-          </div>
-        </div>
-        <!-- /.row -->
-      </div>
-    </div>  
-</div>
 
 
 

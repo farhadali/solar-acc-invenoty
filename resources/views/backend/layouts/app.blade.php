@@ -33,6 +33,7 @@
 
 
 
+
 <link rel="stylesheet" href="{{asset('backend/responsive.css')}}">
 
 <script src="{{asset('plugins/jquery/jquery.min.js')}}"></script>
@@ -66,7 +67,37 @@
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 
-
+<style type="text/css">
+  .main_top_bar {
+    border-bottom: none;
+    background-repeat: repeat-x;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    background-image: -webkit-linear-gradient(top, #400080 0%, #26004d 100%);
+    background-image: -o-linear-gradient(top, #400080 0%, #26004d 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, from(var(#400080)), to(#26004d));
+    background-image: linear-gradient(to bottom, #400080 0%, #26004d 100%);
+}
+.navbar-expand .navbar-nav .nav-link {
+    padding-right: 7px;
+    padding-left: 7px;
+    color: #FFFFFF;
+}
+.nav-item >a {
+    padding-right: 7px;
+    padding-left: 7px;
+    color: #FFFFFF;
+}
+.nav-link:hover {
+    color: #FFFFFF !important;
+}
+.navbar-light .navbar-nav .active>.nav-link, .navbar-light .navbar-nav .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show>.nav-link {
+    color: #ffffff;
+}
+.color_info{
+  background-color: #117a8b
+}
+</style>
 
   @yield('css')
   

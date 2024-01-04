@@ -4,40 +4,8 @@
 @section('content')
 @php
 $__user= Auth::user();
-@endphp
-<div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-12" style="display: flex;">
-            <a class="m-0 _page_name" href="{{ route('hrm-employee.index') }}">{!! $page_name ?? '' !!} </a>
-            <ol class="breadcrumb float-sm-right ml-2">
-               @can('hrm-employee-create')
-             <li class="breadcrumb-item active">
-                <a type="button" 
-               class="btn btn-sm btn-info" 
-              
-               href="{{ route('hrm-employee.create') }}">
-                   <i class="nav-icon fas fa-plus"></i> {{__('label.create_new')}}
-                </a>
+$row_numbers = filter_page_numbers();
 
-               </li>
-              @endcan
-            </ol>
-          </div>
-          
-         
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
-     @include('backend.message.message')
-    <div class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="card">
-              <div class="card-header border-0 mt-1">
-                <div class="row">
-                   @php
 
                      $currentURL = URL::full();
                      $current = URL::current();
@@ -51,31 +19,56 @@ $__user= Auth::user();
     
 
                    @endphp
-                    <div class="col-md-4">
-                      @include('hrm.hrm-employee.search')
-                    </div>
-                    <div class="col-md-8">
-                      <div class="d-flex flex-row justify-content-end">
-                         
-                        <li class="nav-item dropdown remove_from_header">
-                              <a class="nav-link" data-toggle="dropdown" href="#">
-                                <i class="fa fa-print " aria-hidden="true"></i> <i class="right fas fa-angle-down "></i>
-                              </a>
-                              <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                               <div class="dropdown-divider"></div>
-                                <a target="__blank" href="{{$print_url_detal}}"  class="dropdown-item">
-                                  <i class="fa fa-fax mr-2" aria-hidden="true"></i> Detail Print
-                                </a>
-                              
-                                    
-                            </li>
-                             
-                        
-                          </div>
-                    </div>
-                  </div>
-              </div>
-              <div class="card-body">
+<div class="nav_div">
+  
+
+  <nav class="second_nav" aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{url('home')}}">
+      <i class="fa fa-credit-card nav-icon" aria-hidden="true"></i>
+    </a></li>
+    <li class="breadcrumb-item"><a href="{{ route('hrm-employee.index') }}">{{$page_name ?? ''}}</a></li>
+    
+
+    
+  </ol>
+  <ol class="breadcrumb print_tools color_info">
+    <li class="breadcrumb-item" title="{{__('Print')}}">
+     <a  href="{{ route('hrm-employee.create') }}"><i class="nav-icon fas fa-plus"></i> {{__('label.create_new')}}</a> 
+    </li>
+  </ol>
+  <ol class="breadcrumb print_tools">
+    <li class="breadcrumb-item" title="{{__('Search')}}">
+      <a type="button"  data-toggle="modal" data-target="#modal-default" title="Advance Search"><i class="fa fa-search mr-2"></i> </a>
+    </li>
+    <li class="breadcrumb-item" title="{{__('Reset')}}">
+      <a href="{{url('hrm-employee')}}" class="" title="Search Reset"><i class="fa fa-retweet mr-2"></i> </a>
+    </li>
+  </ol>
+  <ol class="breadcrumb print_tools">
+    <li class="breadcrumb-item" title="{{__('Search')}}">
+      <form action="" method="GET">
+                    @csrf
+              <select name="limit" class="" onchange="this.form.submit()">
+                      @forelse($row_numbers as $row)
+                       <option  @if($limit == $row) selected @endif  value="{{ $row }}">{{$row}}</option>
+                      @empty
+                      @endforelse
+              </select>
+       </form>
+    </li>
+  </ol> 
+  <ol class="breadcrumb print_tools">
+    <li class="breadcrumb-item" title="{{__('Print')}}">
+      <a target="__blank" href="{{$print_url_detal}}"  ><i class="fa fa-print mr-2"></i></a>
+    </li>
+  </ol>                                
+</nav>
+</div>
+
+    @include('hrm.hrm-employee.search')
+  <div class="form_div container-fluid">
+           
                 <div class="">
                   
                   <table class="table table-bordered _list_table">
@@ -160,19 +153,7 @@ $__user= Auth::user();
                         </tfoot>
                     </table>
                 </div>
-                <!-- /.d-flex -->
-                
-              </div>
-            </div>
-            <!-- /.card -->
-
-            
         </div>
-        <!-- /.row -->
-      </div>
-      <!-- /.container-fluid -->
-    </div>
-</div>
 
 @endsection
 

@@ -971,7 +971,7 @@ input[type='text']{
     background: #b6b7bc;
 }
 tbody{
-    background: #fff !important;
+/*    background: #fff !important;*/
 }
 
 .elevation-3 {
@@ -1077,11 +1077,44 @@ tbody{
     flex: 1 1 auto;
     min-height: 1px;
     padding: 0px 3px;
-    background: #cdeff7;
+/*    background: #cdeff7;*/
     margin-bottom: 1px;
 }
 
 .invoice_logo{
     position: absolute;
     top: 10px;
+}
+
+.breadcrumb{
+    background-color: #343a40;
+    color: #fff;
+    width: fit-content;
+    padding: 5px;
+    float: left;
+  }
+  .breadcrumb-item > a{
+    color: #ffffff;
+  }
+  .second_nav{
+    padding-top: 5px;
+    padding-left: 5px;
+    float: left;
+  }
+  .print_tools{
+    margin-left: 10px;
+  }
+  .nav_div{
+    width: 100%;
+  }
+  .form_div{
+    width: 100%;
+    clear:both;
+  }
+  .form-horizontal {
+    margin-left: auto;
+    margin-right: auto;
+}
+.entry_form td{
+  padding: 5px;
 }

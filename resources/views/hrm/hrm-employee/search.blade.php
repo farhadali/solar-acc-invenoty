@@ -152,33 +152,5 @@
         </div>
         <!-- /.modal-dialog -->
       </div>
-                  <form action="" method="GET">
-                    @csrf
-
-                        <div class="row">
-                          <div class="col-md-4">
-                            <div class="form-group">
-                                
-                                <select name="limit" class="form-control" onchange="this.form.submit()">
-                                        @forelse($row_numbers as $row)
-                                         <option @if($limit == $row) selected @endif   value="{{ $row }}">{{$row}}</option>
-                                        @empty
-                                        @endforelse
-                                </select>
-                              </div>
-                          </div>
-                          
-                          
-                          <div class="col-md-8">
-                              <div class="form-group mr-2">
-                                <div class="d-flex">
-                                    <button type="button" class="btn btn-sm btn-warning mr-3" data-toggle="modal" data-target="#modal-default" title="Advance Search"><i class="fa fa-search mr-2"></i> </button>
-                                     <a href="{{url('hrm-employee')}}" class="btn btn-sm btn-danger" title="Search Reset"><i class="fa fa-retweet mr-2"></i> </a>
-                                     </div>
-                                </div>
-                          </div>
-                          
-                        </div><!-- end row -->
-                   
-                  </form>
+                 
                 </div>
