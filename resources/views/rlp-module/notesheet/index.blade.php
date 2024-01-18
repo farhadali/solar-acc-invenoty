@@ -4,71 +4,79 @@
 @section('content')
 @php
 $__user= Auth::user();
-$row_numbers = filter_page_numbers();
 @endphp
-<div class="nav_div">
-  
+<div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-12" style="display: flex;">
+            <a class="m-0 _page_name" href="{{ route('rlp.index') }}">{!! $page_name ?? '' !!} </a>
+            <ol class="breadcrumb float-sm-right ml-2">
+               
+             <li class="breadcrumb-item active">
+                <a type="button" 
+               class="btn btn-sm btn-info" 
+              
+               href="{{ route('rlp.create') }}">
+                   <i class="nav-icon fas fa-plus"></i> {{__('label.create_new')}}
+                </a>
 
-  <nav class="second_nav" aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="{{url('home')}}">
-      <i class="fa fa-credit-card nav-icon" aria-hidden="true"></i>
-    </a></li>
-    <li class="breadcrumb-item"><a href="{{ route('rlp.index') }}">{{$page_name ?? ''}}</a></li>
-    
-
-    
-  </ol>
-  <ol class="breadcrumb print_tools color_info">
-    <li class="breadcrumb-item" title="{{__('Print')}}">
-     <a  href="{{ route('rlp.create') }}"><i class="nav-icon fas fa-plus"></i> {{__('label.create_new')}}</a> 
-    </li>
-  </ol>
-  <ol class="breadcrumb print_tools">
-    <li class="breadcrumb-item" title="{{__('Search')}}">
-      <a type="button"  data-toggle="modal" data-target="#modal-default" title="Advance Search"><i class="fa fa-search mr-2"></i> </a>
-    </li>
-    <li class="breadcrumb-item" title="{{__('Reset')}}">
-      <a href="{{url('rlp-reset')}}" class="" title="Search Reset"><i class="fa fa-retweet mr-2"></i> </a>
-    </li>
-  </ol>
-  <ol class="breadcrumb print_tools">
-    <li class="breadcrumb-item" title="{{__('Search')}}">
-      <form action="" method="GET">
-                    @csrf
-              <select name="limit" class="" onchange="this.form.submit()">
-                      @forelse($row_numbers as $row)
-                       <option  @if($limit == $row) selected @endif  value="{{ $row }}">{{$row}}</option>
-                      @empty
-                      @endforelse
-              </select>
-       </form>
-    </li>
-  </ol>                                
-</nav>
-</div>
-
-    
-  <div class="form_div container-fluid">
+               </li>
+              
+            </ol>
+          </div>
+          
+         
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
      @include('backend.message.message')
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-12">
             <div class="card">
               <div class="card-header border-0 mt-1">
                 <div class="row">
-                   
-                    <div class="col-md-4">
-                      @include('rlp-module.rlp.search')
-                    </div>
+                   @php
 
-                    <div class="col-md-8">
-                      <div class="d-flex flex-row justify-content-start">
-                                 {!! $datas->render() !!}
-                                </div>
+                     $currentURL = URL::full();
+                     $current = URL::current();
+                    if($currentURL === $current){
+                       $print_url = $current."?print=single";
+                       $print_url_detal = $current."?print=detail";
+                    }else{
+                         $print_url = $currentURL."&print=single";
+                         $print_url_detal = $currentURL."&print=detail";
+                    }
+    
+
+                   @endphp
+                    <div class="col-md-4">
+                      @include('rlp-module.notesheet.search')
                     </div>
-                    
+                    <div class="col-md-8">
+                      <div class="d-flex flex-row justify-content-end">
+                         
+                        <li class="nav-item dropdown remove_from_header">
+                              <a class="nav-link" data-toggle="dropdown" href="#">
+                                <i class="fa fa-print " aria-hidden="true"></i> <i class="right fas fa-angle-down "></i>
+                              </a>
+                              <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                               <div class="dropdown-divider"></div>
+                                <a target="__blank" href="{{$print_url_detal}}"  class="dropdown-item">
+                                  <i class="fa fa-fax mr-2" aria-hidden="true"></i> Detail Print
+                                </a>
+                              
+                                    
+                            </li>
+                             
+                        
+                          </div>
+                    </div>
                   </div>
               </div>
               <div class="card-body">
-                <div class="table-responsive">
+                <div class="">
                   
                   <table class="table table-bordered _list_table">
                      <thead>
@@ -101,7 +109,7 @@ $row_numbers = filter_page_numbers();
                              <td style="display: flex;">
                               @can('rlp-delete')
                                  {!! Form::open(['method' => 'DELETE','route' => ['rlp.destroy', $data->id],'style'=>'display:inline']) !!}
-                                      <button onclick="return confirm('Are you sure?')" type="submit" class="btn btn-sm btn-default mr-2"><i class="fa fa-trash _required"></i>  </button>
+                                      <button onclick="return confirm('Are you sure?')" type="submit" class="btn btn-sm btn-default"><i class="fa fa-trash _required"></i>  {{__('label.trash')}}</button>
                                   {!! Form::close() !!}
                                @endcan 
                               
@@ -110,16 +118,12 @@ $row_numbers = filter_page_numbers();
                                   <a  type="button" 
                                   href="{{ route('rlp.edit',$data->id) }}"
                                  
-                                  class="btn btn-sm btn-default  mr-2"><i class="fa fa-pen "></i> </a>
+                                  class="btn btn-sm btn-default  mr-1"><i class="fa fa-pen "></i> {{__('label.edit')}}</a>
                               @endcan 
 
                               <a target="__blank"  type="button" 
                                   href="{{ route('rlp.show',$data->id) }}"
-                                  class="btn btn-sm btn-default  mr-1"><i class="fa fa-eye"> </i></a>
-
-                                  @if($data->rlp_status==1)
-                          <a target="__blank" class="btn btn-primary" href="{{url('rlp-to-notesheet')}}?rlp_no={{$data->rlp_no}}&rlp_id={{$data->id}}&supplier_id={{$data->_ledger_id ?? ''}}">{{__('label.notesheet')}}</a>
-                          @endif  
+                                  class="btn btn-sm btn-default  mr-1"><i class="fa fa-eye"> {{__('label._details')}}</i></a> 
                                
                             </td>
 
@@ -235,7 +239,9 @@ $row_numbers = filter_page_numbers();
                       <tr>
                         <td>{{$sl}}</td>
                         <td>
-                          
+                          <!-- @if($data->rlp_status==1)
+                          <a target="__blank" class="btn btn-primary" href="{{url('rlp-to-notesheet')}}?rlp_no={{$data->rlp_no}}&rlp_id={{$data->id}}&supplier_id={{$data->_ledger_id ?? ''}}">{{__('label.notesheet')}}</a>
+                          @endif -->
                         </td>
                         <td>
                          
@@ -286,7 +292,14 @@ $row_numbers = filter_page_numbers();
                 
               </div>
             </div>
+            <!-- /.card -->
+
             
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </div>
 </div>
 <div class="modal fade" id="ApproveModal" tabindex="-1" role="dialog" aria-labelledby="ApproveModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document" style="width:332px;margin: 0px auto;height: auto;">

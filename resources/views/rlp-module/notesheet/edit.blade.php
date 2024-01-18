@@ -1,30 +1,28 @@
 @extends('backend.layouts.app')
 @section('title',$page_name)
-@section('css')
-<!-- <link rel="stylesheet" href="{{asset('backend/new_style.css?v=1.4')}}"> -->
-@endsection
+
 @section('content')
-<div class="nav_div">
-  
 
-  <nav class="second_nav" aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="{{url('home')}}">
-      <i class="fa fa-credit-card nav-icon" aria-hidden="true"></i>
-    </a></li>
-    <li class="breadcrumb-item"><a href="{{ route('rlp.index') }}">{{$page_name ?? ''}}</a></li>
-    
-
-    
-  </ol>                                  
-</nav>
-
-</div>
-<div class="message-area">
+  <div class="content ">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+          <div class="card">
+           <div class="row mb-2">
+                  <div class="col-sm-6">
+                    <a class="m-0 _page_name" href="{{ route('rlp.index') }}">{!! $page_name !!} </a>
+                  </div><!-- /.col -->
+                  <div class="col-sm-6">
+                    
+                  </div><!-- /.col -->
+                </div><!-- /.row -->
+          <div class="message-area">
     @include('backend.message.message')
     </div>
-  <div class="form_div container">
-                {!! Form::open(array('route' => 'rlp.store','method'=>'POST')) !!}
+         
+            <div class="card-body p-4" >
+                
+                 {!! Form::model($data, ['method' => 'PATCH','route' => ['rlp.update', $data->id]]) !!}                  @csrf
                 
             <div class="row" >
             <div class="col-xs-12 col-sm-12 col-md-2">
@@ -32,7 +30,7 @@
                   <div class="form-group">
                       <label>Date:</label>
                         <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                            <input type="text" name="request_date" class="form-control datetimepicker-input" data-target="#reservationdate"/>
+                            <input type="text" name="request_date" class="form-control datetimepicker-input" data-target="#reservationdate" value="{{_view_date_formate($data->request_date)}}" />
                             <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
                                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                             </div>
@@ -46,7 +44,7 @@
                 <select class="form-control priority" name="priority" required >
                   <option value="">{{__('label.select')}}</option>
                   @forelse(priorities() as $p_key=>$p_val)
-                  <option value="{{$p_key}}">{{$p_val}}</option>
+                  <option value="{{$p_key}}" @if($data->priority==$p_key) selected @endif >{{$p_val}}</option>
                   @empty
                   @endforelse
                 </select>
@@ -67,7 +65,7 @@
                   <select class="form-control _master_rlp_chain_id" name="chain_id" required >
                     <option value="">{{__('label.select')}} {{__('label.rlp-chain')}}</option>
                      @forelse($rlp_chains as $val )
-                     <option value="{{$val->id}}" >{{ $val->chain_name ?? '' }}</option>
+                     <option value="{{$val->id}}" @if($data->chain_id==$val->id) selected @endif>{{ $val->chain_name ?? '' }}</option>
                      @empty
                      @endforelse
                    </select>
@@ -77,8 +75,7 @@
               <div class="form-group ">
                   <label>{!! __('label.organization') !!}:<span class="_required">*</span></label>
                   <select class="form-control _master_organization_id" name="organization_id" required >
-                   
-@if(sizeof($permited_organizations) > 0)
+                    @if(sizeof($permited_organizations) > 0)
        <option value="">{{__('label.select')}} {{__('label.organization')}}</option>
 @endif
                      @forelse($permited_organizations as $val )
@@ -92,7 +89,7 @@
                   <div class="form-group ">
                       <label>{{__('label.Branch')}}:<span class="_required">*</span></label>
                      <select class="form-control _master_branch_id" name="_branch_id" required >
-@if(sizeof($permited_branch) > 0)
+                       @if(sizeof($permited_branch) > 0)
        <option value="">{{__('label.select')}} {{__('label.Branch')}}</option>
 @endif
                         @forelse($permited_branch as $branch )
@@ -106,7 +103,7 @@
                   <div class="form-group ">
                       <label>{{__('label.Cost center')}}:<span class="_required">*</span></label>
                      <select class="form-control _cost_center_id" name="_cost_center_id" required >
-@if(sizeof($permited_costcenters) > 0)
+                        @if(sizeof($permited_costcenters) > 0)
        <option value="">{{__('label.select')}} {{__('label.Cost center')}}</option>
 @endif
                         @forelse($permited_costcenters as $cost_center )
@@ -122,7 +119,7 @@
                      <select class="form-control rlp_prefix" name="rlp_prefix" required >
                         <option value="">{{__('Select')}}</option>
                         @forelse(access_chain_types() as $key=> $val )
-                        <option value="{{$key}}" > {{ $val }}</option>
+                        <option value="{{$key}}" @if($data->rlp_prefix==$key) selected @endif  > {{ $val }}</option>
                         @empty
                         @endforelse
                       </select>
@@ -131,9 +128,9 @@
               <div class="col-md-2">
                 <div class="form-group">
                   <label>{{__('label.request_person')}}</label>
-                  <input type="text" name="requested_user_name" class="form-control requested_user_name" placeholder="{{__('label.request_person')}}">
-                  <input type="hidden" name="request_person" class="request_person">
-                  <input type="hidden" name="request_person_user_id" class="request_person_user_id">
+                  <input type="text" name="requested_user_name" class="form-control requested_user_name" placeholder="{{__('label.request_person')}}"  value="{{$data->_rlp_req_user->_code ?? ''}} {{$data->_rlp_req_user->_name ?? ''}}" >
+                  <input type="hidden" name="request_person" class="request_person" value="{{ $data->requested_user_name ?? '' }}">
+                  <input type="hidden" name="request_person_user_id" class="request_person_user_id" value="{{$data->rlp_user_id}}">
                   <div class="search_box_employee"></div>
 
                 </div>
@@ -141,33 +138,49 @@
               <div class="col-md-2">
                 <div class="form-group">
                   <label>{{__('label.request_department')}}</label>
-                  <input type="text" name="request_department_name" class="form-control employee_request_department_name" placeholder="{{__('label.request_department')}}" readonly >
-                  <input type="hidden" name="request_department" class="form-control employee_request_department" placeholder="{{__('label.request_department')}}" >
+                  <input type="text" name="request_department_name" class="form-control employee_request_department_name" placeholder="{{__('label.request_department')}}" readonly  value="{!! $data->_emp_department->_name ?? '' !!}" >
+                  <input type="hidden" name="request_department" class="form-control employee_request_department" placeholder="{{__('label.request_department')}}"  value="{!! $data->request_department ?? '' !!}" >
                   
                 </div>
               </div>
               <div class="col-md-2">
                 <div class="form-group">
                   <label>{{__('label.designation')}}</label>
-                  <input type="text" name="designation_name" class="form-control employee_designation_name" placeholder="{{__('label.designation')}}" readonly>
-                  <input type="hidden" name="designation" class="form-control employee_designation" placeholder="{{__('label.designation')}}" >
+                  <input type="text" name="designation_name" class="form-control employee_designation_name" placeholder="{{__('label.designation')}}" value="{!! $data->_emp_designation->_name ?? '' !!}" readonly>
+                  <input type="hidden" name="designation" class="form-control employee_designation" placeholder="{{__('label.designation')}}"  value="{!! $data->designation ?? '' !!}">
                   
                 </div>
               </div>
               <div class="col-md-2">
                 <div class="form-group">
                   <label>{{__('label.email')}}</label>
-                  <input type="text" name="email" class="form-control employee_email" placeholder="{{__('label.email')}}" >
+                  <input type="text" name="email" class="form-control employee_email" placeholder="{{__('label.email')}}" value="{!! $data->email ?? '' !!}" >
                   
                 </div>
               </div>
               <div class="col-md-2">
                 <div class="form-group">
                   <label>{{__('label.contact_number')}}</label>
-                  <input type="text" name="contact_number" class="form-control employee_contact_number" placeholder="{{__('label.contact_number')}}" >
+                  <input type="text" name="contact_number" class="form-control employee_contact_number" placeholder="{{__('label.contact_number')}}" value="{!! $data->contact_number ?? '' !!}" >
                   
                 </div>
               </div>
+            <!--   <div class="col-md-2">
+                <div class="form-group">
+                  <label>{{__('label._status')}} <span class="_required">*</span></label>
+                  @php
+                  $status_details  = \DB::table('status_details')->get();
+                  @endphp
+                 
+                 <select class="form-control" name="rlp_status" required>
+                    @forelse($status_details as $st_key=>$st_val)
+                   <option value="{{$st_val->id}}" @if($st_val->id==$data->rlp_status) selected @endif >{!! $st_val->name ?? '' !!}</option>
+                   @empty
+                   @endforelse
+                 </select>
+                  
+                </div>
+              </div> -->
 
     
               
@@ -184,63 +197,87 @@
                                           <thead >
                                             <th class="text-left" >&nbsp;</th>
                                             <th class="text-left" >{{__('label._item')}}</th>
+                                            <th class="text-left" >{{__('label.supplier_details')}}</th>
                                             <th class="text-left" >{{__('label.purpose')}}</th>
                                             <th class="text-left" >{{__('label.Tran. Unit')}}</th>
                                             <th class="text-left" >{{__('label._qty')}}</th>
                                             <th class="text-left" >{{__('label._rate')}}</th>
                                             <th class="text-left" >{{__('label._value')}}</th>
+
                                           </thead>
+                                          @php
+                                          $_item_detail = $data->_item_detail ?? [];
+                                          $_total_item_qty=0;
+                                          $_total_item_amount=0;
+                                          @endphp
                                           <tbody class="area__rlp_item_details" id="area__rlp_item_details">
+                                            @forelse($_item_detail as $i_key=>$item)
+
+                                            @php
+                                          $_total_item_qty +=$item->quantity ?? 0;
+                                          $_total_item_amount +=$item->amount ?? 0;
+                                          @endphp
                                             <tr class="_purchase_row">
                                               <td>
                                                 <a  href="#none" class="btn btn-default _rlp_item_row_remove" ><i class="fa fa-trash"></i></a>
-                                                <input type="hidden" name="_item_row_id[]" class="form-control _item_row_id" value="0">
+                                                <input type="hidden" name="_item_row_id[]" class="form-control _item_row_id" value="{{$item->id}}">
                                               </td>
                                               <td>
-                                                <input type="text" name="_search_item_id[]" class="form-control _search_item_id width_280_px" placeholder="Item">
-                                                <input type="hidden" name="_item_id[]" class="form-control _item_id width_200_px" >
+                                                <input type="text" name="_search_item_id[]" class="form-control _search_item_id width_280_px" placeholder="Item" value="{!! $item->_items->_item ?? '' !!}">
+                                                <input type="hidden" name="_item_id[]" class="form-control _item_id width_200_px"   value="{!! $item->_items->id ?? '' !!}">
                                                 <div class="search_box_item"></div>
 
-                                                <textarea style="margin-top:10px;" class="form-control _item_description" name="_item_description[]" placeholder="{{__('label.item_details')}}"></textarea>
+                                                <textarea style="margin-top:10px;" class="form-control _item_description" name="_item_description[]" placeholder="{{__('label.item_details')}}">{!! $item->_item_description ?? '' !!}</textarea>
+                                              </td>
+                                              <td>
+                                                <input type="text" name="_search_supplier_ledger[]" class="form-control _search_supplier_ledger width_280_px" placeholder="{{__('label.supplier')}}" value="{!! $item->_supplier->_code ?? '' !!} {!! $item->_supplier->_name ?? '' !!}">
+                                                <input type="hidden" name="supplier_ledger_id[]" class="form-control supplier_ledger_id width_200_px" value="{!! $item->_ledger_id ?? 0 !!}">
+                                                <div class="search_box_supplier"></div>
                                               </td>
 
                                                <td class="display_none">
-                                                <input type="hidden" class="form-control _base_unit_id width_100_px" name="_base_unit_id[]" />
-                                                <input type="text" class="form-control _main_unit_val width_100_px" readonly name="_main_unit_val[]" />
+                                                <input type="hidden" class="form-control _base_unit_id width_100_px" name="_base_unit_id[]" value="{!! $item->_items->_unit_id ?? '' !!}" />
+                                                <input type="text" class="form-control _main_unit_val width_100_px" readonly name="_main_unit_val[]" value="1" />
                                               </td>
                                               <td class="display_none">
                                                 <input type="number" name="conversion_qty[]" min="0" step="any" class="form-control conversion_qty " value="1" readonly>
                                               </td>
                                               <td>
-                                                <input type="text" name="purpose[]" class="form-control purpose" placeholder="{{__('label.purpose')}}">
+                                                <input type="text" name="purpose[]" class="form-control purpose" placeholder="{{__('label.purpose')}}" value="{{$item->purpose ?? ''}}">
                                               </td>
                                               <td>
-                                                <select class="form-control _transection_unit" name="_transection_unit[]"></select>
+                                                <select class="form-control _transection_unit" name="_transection_unit[]">
+                                                  <option value="{{$item->_unit_id ?? 0 }}">{{ $item->_items->_units->_name ?? '' }}</option>
+                                                </select>
                                               </td>
                                               <td>
-                                                <input type="number" name="_qty[]" class="form-control _qty _common_keyup" value="0" >
+                                                <input type="number" name="_qty[]" class="form-control _qty _common_keyup width_100_px"  value="{{$item->quantity ?? 0 }}">
                                               </td>
                                               <td>
-                                                <input type="number" name="_rate[]" class="form-control _rate _common_keyup" value="0">
+                                                <input type="number" name="_rate[]" class="form-control _rate _common_keyup width_100_px"  value="{{$item->unit_price ?? 0 }}">
                                               </td>
                                               <td>
-                                                <input type="number" name="_value[]" class="form-control _value " readonly value="0">
+                                                <input type="number" name="_value[]" class="form-control _value width_100_px" readonly value="{{$item->amount ?? 0 }}">
                                               </td>
+                                              
                                             </tr>
+                                            @empty
+                                            @endforelse
                                           </tbody>
                                           <tfoot>
                                             <tr>
                                               <td>
                                                 <a href="#none"  class="btn btn-default btn-sm" onclick="_item_add_new_row(event)"><i class="fa fa-plus"></i></a>
                                               </td>
-                                              <td colspan="3"  class="text-right"><b>Total</b></td>
+                                              <td colspan="4"  class="text-right"><b>Total</b></td>
                                              <td>
-                                                <input type="number" step="any" min="0" name="_total_qty_amount" class="form-control _total_qty_amount" value="0" readonly required>
+                                                <input type="number" step="any" min="0" name="_total_qty_amount" class="form-control _total_qty_amount" value="{!! $_total_item_qty ?? 0 !!}" readonly required>
                                               </td>
                                               <td></td>
                                               <td>
-                                                <input type="number" step="any" min="0" name="_total_value_amount" class="form-control _total_value_amount" value="0" readonly required>
+                                                <input type="number" step="any" min="0" name="_total_value_amount" class="form-control _total_value_amount" value="{!! $_total_item_amount ?? 0 !!}" readonly required>
                                               </td>
+                                              <td></td>
                                              
                                             </tr>
                                           </tfoot>
@@ -266,26 +303,41 @@
                                             <th class="text-left" >{{__('label.purpose')}}</th>
                                             <th class="text-left" >{{__('label._value')}}</th>
                                           </thead>
+
+                                          @php
+                                            $_account_detail = $data->_account_detail ?? [];
+                                            $_total_ledger_amount = 0;
+                                          @endphp
                                           <tbody class="area__rlp_ledger_details" id="area__rlp_ledger_details">
+                                            @if(sizeof($_account_detail) > 0)
+                                            @forelse($_account_detail as $acc_val)
+
+                                            @php
+                                            $_total_ledger_amount += $acc_val->amount ?? 0;
+                                            @endphp
+
                                             <tr class="_purchase_row">
                                               <td>
                                                 <a  href="#none" class="btn btn-default _rlp_ledger_row_remove" ><i class="fa fa-trash"></i></a>
-                                                <input type="hidden" name="_rlp_ledger_row_id[]" class="form-control _rlp_ledger_row_id" value="0">
+                                                <input type="hidden" name="_rlp_ledger_row_id[]" class="form-control _rlp_ledger_row_id" value="{{$acc_val->id}}">
                                               </td>
                                               <td>
-                                                <input type="text" name="_search_rlp_ledger_id[]" class="form-control _search_rlp_ledger_id width_280_px" placeholder="{{__('label._ledger_id')}}">
-                                                <input type="hidden" name="_rlp_ledger_id[]" class="form-control _rlp_ledger_id width_200_px" value="0">
+                                                <input type="text" name="_search_rlp_ledger_id[]" class="form-control _search_rlp_ledger_id width_280_px" placeholder="{{__('label._ledger_id')}}" value="{!! $acc_val->_ledger->_name ?? '' !!}">
+                                                <input type="hidden" name="_rlp_ledger_id[]" class="form-control _rlp_ledger_id width_200_px" value="{{$acc_val->_rlp_ledger_id ?? 0}}">
                                                 <div class="search_box_ledger"></div>
                                               </td>
                                               <td>
-                                                <textarea class="form-control _rlp_ledger_description" name="_rlp_ledger_description[]"></textarea>
+                                                <textarea class="form-control _rlp_ledger_description" name="_rlp_ledger_description[]">{!! $acc_val->_rlp_ledger_description ?? '' !!}</textarea>
                                               </td>
                                               <td>
-                                                <input type="text" name="_ledger_purpose[]" class="form-control _ledger_purpose" placeholder="{{__('label.purpose')}}">
+                                                <input type="text" name="_ledger_purpose[]" class="form-control _ledger_purpose" placeholder="{{__('label.purpose')}}" value="{!! $acc_val->purpose ?? '' !!}">
                                               </td>
                                               <td>
-                                                <input type="number" name="_ledger_amount[]" class="form-control _ledger_amount " value="0" >
+                                                <input type="number" name="_ledger_amount[]" class="form-control _ledger_amount " value="{!! $acc_val->amount ?? 0 !!}" >
                                             </tr>
+                                            @empty
+                                            @endforelse
+                                            @endif
                                           </tbody>
                                           <tfoot>
                                             <tr>
@@ -295,7 +347,7 @@
                                               <td colspan="3"  class="text-right"><b>Total</b></td>
                                             
                                               <td>
-                                                <input type="number" step="any" min="0" name="_total_ledger_amount" class="form-control _total_ledger_amount" value="0" readonly required>
+                                                <input type="number" step="any" min="0" name="_total_ledger_amount" class="form-control _total_ledger_amount" value="{{$_total_ledger_amount}}" readonly required>
                                               </td>
                                              
                                             </tr>
@@ -308,33 +360,99 @@
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
                                 <label>{{__('label.remarks')}}:</label>
-                                <textarea class="form-control" name="user_remarks"></textarea>
+                                <textarea class="form-control" name="user_remarks">{!! $data->user_remarks ?? '' !!}</textarea>
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12">
                             <div class="form-group">
                                 <label>{{__('label._terms_condition')}}:</label>
-                                <textarea class="form-control summernote" name="_terms_condition"></textarea>
+                                <textarea class="form-control summernote" name="_terms_condition">{!! $data->_terms_condition ?? '' !!}</textarea>
                             </div>
                         </div>
                         <div class="col-md-12">
-                          <div class="card">
-                            <div class="card-header">
-                              <h3>Apporoval Chain Details</h3>
-                            </div>
-                            <div class="card-body chain_detail_section"></div>
-                          </div>
-                        </div>
+                              <div class="row">
+                                <div class="col-md-4">
+                                  <h5>{{__('label.rlp_remarks')}}</h5>
+                                  @php
+                                  $_rlp_remarks = $data->_rlp_remarks ?? [];
+                                  @endphp
 
-                      <!-- <div class="col-xs-12 col-sm-12 col-md-12">
-                            <div class="form-group">
-                                <label>{{__('label._status')}}:</label>
-                                <select class="form-control" name="_status">
-                                  <option value="1">Active</option>
-                                  <option value="0">In Active</option>
-                                </select>
-                            </div>
-                        </div> -->
+                                  @forelse($_rlp_remarks as $re_key=>$re_val)
+                                    <div class="card">
+                                      <div class="card-body">
+                                        <table class="table">
+                                          <tr>
+                                            <td>{!! _view_date_formate($re_val->remarks_date ?? '') !!}</td>
+                                          </tr>
+                                          <tr>
+                                            <td>{!! $re_val->user_office_id ?? '' !!} {!! $re_val->_employee->name ?? '' !!}</td>
+                                          </tr>
+                                          <tr>
+                                            <td>{!! $re_val->remarks ?? '' !!} </td>
+                                          </tr>
+                                          </table>
+                                      </div>
+                                    </div>
+                                    @empty
+                                    @endforelse
+                                </div>
+
+                                <div class="col-md-8">
+                                  <h5 class="text-center">{{__('label.acknowledgement')}}</h5>
+                                   @php
+                                  $_rlp_ack_apps = $data->_rlp_ack_app ?? [];
+                                  @endphp
+                                  <div class="row">
+                                   @forelse($_rlp_ack_apps as $ack_key=>$ack_val)
+                                   <div class="col-md-6">
+                                  <div  class="card">
+                                    <div class="card-body" >
+                                      <table class="table">
+                                        <thead>
+                                          <tr>
+                                          <th colspan="2" class="text-center">{!! $ack_val->_check_group->_display_name ?? '' !!}</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody style="background: {!! $ack_val->_check_group->_color ?? '' !!} !important;">
+                                        <tr>
+                                          
+                                          <td colspan="2" class="text-center"><b>{!! $ack_val->user_office_id ?? '' !!} {!! $ack_val->_employee->_name ?? '' !!}</b></td>
+                                        </tr>
+                                        <tr>
+                                          <td>{{__('label._department')}}:</td>
+                                           <td>{!! $ack_val->_employee->_emp_department->_name ?? '' !!} </td>
+                                        </tr>
+                                        <tr>
+                                          <td>{{__('label.designation')}}:</td>
+                                          <td>{!! $ack_val->_employee->_emp_designation->_name ?? '' !!} </td>
+                                        </tr>
+                                        <tr>
+                                          <td>{{__('label.ack_request_date')}}</td>
+                                         <td>{!! _view_date_formate($ack_val->ack_request_date ?? '') !!}</td>
+                                        </tr>
+                                        <tr>
+                                          <td>{{__('label.ack_updated_date')}}:</td>
+                                         <td>{!! _view_date_formate($ack_val->ack_updated_date ?? '') !!}</td>
+                                        </tr>
+                                        <tr>
+                                          <td colspan="2">{{__('label.duration')}}: {{_date_time_diff($ack_val->ack_updated_date,$ack_val->ack_request_date)}} </td>
+                                        
+                                        </tr>
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </div>
+                                  </div>
+                                    @empty
+                                    @endforelse
+                                    </div>
+                                 
+                                </div>
+                              </div>
+                        </div>
+                        
+
+                     
                 
                         <div class="col-xs-12 col-sm-12 col-md-12  text-middle">
                             <button type="submit" class="btn btn-success  ml-5"><i class="fa fa-credit-card mr-2" aria-hidden="true"></i> {{__('label.save')}}</button>
@@ -344,6 +462,14 @@
                     {!! Form::close() !!}
                 
               </div>
+              </div>
+          
+          </div>
+        </div>
+        <!-- /.row -->
+      </div>
+    </div>  
+</div>
 
 
 
@@ -360,37 +486,9 @@
     $(function () {
 
      var default_date_formate = `{{default_date_formate()}}`
-         $('#reservationdate').datetimepicker({
-            format:default_date_formate
-        });
-   
-     
+      
 
- 
-  
-
- $(".datetimepicker-input").val(date__today())
-
-          function date__today(){
-              var d = new Date();
-            var yyyy = d.getFullYear().toString();
-            var mm = (d.getMonth()+1).toString(); // getMonth() is zero-based
-            var dd  = d.getDate().toString();
-            if(default_date_formate=='DD-MM-YYYY'){
-              return (dd[1]?dd:"0"+dd[0]) +"-"+ (mm[1]?mm:"0"+mm[0])+"-"+ yyyy ;
-            }
-            if(default_date_formate=='MM-DD-YYYY'){
-              return (mm[1]?mm:"0"+mm[0])+"-" + (dd[1]?dd:"0"+dd[0]) +"-"+  yyyy ;
-            }
-            
-
-            
-          } 
-
-     
-
- });
-
+});
 
 function _ledger_add_new_row(event){
   $(document).find("#area__rlp_ledger_details").append(`<tr class="_purchase_row">
@@ -493,6 +591,85 @@ $(document).on('click','._rlp_ledger_row_remove',function(){
   
 
 }, 500));
+
+ $(document).on('keyup','._search_supplier_ledger',delay(function(e){
+   
+  var _gloabal_this = $(this);
+  var _text_val = $(this).val().trim();
+  var request = $.ajax({
+      url: "{{url('ledger-search')}}",
+      method: "GET",
+      data: { _text_val : _text_val },
+      dataType: "JSON"
+    });
+     
+    request.done(function( result ) {
+      var search_html =``;
+      var data = result.data; 
+      console.log(_gloabal_this)
+      if(data.length > 0 ){
+            search_html +=`<div class="card"><table style="width: 300px;"><thead><tr><th>{{__('label.id')}}</th><th>{{__('label._code')}}</th><th>{{__('label._name')}}</th></tr></thead> <tbody>`;
+                        for (var i = 0; i < data.length; i++) {
+                          var ledger_id= data[i]?.id;
+                          var ledger_name = data[i]?._name;
+                          var ledger_code = data[i]?._code;
+                          var address = data[i]?._address;
+                          var phone = data[i]?._phone;
+                          var balance = data[i]?._balance;
+                          var single_data = JSON.toString(data[i]);
+                         search_html += `<tr class="search_supplier_row _cursor_pointer"  >
+                                        <td>${data[i].id}
+                                        <input type="hidden" name="_search_supplier_ledger_id_hidden" class="_search_supplier_ledger_id_hidden" value="${data[i]?.id}">
+                                        </td> 
+                                        <td>${isEmpty(data[i]?._code)}
+                                        <input type="hidden" name="supplier_ledger_code" class="supplier_ledger_code" value="${isEmpty(data[i]?._code)}">
+                                        </td>
+                                        <td>${isEmpty(data[i]._name)}
+                                        <input type="hidden" name="supplier_ledger_name" class="supplier_ledger_name" value="${isEmpty(data[i]?._name)}">
+                                        
+                                        <input type="hidden" name="supplier_ledger_address" class="supplier_ledger_address" value="${isEmpty(data[i]._address)}">
+                                        <input type="hidden" name="supplier_ledger_phone" class="supplier_ledger_phone" value="${isEmpty(data[i]._phone)}">
+                                        </td>
+                                       
+                                        </tr>`;
+                        }                         
+            search_html += ` </tbody> </table></div>`;
+      }else{
+        search_html +=`<div class="card"><table style="width: 300px;"> 
+        <thead><th colspan="3"><button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#exampleModalLong" title="Create Ledger"> New Ledger</button></th></thead><tbody></tbody></table></div>`;
+      }     
+      _gloabal_this.parent('td').find('.search_box_supplier').html(search_html);
+      _gloabal_this.parent('td').find('.search_box_supplier').addClass('search_box_show').show();
+      
+    });
+     
+    request.fail(function( jqXHR, textStatus ) {
+      alert( "Request failed: " + textStatus );
+    });
+
+  
+
+}, 500));
+
+
+
+$(document).on("click",".search_supplier_row",function(){
+
+  var _supplier_ledger_id = $(this).children('td').find("._search_supplier_ledger_id_hidden").val();
+  var  supplier_ledger_name = $(this).children('td').find(".supplier_ledger_name").val();
+  var  supplier_ledger_code = $(this).children('td').find(".supplier_ledger_code").val();
+  var  supplier_ledger_address = $(this).children('td').find(".supplier_ledger_address").val();
+  var  supplier_ledger_phone  = $(this).children('td').find(".supplier_ledger_phone").val();
+
+  $(this).parent().parent().parent().parent().parent().parent().find('.supplier_ledger_id').val(_supplier_ledger_id);
+  var _id_name = `${isEmpty(supplier_ledger_code)} `+isEmpty(supplier_ledger_name);
+  $(this).parent().parent().parent().parent().parent().parent().find('._search_supplier_ledger').val(_id_name);
+
+   $(document).find('.search_box_supplier').hide();
+  $(document).find('.search_box_supplier').removeClass('search_box_show').hide();
+
+});
+
 
 $(document).on("click",".search_row_ledger_row",function(){
 
@@ -664,6 +841,11 @@ $(document).on('click','._rlp_item_row_remove',function(){
                                                 <input type="hidden" name="_item_id[]" class="form-control _item_id width_200_px" >
                                                 <div class="search_box_item"></div>
                                                 <textarea style="margin-top:10px;" class="form-control _item_description" name="_item_description[]" placeholder="{{__('label.item_details')}}"></textarea>
+                                              </td>
+                                                 <td>
+                                                <input type="text" name="_search_supplier_ledger[]" class="form-control _search_supplier_ledger width_280_px" placeholder="{{__('label.supplier')}}" value="">
+                                                <input type="hidden" name="supplier_ledger_id[]" class="form-control supplier_ledger_id width_200_px" value="0">
+                                                <div class="search_box_supplier"></div>
                                               </td>
 
                                                <td class="display_none">

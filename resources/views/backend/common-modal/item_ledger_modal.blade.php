@@ -108,7 +108,7 @@ $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids
                                 <input type="text" id="_sale_rate" name="_sale_rate" class="form-control _item_sale_rate" value="{{old('_sale_rate')}}" placeholder="Sales Rate" >
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-3 @if(sizeof($permited_branch)==1) display_none @endif ">
+                        <div class="col-xs-12 col-sm-12 col-md-12 @if(sizeof($permited_branch)==1) display_none @endif ">
                             <div class="form-group ">
                                 <label>Branch:<span class="_required">*</span></label>
                                <select class="form-control _item_branch_id" name="_branch_id" required >
@@ -120,7 +120,7 @@ $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids
                                 </select>
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-3 @if(sizeof($permited_costcenters)==1) display_none @endif ">
+                        <div class="col-xs-12 col-sm-12  @if(sizeof($permited_costcenters)==1) display_none @endif ">
                             <div class="form-group ">
                                 <label>Cost Center:<span class="_required">*</span></label>
                                <select class="form-control _item_cost_center_id" name="_cost_center_id" required >
@@ -132,7 +132,7 @@ $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids
                                 </select>
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-3 @if(sizeof($store_houses)==1) display_none @endif">
+                        <div class="col-xs-12 col-sm-12  @if(sizeof($store_houses)==1) display_none @endif">
                             <div class="form-group ">
                                 <label>Store House:<span class="_required">*</span></label>
                                 <select class="form-control  _item_store_id" name="_store_id">
@@ -229,7 +229,7 @@ $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids
                        
 
 
-                            <div class="col-xs-12 col-sm-12 col-md-2 @if(sizeof($permited_organizations)==1) display_none @endif">
+                            <div class="col-xs-12 col-sm-12  @if(sizeof($permited_organizations)==1) display_none @endif">
                              <div class="form-group ">
                                  <label>{!! __('label.organization') !!}:<span class="_required">*</span></label>
                                 <select class="form-control _ledger_organization_id" name="organization_id" required >
@@ -243,7 +243,7 @@ $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids
                              </div>
                             </div>
                             
-                        <div class="col-xs-12 col-sm-12 col-md-2 @if(sizeof($permited_costcenters)==1) display_none @endif">
+                        <div class="col-xs-12 col-sm-12  @if(sizeof($permited_costcenters)==1) display_none @endif">
                          <div class="form-group ">
                              <label>Cost Center:<span class="_required">*</span></label>
                             <select class="form-control _ledger_cost_center_id" name="_cost_center_id" required >

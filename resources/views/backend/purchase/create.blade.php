@@ -407,6 +407,7 @@ $__user= Auth::user();
                             </div>
                           </div>
                         </div>
+<<<<<<< HEAD
                         @can('account_details')
                           @if($__user->_ac_type==1)
                           @include('backend.purchase.create_ac_cb')
@@ -415,6 +416,17 @@ $__user= Auth::user();
                            @include('backend.purchase.create_ac_detail')
                           @endif
                         @endcan
+=======
+                        
+                      @if($__user->_ac_type==1)
+                      @include('backend.purchase.create_ac_cb')
+                         
+                      @else
+                       @include('backend.purchase.create_ac_detail')
+                      @endif
+                       
+
+>>>>>>> 7ba3611bb7f1d1e02dab606bc9743889dc1a3b4d
                           
 
                         <div class="col-xs-12 col-sm-12 col-md-12 mb-10">

@@ -1,5 +1,5 @@
 
-/*.col-md-3 {
+.col-md-3 {
     -webkit-flex: 0 0 100%;
     -ms-flex: 0 0 100%;
     flex: 0 0 100%;
@@ -101,8 +101,8 @@ textarea.form-control {
 
 
 label{
-font-size: 18px;
+font-size: 14px;
 padding-left: 10px;
 }
-*/
+
 

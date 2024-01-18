@@ -37,9 +37,9 @@ class RlpChainController extends Controller
        ->whereIn('_branch_id',explode(',',$users->branch_ids))
        ->whereIn('_cost_center_id',explode(',',$users->cost_center_ids))
        ->whereIn('organization_id',explode(',',$users->organization_ids));
-       if($users->user_type !='admin'){
-                $datas = $datas->where('_user_id',$users->id);   
-        } 
+       // if($users->user_type !='admin'){
+       //          $datas = $datas->where('_user_id',$users->id);   
+       //  } 
 
         $datas =$datas->get() ;
 

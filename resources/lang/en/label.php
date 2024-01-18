@@ -21,6 +21,7 @@ return [
 
 
 
+    'notesheet-info' => 'Note Sheet Information',
     'import Entry' => 'Import Entry',
     'monthly-salary-structure' => 'Monthly Salary Structure',
     'pm_module' => 'PM',

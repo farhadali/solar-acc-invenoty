@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class NoteSheetAccountDetail extends Model
 {
     use HasFactory;
+    protected $table="notesheet_account_details";
 }

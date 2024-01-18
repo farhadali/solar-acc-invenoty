@@ -31,7 +31,7 @@ class NoteSheetMasterController extends Controller
         
          $this->middleware('permission:notesheet-create', ['only' => ['create','store']]);
          $this->middleware('permission:notesheet-edit', ['only' => ['edit','update']]);
-         $this->middleware('permission:rlp-to-notesheet', ['only' => ['rlpToNotesheetCteate','rlpToNotesheetUpdate']]);
+         $this->middleware('permission:rlp-to-notesheet', ['only' => ['create','rlpToNotesheetUpdate']]);
          $this->middleware('permission:notesheet-list', ['only' => ['index']]);
          $this->middleware('permission:notesheet-delete', ['only' => ['destroy']]);
          $this->page_name = __('label.notesheet-info');
@@ -60,7 +60,7 @@ class NoteSheetMasterController extends Controller
         $page_name=$this->page_name;
         $rlp_ids = [];
 
-        $RlpAcknowledgements = RlpAcknowledgement::select('id','rlp_info_id')->where('user_office_id',$auth_user->user_name)
+        $RlpAcknowledgements = NoteSheetAcknoledgement::select('id','ns_id')->where('user_office_id',$auth_user->user_name)
         ->where('is_visible',1)
         ->where('_is_approve',0)
         ->get();
@@ -70,7 +70,7 @@ class NoteSheetMasterController extends Controller
         }
          
 
-        $datas = RlpMaster::with(['_emp_department','_emp_designation','_branch','_cost_center','_organization','_entry_by','_item_detail','_account_detail'])
+        $datas = NoteSheetMaster::with(['_emp_department','_emp_designation','_branch','_cost_center','_organization','_entry_by','_item_detail','_account_detail'])
          ->where('is_delete',0);
         if($auth_user->user_type !='admin'){
                 $datas = $datas->whereIn('id',$rlp_ids);  
@@ -114,7 +114,9 @@ class NoteSheetMasterController extends Controller
         $datas = $datas->orderBy($asc_cloumn,$_asc_desc)
                         ->paginate($limit);
 
-        return view('rlp-module.rlp.index',compact('page_name','datas','limit','request'));
+         $status_details =\DB::table('status_details')->get();
+
+        return view('rlp-module.notesheet.index',compact('page_name','datas','limit','request','status_details'));
     }
 
     /**
@@ -122,9 +124,36 @@ class NoteSheetMasterController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function create(Request $request){
+    
+        $page_name=$this->page_name;
+        $users = \Auth::user();
+        $permited_branch = permited_branch(explode(',',$users->branch_ids));
+        $permited_costcenters = permited_costcenters(explode(',',$users->cost_center_ids));
+        $permited_organizations = permited_organization(explode(',',$users->organization_ids));
+        
+        $emp_id = $users->user_name;
+
+        $user_assign_rlp_chain = DB::table("rlp_access_chains as t1")
+                                ->select('t1.id')
+                                ->join('rlp_access_chain_users as t2','t2.chain_id','t1.id')
+                                ->where('t2.user_id',$emp_id)
+                                ->where('t1.chain_type','NOT')
+                                ->where('t2.user_group',1) // user group 1=Rlp Creator
+                                ->groupBy('t1.id')
+                                ->get();
+
+ 
+    $rlp_ids = array();
+    foreach($user_assign_rlp_chain as $key=>$val){
+        array_push($rlp_ids,$val->id);
+    }
+
+   
+
+    $rlp_chains = RlpAccessChain::whereIn('id',$rlp_ids)->get();
+
+        return view('rlp-module.notesheet.create',compact('page_name','permited_branch','permited_costcenters','permited_organizations','rlp_chains'));
     }
 
     /**
