@@ -68,7 +68,11 @@ use App\Http\Controllers\MaterialIssueReturnController;
 
 
 
-
+Route::get('/clear-cache', function() {
+    $exitCode = Artisan::call('cache:clear');
+    $exitCode = Artisan::call('config:cache');
+    return 'DONE'; //Return anything
+});
 
 
 /*
@@ -310,6 +314,8 @@ Route::get('book_table_list_ajax', 'App\Http\Controllers\ResturantSalesControlle
     Route::post('account-ledger/update', 'App\Http\Controllers\AccountLedgerController@update');
     Route::post('ajax-ledger-save', 'App\Http\Controllers\AccountLedgerController@ajaxLedgerSave');
     Route::get('account-ledger-reset', 'App\Http\Controllers\AccountLedgerController@reset');
+
+    Route::resource('oppurchsae',OpPurchaseController::class);
 
     Route::resource('purchase', PurchaseController::class);
     Route::post('purchase/update', 'App\Http\Controllers\PurchaseController@update');

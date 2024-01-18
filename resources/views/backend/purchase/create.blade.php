@@ -159,7 +159,7 @@ $__user= Auth::user();
                                             <th class="text-left" >Item</th>
                                             <th class="text-left display_none" >Base Unit</th>
                                             <th class="text-left display_none" >Con. Qty</th>
-                                            <th class="text-left @if(isset($_show_unit)) @if($_show_unit==0) display_none    @endif @endif" >Tran. Unit</th>
+                                            <th class="text-left @if(isset($_show_unit)) @if($_show_unit==0) display_none    @endif @endif" >UOM</th>
                                            
                                             <th class="text-left @if($_show_barcode==0) display_none    @endif " >Barcode</th>
                                             <th class="text-left @if($_show_short_note==0) display_none    @endif " >Note</th>
@@ -175,7 +175,7 @@ $__user= Auth::user();
                                             <th class="text-left @if(isset($_show_vat)) @if($_show_vat==0) display_none   @endif @endif" >VAT Amount</th>
                                           
 
-                                            <th class="text-left" >Value</th>
+                                            <th class="text-left" >Total Amount</th>
                                              @if(sizeof($permited_branch) > 1)
                                             <th class="text-left" >Branch</th>
                                             @else
@@ -407,6 +407,16 @@ $__user= Auth::user();
                             </div>
                           </div>
                         </div>
+<<<<<<< HEAD
+                        @can('account_details')
+                          @if($__user->_ac_type==1)
+                          @include('backend.purchase.create_ac_cb')
+                             
+                          @else
+                           @include('backend.purchase.create_ac_detail')
+                          @endif
+                        @endcan
+=======
                         
                       @if($__user->_ac_type==1)
                       @include('backend.purchase.create_ac_cb')
@@ -416,6 +426,7 @@ $__user= Auth::user();
                       @endif
                        
 
+>>>>>>> 7ba3611bb7f1d1e02dab606bc9743889dc1a3b4d
                           
 
                         <div class="col-xs-12 col-sm-12 col-md-12 mb-10">
